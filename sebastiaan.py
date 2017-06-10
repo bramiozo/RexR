@@ -3,6 +3,15 @@ from collections import Counter
 import numpy as np
 from sklearn import preprocessing, svm, model_selection, metrics
 
+
+####
+# AUTHORS
+# Sebastiaan de Jong
+# Wybe Rozema
+# Bram van Es
+# Sabrina Wandl
+# Nick Heuls
+
 def read_cohort(path):
     ch1 = pd.read_csv(path, sep="\t")
     patient_ids = ch1.columns.values[1:]
