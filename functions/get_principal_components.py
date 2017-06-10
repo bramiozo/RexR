@@ -2,10 +2,6 @@ import pandas as pd
 from collections import Counter 
 import numpy as np
 
-def _read_modelling_data():
-
-	dat = pd.read_csv("/home/bramiozo/DEV/RexR/_data/genomic_data/modelling_dataset.txt")
-	return dat
 
 def get_principal_components(self, input_file=False):
 
@@ -58,7 +54,4 @@ def get_principal_components(self, input_file=False):
 	# I guess now equate the common client in the three cohorts 
 
 	# and transform back and transpose
-
-if __name__ == '__main__':
-	main()
 

@@ -62,10 +62,7 @@ def preprocess(df):
 
     return df
 
-def group_patients(df):
-    # should try to combine expression profiles instead
-    df = df.groupby("labnr patient").apply(lambda g:g.iloc[0])
-    return df 
+
 
 def get_matrix(df): 
     gene_columns = df.columns[21:]
@@ -77,7 +74,7 @@ def get_matrix(df):
     x = df.loc[train_idx,gene_columns].values
 
     return x,y
-
+    
 def classify_treatment(x,y):
     model = svm.LinearSVC(penalty='l2', loss='squared_hinge', dual=True, tol=0.0001, C=1.0)
 
