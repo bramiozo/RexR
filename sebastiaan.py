@@ -10,7 +10,7 @@ from sklearn import preprocessing, svm, model_selection, metrics
 # Wybe Rozema
 # Bram van Es
 # Sabrina Wandl
-# Nick Heuls
+# Nick Hales
 
 def read_cohort(path):
     ch1 = pd.read_csv(path, sep="\t")
