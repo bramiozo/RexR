@@ -1,6 +1,7 @@
 import pandas as pd
 from collections import Counter 
 import numpy as np
+import pandas
 
 
 ####
@@ -20,10 +21,14 @@ class RexR():
     DATA_Tnormal = None
     DATA_merged = None
     DATA_loc = '/home/bramiozo/DEV/RexR/_data/genomic_data/data.pkl'
+    SEED = 1234
+    debug = False
 
-    def __init__(self, datalocation = '/home/bramiozo/DEV/RexR/_data/genomic_data/data.pkl', message = 'Firing up RexR!'):
-        print(message)
+    def __init__(self, datalocation = '/home/bramiozo/DEV/RexR/_data/genomic_data/data.pkl', seed = 2412, debug = False):
+        print("+"*30, 'Firing up RexR!', "+"*30)
         self.DATA_loc = datalocation
+        self.SEED = seed
+        self.DEBUG = debug
 
 
     def _read_cohort(self, path):
@@ -72,15 +77,23 @@ class RexR():
         if(write_out == True):
             self.DATA_merged.to_pickle("_data/genomic_data/data.pkl")
 
+        self.DATA_merged['WhiteBloodCellcount']= pandas.to_numeric(self.DATA_merged['WhiteBloodCellcount'])
+
+        if (self.DEBUG == True): # reduced number of genomes to run through code logic more quickly
+            self.DATA_merged = self.DATA_merged[self.DATA_merged.columns[:5000]]
+
+
+
         return self.DATA_merged
         
 
-    from functions.get_dimension_reduction import get_principal_components, get_linear_discriminant_analysis, get_quadrant_discriminant_analysis, get_vector_characteristics
-    from functions.get_predictors import classify_treatment_model, estimate_survival
+    from functions.get_dimension_reduction import get_principal_components, get_linear_discriminant_analysis,\
+                                                get_quadrant_discriminant_analysis, get_vector_characteristics
+    from functions.get_predictors import classify_treatment, get_top_genes
 
     def main():
         load_probeset_data()
-        
+
 
 if __name__ == '__main__':
         main()
