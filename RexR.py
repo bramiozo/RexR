@@ -11,7 +11,33 @@ import pandas
 # Bram van Es
 # Sabrina Wandl
 # Nick Heuls
+
+# Jules Meijerink
 #################
+
+'''
+Suggested features
+--------------------------
+
+Classification:
+apply denoising
+apply dimensionality reduction
+apply probabilistic classifiers
+
+
+Probeset drivers for treatment:
+
+
+Probeset drivers for cancer types/pathways:
+
+
+Survival estimation given a particular treatment:
+
+
+
+'''
+
+
 
 
 class RexR():
@@ -20,6 +46,7 @@ class RexR():
     DATA_patients = None
     DATA_Tnormal = None
     DATA_merged = None
+    DATA_merged_processed = None
     DATA_loc = '/home/bramiozo/DEV/RexR/_data/genomic_data/data.pkl'
     SEED = 1234
     debug = False
@@ -29,6 +56,7 @@ class RexR():
         self.DATA_loc = datalocation
         self.SEED = seed
         self.DEBUG = debug
+
 
 
     def _read_cohort(self, path):
@@ -80,15 +108,13 @@ class RexR():
         self.DATA_merged['WhiteBloodCellcount']= pandas.to_numeric(self.DATA_merged['WhiteBloodCellcount'])
 
         if (self.DEBUG == True): # reduced number of genomes to run through code logic more quickly
-            self.DATA_merged = self.DATA_merged[self.DATA_merged.columns[:5000]]
+            self.DATA_merged = self.DATA_merged[self.DATA_merged.columns[:1000]]
 
 
 
         return self.DATA_merged
         
 
-    from functions.get_dimension_reduction import get_principal_components, get_linear_discriminant_analysis,\
-                                                get_quadrant_discriminant_analysis, get_vector_characteristics
     from functions.get_predictors import classify_treatment, get_top_genes
 
     def main():

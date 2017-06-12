@@ -12,20 +12,28 @@ def classify_treatment(self, model='CART',
                             reduction = None):  
     # model=['SVM', 'CART', 'LR', 'RandomForest', 'AdaBoost']
     # grouping=['first', 'median', 'mean']
-    # features=['all', 'patient', genomes']
-    # reduction = ['LDA', 'QDA', 'PCA', 'No']
+    # features=['all', 'genomes']
+    # reduction = ['LDA', 'QDA', 'PCA', 'genome_variance', 'None']
     # topN = None [None, N] 
+    #
+    #
+    # streamlining code: create data pipelines http://sebastianraschka.com/Articles/2014_ensemble_classifier.html
     ############################################
+    n_comp = 100 # number of components for dimensionality reduction
+    min_nom_var = 0.2
     df = self.DATA_merged
     df = _helpers._preprocess(df)
     df = _helpers._group_patients(df, method = grouping)
+    self.DATA_merged_processed = df
     x,y =_helpers._get_matrix(df, type = 'genomic', target = 'Treatment risk group in ALL10')      
-    if(reduction == 'QDA'):
-            x,y = self.get_dimension_reduction.get_principal_components(x, y, n_comp)
+    if(reduction == 'PCA'):
+            x = _helpers.get_principal_components(x, n_comp)
     elif(reduction == 'LDA'):
-            x,y = self.get_dimension_reduction.get_linear_discriminant_analysis(x, y)
-    elif(reduction == 'PCA'):
-            x,y = self.get_dimension_reduction.get_quadrant_discriminant_analysis(x, y)
+            x = _helpers.get_linear_discriminant_analysis(x, y)
+    elif(reduction == 'QDA'):
+            x = _helpers.get_quadrant_discriminant_analysis(x, y)
+    elif(reduction == 'genome_variance'):
+            x = _helpers.get_genome_variation(min_norm_var)
     ############################################
     models = []
     if(model == 'SVM'):
@@ -55,8 +63,7 @@ def classify_treatment(self, model='CART',
             random_state=None, max_features=None, verbose=0, max_leaf_nodes=None, warm_start=False, presort='auto')
         models.append(('GBM', model))
     elif(model == 'NaiveBayes'):
-        model = naive_bayes.GaussianNB(penalty='l2', loss='squared_hinge', 
-                                        n_estimators=100, learning_rate=0.1, max_depth=1, random_state=0)
+        model = naive_bayes.GaussianNB()
         models.append(('NB', model))
     elif(model == 'MLNN'):
         model = neural_network.MLPClassifier(activation='relu', alpha=1e-05, batch_size='auto',
@@ -69,11 +76,12 @@ def classify_treatment(self, model='CART',
         models.append(('MLNN', model))
     elif(model == 'ensemble'):
         models_ = [
-            ("SVM", svm.LinearSVC(penalty='l2', loss='squared_hinge', dual=True, tol=0.0001, C=0.9)),
+            ("GNB", naive_bayes.GaussianNB()),
+            ("SVM", svm.SVC(degree = 3, tol = 0.0001, C= 0.9, probability= True)),
             ("LogisticRegression", linear_model.LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.9)),
-            ("RandomForest", ensemble.RandomForestClassifier(n_estimators=100, max_depth=25, n_jobs=-1, min_samples_split=5,\
+            ("RandomForest", ensemble.RandomForestClassifier(n_estimators=100, max_depth=25, n_jobs=2, min_samples_split=5,\
                 min_samples_leaf=5)),
-            ("ExtraTrees", ensemble.ExtraTreesClassifier(n_estimators=100, max_depth=100, n_jobs=-1, min_samples_split=5,\
+            ("ExtraTrees", ensemble.ExtraTreesClassifier(n_estimators=100, max_depth=50, n_jobs=2, min_samples_split=5,\
                 min_samples_leaf=5)),
             ("GBM", ensemble.GradientBoostingClassifier(loss='deviance', learning_rate=0.1, n_estimators=100, 
             subsample=1.0, criterion='friedman_mse', min_samples_split=5, min_samples_leaf=5, 
@@ -85,7 +93,7 @@ def classify_treatment(self, model='CART',
                                 class_weight=None, presort=False))
             ]
         models = copy.copy(models_)
-        model = ensemble.VotingClassifier(models_, n_jobs=2)
+        model = ensemble.VotingClassifier(models_, n_jobs = 2, voting = 'soft')
         models.append(("Ensembled", model))
 
     ############################################
@@ -94,15 +102,19 @@ def classify_treatment(self, model='CART',
     print("+"*30,' RESULTS FOR CLASSIFICATION WITH GENOMIC DATA',"+"*30)
     preds = []
     for clf in models:
-        pred = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED)
+        pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED)
         report = metrics.classification_report(y,pred)
-        acc = metrics.accuracy_score(y,pred)
-        print('MODEL:', clf[0], acc)
+        #acc = metrics.accuracy_score(y,pred)
+        print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))
         print("+"*30,' Report', "+"*30)
         print(report)
         preds.append(pred)
 
     model.fit(x, y)
+    var_columns = df.columns[21:]   
+    x = df.loc[:,var_columns].values    
+    preds = model.predict(x) 
+
     print("+"*50)
     ################################################################
     ##### ADD PATIENT INFO TO PREDICTOR
@@ -113,15 +125,22 @@ def classify_treatment(self, model='CART',
         print("---------")
         x = np.hstack([pred, p_x])
         for clf in models:
-            pred = _helpers._benchmark_classifier(clf,x,y,splitter, self.SEED)
+            pred, acc = _helpers._benchmark_classifier(clf,x,y,splitter, self.SEED)
             report = metrics.classification_report(y,pred)
-            acc = metrics.accuracy_score(y,pred)
-            print(acc)
+            #acc = metrics.accuracy_score(y,pred)
+            print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))            
             print("+"*30,' Report', "+"*30)
-            print(report)            
-            preds.append(pred)     
+            print(report)   
 
-        model.fit(x, y)    
+        model.fit(x, y)
+        # total x
+        var_columns = ["Age", "WhiteBloodCellcount", "Gender"]
+        df[var_columns] = df[var_columns].fillna(0.0)       
+        x = df.loc[:,var_columns].values
+        preds = np.reshape(preds, (preds.shape[0], 1))
+        x = np.hstack([preds, x])
+        preds = model.predict_proba(x)
+    
 
     return preds, model
 
