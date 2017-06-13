@@ -104,10 +104,11 @@ def get_vector_characteristics():
 
     return True
 
-def get_genome_variation():
+def get_genome_variation(x, min_norm_var = 0.2):
     # get variation per genome over all patients -> make sure that the classes are evenly distributed for this
-
-
-    return True
+    var_vector = numpy.ndarray.var(x)
+    keep = var_vector > min_norm_var
+    ...
+    return x
 
 
