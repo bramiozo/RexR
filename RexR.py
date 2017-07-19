@@ -108,7 +108,7 @@ class RexR():
         self.DATA_merged['WhiteBloodCellcount']= pandas.to_numeric(self.DATA_merged['WhiteBloodCellcount'])
 
         if (self.DEBUG == True): # reduced number of genomes to run through code logic more quickly
-            self.DATA_merged = self.DATA_merged[self.DATA_merged.columns[:1000]]
+            self.DATA_merged = self.DATA_merged[self.DATA_merged.columns[:10000]]
 
 
 

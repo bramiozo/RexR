@@ -1,11 +1,13 @@
-from sklearn import preprocessing, svm, tree, ensemble, naive_bayes, linear_model, neural_network, model_selection, metrics
+from sklearn import preprocessing, svm, tree, ensemble, naive_bayes 
+from sklearn import linear_model, neural_network, model_selection, metrics
+from sklearn import discriminant_analysis, gaussian_process
 import numpy as np
 import _helpers
 import copy
 #import sys
 #sys.setrecursionlimit(10000) 
 
-def classify_treatment(self, model='CART', 
+def classify_treatment(self, model_type='CART', 
                             features = 'genome', 
                             grouping= 'first', 
                             n_splits = 10,
@@ -22,9 +24,15 @@ def classify_treatment(self, model='CART',
     n_comp = 100 # number of components for dimensionality reduction
     min_nom_var = 0.2
     df = self.DATA_merged
-    df = _helpers._preprocess(df)
-    df = _helpers._group_patients(df, method = grouping)
-    self.DATA_merged_processed = df
+    if(self.DATA_merged_processed is None):
+        print("+ "*30, 'Prepping data, this may take a while..')
+        df = _helpers._preprocess(df)
+        print("- "*30, 'Grouping probesets')
+        df = _helpers._group_patients(df, method = grouping)
+        self.DATA_merged_processed = df
+    else:
+        df = self.DATA_merged_processed
+    print("+ "*30, 'Creating X,y')
     x,y =_helpers._get_matrix(df, type = 'genomic', target = 'Treatment risk group in ALL10')      
     if(reduction == 'PCA'):
             x = _helpers.get_principal_components(x, n_comp)
@@ -33,39 +41,57 @@ def classify_treatment(self, model='CART',
     elif(reduction == 'QDA'):
             x = _helpers.get_quadrant_discriminant_analysis(x, y)
     elif(reduction == 'genome_variance'):
-            x = _helpers.get_genome_variation(min_norm_var)
+            x = _helpers.get_genome_variation(x, min_norm_var)
     ############################################
     models = []
-    if(model == 'SVM'):
-        model = svm.LinearSVC(penalty='l2', loss='squared_hinge', dual=True, tol=0.0001, C=1.0)
+    if(model_type == 'SVM'):
+        model = svm.SVC(degree = 3, tol = 0.0001, C= 0.9, probability= True)
         models.append(('SVM', model))
-    elif(model == 'CART'):
+    elif(model_type == 'CART'):
         model = tree.DecisionTreeClassifier(criterion='gini', splitter='best', 
                                 max_depth=10, min_samples_split=2, min_samples_leaf=3, min_weight_fraction_leaf=0.0, 
                                 max_features=None, random_state=self.SEED, max_leaf_nodes=None, min_impurity_split=1e-07, 
                                 class_weight=None, presort=False)
         models.append(('CART', model))
-    elif(model == 'LogisticRegression'):
-        model = linear_model.LogisticRegression(penalty='l2', loss='squared_hinge', dual=False, tol=0.0001, C=0.9)
+    elif(model_type == 'LR'):
+        model = linear_model.LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.9)
         models.append(('LR', model))
-    elif(model == 'RandomForest'):
+    elif(model_type == 'RandomForest'):
         model = ensemble.RandomForestClassifier(n_estimators=100, max_depth=25, n_jobs=-1, min_samples_split=5,\
                 min_samples_leaf=5)
         models.append(('RF', model))
-    elif(model == 'ExtraTrees'):
+    elif(model_type == 'ExtraTrees'):
         model = ensemble.ExtraTreesClassifier(n_estimators=100, max_depth=75, n_jobs=-1, min_samples_split=5,\
                 min_samples_leaf=5)
         models.append(('ET', model))
-    elif(model == 'GBM'):
+    elif(model_type == 'GBM'):
         model = ensemble.GradientBoostingClassifier(loss='deviance', learning_rate=0.1, n_estimators=100, 
             subsample=1.0, criterion='friedman_mse', min_samples_split=5, min_samples_leaf=5, 
             min_weight_fraction_leaf=0.0, max_depth=4, min_impurity_split=1e-07, init=None, 
             random_state=None, max_features=None, verbose=0, max_leaf_nodes=None, warm_start=False, presort='auto')
         models.append(('GBM', model))
-    elif(model == 'NaiveBayes'):
+    elif(model_type == 'QDA'):
+        model = discriminant_analysis.QuadraticDiscriminantAnalysis(priors = None, reg_param = 0.0)
+        models.append(('QDA', model))
+    elif(model_type == 'LDA'):
+        model = discriminant_analysis.LinearDiscriminantAnalysis(priors = None, n_components = n_comp)
+        models.append(('LDA', model))
+    elif(model_type == 'GPC'):
+        Kernel = 1.0 * gaussian_process.kernels.RBF(length_scale=1.0)
+        model = gaussian_process.GaussianProcessClassifier(kernel=Kernel, 
+                                                optimizer='fmin_l_bfgs_b', 
+                                                n_restarts_optimizer=0, 
+                                                max_iter_predict=100, 
+                                                warm_start=False, 
+                                                copy_X_train=True, 
+                                                random_state=None, 
+                                                multi_class='one_vs_rest', 
+                                                n_jobs=1)
+        models.append(('GPC', model))
+    elif(model_type == 'NaiveBayes'):
         model = naive_bayes.GaussianNB()
-        models.append(('NB', model))
-    elif(model == 'MLNN'):
+        models.append(('GNB', model))
+    elif(model_type == 'MLNN'):
         model = neural_network.MLPClassifier(activation='relu', alpha=1e-05, batch_size='auto',
                                        beta_1=0.9, beta_2=0.999, early_stopping=False,
                                        epsilon=1e-08, hidden_layer_sizes=(15, 7, 2), learning_rate='constant',
@@ -74,7 +100,7 @@ def classify_treatment(self, model='CART',
                                        solver='lbfgs', tol=0.0001, validation_fraction=0.1, verbose=False,
                                        warm_start=False)
         models.append(('MLNN', model))
-    elif(model == 'ensemble'):
+    elif(model_type == 'ensemble'):
         models_ = [
             ("GNB", naive_bayes.GaussianNB()),
             ("SVM", svm.SVC(degree = 3, tol = 0.0001, C= 0.9, probability= True)),
