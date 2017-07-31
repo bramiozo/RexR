@@ -21,6 +21,10 @@ def _group_patients(df, method = 'first'): # method = ['first', 'average', 'medi
 
     return df 
 
+def _cohort_correction(df):
+    # correct for bias introduced by measurements
+    return True
+
 def _get_matrix(df, type = 'genomic', target = 'Treatment risk group in ALL10'): # type = ['genomic', ] 
     if(type=='genomic'):
         var_columns = df.columns[21:]
