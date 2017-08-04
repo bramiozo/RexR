@@ -4,27 +4,45 @@ Repos for RexRocket
 
 Aspired functions contained in the library are 
 
-Pre-processing
+Pre/post-processing
 *	Data coupling --> with genetic databases
 *	Data imputance
 *	Probeset cleaning
 *	Cohort/lab correction
 *	Gene prioritisation
+*	Patient clustering
 
 
-Analysis
-*	PCA, LDA, QDA...
+Analysis methods
+*	PCA, LDA, QDA, Autoencoding
 *	self-organising maps
 *	Hierarchical clustering
-*	t-SNE, isomap...
-*	genomic variance vector --> 
-
+*	t-SNE, isomap
+* 	affinity propagation
 
 Prediction
 *	ensemble learning
 *	multi-layer neural network
 * 	deep learning
+*	tree-based algorithms: extraTrees, random forest, C5.0, CART
 
 
 Visualisation
 * 	gene importance using graphs
+
+
+# Possible collaborations
+
+Science:
+*	Dr. Mohammed El Kebir
+*	Dr. Gunnar W. Klau 
+*	..
+
+Technology:
+*	NL eScience Center: Dr. Adriënne Mendrik
+*	..
+
+Business angels:
+*	Helmuth van Es: multiple gentech companies
+*	Fred Smulders: ingang bij Rockstart accelerator?
+
