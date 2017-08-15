@@ -173,11 +173,11 @@ def classify_treatment(self, model_type='CART',
 
 def get_top_genes(model, n = 10):
     ''' Extract the genomes that are most relevant for the classification
-    extra-trees weights
-    RF weights
-    LR weights: all-versus-all 
-    LR weights: one-versus-all
-            
+    * extra-trees weights
+    * RF weights
+    * LR weights: all-versus-all 
+    * LR weights: one-versus-all
+    * SVM feature importance            
     '''
 
 

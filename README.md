@@ -30,6 +30,10 @@ Prediction
 Visualisation
 * 	gene importance using graphs
 
+# Possible upgrades
+
+* addition of image analysis/classification and the combination with genomic expression profiles
+
 
 # Possible collaborations
 

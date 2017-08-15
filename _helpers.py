@@ -22,8 +22,33 @@ def _group_patients(df, method = 'first'): # method = ['first', 'average', 'medi
     return df 
 
 def _cohort_correction(df):
+    ## TO FINISH
     # correct for bias introduced by measurements
+    # check for means in measurement groups, for similar patients (use groups from affinity propagation?)
     return True
+
+def get_patient_similarity(df):
+    ## TO FINISH
+
+    return True
+
+def get_genome_similarity(df):
+    ## TO FINISH
+
+    return True
+
+def _graph_affinity_propagation(df):
+    ## TO FINISH
+
+    return True
+
+def _graph_community_detector(df):
+    ## TO FINISH
+    # maximize betweenness, modularity and group homogeneity
+
+    return True
+
+
 
 def _get_matrix(df, type = 'genomic', target = 'Treatment risk group in ALL10'): # type = ['genomic', ] 
     if(type=='genomic'):
@@ -78,6 +103,7 @@ def _benchmark_classifier(model, x, y, splitter, seed):
 
 
 def get_principal_components(X, n_comp):
+    ## TO FINISH
     X_out = decomposition.PCA(n_components=n_comp, 
                             copy=True, whiten=False, 
                             svd_solver='auto', 
@@ -87,13 +113,20 @@ def get_principal_components(X, n_comp):
     return X_out
 
 def get_linear_discriminant_analysis(X, y):
-
+    ## TO FINISH
 
     return lda_transformed
 
 def get_quadrant_discriminant_analysis(X, y):
+    ## TO FINISH 
 
     return qda_transformed
+
+def get_autoencoded_features(X,y):
+    ## TO FINISH
+
+    return autoencoded_features
+
 
 '''
 def get_vector_characteristics():
