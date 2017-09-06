@@ -50,3 +50,7 @@ Business angels:
 *	Helmuth van Es: multiple gentech companies
 *	Fred Smulders: ingang bij Rockstart accelerator?
 
+Piggyback:
+*	Deloitte
+
+

@@ -47,15 +47,17 @@ class RexR():
     DATA_Tnormal = None
     DATA_merged = None
     DATA_merged_processed = None
-    DATA_loc = '/home/bramiozo/DEV/RexR/_data/genomic_data/data.pkl'
+    DATA_loc = None
+    write_out = None
     SEED = 1234
     debug = False
 
-    def __init__(self, datalocation = '/home/bramiozo/DEV/RexR/_data/genomic_data/data.pkl', seed = 2412, debug = False):
+    def __init__(self, datalocation = None, seed = 2412, debug = False, write_out = False):
         print("+"*30, 'Firing up RexR!', "+"*30)
         self.DATA_loc = datalocation
         self.SEED = seed
         self.DEBUG = debug
+        self.write_out = write_out
 
 
 
@@ -67,7 +69,7 @@ class RexR():
         gene_ids = ch1.ix[:,0]
 
         ch1_m = ch1.values[:,1:].T
-        ch1 = pd.DataFrame(data=ch1_m,index=patient_ids,columns=gene_ids)
+        ch1 = pd.DataFrame(data=ch1_m,index=patient_ids,columns=gene_ids, dtype=float)
 
         return ch1
 
@@ -83,11 +85,10 @@ class RexR():
         dat = pd.read_pickle(self.DATA_loc)
         return dat
 
-    def load_probeset_data(self, write_out = False, read_in = False):
+    def load_probeset_data(self):
         # ch1 = read_cohort("Data/cohort1_plus2.txt")
         # ch2 = read_cohort("Data/cohort2_plus2.txt")
         # cha = read_cohort("Data/cohortALL10_plus2.txt")
-
 
         self.DATA_all_samples = self._read_cohort("_data/genomic_data/all_samples.txt")
         self.DATA_patients = self._read_patient_file("_data/genomic_data/patients.xlsx")
@@ -95,14 +96,14 @@ class RexR():
    
         all_10 = ["ALL-10","IA","JB"]
 
-        if(read_in == False):
+        if(self.DATA_loc is None):
             self.DATA_merged = pd.merge(self.DATA_patients, 
                                     self.DATA_all_samples, 
                                     how='left', left_on="Microarray file", right_index=True)
         else:
             self.DATA_merged = self._read_modelling_data()
 
-        if(write_out == True):
+        if(self.write_out == True):
             self.DATA_merged.to_pickle("_data/genomic_data/data.pkl")
 
         self.DATA_merged['WhiteBloodCellcount']= pandas.to_numeric(self.DATA_merged['WhiteBloodCellcount'])
@@ -115,7 +116,7 @@ class RexR():
         return self.DATA_merged
         
 
-    from functions.get_predictors import classify_treatment, get_top_genes
+    from functions.get_predictors import classify_treatment
 
     def main():
         load_probeset_data()

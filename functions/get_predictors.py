@@ -1,6 +1,7 @@
 from sklearn import preprocessing, svm, tree, ensemble, naive_bayes 
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
+#import xgboost
 import numpy as np
 import _helpers
 import copy
@@ -9,39 +10,43 @@ import copy
 
 def classify_treatment(self, model_type='CART', 
                             features = 'genome', 
-                            grouping= 'first', 
+                            grouping= None, 
                             n_splits = 10,
-                            reduction = None):  
+                            reduction = None,
+                            n_comp = 55000,
+                            re_normalise = False):  
     # model=['SVM', 'CART', 'LR', 'RandomForest', 'AdaBoost']
     # grouping=['first', 'median', 'mean']
     # features=['all', 'genomes']
-    # reduction = ['LDA', 'QDA', 'PCA', 'genome_variance', 'None']
+    # reduction = ['PCA']
     # topN = None [None, N] 
     #
     #
     # streamlining code: create data pipelines http://sebastianraschka.com/Articles/2014_ensemble_classifier.html
     ############################################
-    n_comp = 100 # number of components for dimensionality reduction
-    min_nom_var = 0.2
     df = self.DATA_merged
-    if(self.DATA_merged_processed is None):
+    if(self.DATA_merged_processed is None or re_normalise == False):
         print("+ "*30, 'Prepping data, this may take a while..')
         df = _helpers._preprocess(df)
         print("- "*30, 'Grouping probesets')
         df = _helpers._group_patients(df, method = grouping)
         self.DATA_merged_processed = df
     else:
-        df = self.DATA_merged_processed
+        df= self.DATA_merged_processed
     print("+ "*30, 'Creating X,y')
-    x,y =_helpers._get_matrix(df, type = 'genomic', target = 'Treatment risk group in ALL10')      
+    x,y =_helpers._get_matrix(df, features = 'genomic', target = 'Treatment risk group in ALL10')      
+    if reduction is not None:
+        print("- "*30, 'Reducing dimensionality')
     if(reduction == 'PCA'):
-            x = _helpers.get_principal_components(x, n_comp)
+            x, Reducer = _helpers.get_pca_transform(x, n_comp)
     elif(reduction == 'LDA'):
-            x = _helpers.get_linear_discriminant_analysis(x, y)
-    elif(reduction == 'QDA'):
-            x = _helpers.get_quadrant_discriminant_analysis(x, y)
+            x, Reducer = _helpers.get_lda_transform(x, y, n_comp)
+    elif(reduction == 'RBM'):
+            x, Reducer = _helpers.get_rbm_transform(x, y, n_comp)
     elif(reduction == 'genome_variance'):
-            x = _helpers.get_genome_variation(x, min_norm_var)
+            x, Reducer = _helpers.get_filtered_genomes(x, filter_type = None)
+    #elif(reduction == 'auto_encoder'):
+    #        x, Reducer = _helpers.get_autoencoded_genomes(x)
     ############################################
     models = []
     if(model_type == 'SVM'):
@@ -70,6 +75,15 @@ def classify_treatment(self, model_type='CART',
             min_weight_fraction_leaf=0.0, max_depth=4, min_impurity_split=1e-07, init=None, 
             random_state=None, max_features=None, verbose=0, max_leaf_nodes=None, warm_start=False, presort='auto')
         models.append(('GBM', model))
+    elif(model_type == 'AdaBoost'):
+        model = ensemble.AdaBoostClassifier(base_estimator=None, n_estimators=150, learning_rate=1.0, algorithm='SAMME.R', random_state=self.SEED)
+        models.append(('ADA', model))
+    elif(model_type == 'XGBoost'):
+        print("NOT AVAILABLE YET")
+    elif(model_type == 'RVM'):
+        #import rvm
+        #model = rvm(x, y, noise = 0.01)
+        print("NOT AVAILABLE YET")
     elif(model_type == 'QDA'):
         model = discriminant_analysis.QuadraticDiscriminantAnalysis(priors = None, reg_param = 0.0)
         models.append(('QDA', model))
@@ -113,6 +127,7 @@ def classify_treatment(self, model_type='CART',
             subsample=1.0, criterion='friedman_mse', min_samples_split=5, min_samples_leaf=5, 
             min_weight_fraction_leaf=0.0, max_depth=4, min_impurity_split=1e-07, init=None, 
             random_state=None, max_features=None, verbose=0, max_leaf_nodes=None, warm_start=False, presort='auto')),
+            ("ADA", ensemble.AdaBoostClassifier(base_estimator=None, n_estimators=50, learning_rate=1.0, algorithm='SAMME.R', random_state=None)),
             ("CART", tree.DecisionTreeClassifier(criterion='gini', splitter='best', 
                                 max_depth=10, min_samples_split=2, min_samples_leaf=3, min_weight_fraction_leaf=0.0, 
                                 max_features=None, random_state=self.SEED, max_leaf_nodes=None, min_impurity_split=1e-07, 
@@ -138,15 +153,23 @@ def classify_treatment(self, model_type='CART',
 
     model.fit(x, y)
     var_columns = df.columns[21:]   
-    x = df.loc[:,var_columns].values    
-    preds = model.predict(x) 
+    x_pred = df.loc[:,var_columns].values  
+    # apply dimensionality reduction
+    #
+    if(reduction == 'PCA'):
+            x_pred = Reducer.transform(x_pred)
+    elif(reduction == 'LDA'):
+            x_pred = Reducer.transform(x_pred)
+    elif(reduction == 'genome_variance'):
+            x_pred = Reducer(x_pred)
+    preds = model.predict(x_pred) 
 
     print("+"*50)
     ################################################################
     ##### ADD PATIENT INFO TO PREDICTOR
     if(features == 'all'):
         print("+"*30,' RESULTS FOR CLASSIFICATION INCLUDING PATIENT DATA',"+"*30)
-        p_x,y = _helpers._get_matrix(df, type = 'patient', target = 'Treatment risk group in ALL10')
+        p_x,y = _helpers._get_matrix(df, features = 'patient', target = 'Treatment risk group in ALL10')
         pred = np.reshape(pred, (pred.shape[0], 1))
         print("---------")
         x = np.hstack([pred, p_x])
@@ -171,32 +194,7 @@ def classify_treatment(self, model_type='CART',
     return preds, model
 
 
-def get_top_genes(model, n = 10):
-    ''' Extract the genomes that are most relevant for the classification
-    * extra-trees weights
-    * RF weights
-    * LR weights: all-versus-all 
-    * LR weights: one-versus-all
-    * SVM feature importance            
-    '''
-
-
-    coef = model.coef_
-    coef = np.reshape(coef, (coef.shape[1],))
-    ordering = np.argsort(np.abs(coef))
-    topN = ordering[-n:]
-
-    gene_columns = self.DATA_merged.columns[21:].values
-
-    top_genes = []
-    for test in topN:
-        top_genes.append({'probeset': gene_columns[test], 'rank_coeff': test})
-
-    #coef_list = []
-    #for coef in model._coef:
-    #    coef_list.append(coef)
-
-    return top_genes
+    # hyper optimalisation routines.
 
 
 
