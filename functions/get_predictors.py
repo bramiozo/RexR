@@ -1,6 +1,7 @@
 from sklearn import preprocessing, svm, tree, ensemble, naive_bayes 
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
+#import xgboost as xgb
 #import xgboost
 import numpy as np
 import _helpers
@@ -81,9 +82,8 @@ def classify_treatment(self, model_type='CART',
     elif(model_type == 'XGBoost'):
         print("NOT AVAILABLE YET")
     elif(model_type == 'RVM'):
-        #import rvm
-        #model = rvm(x, y, noise = 0.01)
-        print("NOT AVAILABLE YET")
+        import rvm
+        models.append(('RVM', None))
     elif(model_type == 'QDA'):
         model = discriminant_analysis.QuadraticDiscriminantAnalysis(priors = None, reg_param = 0.0)
         models.append(('QDA', model))
@@ -119,7 +119,7 @@ def classify_treatment(self, model_type='CART',
             ("GNB", naive_bayes.GaussianNB()),
             ("SVM", svm.SVC(degree = 3, tol = 0.0001, C= 0.9, probability= True)),
             ("LogisticRegression", linear_model.LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.9)),
-            ("RandomForest", ensemble.RandomForestClassifier(n_estimators=100, max_depth=25, n_jobs=2, min_samples_split=5,\
+            ("RandomForest", ensemble.RandomForestClassifier(n_estimators=100, max_depth=50, n_jobs=2, min_samples_split=5,\
                 min_samples_leaf=5)),
             ("ExtraTrees", ensemble.ExtraTreesClassifier(n_estimators=100, max_depth=50, n_jobs=2, min_samples_split=5,\
                 min_samples_leaf=5)),
@@ -143,15 +143,22 @@ def classify_treatment(self, model_type='CART',
     print("+"*30,' RESULTS FOR CLASSIFICATION WITH GENOMIC DATA',"+"*30)
     preds = []
     for clf in models:
-        pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED)
+        if clf[0] == 'RVM':
+            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm')
+        else:
+            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn')
         report = metrics.classification_report(y,pred)
         #acc = metrics.accuracy_score(y,pred)
         print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))
         print("+"*30,' Report', "+"*30)
         print(report)
-        preds.append(pred)
-
-    model.fit(x, y)
+    
+    '''
+        model = rvm.rvm(x, y, noise = 0.01)
+        preds = np.dot(x_test, model.wInferred);
+        pred_ = np.append(preds, 1-preds[:], 1)
+    '''
+    model.fit(x, y) # TO IMPROVE: better to use the mean of k k-folded models 
     var_columns = df.columns[21:]   
     x_pred = df.loc[:,var_columns].values  
     # apply dimensionality reduction
@@ -170,11 +177,16 @@ def classify_treatment(self, model_type='CART',
     if(features == 'all'):
         print("+"*30,' RESULTS FOR CLASSIFICATION INCLUDING PATIENT DATA',"+"*30)
         p_x,y = _helpers._get_matrix(df, features = 'patient', target = 'Treatment risk group in ALL10')
+        scaler = preprocessing.StandardScaler()
+        p_x = scaler.fit_transform(p_x)
         pred = np.reshape(pred, (pred.shape[0], 1))
         print("---------")
         x = np.hstack([pred, p_x])
         for clf in models:
-            pred, acc = _helpers._benchmark_classifier(clf,x,y,splitter, self.SEED)
+            if clf[0] == 'RVM':
+                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm')
+            else:
+                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn')            
             report = metrics.classification_report(y,pred)
             #acc = metrics.accuracy_score(y,pred)
             print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))            
@@ -195,6 +207,9 @@ def classify_treatment(self, model_type='CART',
 
 
     # hyper optimalisation routines.
+
+
+    # relapse predictor / survival rate
 
 
 

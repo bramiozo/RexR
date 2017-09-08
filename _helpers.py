@@ -179,22 +179,33 @@ def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"]):
     df = df[df["array-batch"].isin(cohorts)]
     return df
 
-def _benchmark_classifier(model, x, y, splitter, seed):
+def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
     splitter.random_state = seed
     pred = np.zeros(shape=y.shape)
     acc = np.zeros(shape=y.shape)
     coef = np.zeros(shape=(1, x.shape[1]))
 
-    for train_index, test_index in splitter.split(x, y):
-        x_train, x_test = x[train_index], x[test_index]
-        y_train, y_test = y[train_index], y[test_index] 
+    if framework == 'sklearn':
+        for train_index, test_index in splitter.split(x, y):
+            x_train, x_test = x[train_index], x[test_index]
+            y_train, y_test = y[train_index], y[test_index] 
 
-        model[1].fit(x_train,y_train)
-        pred_ = model[1].predict(x_test)
-        pred[test_index] = pred_ 
-        acc[test_index] = metrics.accuracy_score(y_test, pred_)
-        # coef += model.coef_
-        
+            model[1].fit(x_train,y_train)
+            pred_ = model[1].predict(x_test)
+            pred[test_index] = pred_ 
+            acc[test_index] = metrics.accuracy_score(y_test, pred_)
+            # coef += model.coef_
+    elif framework == 'custom_rvm':
+        import rvm
+        for train_index, test_index in splitter.split(x,y):
+            x_train, x_test = x[train_index], x[test_index]
+            y_train, y_test = y[train_index], y[test_index]             
+            
+            model = rvm.rvm(x_train, y_train, noise = 0.01)
+            model.iterateUntilConvergence()
+            pred_  = np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x),]);
+            pred[test_index] = pred_ 
+            acc[test_index] = metrics.accuracy_score(y_test, pred_)
 
     return pred, acc
 
@@ -309,10 +320,12 @@ def get_top_genes(x,y, method=None, n_max = 1000, n_comp = 1000, boruta = False)
         #coef = np.reshape(coef, (coef.shape[1],))
         #ordering = np.argsort(np.abs(coef))
         #topN = ordering[-n:]
+        if boruta:
+            print("Not implemented yet")
     elif (method in ['LRall', 'LRone']):
         print("not done..")
 
-    # if multiple methods are used, only keep overlapping 
+    # if multiple methods are used, only keep overlapping genes
     gene_columns = self.DATA_merged.columns[21:].values
     top_genes = []
     for i in range(0, n_max):
@@ -326,3 +339,6 @@ def get_top_genes(x,y, method=None, n_max = 1000, n_comp = 1000, boruta = False)
     #    coef_list.append(coef)
 
     return top_genes_df
+
+    ########
+    ## couple genomes to probesets
