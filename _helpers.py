@@ -203,8 +203,8 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
             
             model = rvm.rvm(x_train, y_train, noise = 0.01)
             model.iterateUntilConvergence()
-            pred_  = np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x),]);
-            pred[test_index] = pred_ 
+            pred_  = np.round(np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x_test),]));
+            pred[test_index] = pred_
             acc[test_index] = metrics.accuracy_score(y_test, pred_)
 
     return pred, acc
@@ -229,6 +229,7 @@ def get_lda_transform(X, y, n_comp):
                                 tol=0.0001).fit(X,y)
     X_out = Transform.transform(X)
     return X_out, Transform
+
 def get_rbm_transform(X,y, n_comp):
     Transform = neural_network.BernoulliRBM(random_state = 0, 
                                             verbose = True,
@@ -243,6 +244,14 @@ def get_autoencoded_features(X,y):
 
     # Transform is basically list of booleans
     return autoencoded_features, Transform 
+
+def get_tsne_transform(X, y):
+    #
+    return X_out
+
+def get_optics_clusters(X):
+    #
+    return cluster_ids
 
 
 '''

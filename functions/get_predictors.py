@@ -9,22 +9,28 @@ import copy
 #import sys
 #sys.setrecursionlimit(10000) 
 
+
+
 def classify_treatment(self, model_type='CART', 
                             features = 'genome', 
                             grouping= None, 
                             n_splits = 10,
                             reduction = None,
                             n_comp = 55000,
-                            re_normalise = False):  
+                            re_normalise = False,
+                            parameters = {}):  
     # model=['SVM', 'CART', 'LR', 'RandomForest', 'AdaBoost']
     # grouping=['first', 'median', 'mean']
     # features=['all', 'genomes']
     # reduction = ['PCA']
     # topN = None [None, N] 
-    #
+    # parameters: dict of dicts, **kwargs for functions
     #
     # streamlining code: create data pipelines http://sebastianraschka.com/Articles/2014_ensemble_classifier.html
     ############################################
+    if parameters == {}: # empty dict, so fetch defaults
+        parameters = self.MODEL_PARAMETERS
+
     df = self.DATA_merged
     if(self.DATA_merged_processed is None or re_normalise == False):
         print("+ "*30, 'Prepping data, this may take a while..')
@@ -51,36 +57,37 @@ def classify_treatment(self, model_type='CART',
     ############################################
     models = []
     if(model_type == 'SVM'):
-        model = svm.SVC(degree = 3, tol = 0.0001, C= 0.9, probability= True)
+        pars = parameters['SVM']
+        model = svm.SVC(**pars)
         models.append(('SVM', model))
     elif(model_type == 'CART'):
-        model = tree.DecisionTreeClassifier(criterion='gini', splitter='best', 
-                                max_depth=10, min_samples_split=2, min_samples_leaf=3, min_weight_fraction_leaf=0.0, 
-                                max_features=None, random_state=self.SEED, max_leaf_nodes=None, min_impurity_split=1e-07, 
-                                class_weight=None, presort=False)
+        pars = parameters['CART']
+        model = tree.DecisionTreeClassifier(**pars)
         models.append(('CART', model))
     elif(model_type == 'LR'):
-        model = linear_model.LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.9)
+        pars  = parameters['LR']
+        model = linear_model.LogisticRegression(**pars)
         models.append(('LR', model))
-    elif(model_type == 'RandomForest'):
-        model = ensemble.RandomForestClassifier(n_estimators=100, max_depth=25, n_jobs=-1, min_samples_split=5,\
-                min_samples_leaf=5)
+    elif(model_type in ['RandomForest', 'RF']):
+        pars = parameters['RF']
+        model = ensemble.RandomForestClassifier(**pars)
         models.append(('RF', model))
     elif(model_type == 'ExtraTrees'):
-        model = ensemble.ExtraTreesClassifier(n_estimators=100, max_depth=75, n_jobs=-1, min_samples_split=5,\
-                min_samples_leaf=5)
+        pars = parameters['ET']
+        model = ensemble.ExtraTreesClassifier(**pars)
         models.append(('ET', model))
     elif(model_type == 'GBM'):
-        model = ensemble.GradientBoostingClassifier(loss='deviance', learning_rate=0.1, n_estimators=100, 
-            subsample=1.0, criterion='friedman_mse', min_samples_split=5, min_samples_leaf=5, 
-            min_weight_fraction_leaf=0.0, max_depth=4, min_impurity_split=1e-07, init=None, 
-            random_state=None, max_features=None, verbose=0, max_leaf_nodes=None, warm_start=False, presort='auto')
+        pars = parameters['GBM']
+        model = ensemble.GradientBoostingClassifier(**pars)
         models.append(('GBM', model))
     elif(model_type == 'AdaBoost'):
-        model = ensemble.AdaBoostClassifier(base_estimator=None, n_estimators=150, learning_rate=1.0, algorithm='SAMME.R', random_state=self.SEED)
+        pars = parameters['ADA']
+        model = ensemble.AdaBoostClassifier(**pars)
         models.append(('ADA', model))
     elif(model_type == 'XGBoost'):
         print("NOT AVAILABLE YET")
+    elif(model_type == 'DNN'): # version 1: Keras
+        print("NOT AVAILABLE YET")        
     elif(model_type == 'RVM'):
         import rvm
         models.append(('RVM', None))
@@ -92,49 +99,29 @@ def classify_treatment(self, model_type='CART',
         models.append(('LDA', model))
     elif(model_type == 'GPC'):
         Kernel = 1.0 * gaussian_process.kernels.RBF(length_scale=1.0)
-        model = gaussian_process.GaussianProcessClassifier(kernel=Kernel, 
-                                                optimizer='fmin_l_bfgs_b', 
-                                                n_restarts_optimizer=0, 
-                                                max_iter_predict=100, 
-                                                warm_start=False, 
-                                                copy_X_train=True, 
-                                                random_state=None, 
-                                                multi_class='one_vs_rest', 
-                                                n_jobs=1)
+        pars = parameters['GPC']
+        model = gaussian_process.GaussianProcessClassifier(kernel=Kernel, **pars)
         models.append(('GPC', model))
     elif(model_type == 'NaiveBayes'):
         model = naive_bayes.GaussianNB()
         models.append(('GNB', model))
     elif(model_type == 'MLNN'):
-        model = neural_network.MLPClassifier(activation='relu', alpha=1e-05, batch_size='auto',
-                                       beta_1=0.9, beta_2=0.999, early_stopping=False,
-                                       epsilon=1e-08, hidden_layer_sizes=(15, 7, 2), learning_rate='constant',
-                                       learning_rate_init=0.001, max_iter=200, momentum=0.9,
-                                       nesterovs_momentum=True, power_t=0.5, random_state=1, shuffle=True,
-                                       solver='lbfgs', tol=0.0001, validation_fraction=0.1, verbose=False,
-                                       warm_start=False)
+        pars = parameters['MLNN']
+        model = neural_network.MLPClassifier(**pars) #  solver = 'lbfgs'
         models.append(('MLNN', model))
     elif(model_type == 'ensemble'):
         models_ = [
             ("GNB", naive_bayes.GaussianNB()),
-            ("SVM", svm.SVC(degree = 3, tol = 0.0001, C= 0.9, probability= True)),
-            ("LogisticRegression", linear_model.LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.9)),
-            ("RandomForest", ensemble.RandomForestClassifier(n_estimators=100, max_depth=50, n_jobs=2, min_samples_split=5,\
-                min_samples_leaf=5)),
-            ("ExtraTrees", ensemble.ExtraTreesClassifier(n_estimators=100, max_depth=50, n_jobs=2, min_samples_split=5,\
-                min_samples_leaf=5)),
-            ("GBM", ensemble.GradientBoostingClassifier(loss='deviance', learning_rate=0.1, n_estimators=100, 
-            subsample=1.0, criterion='friedman_mse', min_samples_split=5, min_samples_leaf=5, 
-            min_weight_fraction_leaf=0.0, max_depth=4, min_impurity_split=1e-07, init=None, 
-            random_state=None, max_features=None, verbose=0, max_leaf_nodes=None, warm_start=False, presort='auto')),
-            ("ADA", ensemble.AdaBoostClassifier(base_estimator=None, n_estimators=50, learning_rate=1.0, algorithm='SAMME.R', random_state=None)),
-            ("CART", tree.DecisionTreeClassifier(criterion='gini', splitter='best', 
-                                max_depth=10, min_samples_split=2, min_samples_leaf=3, min_weight_fraction_leaf=0.0, 
-                                max_features=None, random_state=self.SEED, max_leaf_nodes=None, min_impurity_split=1e-07, 
-                                class_weight=None, presort=False))
+            ("SVM", svm.SVC(**parameters['SVM'])),
+            ("LogisticRegression", linear_model.LogisticRegression(**parameters['LR'])),
+            ("RandomForest", ensemble.RandomForestClassifier(**parameters['RF'])),
+            ("ExtraTrees", ensemble.ExtraTreesClassifier(**parameters['ET'])),
+            ("GBM", ensemble.GradientBoostingClassifier(**parameters['GBM'])),
+            ("ADA", ensemble.AdaBoostClassifier(**parameters['ADA'])),
+            ("CART", tree.DecisionTreeClassifier(**parameters['CART']))
             ]
         models = copy.copy(models_)
-        model = ensemble.VotingClassifier(models_, n_jobs = 2, voting = 'soft')
+        model = ensemble.VotingClassifier(models_, n_jobs = -1 , voting = 'soft')
         models.append(("Ensembled", model))
 
     ############################################
@@ -158,7 +145,9 @@ def classify_treatment(self, model_type='CART',
         preds = np.dot(x_test, model.wInferred);
         pred_ = np.append(preds, 1-preds[:], 1)
     '''
-    model.fit(x, y) # TO IMPROVE: better to use the mean of k k-folded models 
+    if()
+        model.fit(x, y) 
+    
     var_columns = df.columns[21:]   
     x_pred = df.loc[:,var_columns].values  
     # apply dimensionality reduction
@@ -169,7 +158,8 @@ def classify_treatment(self, model_type='CART',
             x_pred = Reducer.transform(x_pred)
     elif(reduction == 'genome_variance'):
             x_pred = Reducer(x_pred)
-    preds = model.predict(x_pred) 
+    
+    preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
 
     print("+"*50)
     ################################################################
