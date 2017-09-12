@@ -171,9 +171,14 @@ def _survival_matrix(df):
 
     return df[gene_columns].values, df[target].values
 
-def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"]):
+def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], scaler = "standard"):
     gene_columns = df.columns[21:]
-    scaler = preprocessing.StandardScaler()
+    if scaler == "standard":
+        scaler = preprocessing.StandardScaler() # MinMaxScaler(), MaxAbsScaler(), RobustScaler(), QuantileTransformer(), Normalizer()
+    elif scaler == "minmax":
+        scaler = preprocessing.MinMaxScaler()
+    elif scaler in ["normalizer", "normaliser"]:
+        scaler = preprocessing.Normalizer()
     ch = df["array-batch"].isin(cohorts)
     df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
     df = df[df["array-batch"].isin(cohorts)]
@@ -211,31 +216,21 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
 
 
 def get_pca_transform(X, n_comp): # principal components, used for the classifiers
-    Transform = decomposition.PCA(n_components = n_comp, 
-                            copy = True, whiten = False, 
-                            svd_solver = 'auto', 
-                            tol = 0.001, iterated_power = 'auto', 
-                            random_state = None).fit(X)
+    pars = self.DIMENSION_REDUCTION_PARAMETERS['pca']
+    Transform = decomposition.PCA(n_components = n_comp, **pars).fit(X)
     X_out = Transform.transform(X)
     return X_out, Transform
 
 
 def get_lda_transform(X, y, n_comp): 
-    Transform = discriminant_analysis.LinearDiscriminantAnalysis(solver='svd', 
-                                shrinkage=None,
-                                priors=None,
-                                n_components=n_comp,
-                                store_covariance=False,
-                                tol=0.0001).fit(X,y)
+    pars = self.DIMENSION_REDUCTION_PARAMETERS['lda']
+    Transform = discriminant_analysis.LinearDiscriminantAnalysis(n_components = n_comp, **pars).fit(X,y)
     X_out = Transform.transform(X)
     return X_out, Transform
 
 def get_rbm_transform(X,y, n_comp):
-    Transform = neural_network.BernoulliRBM(random_state = 0, 
-                                            verbose = True,
-                                            n_components = n_comp,
-                                            n_iter = 100,
-                                            learning_rate = 0.01).fit(X,y)
+    pars = self.DIMENSION_REDUCTION_PARAMETERS['rbm']
+    Transform = neural_network.BernoulliRBM(n_components = n_comp, **pars).fit(X,y)
     X_out = Transform.transform(X)
     return X_out, Transform
 
@@ -263,6 +258,7 @@ def get_vector_characteristics():
 
 def get_filtered_genomes(x, filter_type = None):
     # low variance filter: minimum relative relative variance (var/mean)_i / (var/mean)_all 
+    # 
 
     # low variance filter: minimum summed succesive (absolute) difference
 
@@ -321,6 +317,7 @@ def get_top_genes(x,y, method=None, n_max = 1000, n_comp = 1000, boruta = False)
     * SVM feature importance           
 
     # Boruta: https://pypi.python.org/pypi/Boruta/0.1.5 
+    # http://scikit-learn.org/stable/modules/feature_selection.html
     '''   
 
     if (method in ['RF', 'SVM', 'ET', 'GBM', 'ADA']):

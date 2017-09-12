@@ -1,6 +1,9 @@
 from sklearn import preprocessing, svm, tree, ensemble, naive_bayes 
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
+import itertools
+from sklearn.metrics import roc_curve, auc, roc_auc_score, log_loss, accuracy_score, confusion_matrix
+
 #import xgboost as xgb
 #import xgboost
 import numpy as np
@@ -9,16 +12,66 @@ import copy
 #import sys
 #sys.setrecursionlimit(10000) 
 
+def plot_cm(ax, y_true, y_pred, classes, title, th=0.5, cmap=plt.cm.Blues):
+    y_pred_labels = (y_pred>th).astype(int)
+    
+    cm = confusion_matrix(y_true, y_pred_labels)
+    
+    im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
+    ax.set_title(title)
+
+    tick_marks = np.arange(len(classes))
+    ax.set_xticks(tick_marks)
+    ax.set_yticks(tick_marks)
+    ax.set_xticklabels(classes)
+    ax.set_yticklabels(classes)
+
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        ax.text(j, i, cm[i, j],
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+    ax.set_ylabel('True label')
+    ax.set_xlabel('Predicted label')
+
+def plot_auc(ax, y_train, y_train_pred, y_test, y_test_pred, th=0.5):
+
+    y_train_pred_labels = (y_train_pred>th).astype(int)
+    y_test_pred_labels  = (y_test_pred>th).astype(int)
+
+    fpr_train, tpr_train, _ = roc_curve(y_train,y_train_pred)
+    roc_auc_train = auc(fpr_train, tpr_train)
+    acc_train = accuracy_score(y_train, y_train_pred_labels)
+
+    fpr_test, tpr_test, _ = roc_curve(y_test,y_test_pred)
+    roc_auc_test = auc(fpr_test, tpr_test)
+    acc_test = accuracy_score(y_test, y_test_pred_labels)
+
+    ax.plot(fpr_train, tpr_train)
+    ax.plot(fpr_test, tpr_test)
+
+    ax.plot([0, 1], [0, 1], 'k--')
+
+    ax.set_xlim([0.0, 1.0])
+    ax.set_ylim([0.0, 1.05])
+    ax.set_xlabel('False Positive Rate')
+    ax.set_ylabel('True Positive Rate')
+    ax.set_title('ROC curve')
+    
+    train_text = 'train acc = {:.3f}, auc = {:.2f}'.format(acc_train, roc_auc_train)
+    test_text = 'test acc = {:.3f}, auc = {:.2f}'.format(acc_test, roc_auc_test)
+    ax.legend([train_text, test_text])
 
 
 def classify_treatment(self, model_type='CART', 
                             features = 'genome', 
                             grouping= None, 
                             n_splits = 10,
-                            reduction = None,
-                            n_comp = 55000,
                             re_normalise = False,
-                            parameters = {}):  
+                            parameters = {},
+                            pipeline = {"scaler": {"type": "minmax"},
+                                        "dim_reduction": {"type": "PCA", "n_comp": 1000},
+                                        "feature_selection": {"type":, "RFECV", "top_n": 100}}):  
     # model=['SVM', 'CART', 'LR', 'RandomForest', 'AdaBoost']
     # grouping=['first', 'median', 'mean']
     # features=['all', 'genomes']
@@ -31,10 +84,13 @@ def classify_treatment(self, model_type='CART',
     if parameters == {}: # empty dict, so fetch defaults
         parameters = self.MODEL_PARAMETERS
 
+    ######## PIPELINE ########
+    ##########################
+    ##########################
     df = self.DATA_merged
     if(self.DATA_merged_processed is None or re_normalise == False):
         print("+ "*30, 'Prepping data, this may take a while..')
-        df = _helpers._preprocess(df)
+        df = _helpers._preprocess(df, scaler = pipeline['scaler']['type'])
         print("- "*30, 'Grouping probesets')
         df = _helpers._group_patients(df, method = grouping)
         self.DATA_merged_processed = df
@@ -52,9 +108,12 @@ def classify_treatment(self, model_type='CART',
             x, Reducer = _helpers.get_rbm_transform(x, y, n_comp)
     elif(reduction == 'genome_variance'):
             x, Reducer = _helpers.get_filtered_genomes(x, filter_type = None)
-    #elif(reduction == 'auto_encoder'):
-    #        x, Reducer = _helpers.get_autoencoded_genomes(x)
-    ############################################
+
+    # if dimension reduction AND feature selection, then perform FeatureUnion
+    ## http://scikit-learn.org/stable/auto_examples/plot_feature_stacker.html#sphx-glr-auto-examples-plot-feature-stacker-py
+    
+    #########################
+    #########################
     models = []
     if(model_type == 'SVM'):
         pars = parameters['SVM']
@@ -93,6 +152,8 @@ def classify_treatment(self, model_type='CART',
     elif(model_type == 'RVM'):
         import rvm
         models.append(('RVM', None))
+    elif(model_type == 'EBE'): # Extremely Biased Estimator
+        print("NOT AVAILABLE YET")
     elif(model_type == 'QDA'):
         model = discriminant_analysis.QuadraticDiscriminantAnalysis(priors = None, reg_param = 0.0)
         models.append(('QDA', model))
@@ -147,7 +208,7 @@ def classify_treatment(self, model_type='CART',
         preds = np.dot(x_test, model.wInferred);
         pred_ = np.append(preds, 1-preds[:], 1)
     '''
-    if(model)
+    if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost'])
         model.fit(x, y) 
     
     var_columns = df.columns[21:]   

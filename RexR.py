@@ -6,13 +6,14 @@ import pandas
 
 ####
 # AUTHORS
-# Sebastiaan de Jong
-# Wybe Rozema
-# Bram van Es
-# Sabrina Wandl
-# Nick Heuls
+# Bram van Es (NLeSC)
+# Sebastiaan de Jong (ABN AMRO)
+# Wybe Rozema (ABN AMRO)
+# Sabrina Wandl (ABN AMRO)
+# Nick Heuls (ABN AMRO)
 
-# Jules Meijerink
+# Jules Meijerink (Erasmus)
+# Tjebbe Tauber (ABN AMRO)
 #################
 
 '''
@@ -33,7 +34,7 @@ Probeset drivers for cancer types/pathways:
 
 Survival estimation given a particular treatment:
 
-to-do's (september 2017):
+to-do's (september/october 2017):
 - deep learner
 - sparse auto encoding
 - t-sne / optics analyser
@@ -57,8 +58,8 @@ class RexR():
     DATA_merged_processed = None
     DATA_loc = None
     MODEL_PARAMETERS = {}
-
-
+    FEATURE_SELECTION_PARAMETERS = {}
+    DIMENSION_REDUCTION_PARAMETERS = {}
 
 
     write_out = None
@@ -89,10 +90,11 @@ class RexR():
                    'random_state': None, 'max_features': None, 'verbose': 0, 'max_leaf_nodes': None, 
                    'warm_start': False, 'presort': 'auto'},
             "LR": {'penalty':'l2', 'dual': False, 'tol':0.0001, 'C':0.9},
-            "XGB": {},
-            "RVM": {},
-            "DNN": {},
-            "CNN": {},
+            "XGB": {}, # seperate lib, XGBOOST
+            "RVM": {}, # seperate code, RVM
+            "DNN": {}, # seperate lib, Keras
+            "CNN": {}, # seperate lib, Keras
+            "EBE": {}, # custom predictor for low sample/high dimensional data
             "CART":{'criterion':'gini', 'splitter':'best', 
                     'max_depth':10, 'min_samples_split':2, 'min_samples_leaf':3, 
                     'min_weight_fraction_leaf':0.0, 'max_features': None, 
@@ -104,6 +106,26 @@ class RexR():
                     'copy_X_train': True, 'random_state': None, 
                     'multi_class': 'one_vs_rest', 'n_jobs': 1}
         }
+        #http://scikit-learn.org/stable/modules/feature_selection.html#univariate-feature-selection
+        self.FEATURE_SELECTION_PARAMETERS = {   "low_variance":{"lib": "sklearn"}, 
+                                                "RFECV":{"lib": "sklearn"}, 
+                                                "RFE":{"lib": "sklearn"},
+                                                "univariate":{"lib": "sklearn"}
+                                            }
+        self.DIMENSION_REDUCTION_PARAMETERS = {"pca": {'copy' : True, 'whiten' : False, 
+                                                       'svd_solver' : 'auto', 
+                                                       'tol' : 0.001, 'iterated_power':'auto', 
+                                                       'random_state' : None},
+                                                "lda":{'solver':'svd', 
+                                                        'shrinkage':None,
+                                                        'priors':None,
+                                                        'store_covariance':False,
+                                                        'tol':0.0001},
+                                                "rbm":{'random_state': 0, 
+                                                       'verbose': True,
+                                                        'n_iter': 100,
+                                                        'learning_rate': 0.01}
+                                            }
 
 
     def _read_cohort(self, path):
