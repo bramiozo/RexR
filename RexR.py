@@ -33,7 +33,15 @@ Probeset drivers for cancer types/pathways:
 
 Survival estimation given a particular treatment:
 
-
+to-do's (september 2017):
+- deep learner
+- sparse auto encoding
+- t-sne / optics analyser
+- ROC/confusion matrix visualiser
+- patient similarity
+- xgboost
+- cohort-bias reducer
+- conditional survival estimator
 
 '''
 
@@ -83,6 +91,8 @@ class RexR():
             "LR": {'penalty':'l2', 'dual': False, 'tol':0.0001, 'C':0.9},
             "XGB": {},
             "RVM": {},
+            "DNN": {},
+            "CNN": {},
             "CART":{'criterion':'gini', 'splitter':'best', 
                     'max_depth':10, 'min_samples_split':2, 'min_samples_leaf':3, 
                     'min_weight_fraction_leaf':0.0, 'max_features': None, 

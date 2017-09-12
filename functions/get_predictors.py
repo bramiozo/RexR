@@ -87,7 +87,9 @@ def classify_treatment(self, model_type='CART',
     elif(model_type == 'XGBoost'):
         print("NOT AVAILABLE YET")
     elif(model_type == 'DNN'): # version 1: Keras
-        print("NOT AVAILABLE YET")        
+        print("NOT AVAILABLE YET")
+    elif(model_type == 'CNN'): # version 1: Keras
+        print("NOT AVAILABLE YET")
     elif(model_type == 'RVM'):
         import rvm
         models.append(('RVM', None))
@@ -145,7 +147,7 @@ def classify_treatment(self, model_type='CART',
         preds = np.dot(x_test, model.wInferred);
         pred_ = np.append(preds, 1-preds[:], 1)
     '''
-    if()
+    if(model)
         model.fit(x, y) 
     
     var_columns = df.columns[21:]   
