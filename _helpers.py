@@ -15,6 +15,57 @@ import matplotlib.pyplot as plt
 from itertools import cycle
 
 
+def plot_cm(ax, y_true, y_pred, classes, title, th=0.5, cmap=plt.cm.Blues):
+    y_pred_labels = (y_pred>th).astype(int)
+    
+    cm = confusion_matrix(y_true, y_pred_labels)
+    
+    im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
+    ax.set_title(title)
+
+    tick_marks = np.arange(len(classes))
+    ax.set_xticks(tick_marks)
+    ax.set_yticks(tick_marks)
+    ax.set_xticklabels(classes)
+    ax.set_yticklabels(classes)
+
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        ax.text(j, i, cm[i, j],
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+    ax.set_ylabel('True label')
+    ax.set_xlabel('Predicted label')
+
+def plot_auc(ax, y_train, y_train_pred, y_test, y_test_pred, th=0.5):
+
+    y_train_pred_labels = (y_train_pred>th).astype(int)
+    y_test_pred_labels  = (y_test_pred>th).astype(int)
+
+    fpr_train, tpr_train, _ = roc_curve(y_train,y_train_pred)
+    roc_auc_train = auc(fpr_train, tpr_train)
+    acc_train = accuracy_score(y_train, y_train_pred_labels)
+
+    fpr_test, tpr_test, _ = roc_curve(y_test,y_test_pred)
+    roc_auc_test = auc(fpr_test, tpr_test)
+    acc_test = accuracy_score(y_test, y_test_pred_labels)
+
+    ax.plot(fpr_train, tpr_train)
+    ax.plot(fpr_test, tpr_test)
+
+    ax.plot([0, 1], [0, 1], 'k--')
+
+    ax.set_xlim([0.0, 1.0])
+    ax.set_ylim([0.0, 1.05])
+    ax.set_xlabel('False Positive Rate')
+    ax.set_ylabel('True Positive Rate')
+    ax.set_title('ROC curve')
+    
+    train_text = 'train acc = {:.3f}, auc = {:.2f}'.format(acc_train, roc_auc_train)
+    test_text = 'test acc = {:.3f}, auc = {:.2f}'.format(acc_test, roc_auc_test)
+    ax.legend([train_text, test_text])
+
+
 def _group_patients(df, method = 'first'): # method = ['first', 'mean', 'median', 'min', 'max']
     # 1. clean probesets 
     # 2. reduce multiple probesets per gene to one  
@@ -39,6 +90,10 @@ def _cohort_correction(df):
     ## TO FINISH
     # correct for bias introduced by measurements
     # check for means in measurement groups, for similar patients (use groups from affinity propagation?)
+    # assumptions: patients sampled over different groups in a stratified manner
+
+
+
     return True
 
 def get_patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None, normalised = True, inflation = 1):
@@ -196,10 +251,24 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
             y_train, y_test = y[train_index], y[test_index] 
 
             model[1].fit(x_train,y_train)
-            pred_ = model[1].predict(x_test)
-            pred[test_index] = pred_ 
-            acc[test_index] = metrics.accuracy_score(y_test, pred_)
+            pred_test = model[1].predict(x_test)
+            pred[test_index] = pred_test 
+            acc[test_index] = metrics.accuracy_score(y_test, pred_test)
             # coef += model.coef_
+        pred_train = model[1].predict_proba(x_train)
+        ######################################################
+        ##### For last split, show confusion matrix and ROC ##
+        ######################################################
+        #X_train, X_test, y_train, y_test = train_test_split(X_prep, y, test_size=0.2, random_state=42)
+        fig,ax = plt.subplots(1,3)
+        fig.set_size_inches(15,5)
+        plot_cm(ax[0],  y_train, pred_train, [0,1], 'Confusion matrix (TRAIN)', threshold)
+        plot_cm(ax[1],  y_test, pred_test,   [0,1], 'Confusion matrix (TEST)', threshold)
+        plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred, threshold)
+        plt.tight_layout()
+        plt.show()
+
+
     elif framework == 'custom_rvm':
         import rvm
         for train_index, test_index in splitter.split(x,y):
@@ -208,9 +277,22 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
             
             model = rvm.rvm(x_train, y_train, noise = 0.01)
             model.iterateUntilConvergence()
-            pred_  = np.round(np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x_test),]));
-            pred[test_index] = pred_
-            acc[test_index] = metrics.accuracy_score(y_test, pred_)
+            pred_test  = np.round(np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x_test),]));
+            pred[test_index] = pred_test
+            acc[test_index] = metrics.accuracy_score(y_test, pred_test)
+
+        ######################################################
+        ##### For last split, show confusion matrix and ROC ##
+        ######################################################
+        #X_train, X_test, y_train, y_test = train_test_split(X_prep, y, test_size=0.2, random_state=42)
+        pred_train = np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x_test),])
+        fig,ax = plt.subplots(1,3)
+        fig.set_size_inches(15,5)
+        plot_cm(ax[0],  y_train, pred_train, [0,1], 'Confusion matrix (TRAIN)', threshold)
+        plot_cm(ax[1],  y_test, pred_test,   [0,1], 'Confusion matrix (TEST)', threshold)
+        plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred, threshold)
+        plt.tight_layout()
+        plt.show()
 
     return pred, acc
 

@@ -12,66 +12,12 @@ import copy
 #import sys
 #sys.setrecursionlimit(10000) 
 
-def plot_cm(ax, y_true, y_pred, classes, title, th=0.5, cmap=plt.cm.Blues):
-    y_pred_labels = (y_pred>th).astype(int)
-    
-    cm = confusion_matrix(y_true, y_pred_labels)
-    
-    im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
-    ax.set_title(title)
-
-    tick_marks = np.arange(len(classes))
-    ax.set_xticks(tick_marks)
-    ax.set_yticks(tick_marks)
-    ax.set_xticklabels(classes)
-    ax.set_yticklabels(classes)
-
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        ax.text(j, i, cm[i, j],
-                 horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
-    ax.set_ylabel('True label')
-    ax.set_xlabel('Predicted label')
-
-def plot_auc(ax, y_train, y_train_pred, y_test, y_test_pred, th=0.5):
-
-    y_train_pred_labels = (y_train_pred>th).astype(int)
-    y_test_pred_labels  = (y_test_pred>th).astype(int)
-
-    fpr_train, tpr_train, _ = roc_curve(y_train,y_train_pred)
-    roc_auc_train = auc(fpr_train, tpr_train)
-    acc_train = accuracy_score(y_train, y_train_pred_labels)
-
-    fpr_test, tpr_test, _ = roc_curve(y_test,y_test_pred)
-    roc_auc_test = auc(fpr_test, tpr_test)
-    acc_test = accuracy_score(y_test, y_test_pred_labels)
-
-    ax.plot(fpr_train, tpr_train)
-    ax.plot(fpr_test, tpr_test)
-
-    ax.plot([0, 1], [0, 1], 'k--')
-
-    ax.set_xlim([0.0, 1.0])
-    ax.set_ylim([0.0, 1.05])
-    ax.set_xlabel('False Positive Rate')
-    ax.set_ylabel('True Positive Rate')
-    ax.set_title('ROC curve')
-    
-    train_text = 'train acc = {:.3f}, auc = {:.2f}'.format(acc_train, roc_auc_train)
-    test_text = 'test acc = {:.3f}, auc = {:.2f}'.format(acc_test, roc_auc_test)
-    ax.legend([train_text, test_text])
 
 
 def classify_treatment(self, model_type='CART', 
                             features = 'genome', 
-                            grouping= None, 
-                            n_splits = 10,
-                            re_normalise = False,
                             parameters = {},
-                            pipeline = {"scaler": {"type": "minmax"},
-                                        "dim_reduction": {"type": "PCA", "n_comp": 1000},
-                                        "feature_selection": {"type":, "RFECV", "top_n": 100}}):  
+                            pipeline = {}):  
     # model=['SVM', 'CART', 'LR', 'RandomForest', 'AdaBoost']
     # grouping=['first', 'median', 'mean']
     # features=['all', 'genomes']
@@ -84,30 +30,36 @@ def classify_treatment(self, model_type='CART',
     if parameters == {}: # empty dict, so fetch defaults
         parameters = self.MODEL_PARAMETERS
 
+    if pipeline == {}:    
+        pipeline = self.PIPELINE_PARAMETERS
+    ##########################
     ######## PIPELINE ########
     ##########################
     ##########################
     df = self.DATA_merged
-    if(self.DATA_merged_processed is None or re_normalise == False):
+    if(self.DATA_merged_processed is None):
         print("+ "*30, 'Prepping data, this may take a while..')
         df = _helpers._preprocess(df, scaler = pipeline['scaler']['type'])
         print("- "*30, 'Grouping probesets')
-        df = _helpers._group_patients(df, method = grouping)
+        df = _helpers._group_patients(df, method = pipeline['pre_processing']['patient_grouping'])
+        if pipeline['pre_processing']['bias_removal'] == True:
+            print("- "*30, 'Removing cohort biases')
+            df = _helpers._cohort_correction(df)
         self.DATA_merged_processed = df
     else:
         df= self.DATA_merged_processed
     print("+ "*30, 'Creating X,y')
     x,y =_helpers._get_matrix(df, features = 'genomic', target = 'Treatment risk group in ALL10')      
-    if reduction is not None:
+    if pipeline['dim_reduction']['type'] is not None:
         print("- "*30, 'Reducing dimensionality')
-    if(reduction == 'PCA'):
-            x, Reducer = _helpers.get_pca_transform(x, n_comp)
-    elif(reduction == 'LDA'):
-            x, Reducer = _helpers.get_lda_transform(x, y, n_comp)
-    elif(reduction == 'RBM'):
-            x, Reducer = _helpers.get_rbm_transform(x, y, n_comp)
-    elif(reduction == 'genome_variance'):
-            x, Reducer = _helpers.get_filtered_genomes(x, filter_type = None)
+        if(pipeline['dim_reduction']['type'] == 'PCA'):
+                x, Reducer = _helpers.get_pca_transform(x, n_comp)
+        elif(pipeline['dim_reduction']['type'] == 'LDA'):
+                x, Reducer = _helpers.get_lda_transform(x, y, n_comp)
+        elif(pipeline['dim_reduction']['type'] == 'RBM'):
+                x, Reducer = _helpers.get_rbm_transform(x, y, n_comp)
+        elif(pipeline['dim_reduction']['type'] == 'genome_variance'):
+                x, Reducer = _helpers.get_filtered_genomes(x, filter_type = None)
 
     # if dimension reduction AND feature selection, then perform FeatureUnion
     ## http://scikit-learn.org/stable/auto_examples/plot_feature_stacker.html#sphx-glr-auto-examples-plot-feature-stacker-py
@@ -208,7 +160,7 @@ def classify_treatment(self, model_type='CART',
         preds = np.dot(x_test, model.wInferred);
         pred_ = np.append(preds, 1-preds[:], 1)
     '''
-    if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost'])
+    if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost']):
         model.fit(x, y) 
     
     var_columns = df.columns[21:]   
@@ -224,10 +176,16 @@ def classify_treatment(self, model_type='CART',
     
     preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
 
+
+    ################
+    ################
+
     print("+"*50)
     ################################################################
     ##### ADD PATIENT INFO TO PREDICTOR
     if(features == 'all'):
+        #### This assumes that the previous predictions are suitable as features.
+        ##################################
         print("+"*30,' RESULTS FOR CLASSIFICATION INCLUDING PATIENT DATA',"+"*30)
         p_x,y = _helpers._get_matrix(df, features = 'patient', target = 'Treatment risk group in ALL10')
         scaler = preprocessing.StandardScaler()
@@ -246,7 +204,8 @@ def classify_treatment(self, model_type='CART',
             print("+"*30,' Report', "+"*30)
             print(report)   
 
-        model.fit(x, y)
+        if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost']):
+            model.fit(x, y)
         # total x
         var_columns = ["Age", "WhiteBloodCellcount", "Gender"]
         df[var_columns] = df[var_columns].fillna(0.0)       

@@ -60,7 +60,7 @@ class RexR():
     MODEL_PARAMETERS = {}
     FEATURE_SELECTION_PARAMETERS = {}
     DIMENSION_REDUCTION_PARAMETERS = {}
-
+    PIPELINE_PARAMETERS = {}
 
     write_out = None
     SEED = 1234
@@ -73,6 +73,7 @@ class RexR():
         self.DEBUG = debug
         self.write_out = write_out
         self.MODEL_PARAMETERS = {
+            "n_splits": 10,
             "SVM":{'degree': 3, 'tol': 0.0001, 'C':  0.9, 'probability' : True},
             "RF": {'n_estimators': 100, 'max_depth': 25, 'n_jobs': -1, 'min_samples_split': 5, 'min_samples_leaf': 5},
             "MLNN": {'activation':'tanh', 'alpha':1e-05, 'batch_size':'auto',
@@ -126,6 +127,10 @@ class RexR():
                                                         'n_iter': 100,
                                                         'learning_rate': 0.01}
                                             }
+        self.PIPELINE_PARAMETERS =   {  "scaler": {"type": "minmax"},
+                                        "pre_processing": {"patient_grouping": 'mean', "bias_removal": False}, # patient grouping and cohort bias removal
+                                        "dim_reduction": {"type": "PCA", "n_comp": 1000},
+                                        "feature_selection": {"type": "UNI", "top_n": 100}}
 
 
     def _read_cohort(self, path):
