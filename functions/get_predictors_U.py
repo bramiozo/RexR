@@ -16,18 +16,30 @@ import copy
 
 
 def _pre_process():
-    ''' 
+    ''' Data pre-processing: performs basic data munching and bias removal
+
+    IN:
+        training_data, DataFrame with patient data and genomic expressions
+        selection, what to do, list with one or several of ['imputation', 'scaling', 'inflation', 'dim_reduction', 'feature_selection', 'cohort_correction', 'patient_gene_grouping']
+    OUT:
+        X_genomic, genomic training data
+        X_patient, patient training data
+        y, target values
 
     '''
 
-    return data_frame
+
+
+    return X_genomic, X_patient, y
 
 def _train_model():
     ''' Model training: performs model training
     IN: 
-        X, samples with features
-        y, target values
-        
+        X, samples with features, data_frame
+        y, target values, numpy array
+        model_type, one of {SVM, LR, NB, DNN, CNN, RVM, CART, ADA, GBM, ET, XGB, RF, GPC, MLNN, QDA, LDA, EBE, ensemble, all}
+    OUT:
+
 
     '''
 
@@ -52,11 +64,12 @@ def classify_treatment(self, model_type='CART',
         calls _pre_process, _train_model, _hyper_opt
 
         IN:
-            
+            model_type, model generator, one of {SVM, LR, NB, DNN, CNN, RVM, CART, ADA, GBM, ET, XGB, RF, GPC, MLNN, QDA, LDA, EBE, ensemble, all}
+            feature_list, list[] of feature names
 
         OUT:
             preds, predictions, DataFrame [index, target probabilities]
-            model, tuple of (model, model type) # future --> 
+            model, tuple of (model, model type) # future --> add training data identifier and hyper parameters
 
     '''
 
@@ -126,7 +139,7 @@ def classify_treatment(self, model_type='CART',
         pars = parameters['RF']
         model = ensemble.RandomForestClassifier(**pars)
         models.append(('RF', model))
-    elif(model_type == 'ExtraTrees'):
+    elif(model_type in ['ExtraTrees', 'ET']):
         pars = parameters['ET']
         model = ensemble.ExtraTreesClassifier(**pars)
         models.append(('ET', model))
@@ -134,11 +147,11 @@ def classify_treatment(self, model_type='CART',
         pars = parameters['GBM']
         model = ensemble.GradientBoostingClassifier(**pars)
         models.append(('GBM', model))
-    elif(model_type == 'AdaBoost'):
+    elif(model_type in ['AdaBoost', 'ADA']):
         pars = parameters['ADA']
         model = ensemble.AdaBoostClassifier(**pars)
         models.append(('ADA', model))
-    elif(model_type == 'XGBoost'):
+    elif(model_type in ['XGBoost','XGB']):
         print("NOT AVAILABLE YET")
     elif(model_type == 'DNN'): # version 1: Keras
         print("NOT AVAILABLE YET")
