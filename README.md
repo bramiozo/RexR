@@ -1,5 +1,6 @@
 # RexR
-Repos for RexRocket, and how to apply ML to high-dimensional problems with small sample count
+Repos for RexRocket, and how to apply ML to high-dimensional problems with a small sample count
+
 
 Aspired functions contained in the library are 
 
@@ -37,7 +38,7 @@ Visualisation
 
 # Possible collaborations
 
-Science:
+Science:n
 *	Jules Meijerink
 *	Dr. Mohammed El Kebir
 *	Dr. Gunnar W. Klau 
@@ -58,4 +59,11 @@ Business angels:
 Piggyback:
 *	Deloitte
 
+
+# To Do
+- generate table with classification per patient, per classification method => send to Jules
+- top-genome selector => send to Jules
+- top-genome visualiser: top-N list -> hierarchical clustering
+- patient clustering ==> all genomes, reduced
+- genome clustering ==> reduced..
 

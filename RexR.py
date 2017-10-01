@@ -177,7 +177,7 @@ class RexR():
         if(self.write_out == True):
             self.DATA_merged.to_pickle("_data/genomic_data/data.pkl")
 
-        self.DATA_merged['WhiteBloodCellcount']= pandas.to_numeric(self.DATA_merged['WhiteBloodCellcount'])
+        self.DATA_merged['WhiteBloodCellcount']= pd.to_numeric(self.DATA_merged['WhiteBloodCellcount'])
 
         if (self.DEBUG == True): # reduced number of genomes to run through code logic more quickly
             self.DATA_merged = self.DATA_merged[self.DATA_merged.columns[:10000]]
