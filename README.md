@@ -2,7 +2,7 @@
 Repos for RexRocket, and how to apply ML to high-dimensional problems with a small sample count
 
 
-Aspired functions contained in the library are 
+Aspired functions contained in the library are
 
 Pre/post-processing
 *	Data coupling --> with genetic databases
@@ -14,19 +14,27 @@ Pre/post-processing
 
 
 Analysis methods
-*	PCA, LDA, QDA, Autoencoding
-*	self-organising maps
-*	Hierarchical clustering
-*	t-SNE, isomap
-* 	affinity propagation
+* PCA, LDA, QDA, Autoencoding
+* self-organising maps
+* Hierarchical clustering
+* t-SNE, isomap, mds
+* affinity propagation
 
 Prediction
-*	ensemble learning
-*	multi-layer neural network
-* 	deep learning
-*	tree-based algorithms: extraTrees, random forest, C5.0, CART
-* 	novel extremely-biased estimator (EBE)
+* ensemble learning
+* multi-layer neural network
+* deep learning
+* tree-based algorithms: extraTrees, random forest, C5.0, CART
+* novel extremely-biased estimator (EBE)
 
+hyperlearning
+* simulated annealing
+* genetic algorithm
+* Bayesian optimisation
+* grid search (1)
+* random selection (3)
+* active learning (2) --> output difficult classes and output test samples that
+                          need labeling
 
 Visualisation
 * 	gene importance using graphs
@@ -38,10 +46,10 @@ Visualisation
 
 # Possible collaborations
 
-Science:n
+Science:
 *	Jules Meijerink
 *	Dr. Mohammed El Kebir
-*	Dr. Gunnar W. Klau 
+*	Dr. Gunnar W. Klau
 *	..
 
 Technology:
@@ -66,4 +74,3 @@ Piggyback:
 - top-genome visualiser: top-N list -> hierarchical clustering
 - patient clustering ==> all genomes, reduced
 - genome clustering ==> reduced..
-
