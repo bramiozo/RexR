@@ -2,17 +2,33 @@ from sklearn import preprocessing, svm, tree, ensemble, naive_bayes
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
 import itertools
-from sklearn.metrics import roc_curve, auc, roc_auc_score, log_loss, accuracy_score, confusion_matrix
-
-#import xgboost as xgb
-#import xgboost
+import xgboost as xgb
+import xgboost
 import numpy as np
 import _helpers
 import copy
 #import sys
 #sys.setrecursionlimit(10000) 
 
+from keras.models import Sequential
+from keras.layers.core import Dense, Activation, Dropout
 
+from keras.callbacks import Callback
+
+class BatchLogger(Callback):
+    def on_train_begin(self, epoch, logs={}):
+        self.log_values = {}
+        for k in self.params['metrics']:
+            self.log_values[k] = []
+
+    def on_epoch_end(self, batch, logs={}):
+        for k in self.params['metrics']:
+            if k in logs:
+                self.log_values[k].append(logs[k])
+    
+    def get_values(self, metric_name, window):
+        d =  pd.Series(self.log_values[metric_name])
+        return d.rolling(window,center=False).mean()
 
 def classify_treatment(self, model_type='CART', 
                             features = 'genome', 
@@ -97,9 +113,18 @@ def classify_treatment(self, model_type='CART',
         models.append(('ADA', model))
     elif(model_type == 'XGBoost'):
         print("NOT AVAILABLE YET")
-    elif(model_type == 'DNN'): # version 1: Keras
-        print("NOT AVAILABLE YET")
-    elif(model_type == 'CNN'): # version 1: Keras
+    elif(model_type == 'DNN'): # version 1: Keras, not very useful atm given that we have so few samples.
+        model = Sequential()
+        model.add(Dense(256, input_shape=(input_dim,), activation='relu'))
+        model.add(Dense(256, activation='relu'))
+        model.add(Dense(64, activation='relu'))
+        model.add(Dense(64, activation='relu'))
+        model.add(Dense(10, activation='relu'))
+        model.add(Dense(10, activation='sigmoid'))
+        model.add(Dense(1,  activation='sigmoid'))   
+        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])   
+        models.append(('DNN', model))
+    elif(model_type == 'CNN'): # version 1: Keras, not very useful atm given that we have so few samples.
         print("NOT AVAILABLE YET")
     elif(model_type == 'RVM'):
         import rvm
@@ -162,6 +187,8 @@ def classify_treatment(self, model_type='CART',
     '''
     if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost']):
         model.fit(x, y) 
+    elif(model_type == 'DNN'): 
+        model.fit(x, y, batch_size = 10, epochs = 5, verbose = 1, callbacks=[bl]) 
     
     var_columns = df.columns[21:]   
     x_pred = df.loc[:,var_columns].values  
