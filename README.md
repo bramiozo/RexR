@@ -1,7 +1,6 @@
 # RexR
 Repos for RexRocket, and how to apply ML to high-dimensional problems with a small sample count
 
-
 Aspired functions contained in the library are
 
 Pre/post-processing
@@ -53,8 +52,8 @@ Science:
 *	..
 
 Technology:
-*	NL eScience Center: Dr. Adriënne Mendrik
-*	..
+*	NLeScienceCenter: Dr. Adriënne Mendrik
+*	SURF-SARA: Dr. Peter Hinrich, can help to set-up the data infrastructure.
 
 Facilitator:
 *	Tjebbe Tauber
@@ -74,3 +73,5 @@ Piggyback:
 - top-genome visualiser: top-N list -> hierarchical clustering
 - patient clustering ==> all genomes, reduced
 - genome clustering ==> reduced..
+- visualisation of training process
+- user-friendly way to set-up pipelines
