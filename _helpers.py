@@ -14,6 +14,21 @@ from sklearn.cluster import AffinityPropagation
 import matplotlib.pyplot as plt
 from itertools import cycle
 
+class BatchLogger(Callback):
+    def on_train_begin(self, epoch, logs={}):
+        self.log_values = {}
+        for k in self.params['metrics']:
+            self.log_values[k] = []
+
+    def on_epoch_end(self, batch, logs={}):
+        for k in self.params['metrics']:
+            if k in logs:
+                self.log_values[k].append(logs[k])
+    
+    def get_values(self, metric_name, window):
+        d =  pd.Series(self.log_values[metric_name])
+        return d.rolling(window,center=False).mean()
+BL = BatchLogger()
 
 def plot_cm(ax, y_true, y_pred, classes, title, th=0.5, cmap=plt.cm.Blues):
     y_pred_labels = (y_pred>th).astype(int)
@@ -292,7 +307,37 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
         plot_cm(ax[1],  y_test, pred_test,   [0,1], 'Confusion matrix (TEST)', threshold)
         plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred, threshold)
         plt.tight_layout()
-        plt.show()
+        plt.show()   
+    elif framework == 'keras':
+        for train_index, test_index in splitter.split(x, y):
+            x_train, x_test = x[train_index], x[test_index]
+            y_train, y_test = y[train_index], y[test_index]             
+            model[1].fit(x, y, batch_size = 10, epochs = 5, verbose = 1, callbacks=[BL]) 
+            #score = model[1].evaluate(np.array(x_test), np.array(y_test), verbose=0)
+            #print('Test log loss:', score[0])
+            #print('Test accuracy:', score[1])
+            pred_test = model[1].predict(x_test)
+            pred[test_index] = pred_test 
+            acc[test_index] = metrics.accuracy_score(y_test, pred_test)
+
+        ######################################################
+        ##### For last split, show confusion matrix and ROC ##
+        ######################################################     
+        # https://github.com/natbusa/deepcredit/blob/master/default-prediction.ipynb   
+
+        y_train_pred = model.predict_on_batch(np.array(x_train))[:,0]
+        y_test_pred = model.predict_on_batch(np.array(x_test))[:,0]
+
+        fig,ax = plt.subplots(1,3)
+        fig.set_size_inches(15,5)
+
+        plot_cm(ax[0], y_train, y_train_pred, [0,1], 'Confusion matrix (TRAIN)')
+        plot_cm(ax[1], y_test, y_test_pred, [0,1], 'Confusion matrix (TEST)')
+
+        plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred)
+            
+        plt.tight_layout()
+        plt.show()        
 
     return pred, acc
 
@@ -303,6 +348,11 @@ def get_pca_transform(X, n_comp): # principal components, used for the classifie
     X_out = Transform.transform(X)
     return X_out, Transform
 
+def get_ica_transform(X, n_comp): # individual component analysis
+    pars = self.DIMENSION_REDUCTION_PARAMETERS['ica']
+    Transform = decomposition.FastICA(n_components = n_comp, **pars).fit(X)
+    X_out = Transform.transform(X)
+    return X_out, Transform  
 
 def get_lda_transform(X, y, n_comp): 
     pars = self.DIMENSION_REDUCTION_PARAMETERS['lda']

@@ -29,6 +29,7 @@ class BatchLogger(Callback):
     def get_values(self, metric_name, window):
         d =  pd.Series(self.log_values[metric_name])
         return d.rolling(window,center=False).mean()
+BL = BatchLogger()
 
 def classify_treatment(self, model_type='CART', 
                             features = 'genome', 
@@ -124,7 +125,7 @@ def classify_treatment(self, model_type='CART',
         model.add(Dense(1,  activation='sigmoid'))   
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])   
         models.append(('DNN', model))
-    elif(model_type == 'CNN'): # version 1: Keras, not very useful atm given that we have so few samples.
+    elif(model_type == 'CNN'): # version 1: Keras, load common cnn architecture like Inception
         print("NOT AVAILABLE YET")
     elif(model_type == 'RVM'):
         import rvm
@@ -188,8 +189,20 @@ def classify_treatment(self, model_type='CART',
     if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost']):
         model.fit(x, y) 
     elif(model_type == 'DNN'): 
-        model.fit(x, y, batch_size = 10, epochs = 5, verbose = 1, callbacks=[bl]) 
-    
+        model.fit(x, y, batch_size = 10, epochs = 5, verbose = 0, callbacks=[BL]) 
+        #
+        plt.figure(figsize=(15,5))
+        plt.subplot(1, 2, 1)
+        plt.title('loss, per batch')
+        plt.plot(BL.get_values('loss',1), 'b-', label='train');
+        plt.plot(BL.get_values('val_loss',1), 'r-', label='test');
+        #
+        plt.subplot(1, 2, 2)
+        plt.title('accuracy, per batch')
+        plt.plot(BL.get_values('acc',1), 'b-', label='train');
+        plt.plot(BL.get_values('val_acc',1), 'r-', label='test');
+        plt.show()    
+
     var_columns = df.columns[21:]   
     x_pred = df.loc[:,var_columns].values  
     # apply dimensionality reduction
@@ -246,6 +259,7 @@ def classify_treatment(self, model_type='CART',
 
 
     # hyper optimalisation routines.
+
 
 
     # relapse predictor / survival rate

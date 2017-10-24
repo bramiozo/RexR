@@ -32,6 +32,7 @@ hyperlearning
 * Bayesian optimisation
 * grid search (1)
 * random selection (3)
+* succesive halving
 * active learning (2) --> output difficult classes and output test samples that
                           need labeling
 
@@ -46,10 +47,11 @@ Visualisation
 # Possible collaborations
 
 Science:
-*	Jules Meijerink
-*	Dr. Mohammed El Kebir
-*	Dr. Gunnar W. Klau
-*	..
+*	Jules Meijerink; principal investigator
+*	Dr. Mohammed El Kebir; computational biologist 
+*	Dr. Gunnar W. Klau; computational biologist
+*	Dr. Marc Deisenroth; trust and transparancy in ML
+* 	Dr. Peter Hinrich (peter.hinrich@surfnet.nl); project bios/bbmri shared datastorage/processing for diabetes
 
 Technology:
 *	NLeScienceCenter: Dr. Adriënne Mendrik
@@ -68,6 +70,12 @@ Piggyback:
 
 
 # To Do
+- basic functionality of all classifiers
+  -- XGBOOST
+  -- DNN
+  -- CNN 
+  -- RVM
+  -- EBE: extremely biased estimator
 - generate table with classification per patient, per classification method => send to Jules
 - top-genome selector => send to Jules
 - top-genome visualiser: top-N list -> hierarchical clustering
@@ -75,3 +83,7 @@ Piggyback:
 - genome clustering ==> reduced..
 - visualisation of training process
 - user-friendly way to set-up pipelines
+- add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
+- add SOM for genome seperation
+
+- refactor/optimize: Cython, numba, static def's, parallelise
