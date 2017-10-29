@@ -1,18 +1,28 @@
 from sklearn import preprocessing, svm, tree, ensemble, naive_bayes, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, decomposition, cross_decomposition
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics import confusion_matrix
+from sklearn.cluster import AffinityPropagation
+
+
 import numpy as np
 import pandas as pd
+
 from collections import Counter 
 from math import*
+
 from scipy.spatial.distance import minkowski
 from scipy.spatial.distance import cdist
-from decimal import Decimal
-from sklearn.metrics.pairwise import cosine_similarity
 from scipy import sparse
+
+from decimal import Decimal
 from time import time
-from sklearn.cluster import AffinityPropagation
 import matplotlib.pyplot as plt
 from itertools import cycle
+
+from keras.models import Sequential
+from keras.layers.core import Dense, Activation, Dropout
+from keras.callbacks import Callback
 
 class BatchLogger(Callback):
     def on_train_begin(self, epoch, logs={}):
@@ -111,7 +121,7 @@ def _cohort_correction(df):
 
     return True
 
-def get_patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None, normalised = True, inflation = 1):
+def patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None, normalised = True, inflation = 1):
     ''' Function to get similarity measures between patients  
         Variables:
             patient_matrix : dataframe with patient 1..N as columns and genome expressions 1..M as rows.
@@ -125,42 +135,45 @@ def get_patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = 
         output : 
             similarity matrix (DataFrame)       
     '''
-
-    if (sim_type in ['cosine', 'manhattan', 'euclidian', 'minkowski', 'braycurtis', 'canberra', 'chebyshev', 'dice','hamming', 'jaccard', 'kulsinski', 'mahalanobis', 
-                'matching', 'rogerstanimoto', 'russellrao', 'seuclidean', '‘sokalmichener', 'sokalsneath']):
-        A = numpy.array(patient_matrix)
-    else:
-        A = None
-    VarList = patient_matrix.T.keys()
-    if(sim_type == 'cosine'):        
-        similarities = cdist(A, A, metric = 'cosine')
-        patient_similarity = pandas.DataFrame(similarities, index = VarList, columns = VarList)
-    elif(sim_type == 'manhattan'):
-        similarities = cdist(A, A, metric = 'cityblock')
-        patient_similarity = pandas.DataFrame(similarities, index = VarList, columns = VarList)        
-    elif(sim_type == 'euclidian'):
-        similarities = cdist(A, A, metric = 'euclidean')
-        patient_similarity = pandas.DataFrame(similarities, index = VarList, columns = VarList)
-    elif(sim_type == 'minkowski'):
-        if (minkowski_dim == None):
-            print("No Minkowski dimension given! Assuming minkowski dim is 3")
-            minkowski_dim = 3
-        similarities = cdist(A, A, metric = 'minkowski', p = minkowski_dim)
-        patient_similarity = pandas.DataFrame(similarities, index = VarList, columns = VarList)       
-    elif(sim_type in ['kendall', 'spearman', 'pearson']):
-        patient_similarity = 1-patient_matrix.T.astype('float64').corr(method = sim_type)    
-    elif(sim_type in ['braycurtis', 'canberra', 'chebyshev', 'dice','hamming', 'jaccard', 'kulsinski', 'mahalanobis', 
-                'matching', 'rogerstanimoto', 'russellrao', 'seuclidean', '‘sokalmichener', 'sokalsneath']):
-        similarities = cdist(A, A, metric = sim_type)
-        patient_similarity = pandas.DataFrame(similarities, index = VarList, columns = VarList)       
-    ###
-    if inflation > 1:
-        patient_similarity = patient_similarity**inflation
-    ###                                                               
-    if normalised == True: # ! IMPROVE, not memory efficient
-        patient_similarity = (patient_similarity - min(patient_similarity.min()))/(max(patient_similarity.max())-min(patient_similarity.min()))
     
-    patient_similarity = 1 - patient_similarity
+    if len(patient_matrix<1000): 
+        if (sim_type in ['cosine', 'manhattan', 'euclidian', 'minkowski', 'braycurtis', 'canberra', 'chebyshev', 'dice','hamming', 'jaccard', 'kulsinski', 'mahalanobis', 
+                    'matching', 'rogerstanimoto', 'russellrao', 'seuclidean', '‘sokalmichener', 'sokalsneath']):
+            A = np.array(patient_matrix)
+        else:
+            A = None
+        VarList = patient_matrix.T.keys()
+        if(sim_type == 'cosine'):        
+            similarities = cdist(A, A, metric = 'cosine')
+            patient_similarity = pd.DataFrame(similarities, index = VarList, columns = VarList)
+        elif(sim_type == 'manhattan'):
+            similarities = cdist(A, A, metric = 'cityblock')
+            patient_similarity = pd.DataFrame(similarities, index = VarList, columns = VarList)        
+        elif(sim_type == 'euclidian'):
+            similarities = cdist(A, A, metric = 'euclidean')
+            patient_similarity = pd.DataFrame(similarities, index = VarList, columns = VarList)
+        elif(sim_type == 'minkowski'):
+            if (minkowski_dim == None):
+                print("No Minkowski dimension given! Assuming minkowski dim is 3")
+                minkowski_dim = 3
+            similarities = cdist(A, A, metric = 'minkowski', p = minkowski_dim)
+            patient_similarity = pd.DataFrame(similarities, index = VarList, columns = VarList)       
+        elif(sim_type in ['kendall', 'spearman', 'pearson']):
+            patient_similarity = 1-patient_matrix.T.astype('float64').corr(method = sim_type)    
+        elif(sim_type in ['braycurtis', 'canberra', 'chebyshev', 'dice','hamming', 'jaccard', 'kulsinski', 'mahalanobis', 
+                    'matching', 'rogerstanimoto', 'russellrao', 'seuclidean', '‘sokalmichener', 'sokalsneath']):
+            similarities = cdist(A, A, metric = sim_type)
+            patient_similarity = pd.DataFrame(similarities, index = VarList, columns = VarList)       
+        ###
+        if inflation > 1:
+            patient_similarity = patient_similarity**inflation
+        ###                                                               
+        if normalised == True: # ! IMPROVE, not memory efficient
+            patient_similarity = (patient_similarity - min(patient_similarity.min()))/(max(patient_similarity.max())-min(patient_similarity.min()))
+
+        patient_similarity = 1 - patient_similarity
+    else:
+        raise ValueError('More than 1000 samples not supported at this moment')
     ###
     return patient_similarity
 
@@ -259,15 +272,15 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
     pred = np.zeros(shape=y.shape)
     acc = np.zeros(shape=y.shape)
     coef = np.zeros(shape=(1, x.shape[1]))
-
+    threshold = 0.5
     if framework == 'sklearn':
         for train_index, test_index in splitter.split(x, y):
             x_train, x_test = x[train_index], x[test_index]
             y_train, y_test = y[train_index], y[test_index] 
 
             model[1].fit(x_train,y_train)
-            pred_test = model[1].predict(x_test)
-            pred[test_index] = pred_test 
+            pred_test = model[1].predict_proba(x_test)
+            pred[test_index] = (pred_test>threshold ).astype(int) #np.round(pred_test)[0]
             acc[test_index] = metrics.accuracy_score(y_test, pred_test)
             # coef += model.coef_
         pred_train = model[1].predict_proba(x_train)
@@ -300,6 +313,7 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
         ##### For last split, show confusion matrix and ROC ##
         ######################################################
         #X_train, X_test, y_train, y_test = train_test_split(X_prep, y, test_size=0.2, random_state=42)
+
         pred_train = np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x_test),])
         fig,ax = plt.subplots(1,3)
         fig.set_size_inches(15,5)
@@ -342,8 +356,8 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
     return pred, acc
 
 
-def get_pca_transform(X, n_comp): # principal components, used for the classifiers
-    pars = self.DIMENSION_REDUCTION_PARAMETERS['pca']
+def get_pca_transform(X, n_comp, RexR): # principal components, used for the classifiers
+    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pca']
     Transform = decomposition.PCA(n_components = n_comp, **pars).fit(X)
     X_out = Transform.transform(X)
     return X_out, Transform
@@ -480,3 +494,14 @@ def get_top_genes(x,y, method=None, n_max = 1000, n_comp = 1000, boruta = False)
 
     ########
     ## couple genomes to probesets
+
+    
+def rotation_norm(x, y, norm):   
+    rot_vector = numpy.cross(a = x, b = y)
+    norm_of_rotation = numpy.linalg.norm(rot_vector, ord = norm)
+    ## example
+    #reduced = dim_reduction(Transposed, dims = 3) # reduce to 3 or 2 dimensions
+    #rotation_norm(reduced['9827_corr2.CEL'], reduced['9928_corr2.CEL'], 2)
+    return norm_of_rotation
+
+

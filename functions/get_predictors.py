@@ -2,8 +2,8 @@ from sklearn import preprocessing, svm, tree, ensemble, naive_bayes
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
 import itertools
-import xgboost as xgb
-import xgboost
+#import xgboost as xgb
+#import xgboost
 import numpy as np
 import _helpers
 import copy
@@ -12,7 +12,6 @@ import copy
 
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation, Dropout
-
 from keras.callbacks import Callback
 
 class BatchLogger(Callback):
@@ -70,11 +69,11 @@ def classify_treatment(self, model_type='CART',
     if pipeline['dim_reduction']['type'] is not None:
         print("- "*30, 'Reducing dimensionality')
         if(pipeline['dim_reduction']['type'] == 'PCA'):
-                x, Reducer = _helpers.get_pca_transform(x, n_comp)
+                x, Reducer = _helpers.get_pca_transform(x, pipeline['dim_reduction']['n_comp'], self)
         elif(pipeline['dim_reduction']['type'] == 'LDA'):
-                x, Reducer = _helpers.get_lda_transform(x, y, n_comp)
+                x, Reducer = _helpers.get_lda_transform(x, y, pipeline['dim_reduction']['n_comp'])
         elif(pipeline['dim_reduction']['type'] == 'RBM'):
-                x, Reducer = _helpers.get_rbm_transform(x, y, n_comp)
+                x, Reducer = _helpers.get_rbm_transform(x, y, pipeline['dim_reduction']['n_comp'])
         elif(pipeline['dim_reduction']['type'] == 'genome_variance'):
                 x, Reducer = _helpers.get_filtered_genomes(x, filter_type = None)
 
@@ -167,7 +166,7 @@ def classify_treatment(self, model_type='CART',
 
     ############################################
     ############################## MODEL FITTING
-    splitter = model_selection.StratifiedKFold(n_splits, random_state = self.SEED)
+    splitter = model_selection.StratifiedKFold(parameters['n_splits'], random_state = self.SEED)
     print("+"*30,' RESULTS FOR CLASSIFICATION WITH GENOMIC DATA',"+"*30)
     preds = []
     for clf in models:

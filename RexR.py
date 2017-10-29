@@ -43,6 +43,9 @@ to-do's (september/october 2017):
 - cohort-bias reducer
 - conditional survival estimator
 
+
+GEO DataSets
+ 
 '''
 
 
