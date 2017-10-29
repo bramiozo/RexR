@@ -4,7 +4,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics import confusion_matrix
 from sklearn.cluster import AffinityPropagation
 
-
 import numpy as np
 import pandas as pd
 
@@ -19,6 +18,7 @@ from decimal import Decimal
 from time import time
 import matplotlib.pyplot as plt
 from itertools import cycle
+from itertools import product
 
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation, Dropout
@@ -41,7 +41,7 @@ class BatchLogger(Callback):
 BL = BatchLogger()
 
 def plot_cm(ax, y_true, y_pred, classes, title, th=0.5, cmap=plt.cm.Blues):
-    y_pred_labels = (y_pred>th).astype(int)
+    y_pred_labels = [np.round(l[1]).astype(int) for l in y_pred] # (y_pred>th).astype(int)
     
     cm = confusion_matrix(y_true, y_pred_labels)
     
@@ -55,7 +55,7 @@ def plot_cm(ax, y_true, y_pred, classes, title, th=0.5, cmap=plt.cm.Blues):
     ax.set_yticklabels(classes)
 
     thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+    for i, j in product(range(cm.shape[0]), range(cm.shape[1])):
         ax.text(j, i, cm[i, j],
                  horizontalalignment="center",
                  color="white" if cm[i, j] > thresh else "black")
@@ -64,16 +64,18 @@ def plot_cm(ax, y_true, y_pred, classes, title, th=0.5, cmap=plt.cm.Blues):
 
 def plot_auc(ax, y_train, y_train_pred, y_test, y_test_pred, th=0.5):
 
-    y_train_pred_labels = (y_train_pred>th).astype(int)
-    y_test_pred_labels  = (y_test_pred>th).astype(int)
+    y_train_pred_labels = [np.round(l[1]).astype(int) for l in y_train_pred]#(y_train_pred>th).astype(int)
+    y_test_pred_labels  = [np.round(l[1]).astype(int) for l in y_test_pred]#(y_test_pred>th).astype(int)
+    y_train_pred = [l[1] for l in y_train_pred]
+    y_test_pred = [l[1] for l in y_test_pred]
 
-    fpr_train, tpr_train, _ = roc_curve(y_train,y_train_pred)
-    roc_auc_train = auc(fpr_train, tpr_train)
-    acc_train = accuracy_score(y_train, y_train_pred_labels)
+    fpr_train, tpr_train, _ = metrics.roc_curve(y_train,y_train_pred)
+    roc_auc_train = metrics.auc(fpr_train, tpr_train)
+    acc_train = metrics.accuracy_score(y_train, y_train_pred_labels)
 
-    fpr_test, tpr_test, _ = roc_curve(y_test,y_test_pred)
-    roc_auc_test = auc(fpr_test, tpr_test)
-    acc_test = accuracy_score(y_test, y_test_pred_labels)
+    fpr_test, tpr_test, _ = metrics.roc_curve(y_test,y_test_pred)
+    roc_auc_test = metrics.auc(fpr_test, tpr_test)
+    acc_test = metrics.accuracy_score(y_test, y_test_pred_labels)
 
     ax.plot(fpr_train, tpr_train)
     ax.plot(fpr_test, tpr_test)
@@ -94,19 +96,19 @@ def plot_auc(ax, y_train, y_train_pred, y_test, y_test_pred, th=0.5):
 def _group_patients(df, method = 'first'): # method = ['first', 'mean', 'median', 'min', 'max']
     # 1. clean probesets 
     # 2. reduce multiple probesets per gene to one  
-    df_1 = df[df.columns[:21]].groupby("labnr patient").apply(lambda g: g.iloc[0])
+    df_1 = df[df.columns[:21]].groupby("labnr_patient").apply(lambda g: g.iloc[0])
     col_list = df.columns[21:].values.tolist()
-    col_list.append("labnr patient")
+    col_list.append("labnr_patient")
     if(method == 'first'):
-        df_2 = df[col_list].groupby("labnr patient").apply(lambda g: g.iloc[0])
+        df_2 = df[col_list].groupby("labnr_patient").apply(lambda g: g.iloc[0])
     elif(method == 'mean'):
-        df_2 = df[col_list].groupby("labnr patient").mean()
+        df_2 = df[col_list].groupby("labnr_patient").mean()
     elif(method == 'median'):
-        df_2 = df[col_list].groupby("labnr patient").median()
+        df_2 = df[col_list].groupby("labnr_patient").median()
     elif(method == 'min'):
-        df_2 = df[col_list].groupby("labnr patient").min()
+        df_2 = df[col_list].groupby("labnr_patient").min()
     elif(method == 'max'):
-        df_2 = df[col_list].groupby("labnr patient").max()  
+        df_2 = df[col_list].groupby("labnr_patient").max()  
     dfinal = df_1.merge(df_2, left_index = True, right_index = True)
 
     return dfinal
@@ -230,7 +232,7 @@ def _graph_community_detector(df):
 
 
 
-def _get_matrix(df, features = 'genomic', target = 'Treatment risk group in ALL10'): # type = ['genomic', ] 
+def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10'): # type = ['genomic', ] 
     if(features =='genomic'):
         var_columns = df.columns[21:]# .values.tolist()
     elif(features =='patient'):
@@ -279,10 +281,11 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
             y_train, y_test = y[train_index], y[test_index] 
 
             model[1].fit(x_train,y_train)
-            pred_test = model[1].predict_proba(x_test)
-            pred[test_index] = (pred_test>threshold ).astype(int) #np.round(pred_test)[0]
-            acc[test_index] = metrics.accuracy_score(y_test, pred_test)
-            # coef += model.coef_
+            pred_test = model[1].predict_proba(x_test) # (model[1].predict_proba(x_test)>threshold).astype(int)
+            pred_test_ = [np.round(l[1]).astype(int) for l in pred_test]
+            pred[test_index] =  pred_test_ #np.round(pred_test)[0]
+            acc[test_index] = metrics.accuracy_score(y_test, pred_test_)
+            # coef += model.coef_            
         pred_train = model[1].predict_proba(x_train)
         ######################################################
         ##### For last split, show confusion matrix and ROC ##
@@ -292,7 +295,7 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
         fig.set_size_inches(15,5)
         plot_cm(ax[0],  y_train, pred_train, [0,1], 'Confusion matrix (TRAIN)', threshold)
         plot_cm(ax[1],  y_test, pred_test,   [0,1], 'Confusion matrix (TEST)', threshold)
-        plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred, threshold)
+        plot_auc(ax[2], y_train, pred_train, y_test, pred_test, threshold)
         plt.tight_layout()
         plt.show()
 
@@ -505,3 +508,8 @@ def rotation_norm(x, y, norm):
     return norm_of_rotation
 
 
+def get_difference_markers():
+    # given two different groups from unsupervised clustering, 
+    # find most important genome expressions
+    # by treating it as a binary classification problem
+    return True;

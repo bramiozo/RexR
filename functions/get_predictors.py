@@ -2,8 +2,8 @@ from sklearn import preprocessing, svm, tree, ensemble, naive_bayes
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
 import itertools
-#import xgboost as xgb
-#import xgboost
+import xgboost as xgb
+import xgboost
 import numpy as np
 import _helpers
 import copy
@@ -65,7 +65,7 @@ def classify_treatment(self, model_type='CART',
     else:
         df= self.DATA_merged_processed
     print("+ "*30, 'Creating X,y')
-    x,y =_helpers._get_matrix(df, features = 'genomic', target = 'Treatment risk group in ALL10')      
+    x,y =_helpers._get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10')      
     if pipeline['dim_reduction']['type'] is not None:
         print("- "*30, 'Reducing dimensionality')
         if(pipeline['dim_reduction']['type'] == 'PCA'):
@@ -206,11 +206,11 @@ def classify_treatment(self, model_type='CART',
     x_pred = df.loc[:,var_columns].values  
     # apply dimensionality reduction
     #
-    if(reduction == 'PCA'):
+    if(pipeline['dim_reduction']['type'] == 'PCA'):
             x_pred = Reducer.transform(x_pred)
-    elif(reduction == 'LDA'):
+    elif(pipeline['dim_reduction']['type']  == 'LDA'):
             x_pred = Reducer.transform(x_pred)
-    elif(reduction == 'genome_variance'):
+    elif(pipeline['dim_reduction']['type']  == 'genome_variance'):
             x_pred = Reducer(x_pred)
     
     preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
@@ -226,7 +226,7 @@ def classify_treatment(self, model_type='CART',
         #### This assumes that the previous predictions are suitable as features.
         ##################################
         print("+"*30,' RESULTS FOR CLASSIFICATION INCLUDING PATIENT DATA',"+"*30)
-        p_x,y = _helpers._get_matrix(df, features = 'patient', target = 'Treatment risk group in ALL10')
+        p_x,y = _helpers._get_matrix(df, features = 'patient', target = 'Treatment_risk_group_in_ALL10')
         scaler = preprocessing.StandardScaler()
         p_x = scaler.fit_transform(p_x)
         pred = np.reshape(pred, (pred.shape[0], 1))
