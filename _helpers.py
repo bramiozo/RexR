@@ -41,8 +41,11 @@ class BatchLogger(Callback):
 BL = BatchLogger()
 
 def plot_cm(ax, y_true, y_pred, classes, title, th=0.5, cmap=plt.cm.Blues):
-    y_pred_labels = [np.round(l[1]).astype(int) for l in y_pred] # (y_pred>th).astype(int)
-    
+    try:
+        y_pred_labels = [np.round(l[1]).astype(int) for l in y_pred] # (y_pred>th).astype(int)
+    except IndexError as e:
+        y_pred_labels = [np.round(l).astype(int) for l in y_pred]
+
     cm = confusion_matrix(y_true, y_pred_labels)
     
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
@@ -64,10 +67,17 @@ def plot_cm(ax, y_true, y_pred, classes, title, th=0.5, cmap=plt.cm.Blues):
 
 def plot_auc(ax, y_train, y_train_pred, y_test, y_test_pred, th=0.5):
 
-    y_train_pred_labels = [np.round(l[1]).astype(int) for l in y_train_pred]#(y_train_pred>th).astype(int)
-    y_test_pred_labels  = [np.round(l[1]).astype(int) for l in y_test_pred]#(y_test_pred>th).astype(int)
-    y_train_pred = [l[1] for l in y_train_pred]
-    y_test_pred = [l[1] for l in y_test_pred]
+    try:
+        y_train_pred_labels = [np.round(l[1]).astype(int) for l in y_train_pred]#(y_train_pred>th).astype(int)
+        y_test_pred_labels  = [np.round(l[1]).astype(int) for l in y_test_pred]#(y_test_pred>th).astype(int)
+        y_train_pred = [l[1] for l in y_train_pred]
+        y_test_pred = [l[1] for l in y_test_pred]
+    except IndexError as e:
+        y_train_pred_labels = [np.round(l).astype(int) for l in y_train_pred]#(y_train_pred>th).astype(int)
+        y_test_pred_labels  = [np.round(l).astype(int) for l in y_test_pred]#(y_test_pred>th).astype(int)     
+        y_train_pred = [l for l in y_train_pred]
+        y_test_pred = [l for l in y_test_pred]
+
 
     fpr_train, tpr_train, _ = metrics.roc_curve(y_train,y_train_pred)
     roc_auc_train = metrics.auc(fpr_train, tpr_train)
@@ -282,7 +292,7 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
 
             model[1].fit(x_train,y_train)
             pred_test = model[1].predict_proba(x_test) # (model[1].predict_proba(x_test)>threshold).astype(int)
-            pred_test_ = [np.round(l[1]).astype(int) for l in pred_test]
+            pred_test_ = model[1].predict(x_test) #[np.round(l[1]).astype(int) for l in pred_test]
             pred[test_index] =  pred_test_ #np.round(pred_test)[0]
             acc[test_index] = metrics.accuracy_score(y_test, pred_test_)
             # coef += model.coef_            
@@ -308,42 +318,59 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
             
             model = rvm.rvm(x_train, y_train, noise = 0.01)
             model.iterateUntilConvergence()
-            pred_test  = np.round(np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x_test),]));
-            pred[test_index] = pred_test
-            acc[test_index] = metrics.accuracy_score(y_test, pred_test)
+            pred_test   = np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x_test),])/2+0.5
+            pred_test_  = np.round(pred_test);
+            pred[test_index] = pred_test_
+            acc[test_index] = metrics.accuracy_score(y_test, pred_test_)
 
         ######################################################
         ##### For last split, show confusion matrix and ROC ##
         ######################################################
         #X_train, X_test, y_train, y_test = train_test_split(X_prep, y, test_size=0.2, random_state=42)
 
-        pred_train = np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x_test),])
+        pred_train = np.reshape(np.dot(x_train, model.wInferred), newshape=[len(x_train),])/2+0.5
         fig,ax = plt.subplots(1,3)
         fig.set_size_inches(15,5)
         plot_cm(ax[0],  y_train, pred_train, [0,1], 'Confusion matrix (TRAIN)', threshold)
         plot_cm(ax[1],  y_test, pred_test,   [0,1], 'Confusion matrix (TEST)', threshold)
-        plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred, threshold)
+        plot_auc(ax[2], y_train, pred_train, y_test, pred_test, threshold)
         plt.tight_layout()
         plt.show()   
     elif framework == 'keras':
         for train_index, test_index in splitter.split(x, y):
             x_train, x_test = x[train_index], x[test_index]
             y_train, y_test = y[train_index], y[test_index]             
-            model[1].fit(x, y, batch_size = 10, epochs = 5, verbose = 1, callbacks=[BL]) 
+            model[1].fit(x_train, y_train, batch_size = 10, epochs = 5, verbose = 1, 
+                callbacks=[BL], validation_data=(np.array(x_test), np.array(y_test))) 
             #score = model[1].evaluate(np.array(x_test), np.array(y_test), verbose=0)
             #print('Test log loss:', score[0])
             #print('Test accuracy:', score[1])
-            pred_test = model[1].predict(x_test)
-            pred[test_index] = pred_test 
-            acc[test_index] = metrics.accuracy_score(y_test, pred_test)
+            pred_test = model[1].predict(x_test)[:,0]
+            pred_test_ = np.round(pred_test)
+            pred[test_index] = pred_test_
+            acc[test_index] = metrics.accuracy_score(y_test, pred_test_)
 
         ######################################################
         ##### For last split, show confusion matrix and ROC ##
         ######################################################     
         # https://github.com/natbusa/deepcredit/blob/master/default-prediction.ipynb   
 
-        y_train_pred = model.predict_on_batch(np.array(x_train))[:,0]
-        y_test_pred = model.predict_on_batch(np.array(x_test))[:,0]
+        plt.figure(figsize=(15,5))
+        plt.subplot(1, 2, 1)
+        plt.title('loss, per batch')
+        plt.plot(BL.get_values('loss',1), 'b-', label='train');
+        plt.plot(BL.get_values('val_loss',1), 'r-', label='test');
+        plt.legend()
+        #
+        plt.subplot(1, 2, 2)
+        plt.title('accuracy, per batch')
+        plt.plot(BL.get_values('acc',1), 'b-', label='train');
+        plt.plot(BL.get_values('val_acc',1), 'r-', label='test');
+        plt.legend()
+        plt.show() 
+
+        y_train_pred = model[1].predict_on_batch(np.array(x_train))[:,0]
+        y_test_pred = model[1].predict_on_batch(np.array(x_test))[:,0]
 
         fig,ax = plt.subplots(1,3)
         fig.set_size_inches(15,5)
@@ -365,20 +392,20 @@ def get_pca_transform(X, n_comp, RexR): # principal components, used for the cla
     X_out = Transform.transform(X)
     return X_out, Transform
 
-def get_ica_transform(X, n_comp): # individual component analysis
-    pars = self.DIMENSION_REDUCTION_PARAMETERS['ica']
+def get_ica_transform(X, n_comp, RexR): # individual component analysis
+    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['ica']
     Transform = decomposition.FastICA(n_components = n_comp, **pars).fit(X)
     X_out = Transform.transform(X)
     return X_out, Transform  
 
-def get_lda_transform(X, y, n_comp): 
-    pars = self.DIMENSION_REDUCTION_PARAMETERS['lda']
+def get_lda_transform(X, y, n_comp, RexR): 
+    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['lda']
     Transform = discriminant_analysis.LinearDiscriminantAnalysis(n_components = n_comp, **pars).fit(X,y)
     X_out = Transform.transform(X)
     return X_out, Transform
 
-def get_rbm_transform(X,y, n_comp):
-    pars = self.DIMENSION_REDUCTION_PARAMETERS['rbm']
+def get_rbm_transform(X,y, n_comp, RexR):
+    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['rbm']
     Transform = neural_network.BernoulliRBM(n_components = n_comp, **pars).fit(X,y)
     X_out = Transform.transform(X)
     return X_out, Transform

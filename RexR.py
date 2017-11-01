@@ -75,17 +75,17 @@ class RexR():
         self.DEBUG = debug
         self.write_out = write_out
         self.MODEL_PARAMETERS = {
-            "n_splits": 10,
+            "n_splits": 5,
             "SVM":{'degree': 3, 'tol': 0.0001, 'C':  0.9, 'probability' : True},
-            "RF": {'n_estimators': 100, 'max_depth': 25, 'n_jobs': -1, 'min_samples_split': 5, 'min_samples_leaf': 5},
-            "MLNN": {'activation':'tanh', 'alpha':1e-05, 'batch_size':'auto',
+            "RF": {'n_estimators': 100, 'max_depth': 35, 'n_jobs': -1, 'min_samples_split': 5, 'min_samples_leaf': 5},
+            "MLNN": {'activation':'tanh', 'alpha':1e-04, 'batch_size':'auto',
                     'beta_1':0.9, 'beta_2':0.999, 'early_stopping':False,
-                    'epsilon':1e-08, 'hidden_layer_sizes':(60, 30, 15, 7, 2), 'learning_rate':'adaptive',
+                    'epsilon':1e-06, 'hidden_layer_sizes':(60, 30, 15, 7, 2), 'learning_rate':'adaptive',
                     'learning_rate_init':0.001, 'max_iter':200, 'momentum':0.9,
                     'nesterovs_momentum':True, 'power_t':0.5, 'random_state':1, 'shuffle':True,
-                    'solver':'adam', 'tol':0.0001, 'validation_fraction':0.1, 'verbose':False,
+                    'solver':'adam', 'tol':0.001, 'validation_fraction':0.1, 'verbose':False,
                     'warm_start':False},
-            "ET": {'n_estimators': 100, 'max_depth': 25, 'n_jobs': -1, 'min_samples_split': 5, 'min_samples_leaf': 5},
+            "ET": {'n_estimators': 100, 'max_depth': 35, 'n_jobs': -1, 'min_samples_split': 5, 'min_samples_leaf': 5},
             "ADA": {'base_estimator': None, 'n_estimators': 150, 'learning_rate': 1.0, 'algorithm': 'SAMME.R', 'random_state': self.SEED},
             "GBM": {'loss':'deviance', 'learning_rate': 0.1, 'n_estimators': 100, 
                    'subsample': 1.0, 'criterion': 'friedman_mse', 'min_samples_split': 5, 'min_samples_leaf': 5, 
@@ -127,7 +127,19 @@ class RexR():
                                                 "rbm":{'random_state': 0, 
                                                        'verbose': True,
                                                         'n_iter': 100,
-                                                        'learning_rate': 0.01}
+                                                        'learning_rate': 0.01},
+                                                "ica":{'algorithm':'parallel', 
+                                                        'whiten': True, 
+                                                        'fun':'logcosh', 
+                                                        'fun_args':None, 
+                                                        'max_iter':200, 
+                                                        'tol': 0.0001, 
+                                                        'w_init':None, 
+                                                        'random_state':None, 
+                                                        'return_X_mean':False, 
+                                                        #'compute_sources':True, 
+                                                        'return_n_iter':False
+                                                        }
                                             }
         self.PIPELINE_PARAMETERS =   {  "scaler": {"type": "minmax"},
                                         "pre_processing": {"patient_grouping": 'mean', "bias_removal": False}, # patient grouping and cohort bias removal

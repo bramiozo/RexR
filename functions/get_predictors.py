@@ -2,8 +2,11 @@ from sklearn import preprocessing, svm, tree, ensemble, naive_bayes
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
 import itertools
-import xgboost as xgb
-import xgboost
+
+import matplotlib.pyplot as plt
+
+#import xgboost as xgb
+#import xgboost
 import numpy as np
 import _helpers
 import copy
@@ -13,6 +16,9 @@ import copy
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation, Dropout
 from keras.callbacks import Callback
+
+import pandas as pd
+import numpy as np
 
 class BatchLogger(Callback):
     def on_train_begin(self, epoch, logs={}):
@@ -68,14 +74,15 @@ def classify_treatment(self, model_type='CART',
     x,y =_helpers._get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10')      
     if pipeline['dim_reduction']['type'] is not None:
         print("- "*30, 'Reducing dimensionality')
+        x_ = np.copy(x)
         if(pipeline['dim_reduction']['type'] == 'PCA'):
-                x, Reducer = _helpers.get_pca_transform(x, pipeline['dim_reduction']['n_comp'], self)
+                x, Reducer = _helpers.get_pca_transform(x_, pipeline['dim_reduction']['n_comp'], self)      
         elif(pipeline['dim_reduction']['type'] == 'LDA'):
-                x, Reducer = _helpers.get_lda_transform(x, y, pipeline['dim_reduction']['n_comp'])
+                x, Reducer = _helpers.get_lda_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
         elif(pipeline['dim_reduction']['type'] == 'RBM'):
-                x, Reducer = _helpers.get_rbm_transform(x, y, pipeline['dim_reduction']['n_comp'])
+                x, Reducer = _helpers.get_rbm_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
         elif(pipeline['dim_reduction']['type'] == 'genome_variance'):
-                x, Reducer = _helpers.get_filtered_genomes(x, filter_type = None)
+                x, Reducer = _helpers.get_filtered_genomes(x_, filter_type = None)
 
     # if dimension reduction AND feature selection, then perform FeatureUnion
     ## http://scikit-learn.org/stable/auto_examples/plot_feature_stacker.html#sphx-glr-auto-examples-plot-feature-stacker-py
@@ -115,6 +122,7 @@ def classify_treatment(self, model_type='CART',
         print("NOT AVAILABLE YET")
     elif(model_type == 'DNN'): # version 1: Keras, not very useful atm given that we have so few samples.
         model = Sequential()
+        input_dim = x.shape[1]
         model.add(Dense(256, input_shape=(input_dim,), activation='relu'))
         model.add(Dense(256, activation='relu'))
         model.add(Dense(64, activation='relu'))
@@ -172,6 +180,8 @@ def classify_treatment(self, model_type='CART',
     for clf in models:
         if clf[0] == 'RVM':
             pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm')
+        elif clf[0] == 'DNN':
+            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'keras')
         else:
             pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn')
         report = metrics.classification_report(y,pred)
@@ -188,33 +198,31 @@ def classify_treatment(self, model_type='CART',
     if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost']):
         model.fit(x, y) 
     elif(model_type == 'DNN'): 
-        model.fit(x, y, batch_size = 10, epochs = 5, verbose = 0, callbacks=[BL]) 
-        #
-        plt.figure(figsize=(15,5))
-        plt.subplot(1, 2, 1)
-        plt.title('loss, per batch')
-        plt.plot(BL.get_values('loss',1), 'b-', label='train');
-        plt.plot(BL.get_values('val_loss',1), 'r-', label='test');
-        #
-        plt.subplot(1, 2, 2)
-        plt.title('accuracy, per batch')
-        plt.plot(BL.get_values('acc',1), 'b-', label='train');
-        plt.plot(BL.get_values('val_acc',1), 'r-', label='test');
-        plt.show()    
+        model.fit(x, y, batch_size = 10, epochs = 100, verbose = 0, callbacks=[BL]) 
+        #   
+    elif(model_type == 'RVM'):
+        model = rvm.rvm(x, y, noise = 0.01)
+        model.iterateUntilConvergence()
 
     var_columns = df.columns[21:]   
     x_pred = df.loc[:,var_columns].values  
     # apply dimensionality reduction
     #
     if(pipeline['dim_reduction']['type'] == 'PCA'):
-            x_pred = Reducer.transform(x_pred)
+        x_pred = Reducer.transform(x_pred)
     elif(pipeline['dim_reduction']['type']  == 'LDA'):
-            x_pred = Reducer.transform(x_pred)
+        x_pred = Reducer.transform(x_pred)
     elif(pipeline['dim_reduction']['type']  == 'genome_variance'):
-            x_pred = Reducer(x_pred)
+        x_pred = Reducer(x_pred)
     
-    preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
-
+    if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost']):
+        preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
+    #elif model_type == 'DNN':
+    #    #preds = 
+    elif model_type == 'RVM':
+        preds   = np.reshape(np.dot(x_pred, model.wInferred), newshape=[len(x_pred),])/2+0.5    
+    elif model_type == 'DNN':
+        preds   = model.predict_on_batch(np.array(x_pred))[:,0]    
 
     ################
     ################
