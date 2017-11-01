@@ -53,6 +53,8 @@ GEO DataSets
 
 class RexR():
     # constants
+    X_GENOME = None
+    Y_CLASS = None
     DATA_all_samples = None
     DATA_patients = None
     DATA_Tnormal = None

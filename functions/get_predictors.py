@@ -71,7 +71,12 @@ def classify_treatment(self, model_type='CART',
     else:
         df= self.DATA_merged_processed
     print("+ "*30, 'Creating X,y')
-    x,y =_helpers._get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10')      
+    if(self.X_GENOME = None):
+        x,y =_helpers._get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10')
+    else:
+        x = self.X_GENOME
+        y = self.Y_CLASS    
+
     if pipeline['dim_reduction']['type'] is not None:
         print("- "*30, 'Reducing dimensionality')
         x_ = np.copy(x)
