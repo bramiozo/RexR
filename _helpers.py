@@ -488,9 +488,9 @@ def get_top_genes(x,y, method=None, n_max = 1000, n_comp = 1000, boruta = False)
     * RF weights
     * GBM weights
     * Adaboost weights
-    * LR weights: all-versus-all 
+    * LR weights: all-versus-all
     * LR weights: one-versus-all
-    * SVM feature importance           
+    * SVM feature importance       
 
     # Boruta: https://pypi.python.org/pypi/Boruta/0.1.5 
     # http://scikit-learn.org/stable/modules/feature_selection.html

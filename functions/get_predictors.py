@@ -71,7 +71,7 @@ def classify_treatment(self, model_type='CART',
     else:
         df= self.DATA_merged_processed
     print("+ "*30, 'Creating X,y')
-    if(self.X_GENOME = None):
+    if(self.X_GENOME is None):
         x,y =_helpers._get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10')
     else:
         x = self.X_GENOME
