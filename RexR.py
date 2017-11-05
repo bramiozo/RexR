@@ -69,12 +69,14 @@ class RexR():
     write_out = None
     SEED = 1234
     debug = False
+    SET_NAME = None 
 
-    def __init__(self, datalocation = None, seed = 2412, debug = False, write_out = False):
+    def __init__(self, datalocation = None, seed = 2412, debug = False, write_out = False, set_name = 'ALL_10'):
         print("+"*30, 'Firing up RexR!', "+"*30)
         self.DATA_loc = datalocation
         self.SEED = seed
         self.DEBUG = debug
+        self.SET_NAME = set_name
         self.write_out = write_out
         self.MODEL_PARAMETERS = {
             "n_splits": 5,
@@ -178,26 +180,29 @@ class RexR():
         # ch2 = read_cohort("Data/cohort2_plus2.txt")
         # cha = read_cohort("Data/cohortALL10_plus2.txt")
 
-        self.DATA_all_samples = self._read_cohort("_data/genomic_data/all_samples.txt")
-        self.DATA_patients = self._read_patient_file("_data/genomic_data/patients.xlsx")
-        self.DATA_Tnormal = pd.read_csv("_data/genomic_data/TALLnormalTcellsTransposed.txt", sep="\t")
-   
-        all_10 = ["ALL-10","IA","JB"]
+        if(self.SET_NAME=='ALL_10'):
+            self.DATA_all_samples = self._read_cohort("_data/genomic_data/all_samples.txt")
+            self.DATA_patients = self._read_patient_file("_data/genomic_data/patients.xlsx")
+            self.DATA_Tnormal = pd.read_csv("_data/genomic_data/TALLnormalTcellsTransposed.txt", sep="\t")
+       
+            all_10 = ["ALL-10","IA","JB"]
 
-        if(self.DATA_loc is None):
-            self.DATA_merged = pd.merge(self.DATA_patients, 
-                                    self.DATA_all_samples, 
-                                    how='left', left_on="Microarray file", right_index=True)
-        else:
-            self.DATA_merged = self._read_modelling_data()
+            if(self.DATA_loc is None):
+                self.DATA_merged = pd.merge(self.DATA_patients, 
+                                        self.DATA_all_samples, 
+                                        how='left', left_on="Microarray file", right_index=True)
+            else:
+                self.DATA_merged = self._read_modelling_data()
 
-        if(self.write_out == True):
-            self.DATA_merged.to_pickle("_data/genomic_data/data.pkl")
+            if(self.write_out == True):
+                self.DATA_merged.to_pickle("_data/genomic_data/data_ALL10.pkl")
 
-        self.DATA_merged['WhiteBloodCellcount']= pd.to_numeric(self.DATA_merged['WhiteBloodCellcount'])
+            self.DATA_merged['WhiteBloodCellcount']= pd.to_numeric(self.DATA_merged['WhiteBloodCellcount'])
 
-        if (self.DEBUG == True): # reduced number of genomes to run through code logic more quickly
-            self.DATA_merged = self.DATA_merged[self.DATA_merged.columns[:10000]]
+            if (self.DEBUG == True): # reduced number of genomes to run through code logic more quickly
+                self.DATA_merged = self.DATA_merged[self.DATA_merged.columns[:10000]]
+        elif(self.SET_NAME=='MELA'):
+            ...
 
 
 
