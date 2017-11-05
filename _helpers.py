@@ -279,7 +279,7 @@ def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], sc
     df = df[df["array-batch"].isin(cohorts)]
     return df
 
-def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
+def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rclass = None):
     splitter.random_state = seed
     pred = np.zeros(shape=y.shape)
     acc = np.zeros(shape=y.shape)
@@ -289,25 +289,25 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
         for train_index, test_index in splitter.split(x, y):
             x_train, x_test = x[train_index], x[test_index]
             y_train, y_test = y[train_index], y[test_index] 
-
             model[1].fit(x_train,y_train)
             pred_test = model[1].predict_proba(x_test) # (model[1].predict_proba(x_test)>threshold).astype(int)
             pred_test_ = model[1].predict(x_test) #[np.round(l[1]).astype(int) for l in pred_test]
             pred[test_index] =  pred_test_ #np.round(pred_test)[0]
             acc[test_index] = metrics.accuracy_score(y_test, pred_test_)
             # coef += model.coef_            
-        pred_train = model[1].predict_proba(x_train)
         ######################################################
         ##### For last split, show confusion matrix and ROC ##
         ######################################################
         #X_train, X_test, y_train, y_test = train_test_split(X_prep, y, test_size=0.2, random_state=42)
-        fig,ax = plt.subplots(1,3)
-        fig.set_size_inches(15,5)
-        plot_cm(ax[0],  y_train, pred_train, [0,1], 'Confusion matrix (TRAIN)', threshold)
-        plot_cm(ax[1],  y_test, pred_test,   [0,1], 'Confusion matrix (TEST)', threshold)
-        plot_auc(ax[2], y_train, pred_train, y_test, pred_test, threshold)
-        plt.tight_layout()
-        plt.show()
+        if Rclass.VIZ == True:
+            pred_train = model[1].predict_proba(x_train)
+            fig,ax = plt.subplots(1,3)
+            fig.set_size_inches(15,5)
+            plot_cm(ax[0],  y_train, pred_train, [0,1], 'Confusion matrix (TRAIN)', threshold)
+            plot_cm(ax[1],  y_test, pred_test,   [0,1], 'Confusion matrix (TEST)', threshold)
+            plot_auc(ax[2], y_train, pred_train, y_test, pred_test, threshold)
+            plt.tight_layout()
+            plt.show()
 
 
     elif framework == 'custom_rvm':
@@ -327,15 +327,15 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
         ##### For last split, show confusion matrix and ROC ##
         ######################################################
         #X_train, X_test, y_train, y_test = train_test_split(X_prep, y, test_size=0.2, random_state=42)
-
-        pred_train = np.reshape(np.dot(x_train, model.wInferred), newshape=[len(x_train),])/2+0.5
-        fig,ax = plt.subplots(1,3)
-        fig.set_size_inches(15,5)
-        plot_cm(ax[0],  y_train, pred_train, [0,1], 'Confusion matrix (TRAIN)', threshold)
-        plot_cm(ax[1],  y_test, pred_test,   [0,1], 'Confusion matrix (TEST)', threshold)
-        plot_auc(ax[2], y_train, pred_train, y_test, pred_test, threshold)
-        plt.tight_layout()
-        plt.show()   
+        if Rclass.VIZ == True:
+            pred_train = np.reshape(np.dot(x_train, model.wInferred), newshape=[len(x_train),])/2+0.5
+            fig,ax = plt.subplots(1,3)
+            fig.set_size_inches(15,5)
+            plot_cm(ax[0],  y_train, pred_train, [0,1], 'Confusion matrix (TRAIN)', threshold)
+            plot_cm(ax[1],  y_test, pred_test,   [0,1], 'Confusion matrix (TEST)', threshold)
+            plot_auc(ax[2], y_train, pred_train, y_test, pred_test, threshold)
+            plt.tight_layout()
+            plt.show()   
     elif framework == 'keras':
         for train_index, test_index in splitter.split(x, y):
             x_train, x_test = x[train_index], x[test_index]
@@ -354,34 +354,34 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn'):
         ##### For last split, show confusion matrix and ROC ##
         ######################################################     
         # https://github.com/natbusa/deepcredit/blob/master/default-prediction.ipynb   
+        if Rclass.VIZ == True:
+            plt.figure(figsize=(15,5))
+            plt.subplot(1, 2, 1)
+            plt.title('loss, per batch')
+            plt.plot(BL.get_values('loss',1), 'b-', label='train');
+            plt.plot(BL.get_values('val_loss',1), 'r-', label='test');
+            plt.legend()
+            #
+            plt.subplot(1, 2, 2)
+            plt.title('accuracy, per batch')
+            plt.plot(BL.get_values('acc',1), 'b-', label='train');
+            plt.plot(BL.get_values('val_acc',1), 'r-', label='test');
+            plt.legend()
+            plt.show() 
 
-        plt.figure(figsize=(15,5))
-        plt.subplot(1, 2, 1)
-        plt.title('loss, per batch')
-        plt.plot(BL.get_values('loss',1), 'b-', label='train');
-        plt.plot(BL.get_values('val_loss',1), 'r-', label='test');
-        plt.legend()
-        #
-        plt.subplot(1, 2, 2)
-        plt.title('accuracy, per batch')
-        plt.plot(BL.get_values('acc',1), 'b-', label='train');
-        plt.plot(BL.get_values('val_acc',1), 'r-', label='test');
-        plt.legend()
-        plt.show() 
+            y_train_pred = model[1].predict_on_batch(np.array(x_train))[:,0]
+            y_test_pred = model[1].predict_on_batch(np.array(x_test))[:,0]
 
-        y_train_pred = model[1].predict_on_batch(np.array(x_train))[:,0]
-        y_test_pred = model[1].predict_on_batch(np.array(x_test))[:,0]
+            fig,ax = plt.subplots(1,3)
+            fig.set_size_inches(15,5)
 
-        fig,ax = plt.subplots(1,3)
-        fig.set_size_inches(15,5)
+            plot_cm(ax[0], y_train, y_train_pred, [0,1], 'Confusion matrix (TRAIN)')
+            plot_cm(ax[1], y_test, y_test_pred, [0,1], 'Confusion matrix (TEST)')
 
-        plot_cm(ax[0], y_train, y_train_pred, [0,1], 'Confusion matrix (TRAIN)')
-        plot_cm(ax[1], y_test, y_test_pred, [0,1], 'Confusion matrix (TEST)')
-
-        plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred)
-            
-        plt.tight_layout()
-        plt.show()        
+            plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred)
+                
+            plt.tight_layout()
+            plt.show()        
 
     return pred, acc
 

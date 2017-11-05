@@ -5,8 +5,7 @@ import itertools
 
 import matplotlib.pyplot as plt
 
-#import xgboost as xgb
-#import xgboost
+from xgboost.sklearn import XGBClassifier as xgb
 import numpy as np
 import _helpers
 import copy
@@ -119,12 +118,14 @@ def classify_treatment(self, model_type='CART',
         pars = parameters['GBM']
         model = ensemble.GradientBoostingClassifier(**pars)
         models.append(('GBM', model))
-    elif(model_type == 'AdaBoost'):
+    elif(model_type in ['AdaBoost','Ada']):
         pars = parameters['ADA']
         model = ensemble.AdaBoostClassifier(**pars)
         models.append(('ADA', model))
-    elif(model_type == 'XGBoost'):
-        print("NOT AVAILABLE YET")
+    elif(model_type in ['XGBoost', 'XGB']):
+        pars = parameters['XGB']
+        model = xgb(**pars)
+        models.append(('XGB', model))
     elif(model_type == 'DNN'): # version 1: Keras, not very useful atm given that we have so few samples.
         model = Sequential()
         input_dim = x.shape[1]
@@ -164,14 +165,14 @@ def classify_treatment(self, model_type='CART',
         models.append(('MLNN', model))
     elif(model_type == 'ensemble'):
         models_ = [
-            ("GNB", naive_bayes.GaussianNB()),
             ("SVM", svm.SVC(**parameters['SVM'])),
             ("LogisticRegression", linear_model.LogisticRegression(**parameters['LR'])),
             ("RandomForest", ensemble.RandomForestClassifier(**parameters['RF'])),
             ("ExtraTrees", ensemble.ExtraTreesClassifier(**parameters['ET'])),
             ("GBM", ensemble.GradientBoostingClassifier(**parameters['GBM'])),
             ("ADA", ensemble.AdaBoostClassifier(**parameters['ADA'])),
-            ("CART", tree.DecisionTreeClassifier(**parameters['CART']))
+            ("CART", tree.DecisionTreeClassifier(**parameters['CART'])),
+            ("XGB", xgb(**parameters['XGB']))
             ]
         models = copy.copy(models_)
         model = ensemble.VotingClassifier(models_, n_jobs = -1 , voting = 'soft')
@@ -182,25 +183,28 @@ def classify_treatment(self, model_type='CART',
     splitter = model_selection.StratifiedKFold(parameters['n_splits'], random_state = self.SEED)
     print("+"*30,' RESULTS FOR CLASSIFICATION WITH GENOMIC DATA',"+"*30)
     preds = []
+    accuracy = []
     for clf in models:
         if clf[0] == 'RVM':
-            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm')
-        elif clf[0] == 'DNN':
-            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'keras')
+            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm', Rclass = self)
+        elif clf[0] in ['DNN', 'CNN']:
+            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'keras', Rclass = self)
         else:
-            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn')
-        report = metrics.classification_report(y,pred)
+            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn', Rclass = self)
         #acc = metrics.accuracy_score(y,pred)
+        accuracy.append({'model': clf[0], 'acc': np.mean(acc), 'var' : np.var(acc)})
         print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))
-        print("+"*30,' Report', "+"*30)
-        print(report)
+        if self.VIZ == True:
+            report = metrics.classification_report(y,pred)
+            print("+"*30,' Report', "+"*30)
+            print(report)
     
     '''
         model = rvm.rvm(x, y, noise = 0.01)
         preds = np.dot(x_test, model.wInferred);
         pred_ = np.append(preds, 1-preds[:], 1)
     '''
-    if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost']):
+    if(model_type not in ['RVM', 'DNN', 'CNN']): # 'XGB', 'XGBoost'
         model.fit(x, y) 
     elif(model_type == 'DNN'): 
         model.fit(x, y, batch_size = 10, epochs = 100, verbose = 0, callbacks=[BL]) 
@@ -220,7 +224,7 @@ def classify_treatment(self, model_type='CART',
     elif(pipeline['dim_reduction']['type']  == 'genome_variance'):
         x_pred = Reducer(x_pred)
     
-    if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost']):
+    if(model_type not in ['RVM', 'DNN', 'CNN']): # , 'XGB', 'XGBoost'
         preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
     #elif model_type == 'DNN':
     #    #preds = 
@@ -247,16 +251,17 @@ def classify_treatment(self, model_type='CART',
         x = np.hstack([pred, p_x])
         for clf in models:
             if clf[0] == 'RVM':
-                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm')
+                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm', Rclass=self)
             else:
-                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn')            
+                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn', Rclass=self)            
             report = metrics.classification_report(y,pred)
             #acc = metrics.accuracy_score(y,pred)
             print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))            
-            print("+"*30,' Report', "+"*30)
-            print(report)   
+            if self.VIZ == True:
+                print("+"*30,' Report', "+"*30)
+                print(report)   
 
-        if(model_type not in ['RVM', 'DNN', 'CNN', 'XGB', 'XGBoost']):
+        if(model_type not in ['RVM', 'DNN', 'CNN']): # , 'XGB', 'XGBoost'
             model.fit(x, y)
         # total x
         var_columns = ["Age", "WhiteBloodCellcount", "Gender"]
@@ -267,10 +272,11 @@ def classify_treatment(self, model_type='CART',
         preds = model.predict_proba(x)
     
 
-    return preds, model
+    return preds, model, accuracy
 
 
     # hyper optimalisation routines.
+    ## start with grid search
 
 
 

@@ -69,6 +69,7 @@ class RexR():
     write_out = None
     SEED = 1234
     debug = False
+    VIZ = True # print all plot/accuracies to screen
     SET_NAME = None 
 
     def __init__(self, datalocation = None, seed = 2412, debug = False, write_out = False, set_name = 'ALL_10'):
@@ -99,8 +100,9 @@ class RexR():
             "LR": {'penalty':'l2', 'dual': False, 'tol':0.0001, 'C':0.9},
             "XGB": {}, # seperate lib, XGBOOST
             "RVM": {}, # seperate code, RVM
-            "DNN": {}, # seperate lib, Keras
-            "CNN": {}, # seperate lib, Keras
+            "DNN": {}, # deep network (dense fully connected layers)
+            "CNN": {'architecture': 'AlexNet'}, # convolutional network , 
+                    #architecture: AlexNet, ResNet, GoogleNet, DenseNet, Inception, CapsNet
             "EBE": {}, # custom predictor for low sample/high dimensional data
             "CART":{'criterion':'gini', 'splitter':'best', 
                     'max_depth':10, 'min_samples_split':2, 'min_samples_leaf':3, 
