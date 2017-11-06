@@ -153,16 +153,26 @@ class RexR():
                                         "feature_selection": {"type": "UNI", "top_n": 1000}}
 
 
-    def _read_cohort(self, path):
-        ch1 = pd.read_csv(path, sep="\t")
-        patient_ids = ch1.columns.values[1:]
-        patient_ids = [pid.split(".")[0] + ".CEL" for pid in patient_ids]
+    def _read_cohort(self, path, read_dict):
+        if self.SET_NAME == 'ALL_10':
+            ch1 = pd.read_csv(path, sep="\t")
+            patient_ids = ch1.columns.values[1:]
+            patient_ids = [pid.split(".")[0] + ".CEL" for pid in patient_ids]
 
-        gene_ids = ch1.ix[:,0]
+            gene_ids = ch1.ix[:,0]
 
-        ch1_m = ch1.values[:,1:].T
-        ch1 = pd.DataFrame(data=ch1_m,index=patient_ids,columns=gene_ids, dtype=float)
-
+            ch1_m = ch1.values[:,1:].T
+            ch1 = pd.DataFrame(data=ch1_m,index=patient_ids,columns=gene_ids, dtype=float)
+        elif self.SET_NAME == 'MELA': # assumes NCBI format, assumes first row of target contains actual targets..
+            ch1 = pd.read_csv(path, sep="\t", skiprows=read_dict['header_rows'], skipfooter=1)
+            patient_ids = ch1.loc[ch1.ix[:,0]==read_dict['ID']].ix[:,1:]
+            #targets = ch1.loc[ch1.ix[:,0]==read_dict['target']].reset_index(drop=True).loc[0,:][1:]
+            target_row = ch1.loc[ch1.ix[:,0]==read_dict['target']].index[0]
+            gene_ids = ch1.ix[(read_dict['genome_line_range'][0]-read_dict['header_rows']-2):read_dict['genome_line_range'][1],0]
+            gene_ids = numpy.append(gene_ids,'target')
+            ch1_m = ch1.values[[target_row] + list(range(read_dict['genome_line_range'][0]
+                                            -read_dict['header_rows']-2:read_dict['genome_line_range'][1]+1)),1:].T
+            ch1 = pd.DataFrame(data=ch1_m,index=patient_ids[0,:],columns=gene_ids, dtype=float)
         return ch1
 
     def _read_patient_file(self, path):
@@ -204,7 +214,11 @@ class RexR():
             if (self.DEBUG == True): # reduced number of genomes to run through code logic more quickly
                 self.DATA_merged = self.DATA_merged[self.DATA_merged.columns[:10000]]
         elif(self.SET_NAME=='MELA'):
-            ...
+            # target : !Sample_characteristics_ch1
+            # ID : ID_REF
+            # line 64>= for genomic expressions
+            self.DATA_merged = self._read_cohort("_data/genomic_data/mela.txt", 
+                {'target': '!Sample_characteristics_ch1', 'ID': 'ID_REF', 'genome_line_range': [64, 22346], 'headers_rows': 28})            
 
 
 
