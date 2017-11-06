@@ -39,10 +39,15 @@ hyperlearning
 Visualisation
 * 	gene importance using graphs
 
+
 # Possible upgrades
 
 * addition of image analysis/classification and the combination with genomic expression profiles
 
+# Possible techniques
+* increase robustness: Apply data augmentation such affine transformations, after mapping genome vector to surface
+https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html
+* apply biased estimator using aggregations of genomic vectors
 
 # Possible collaborations
 

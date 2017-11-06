@@ -103,25 +103,27 @@ def plot_auc(ax, y_train, y_train_pred, y_test, y_test_pred, th=0.5):
     ax.legend([train_text, test_text])
 
 
-def _group_patients(df, method = 'first'): # method = ['first', 'mean', 'median', 'min', 'max']
+def _group_patients(df, method = 'first', Rclass = None): # method = ['first', 'mean', 'median', 'min', 'max']
     # 1. clean probesets 
     # 2. reduce multiple probesets per gene to one  
-    df_1 = df[df.columns[:21]].groupby("labnr_patient").apply(lambda g: g.iloc[0])
-    col_list = df.columns[21:].values.tolist()
-    col_list.append("labnr_patient")
-    if(method == 'first'):
-        df_2 = df[col_list].groupby("labnr_patient").apply(lambda g: g.iloc[0])
-    elif(method == 'mean'):
-        df_2 = df[col_list].groupby("labnr_patient").mean()
-    elif(method == 'median'):
-        df_2 = df[col_list].groupby("labnr_patient").median()
-    elif(method == 'min'):
-        df_2 = df[col_list].groupby("labnr_patient").min()
-    elif(method == 'max'):
-        df_2 = df[col_list].groupby("labnr_patient").max()  
-    dfinal = df_1.merge(df_2, left_index = True, right_index = True)
-
-    return dfinal
+    if(Rclass.SET_NAME == 'ALL_10'):
+        df_1 = df[df.columns[:21]].groupby("labnr_patient").apply(lambda g: g.iloc[0])
+        col_list = df.columns[21:].values.tolist()
+        col_list.append("labnr_patient")
+        if(method == 'first'):
+            df_2 = df[col_list].groupby("labnr_patient").apply(lambda g: g.iloc[0])
+        elif(method == 'mean'):
+            df_2 = df[col_list].groupby("labnr_patient").mean()
+        elif(method == 'median'):
+            df_2 = df[col_list].groupby("labnr_patient").median()
+        elif(method == 'min'):
+            df_2 = df[col_list].groupby("labnr_patient").min()
+        elif(method == 'max'):
+            df_2 = df[col_list].groupby("labnr_patient").max()  
+        dfinal = df_1.merge(df_2, left_index = True, right_index = True)
+        return dfinal
+    else:
+        return df
 
 def _cohort_correction(df):
     ## TO FINISH
@@ -242,41 +244,55 @@ def _graph_community_detector(df):
 
 
 
-def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10'): # type = ['genomic', ] 
-    if(features =='genomic'):
-        var_columns = df.columns[21:]# .values.tolist()
-    elif(features =='patient'):
-        var_columns = ["Age", "WhiteBloodCellcount", "Gender"]
-        df[var_columns] = df[var_columns].fillna(0.0)
+def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10', Rclass = None): # type = ['genomic', ] 
+    if(Rclass.SET_NAME=='ALL_10'):
+        if(features =='genomic'):
+            var_columns = df.columns[21:]# .values.tolist()
+        elif(features =='patient'):
+            var_columns = ["Age", "WhiteBloodCellcount", "Gender"]
+            df[var_columns] = df[var_columns].fillna(0.0)
 
-    train_idx = df[target].isin(["HR","MR","SR"])
+        train_idx = df[target].isin(["HR","MR","SR"])
 
-    y = df[train_idx][target].map(lambda x: 0 if x in ["MR", "SR"] else 1).values
-    df = df.drop(target, inplace = False, axis = 1)
-    x = df.loc[train_idx,var_columns].values    
+        y = df[train_idx][target].map(lambda x: 0 if x in ["MR", "SR"] else 1).values
+        df = df.drop(target, inplace = False, axis = 1)
+        x = df.loc[train_idx,var_columns].values    
+    elif(Rclass.SET_NAME =='MELA'):
+        y = df[:]['target'].map(lambda x: 0 if x =="Genotype: primary tumor" else "1").values
+        df = df.drop(target, inplace = False, axis = 1)
+        x = df.loc[:, df.columns!='target'].values            
+
     return x,y
 
 def _survival_matrix(df):
     valid = [0,1]
     gene_columns = df.columns[21:]
-
     target = "code_OS"
-
     df = df[df[target].isin(valid)]
 
     return df[gene_columns].values, df[target].values
 
-def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], scaler = "standard"):
-    gene_columns = df.columns[21:]
-    if scaler == "standard":
-        scaler = preprocessing.StandardScaler() # MinMaxScaler(), MaxAbsScaler(), RobustScaler(), QuantileTransformer(), Normalizer()
-    elif scaler == "minmax":
-        scaler = preprocessing.MinMaxScaler()
-    elif scaler in ["normalizer", "normaliser"]:
-        scaler = preprocessing.Normalizer()
-    ch = df["array-batch"].isin(cohorts)
-    df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
-    df = df[df["array-batch"].isin(cohorts)]
+def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], scaler = "standard", Rclass = None):
+    if(Rclass.SET_NAME == 'ALL_10'):
+        gene_columns = df.columns[21:]
+        if scaler == "standard":
+            scaler = preprocessing.StandardScaler() # MinMaxScaler(), MaxAbsScaler(), RobustScaler(), QuantileTransformer(), Normalizer()
+        elif scaler == "minmax":
+            scaler = preprocessing.MinMaxScaler()
+        elif scaler in ["normalizer", "normaliser"]:
+            scaler = preprocessing.Normalizer()
+        ch = df["array-batch"].isin(cohorts)
+        df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
+        df = df[df["array-batch"].isin(cohorts)]
+    else:
+        gene_columns = df.loc[:, df.columns!='target'].columns
+        if scaler == "standard":
+            scaler = preprocessing.StandardScaler() # MinMaxScaler(), MaxAbsScaler(), RobustScaler(), QuantileTransformer(), Normalizer()
+        elif scaler == "minmax":
+            scaler = preprocessing.MinMaxScaler()
+        elif scaler in ["normalizer", "normaliser"]:
+            scaler = preprocessing.Normalizer()
+        df.loc[:,gene_columns] = scaler.fit_transform(df.loc[:,gene_columns])
     return df
 
 def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rclass = None):

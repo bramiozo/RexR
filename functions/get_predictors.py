@@ -60,9 +60,9 @@ def classify_treatment(self, model_type='CART',
     df = self.DATA_merged
     if(self.DATA_merged_processed is None):
         print("+ "*30, 'Prepping data, this may take a while..')
-        df = _helpers._preprocess(df, scaler = pipeline['scaler']['type'])
+        df = _helpers._preprocess(df, scaler = pipeline['scaler']['type'], Rclass = self)
         print("- "*30, 'Grouping probesets')
-        df = _helpers._group_patients(df, method = pipeline['pre_processing']['patient_grouping'])
+        df = _helpers._group_patients(df, method = pipeline['pre_processing']['patient_grouping'], Rclass = self)
         if pipeline['pre_processing']['bias_removal'] == True:
             print("- "*30, 'Removing cohort biases')
             df = _helpers._cohort_correction(df)
@@ -71,7 +71,7 @@ def classify_treatment(self, model_type='CART',
         df= self.DATA_merged_processed
     print("+ "*30, 'Creating X,y')
     if(self.X_GENOME is None):
-        x,y =_helpers._get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10')
+        x,y =_helpers._get_matrix(df, features = 'genomic', target = parameters['target'], Rclass = self)
     else:
         x = self.X_GENOME
         y = self.Y_CLASS    
@@ -130,7 +130,7 @@ def classify_treatment(self, model_type='CART',
         model = Sequential()
         input_dim = x.shape[1]
         model.add(Dense(256, input_shape=(input_dim,), activation='relu'))
-        model.add(Dense(256, activation='relu'))
+        model.add(Dense(256, activation='relu')) # relu, selu, tanh, sigmoid
         model.add(Dense(64, activation='relu'))
         model.add(Dense(64, activation='relu'))
         model.add(Dense(10, activation='relu'))
@@ -243,7 +243,7 @@ def classify_treatment(self, model_type='CART',
         #### This assumes that the previous predictions are suitable as features.
         ##################################
         print("+"*30,' RESULTS FOR CLASSIFICATION INCLUDING PATIENT DATA',"+"*30)
-        p_x,y = _helpers._get_matrix(df, features = 'patient', target = 'Treatment_risk_group_in_ALL10')
+        p_x,y = _helpers._get_matrix(df, features = 'patient', target = 'Treatment_risk_group_in_ALL10', Rclass = self)
         scaler = preprocessing.StandardScaler()
         p_x = scaler.fit_transform(p_x)
         pred = np.reshape(pred, (pred.shape[0], 1))
