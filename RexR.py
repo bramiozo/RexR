@@ -167,14 +167,14 @@ class RexR():
             ch1 = pd.DataFrame(data=ch1_m,index=patient_ids,columns=gene_ids, dtype=float)
         elif self.SET_NAME == 'MELA': # assumes NCBI format, assumes first row of target contains actual targets..
             ch1 = pd.read_csv(path, sep="\t", skiprows=self.READ_PARAMETERS['header_rows'], skipfooter=1)
-            patient_ids = ch1.loc[ch1.ix[:,0]==self.READ_PARAMETERS['ID']].ix[:,1:]
+            patient_ids = ch1.loc[ch1.ix[:,0]==self.READ_PARAMETERS['ID']].ix[:,1:].values
             #targets = ch1.loc[ch1.ix[:,0]==read_dict['target']].reset_index(drop=True).loc[0,:][1:]
             target_row = ch1.loc[ch1.ix[:,0]==self.READ_PARAMETERS['target']].index[0]
-            gene_ids = ch1.ix[(self.READ_PARAMETERS['genome_line_range'][0]-self.READ_PARAMETERS['header_rows']-2):self.READ_PARAMETERS['genome_line_range'][1],0]
+            gene_ids = ch1.ix[(self.READ_PARAMETERS['genome_line_range'][0]-self.READ_PARAMETERS['header_rows']-2):self.READ_PARAMETERS['genome_line_range'][1],0].values
             gene_ids = np.append(gene_ids,'target')
             ch1_m = ch1.values[list(range(self.READ_PARAMETERS['genome_line_range'][0]-self.READ_PARAMETERS['header_rows']-2, 
                                           self.READ_PARAMETERS['genome_line_range'][1]-self.READ_PARAMETERS['header_rows']-1))+[target_row],1:].T
-            ch1 = pd.DataFrame(data=ch1_m,index=patient_ids[0,:],columns=gene_ids, dtype=float)
+            ch1 = pd.DataFrame(data=ch1_m, index=patient_ids[0,:], columns=gene_ids)
         return ch1
 
     def _read_patient_file(self, path):
