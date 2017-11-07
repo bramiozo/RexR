@@ -107,19 +107,19 @@ def _group_patients(df, method = 'first', Rclass = None): # method = ['first', '
     # 1. clean probesets 
     # 2. reduce multiple probesets per gene to one  
     if(Rclass.SET_NAME == 'ALL_10'):
-        df_1 = df[df.columns[:21]].groupby("labnr_patient").apply(lambda g: g.iloc[0])
+        df_1 = df[df.columns[:21]].groupby(Rclass.MODEL_PARAMETERS['ID']).apply(lambda g: g.iloc[0])
         col_list = df.columns[21:].values.tolist()
-        col_list.append("labnr_patient")
+        col_list.append(Rclass.MODEL_PARAMETERS['ID'])
         if(method == 'first'):
-            df_2 = df[col_list].groupby("labnr_patient").apply(lambda g: g.iloc[0])
+            df_2 = df[col_list].groupby(Rclass.MODEL_PARAMETERS['ID']).apply(lambda g: g.iloc[0])
         elif(method == 'mean'):
-            df_2 = df[col_list].groupby("labnr_patient").mean()
+            df_2 = df[col_list].groupby(Rclass.MODEL_PARAMETERS['ID']).mean()
         elif(method == 'median'):
-            df_2 = df[col_list].groupby("labnr_patient").median()
+            df_2 = df[col_list].groupby(Rclass.MODEL_PARAMETERS['ID']).median()
         elif(method == 'min'):
-            df_2 = df[col_list].groupby("labnr_patient").min()
+            df_2 = df[col_list].groupby(Rclass.MODEL_PARAMETERS['ID']).min()
         elif(method == 'max'):
-            df_2 = df[col_list].groupby("labnr_patient").max()  
+            df_2 = df[col_list].groupby(Rclass.MODEL_PARAMETERS['ID']).max()  
         dfinal = df_1.merge(df_2, left_index = True, right_index = True)
         return dfinal
     else:
@@ -258,9 +258,9 @@ def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL1
         df = df.drop(target, inplace = False, axis = 1)
         x = df.loc[train_idx,var_columns].values    
     elif(Rclass.SET_NAME =='MELA'):
-        y = df[:]['target'].map(lambda x: 0 if x =="Genotype: primary tumor" else "1").values
+        y = df[:]['target'].map(lambda x: 0 if x =="Genotype: primary tumor" else 1).values
         df = df.drop(target, inplace = False, axis = 1)
-        x = df.loc[:, df.columns!='target'].values            
+        x = df.loc[:, (df.columns!='target') & (df.columns!='ID')].values            
 
     return x,y
 
@@ -284,8 +284,9 @@ def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], sc
         ch = df["array-batch"].isin(cohorts)
         df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
         df = df[df["array-batch"].isin(cohorts)]
-    else:
-        gene_columns = df.loc[:, df.columns!='target'].columns
+    elif(Rclass.SET_NAME == 'MELA'):
+        gene_columns = df.loc[:, (df.columns!='target') & (df.columns!='ID')].columns
+        #df[gene_columns] = df[gene_columns].apply(pd.to_numeric)
         if scaler == "standard":
             scaler = preprocessing.StandardScaler() # MinMaxScaler(), MaxAbsScaler(), RobustScaler(), QuantileTransformer(), Normalizer()
         elif scaler == "minmax":

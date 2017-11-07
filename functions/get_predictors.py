@@ -72,6 +72,8 @@ def classify_treatment(self, model_type='CART',
     print("+ "*30, 'Creating X,y')
     if(self.X_GENOME is None):
         x,y =_helpers._get_matrix(df, features = 'genomic', target = parameters['target'], Rclass = self)
+        self.X_GENOME = x
+        self.Y_CLASS = y
     else:
         x = self.X_GENOME
         y = self.Y_CLASS    
@@ -130,8 +132,8 @@ def classify_treatment(self, model_type='CART',
         model = Sequential()
         input_dim = x.shape[1]
         model.add(Dense(256, input_shape=(input_dim,), activation='relu'))
-        model.add(Dense(256, activation='relu')) # relu, selu, tanh, sigmoid
-        model.add(Dense(64, activation='relu'))
+        model.add(Dense(256, activation='tanh')) # relu, selu, tanh, sigmoid
+        model.add(Dense(64, activation='selu'))
         model.add(Dense(64, activation='relu'))
         model.add(Dense(10, activation='relu'))
         model.add(Dense(10, activation='sigmoid'))
@@ -213,7 +215,10 @@ def classify_treatment(self, model_type='CART',
         model = rvm.rvm(x, y, noise = 0.01)
         model.iterateUntilConvergence()
 
-    var_columns = df.columns[21:]   
+    if self.SET_NAME == 'ALL_10':
+        var_columns = df.columns[21:]   
+    elif self.SET_NAME == 'MELA':
+        var_columns = df.loc[:, (df.columns!=parameters['target']) &  (df.columns!=parameters['ID'])].columns
     x_pred = df.loc[:,var_columns].values  
     # apply dimensionality reduction
     #
@@ -243,7 +248,7 @@ def classify_treatment(self, model_type='CART',
         #### This assumes that the previous predictions are suitable as features.
         ##################################
         print("+"*30,' RESULTS FOR CLASSIFICATION INCLUDING PATIENT DATA',"+"*30)
-        p_x,y = _helpers._get_matrix(df, features = 'patient', target = 'Treatment_risk_group_in_ALL10', Rclass = self)
+        p_x,y = _helpers._get_matrix(df, features = 'patient', target = parameters['target'], Rclass = self)
         scaler = preprocessing.StandardScaler()
         p_x = scaler.fit_transform(p_x)
         pred = np.reshape(pred, (pred.shape[0], 1))
