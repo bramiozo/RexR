@@ -58,7 +58,7 @@ def classify_treatment(self, model_type='CART',
     ##########################
     ##########################
     df = self.DATA_merged
-    if(self.DATA_merged_processed is None):
+    if self.DATA_merged_processed is None and pipeline['scaler'] is not None:
         print("+ "*30, 'Prepping data, this may take a while..')
         df = _helpers._preprocess(df, scaler = pipeline['scaler']['type'], Rclass = self)
         print("- "*30, 'Grouping probesets')
@@ -99,6 +99,7 @@ def classify_treatment(self, model_type='CART',
     if(model_type == 'SVM'):
         pars = parameters['SVM']
         model = svm.SVC(**pars)
+        print("????")
         models.append(('SVM', model))
     elif(model_type == 'CART'):
         pars = parameters['CART']

@@ -84,7 +84,7 @@ class RexR():
             "target": 'Treatment_risk_group_in_ALL10',
             "ID": 'ID',
             "n_splits": 5,
-            "SVM":{'degree': 3, 'tol': 0.0001, 'C':  0.9, 'probability' : True},
+            "SVM":{'degree': 3, 'tol': 0.0001, 'C':  0.9, 'probability' : True, "kernel": "linear"},
             "RF": {'n_estimators': 100, 'max_depth': 35, 'n_jobs': -1, 'min_samples_split': 5, 'min_samples_leaf': 5},
             "MLNN": {'activation':'tanh', 'alpha':1e-04, 'batch_size':'auto',
                     'beta_1':0.9, 'beta_2':0.999, 'early_stopping':False,
