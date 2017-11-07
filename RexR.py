@@ -42,6 +42,7 @@ to-do's (september/october 2017):
 - xgboost
 - cohort-bias reducer
 - conditional survival estimator
+- ..remove AFF* probesets, these are markers
 
 
 GEO DataSets
@@ -84,7 +85,10 @@ class RexR():
             "target": 'Treatment_risk_group_in_ALL10',
             "ID": 'ID',
             "n_splits": 5,
-            "SVM":{'degree': 3, 'tol': 0.0001, 'C':  0.9, 'probability' : True},
+            "SVM":{'kernel': 'linear', 'gamma': 'auto', 'tol': 0.001, 'C':  1.0, 'probability' : True, 'max_iter':1000}, # kernel linear, rbf, poly, sigmoid
+            #"LSVM": {'C':1.0, 'class_weight':None, 'dual':True, 'fit_intercept':True,
+            #            'intercept_scaling':1, 'loss':'squared_hinge', 'max_iter':1000,
+            #            'multi_class':'ovr', 'penalty':'l2', 'random_state':0, 'tol': 0.0001, 'verbose':0}, 
             "RF": {'n_estimators': 100, 'max_depth': 35, 'n_jobs': -1, 'min_samples_split': 5, 'min_samples_leaf': 5},
             "MLNN": {'activation':'tanh', 'alpha':1e-04, 'batch_size':'auto',
                     'beta_1':0.9, 'beta_2':0.999, 'early_stopping':False,
@@ -166,7 +170,7 @@ class RexR():
 
             ch1_m = ch1.values[:,1:].T
             ch1 = pd.DataFrame(data=ch1_m,index=patient_ids,columns=gene_ids, dtype=float)
-            ch1['ID'] = ch1.index
+            #ch1['ID'] = ch1.index
         elif self.SET_NAME == 'MELA': # assumes NCBI format, assumes first row of target contains actual targets..
             ch1 = pd.read_csv(path, sep="\t", skiprows=self.READ_PARAMETERS['header_rows'], skipfooter=1, engine='python')
             patient_ids = ch1.loc[ch1.ix[:,0]==self.READ_PARAMETERS['ID']].ix[:,1:].values
@@ -179,6 +183,8 @@ class RexR():
             ch1 = pd.DataFrame(data=ch1_m, index=patient_ids[0,:], columns=gene_ids, dtype=float)
             ch1['target'] = pd.Series(target_col, index=ch1.index)
             ch1['ID'] = ch1.index
+            ch1 = ch1.sample(frac=1)#.reset_index(drop=True)
+            ch1.index = ch1['ID']
         return ch1
 
     def _read_patient_file(self, path):
