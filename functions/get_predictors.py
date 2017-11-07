@@ -5,7 +5,7 @@ import itertools
 
 import matplotlib.pyplot as plt
 
-#from xgboost.sklearn import XGBClassifier as xgb
+from xgboost.sklearn import XGBClassifier as xgb
 import numpy as np
 import _helpers
 import copy
