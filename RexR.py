@@ -42,7 +42,6 @@ to-do's (september/october 2017):
 - xgboost
 - cohort-bias reducer
 - conditional survival estimator
-- ..remove AFF* probesets, these are markers
 
 
 GEO DataSets
@@ -70,7 +69,7 @@ class RexR():
 
     write_out = None
     SEED = 1234
-    debug = False
+    DEBUG = False
     VIZ = True # print all plot/accuracies to screen
     SET_NAME = None 
 
@@ -85,34 +84,34 @@ class RexR():
             "target": 'Treatment_risk_group_in_ALL10',
             "ID": 'ID',
             "n_splits": 5,
-            "SVM":{'kernel': 'linear', 'gamma': 'auto', 'tol': 0.001, 'C':  1.0, 'probability' : True, 'max_iter':1000}, # kernel linear, rbf, poly, sigmoid
+            "SVM":{'kernel': 'linear', 'gamma': 'auto', 'tol': 0.0005, 'C':  0.9, 'probability' : True, 'max_iter': 3000}, # kernel linear, rbf, poly, sigmoid
             #"LSVM": {'C':1.0, 'class_weight':None, 'dual':True, 'fit_intercept':True,
             #            'intercept_scaling':1, 'loss':'squared_hinge', 'max_iter':1000,
             #            'multi_class':'ovr', 'penalty':'l2', 'random_state':0, 'tol': 0.0001, 'verbose':0}, 
-            "RF": {'n_estimators': 100, 'max_depth': 35, 'n_jobs': -1, 'min_samples_split': 5, 'min_samples_leaf': 5},
-            "MLNN": {'activation':'tanh', 'alpha':1e-04, 'batch_size':'auto',
+            "RF": {'n_estimators': 50, 'max_depth': 20, 'n_jobs': -1, 'min_samples_split': 10, 'min_samples_leaf': 5},
+            "MLNN": {'activation':'tanh', 'alpha':1e-04, 'batch_size': 10,
                     'beta_1':0.9, 'beta_2':0.999, 'early_stopping':False,
                     'epsilon':1e-06, 'hidden_layer_sizes':(60, 30, 15, 7, 2), 'learning_rate':'adaptive',
                     'learning_rate_init':0.001, 'max_iter':200, 'momentum':0.9,
                     'nesterovs_momentum':True, 'power_t':0.5, 'random_state':1, 'shuffle':True,
                     'solver':'adam', 'tol':0.001, 'validation_fraction':0.1, 'verbose':False,
                     'warm_start':False},
-            "ET": {'n_estimators': 100, 'max_depth': 35, 'n_jobs': -1, 'min_samples_split': 5, 'min_samples_leaf': 5},
-            "ADA": {'base_estimator': None, 'n_estimators': 150, 'learning_rate': 1.0, 'algorithm': 'SAMME.R', 'random_state': self.SEED},
-            "GBM": {'loss':'deviance', 'learning_rate': 0.1, 'n_estimators': 100, 
+            "ET": {'n_estimators': 50, 'max_depth': 15, 'n_jobs': -1, 'min_samples_split': 10, 'min_samples_leaf': 5},
+            "ADA": {'base_estimator': None, 'n_estimators': 100, 'learning_rate': 1.25, 'algorithm': 'SAMME.R', 'random_state': self.SEED},
+            "GBM": {'loss':'deviance', 'learning_rate': 0.1, 'n_estimators': 50, 
                    'subsample': 1.0, 'criterion': 'friedman_mse', 'min_samples_split': 5, 'min_samples_leaf': 5, 
-                   'min_weight_fraction_leaf': 0.0, 'max_depth': 4, 'min_impurity_split': 1e-07, 'init': None, 
+                   'min_weight_fraction_leaf': 0.0, 'max_depth': 5, 'min_impurity_split': 1e-07, 'init': None, 
                    'random_state': None, 'max_features': None, 'verbose': 0, 'max_leaf_nodes': None, 
                    'warm_start': False, 'presort': 'auto'},
             "LR": {'penalty':'l2', 'dual': False, 'tol':0.0001, 'C':0.9},
             "XGB": {}, # seperate lib, XGBOOST
             "RVM": {}, # seperate code, RVM
             "DNN": {}, # deep network (dense fully connected layers)
-            "CNN": {'architecture': 'AlexNet'}, # convolutional network , 
-                    #architecture: AlexNet, ResNet, GoogleNet, DenseNet, Inception, CapsNet
+            "CNN": {'architecture': 'resnet50', 'model_location': None}, # convolutional network , 
+                    #architecture: vgg16, vgg19, resnet50, inception, xception
             "EBE": {}, # custom predictor for low sample/high dimensional data
             "CART":{'criterion':'gini', 'splitter':'best', 
-                    'max_depth':10, 'min_samples_split':2, 'min_samples_leaf':3, 
+                    'max_depth':10, 'min_samples_split':10, 'min_samples_leaf':5, 
                     'min_weight_fraction_leaf':0.0, 'max_features': None, 
                     'random_state': self.SEED, 'max_leaf_nodes': None, 
                     'min_impurity_split':1e-07, 'class_weight':None, 
@@ -167,9 +166,11 @@ class RexR():
             patient_ids = [pid.split(".")[0] + ".CEL" for pid in patient_ids]
 
             gene_ids = ch1.ix[:,0]
-
+            #
             ch1_m = ch1.values[:,1:].T
             ch1 = pd.DataFrame(data=ch1_m,index=patient_ids,columns=gene_ids, dtype=float)
+            labels = list(ch1.filter(axis=1, regex=r"^(AFFX.*)").columns)
+            ch1 = ch1.drop(labels, axis=1)
             #ch1['ID'] = ch1.index
         elif self.SET_NAME == 'MELA': # assumes NCBI format, assumes first row of target contains actual targets..
             ch1 = pd.read_csv(path, sep="\t", skiprows=self.READ_PARAMETERS['header_rows'], skipfooter=1, engine='python')
@@ -185,6 +186,8 @@ class RexR():
             ch1['ID'] = ch1.index
             ch1 = ch1.sample(frac=1)#.reset_index(drop=True)
             ch1.index = ch1['ID']
+            labels = list(ch1.filter(axis=1, regex=r"^(AFFX.*)").columns)
+            ch1 = ch1.drop(labels, axis=1)
         return ch1
 
     def _read_patient_file(self, path):

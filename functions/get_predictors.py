@@ -5,7 +5,7 @@ import itertools
 
 import matplotlib.pyplot as plt
 
-from xgboost.sklearn import XGBClassifier as xgb
+#from xgboost.sklearn import XGBClassifier as xgb
 import numpy as np
 import _helpers
 import copy
@@ -58,7 +58,6 @@ def classify_treatment(self, model_type='CART',
     ##########################
     ##########################
     df = self.DATA_merged
-    if(self.DATA_merged_processed is None):
     if self.DATA_merged_processed is None and pipeline['scaler'] is not None:
         print("+ "*30, 'Prepping data, this may take a while..')
         df = _helpers._preprocess(df, scaler = pipeline['scaler']['type'], Rclass = self)
@@ -133,17 +132,35 @@ def classify_treatment(self, model_type='CART',
     elif(model_type == 'DNN'): # version 1: Keras, not very useful atm given that we have so few samples.
         model = Sequential()
         input_dim = x.shape[1]
-        model.add(Dense(256, input_shape=(input_dim,), activation='relu'))
+        model.add(Dense(256, input_shape=(input_dim,), activation='tanh'))
         model.add(Dense(256, activation='tanh')) # relu, selu, tanh, sigmoid
-        model.add(Dense(64, activation='selu'))
         model.add(Dense(64, activation='relu'))
+        model.add(Dense(64, activation='relu'))
+        model.add(Dense(30, activation='relu'))
+        model.add(Dense(30, activation='relu'))
         model.add(Dense(10, activation='relu'))
         model.add(Dense(10, activation='sigmoid'))
         model.add(Dense(1,  activation='sigmoid'))   
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])   
         models.append(('DNN', model))
     elif(model_type == 'CNN'): # version 1: Keras, load common cnn architecture like Inception
-        print("NOT AVAILABLE YET")
+        arch = parameters['CNN']['architecture']
+        if (arch in ['vgg16', 'vgg19', 'resnet50', 'inception', 'xception']):
+            # load directly using keras
+            if arch == 'resnet50':
+                from keras.applications import ResNet50 as cnn_model
+            elif arch == 'vgg16':
+                from keras.applications import VGG16 as cnn_model
+            elif arch == 'vgg19':
+                from keras.applications import VGG19 as cnn_model
+            elif arch == 'inception':
+                from keras.applications import InceptionV3 as cnn_model
+            elif arch == 'xception':
+                from keras.applications import Xception as cnn_model
+        else:
+            # read h5 from model_location
+            print("not done yet")
+
     elif(model_type == 'RVM'):
         import rvm
         models.append(('RVM', None))
@@ -186,6 +203,7 @@ def classify_treatment(self, model_type='CART',
     ############################## MODEL FITTING
     splitter = model_selection.StratifiedKFold(parameters['n_splits'], random_state = self.SEED)
     print("+"*30,' RESULTS FOR CLASSIFICATION WITH GENOMIC DATA',"+"*30)
+    print("+"*20, "..processing feature array {} and class vector {}".format(np.shape(x), np.shape(y)))
     preds = []
     accuracy = []
     for clf in models:
@@ -211,7 +229,7 @@ def classify_treatment(self, model_type='CART',
     if(model_type not in ['RVM', 'DNN', 'CNN']): # 'XGB', 'XGBoost'
         model.fit(x, y) 
     elif(model_type == 'DNN'): 
-        model.fit(x, y, batch_size = 10, epochs = 100, verbose = 0, callbacks=[BL]) 
+        model.fit(x, y, batch_size = 10, epochs = 5, verbose = 0, callbacks=[BL]) 
         #   
     elif(model_type == 'RVM'):
         model = rvm.rvm(x, y, noise = 0.01)
