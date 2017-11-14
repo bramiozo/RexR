@@ -199,8 +199,8 @@ def get_genome_similarity(df, reduction = 'filtered', max_dim = 10000):
 
     return True
 
-def get_patient_clusters(df):
-
+def get_patient_clusters(df, method="AP"):
+    # methods: AP, MCL, SOG
     # append cluster id's to df
 
     return df
@@ -236,9 +236,16 @@ def _graph_affinity_propagation(df):
 
     return True
 
-def _graph_community_detector(df):
+def _graph_markov_clustering(df):
+
+    return True
+
+def _graph_community_detector(df, method = "SBM"):
     ## TO FINISH
-    # maximize betweenness, modularity and group homogeneity
+    # method: SBM, Louvain, AP
+    # ap :http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.399.6701&rep=rep1&type=pdf, change preference and check modularity
+    # maximize betweenness, modularity and group homogeneity, minimize conductance
+    # https://www.youtube.com/watch?v=jIS5pZ8doH8
 
     return True
 
@@ -408,6 +415,11 @@ def get_pca_transform(X, n_comp, RexR): # principal components, used for the cla
     Transform = decomposition.PCA(n_components = n_comp, **pars).fit(X)
     X_out = Transform.transform(X)
     return X_out, Transform
+
+def get_pls_transform(X,y n_comp, RexR):
+    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pls']
+    Transform = cross_decomposition.PLSRegression(n_components = n_comp, **pars).fit(X, y)
+    X_out = Transform.transform(X)
 
 def get_ica_transform(X, n_comp, RexR): # individual component analysis
     pars = RexR.DIMENSION_REDUCTION_PARAMETERS['ica']

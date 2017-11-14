@@ -83,6 +83,8 @@ def classify_treatment(self, model_type='CART',
         x_ = np.copy(x)
         if(pipeline['dim_reduction']['type'] == 'PCA'):
                 x, Reducer = _helpers.get_pca_transform(x_, pipeline['dim_reduction']['n_comp'], self)      
+        elif(pipeline['dim_reduction']['type'] == 'PLS'):
+                x, Reducer = _helpers.get_pls_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
         elif(pipeline['dim_reduction']['type'] == 'LDA'):
                 x, Reducer = _helpers.get_lda_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
         elif(pipeline['dim_reduction']['type'] == 'RBM'):
