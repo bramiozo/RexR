@@ -416,10 +416,11 @@ def get_pca_transform(X, n_comp, RexR): # principal components, used for the cla
     X_out = Transform.transform(X)
     return X_out, Transform
 
-def get_pls_transform(X,y n_comp, RexR):
+def get_pls_transform(X,y, n_comp, RexR):
     pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pls']
     Transform = cross_decomposition.PLSRegression(n_components = n_comp, **pars).fit(X, y)
     X_out = Transform.transform(X)
+    return X_out, Transform
 
 def get_ica_transform(X, n_comp, RexR): # individual component analysis
     pars = RexR.DIMENSION_REDUCTION_PARAMETERS['ica']

@@ -5,7 +5,7 @@ import itertools
 
 import matplotlib.pyplot as plt
 
-#from xgboost.sklearn import XGBClassifier as xgb
+from xgboost.sklearn import XGBClassifier as xgb
 import numpy as np
 import _helpers
 import copy
@@ -101,7 +101,6 @@ def classify_treatment(self, model_type='CART',
     if(model_type == 'SVM'):
         pars = parameters['SVM']
         model = svm.SVC(**pars)
-        print("????")
         models.append(('SVM', model))
     elif(model_type == 'CART'):
         pars = parameters['CART']
@@ -247,6 +246,8 @@ def classify_treatment(self, model_type='CART',
     if(pipeline['dim_reduction']['type'] == 'PCA'):
         x_pred = Reducer.transform(x_pred)
     elif(pipeline['dim_reduction']['type']  == 'LDA'):
+        x_pred = Reducer.transform(x_pred)
+    elif(pipeline['dim_reduction']['type'] == 'PLS'):
         x_pred = Reducer.transform(x_pred)
     elif(pipeline['dim_reduction']['type']  == 'genome_variance'):
         x_pred = Reducer(x_pred)
