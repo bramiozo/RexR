@@ -135,6 +135,11 @@ def _cohort_correction(df):
 
     return True
 
+def gene_map(genes = None, color_scheme = None, map_type = None, gene_sim = None):
+
+
+    return True
+
 def patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None, normalised = True, inflation = 1):
     ''' Function to get similarity measures between patients  
         Variables:

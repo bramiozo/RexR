@@ -148,6 +148,8 @@ def classify_treatment(self, model_type='CART',
         arch = parameters['CNN']['architecture']
         if (arch in ['vgg16', 'vgg19', 'resnet50', 'inception', 'xception']):
             # load directly using keras
+            # these models assume 2D-images, hence the data has to be re-shaped.
+            # simply re-shaping, or re-shaping according to the Hilbert curve
             if arch == 'resnet50':
                 from keras.applications import ResNet50 as cnn_model
             elif arch == 'vgg16':
@@ -159,9 +161,26 @@ def classify_treatment(self, model_type='CART',
             elif arch == 'xception':
                 from keras.applications import Xception as cnn_model
         else:
-            # read h5 from model_location
-            print("not done yet")
-
+            # read h5 from model_location or use custom model
+            print("NOT FINISHED")
+            model = Sequential()
+            model.add(Conv1D(32, 9, input_shape=(input_dim,)))
+            model.add(Activation('relu'))
+            model.add(MaxPooling1D(pool_size=2))
+            model.add(Conv1D(32, 9))
+            model.add(Activation('relu'))
+            model.add(MaxPooling1D(pool_size=2))
+            model.add(Conv1D(64, 9))
+            model.add(Activation('relu'))
+            model.add(MaxPooling1D(pool_size=2))
+            model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
+            model.add(Dense(64))
+            model.add(Activation('relu'))
+            model.add(Dropout(0.5))
+            model.add(Dense(1))
+            model.add(Activation('sigmoid'))
+            model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+            models.append(('CNN', model))
     elif(model_type == 'RVM'):
         import rvm
         models.append(('RVM', None))

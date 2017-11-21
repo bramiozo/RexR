@@ -13,7 +13,7 @@ Pre/post-processing
 
 
 Analysis methods
-* PCA, LDA, QDA, Autoencoding
+* PCA, LDA, PLS, QDA, Autoencoding
 * self-organising maps
 * Hierarchical clustering
 * t-SNE, isomap, mds
