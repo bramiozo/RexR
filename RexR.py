@@ -107,7 +107,7 @@ class RexR():
             "XGB": {}, # seperate lib, XGBOOST
             "RVM": {}, # seperate code, RVM
             "DNN": {}, # deep network (dense fully connected layers)
-            "CNN": {'architecture': 'resnet50', 'model_location': None}, # convolutional network , 
+            "CNN": {'architecture': None, 'model_location': None}, # convolutional network , 
                     #architecture: vgg16, vgg19, resnet50, inception, xception
             "EBE": {}, # custom predictor for low sample/high dimensional data
             "CART":{'criterion':'gini', 'splitter':'best', 

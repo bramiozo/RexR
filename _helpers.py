@@ -455,25 +455,40 @@ def get_tsne_transform(X, y):
     #
     return X_out
 
-def get_optics_clusters(X):
-    #
-    return cluster_ids
+def get_mds_transform(X, y):
+    return True
 
 
-'''
 def get_vector_characteristics():
     # 
 
     return True
-'''
+
 
 def get_filtered_genomes(x, filter_type = None):
-    # low variance filter: minimum relative relative variance (var/mean)_i / (var/mean)_all 
-    # 
+    # 1. low variance filter: minimum relative relative variance (var/mean)_i / (var/mean)_all 
 
-    # low variance filter: minimum summed succesive (absolute) difference
+    # 2. low variance filter: minimum summed succesive (absolute) differences
 
-    # 
+    # 3. Wilcoxon-Mann-Whitney, between classes
+    # scipy.stats.mannwhitneyu, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
+
+    # 4. Wilcoxon signed-rank, between classes
+    # scipy.stats.wilcoxon, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
+
+    # 4. Chi-Square, between classes
+    # scipy.stats.chisquare, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html
+
+    # 5. t-test independent, between classes
+    # scipy.stats.ttest_ind, https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.stats.ttest_ind.html
+
+    # 6. t-test related, between classes
+    # scipy.stats.ttest_rel
+
+    # 7. remove collinearity of feature vectors within class set (leave one)
+
+    # 8. remove collinearity of feature vectors between classes (remove both)
+
     # Transform is basically list of booleans
     return True, Transform
 
@@ -516,7 +531,7 @@ def get_lr_weights(x, y, method = 'one-versus-all'):
         coef = []
     return coef
 
-def get_top_genes(x,y, method=None, n_max = 1000, n_comp = 1000, boruta = False):
+def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
     ''' Extract the genomes that are most relevant for the classification
     * method
     * extra-trees weights
@@ -530,32 +545,45 @@ def get_top_genes(x,y, method=None, n_max = 1000, n_comp = 1000, boruta = False)
     # Boruta: https://pypi.python.org/pypi/Boruta/0.1.5 
     # http://scikit-learn.org/stable/modules/feature_selection.html
     '''   
-
-    if (method in ['RF', 'SVM', 'ET', 'GBM', 'ADA']):
-        coef = get_coef_sk(x, y, method, n_comp)
-        topN = np.argsort(np.abs(coef))[::-1]
-        #coef = np.reshape(coef, (coef.shape[1],))
-        #ordering = np.argsort(np.abs(coef))
-        #topN = ordering[-n:]
-        if boruta:
-            print("Not implemented yet")
-    elif (method in ['LRall', 'LRone']):
-        print("not done..")
-
+    top_genomes_weights = pd.DataFrame()
+    for mod in MODELS:
+        if(mod['method'] in ['RandomForest', 'GBM', 'AdaBoost', 'ExtraTrees']): # RF, ET, GBM, ADA
+            try:
+                top_genomes_weights[mod['method']]=mod['model'].feature_importances_
+                # column normalise
+                top_genomes_weights[mod['method']] = top_genomes_weights[mod['method']]/top_genomes_weights[mod['method']].max()
+            except AttributeError as e:
+                print("model {} does not contain feature importances: {}".format(mod['method'] , e))
     # if multiple methods are used, only keep overlapping genes
-    gene_columns = self.DATA_merged.columns[21:].values
-    top_genes = []
-    for i in range(0, n_max):
-        test = topN[i]
-        top_genes.append({'probeset': gene_columns[test], 'rank_coeff': coef[test]})
 
-    top_genes_df = pandas.DataFrame(top_genes)
+    if(RexR.SET_NAME == 'MELA'):
+        top_genomes_weights.index = RexR.DATA_merged_processed.drop(['target', 'ID'], axis=1).columns
+    elif(RexR.SET_NAME == 'ALL_10'):
+        drop_columns = RexR.DATA_merged_processed.columns[:21]
+        top_genomes_weights.index = RexR.DATA_merged_processed.drop(drop_columns, axis=1).columns
+        
 
-    #coef_list = []
-    #for coef in model._coef:
-    #    coef_list.append(coef)
+    top_genomes_weights['MEAN'] = top_genomes_weights.mean(axis=1)
+    top_genomes_weights = top_genomes_weights.sort_values(by='MEAN', ascending=False)[:n_max]
+           
+    ### Coefficients
+    top_genomes_coeffs = pd.DataFrame()
+    for mod in MODELS:
+        if(mod['method'] in ['LR', 'SVM']):
+            top_genomes_coeffs[mod['method']] = mod['model'].coef_[0,:]
+            top_genomes_coeffs[mod['method']] = top_genomes_coeffs[mod['method']]/top_genomes_coeffs[mod['method']].max() #\
+                                                                   #  -top_genomes[mod['method']].min())
+                                                                     #+numpy.abs(top_genomes[mod['method']].min())
+    if(RexR.SET_NAME == 'MELA'):            
+        top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(['target', 'ID'], axis=1).columns
+    elif(RexR.SET_NAME == 'ALL_10'):
+        drop_columns = RexR.DATA_merged_processed.columns[:21]
+        top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(drop_columns, axis=1).columns
+    #top_genomes['ALL'] = top_genomes.sum(axis=1)
+    top_genomes_coeffs['MEAN'] = top_genomes_coeffs.mean(axis=1)
+    top_genomes_coeffs = top_genomes_coeffs.sort_values(by='MEAN', ascending=False)[:]    
 
-    return top_genes_df
+    return top_genomes_weights, top_genomes_coeffs[-int(n_max/2):].append(top_genomes_coeffs[:int(n_max/2)]).sort_values(by="MEAN")
 
     ########
     ## couple genomes to probesets

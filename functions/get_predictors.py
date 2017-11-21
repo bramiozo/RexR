@@ -13,8 +13,11 @@ import copy
 #sys.setrecursionlimit(10000) 
 
 from keras.models import Sequential
-from keras.layers.core import Dense, Activation, Dropout
+from keras.layers.core import Dense, Activation, Dropout, Flatten
+from keras.layers import MaxPooling1D
 from keras.callbacks import Callback
+from keras.layers.convolutional import Conv1D
+from keras.layers import Input 
 
 import pandas as pd
 import numpy as np
@@ -133,44 +136,56 @@ def classify_treatment(self, model_type='CART',
     elif(model_type == 'DNN'): # version 1: Keras, not very useful atm given that we have so few samples.
         model = Sequential()
         input_dim = x.shape[1]
-        model.add(Dense(256, input_shape=(input_dim,), activation='tanh'))
-        model.add(Dense(256, activation='tanh')) # relu, selu, tanh, sigmoid
+        model.add(Dense(356, input_shape=(input_dim,), activation='tanh'))
+        model.add(Dense(356, input_shape=(input_dim,), activation='tanh'))
+        model.add(Dense(256, activation='relu')) # relu, selu, tanh, sigmoid
+        model.add(Dense(256, activation='relu')) # relu, selu, tanh, sigmoid
+        model.add(Dropout(0.5))
         model.add(Dense(64, activation='relu'))
         model.add(Dense(64, activation='relu'))
         model.add(Dense(30, activation='relu'))
         model.add(Dense(30, activation='relu'))
         model.add(Dense(10, activation='relu'))
-        model.add(Dense(10, activation='sigmoid'))
+        model.add(Dense(10, activation='relu'))
         model.add(Dense(1,  activation='sigmoid'))   
-        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])   
+        model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])   
         models.append(('DNN', model))
-    elif(model_type == 'CNN'): # version 1: Keras, load common cnn architecture like Inception
+    elif(model_type == 'CNN'): # version 1: Keras, load common cnn architecture like Inception       
+        x = np.expand_dims(x, axis=2)
         arch = parameters['CNN']['architecture']
+        input_dim = x.shape[1]
         if (arch in ['vgg16', 'vgg19', 'resnet50', 'inception', 'xception']):
             # load directly using keras
             # these models assume 2D-images, hence the data has to be re-shaped.
             # simply re-shaping, or re-shaping according to the Hilbert curve
+            # how if input_dim is a prime number?? :-D
             if arch == 'resnet50':
-                from keras.applications import ResNet50 as cnn_model
+                from keras.applications import ResNet50
+                model = ResNet50(weights=None, input_tensor=Input(shape=(input_dim,1)))            
             elif arch == 'vgg16':
-                from keras.applications import VGG16 as cnn_model
+                from keras.applications import VGG16
+                model = VGG16(weights=None, input_tensor=Input(shape=(input_dim,1)))
             elif arch == 'vgg19':
-                from keras.applications import VGG19 as cnn_model
+                from keras.applications import VGG19
+                model = VGG19(weights=None, input_tensor=Input(shape=(input_dim,1))) 
             elif arch == 'inception':
-                from keras.applications import InceptionV3 as cnn_model
+                from keras.applications import InceptionV3
+                model = InceptionV3(weights=None, input_tensor=Input(shape=(input_dim,1)))  
             elif arch == 'xception':
-                from keras.applications import Xception as cnn_model
+                from keras.applications import Xception
+                model = Xception(weights=None, input_tensor=Input(shape=(input_dim,1)))
+            model.compile(optimizer='rmsprop', loss='binary_crossentropy')    
+            models.append(('CNN', model))
         else:
             # read h5 from model_location or use custom model
-            print("NOT FINISHED")
             model = Sequential()
-            model.add(Conv1D(32, 9, input_shape=(input_dim,)))
+            model.add(Conv1D(32, 6, input_shape=(input_dim, 1)))
             model.add(Activation('relu'))
             model.add(MaxPooling1D(pool_size=2))
-            model.add(Conv1D(32, 9))
+            model.add(Conv1D(32, 6))
             model.add(Activation('relu'))
             model.add(MaxPooling1D(pool_size=2))
-            model.add(Conv1D(64, 9))
+            model.add(Conv1D(64, 6))
             model.add(Activation('relu'))
             model.add(MaxPooling1D(pool_size=2))
             model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
@@ -248,12 +263,12 @@ def classify_treatment(self, model_type='CART',
     '''
     if(model_type not in ['RVM', 'DNN', 'CNN']): # 'XGB', 'XGBoost'
         model.fit(x, y) 
-    elif(model_type == 'DNN'): 
+    elif(model_type in ['DNN', 'CNN']): 
         model.fit(x, y, batch_size = 10, epochs = 5, verbose = 0, callbacks=[BL]) 
-        #   
     elif(model_type == 'RVM'):
         model = rvm.rvm(x, y, noise = 0.01)
         model.iterateUntilConvergence()
+
 
     if self.SET_NAME == 'ALL_10':
         var_columns = df.columns[21:]   
@@ -278,7 +293,9 @@ def classify_treatment(self, model_type='CART',
     elif model_type == 'RVM':
         preds   = np.reshape(np.dot(x_pred, model.wInferred), newshape=[len(x_pred),])/2+0.5    
     elif model_type == 'DNN':
-        preds   = model.predict_on_batch(np.array(x_pred))[:,0]    
+        preds   = model.predict_on_batch(np.array(x_pred))[:,0]  
+    elif model_type == 'CNN':
+        preds   = model.predict(np.expand_dims(x_pred, axis=2))[:,0] 
 
     ################
     ################
