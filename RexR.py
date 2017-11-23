@@ -155,7 +155,8 @@ class RexR():
                                                         'return_X_mean':False, 
                                                         #'compute_sources':True, 
                                                         'return_n_iter':False
-                                                        }
+                                                        },
+                                                "sae": {"layers": [2000, 1000, 500]}
                                             }
         self.PIPELINE_PARAMETERS =   {  "scaler": {"type": "minmax"},
                                         "pre_processing": {"patient_grouping": 'mean', "bias_removal": False}, # patient grouping and cohort bias removal
