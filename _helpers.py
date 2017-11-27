@@ -3,6 +3,7 @@ from sklearn import discriminant_analysis, decomposition, cross_decomposition
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics import confusion_matrix
 from sklearn.cluster import AffinityPropagation
+from sklearn.manifold import TSNE
 
 import numpy as np
 import pandas as pd
@@ -415,6 +416,33 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rc
     return pred, acc
 
 
+def get_dim_reduction(X, y = None, n_comp = 1000, method = 'pca', RexR):
+    if(method == 'pca'):
+
+    elif(method == 'lda'):
+
+
+    elif(method == 'pls'):
+
+
+    elif(method == 'rbm'):
+
+
+    elif(method == 'lle'):
+
+
+    elif(method == 'isomap'):
+
+    elif(method == 'mds'):
+
+
+    elif(method == 't-sne'):
+
+
+    elif(method == 'sae')
+
+
+
 def get_pca_transform(X, n_comp, RexR): # principal components, used for the classifiers
     pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pca']
     Transform = decomposition.PCA(n_components = n_comp, **pars).fit(X)
@@ -445,14 +473,18 @@ def get_rbm_transform(X,y, n_comp, RexR):
     X_out = Transform.transform(X)
     return X_out, Transform
 
-def get_autoencoded_features(X,y):
+def get_autoencoded_features(X,y, num_layers = 1):
     ## TO FINISH use Keras, or tensorflow
+    # https://github.com/fchollet/keras/issues/358
 
     # Transform is basically list of booleans
     return autoencoded_features, Transform 
 
-def get_tsne_transform(X, y):
+def get_tsne_transform(X, n_dim, RexR):
     #
+    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['t-sne']
+    Transform = TSNE(n_components=n_dim, **pars)
+    X_out = Transform.fit_transform(X)
     return X_out
 
 def get_mds_transform(X, y):
@@ -602,4 +634,11 @@ def get_difference_markers():
     # given two different groups from unsupervised clustering, 
     # find most important genome expressions
     # by treating it as a binary classification problem
+    return True;
+
+
+def get_outliers(X, method = "sos"):
+    # sos, t-sne --> lof; t-sne --> dbscan, t-sne with pij = sqrt(pi|j*pj|i)
+
+
     return True;

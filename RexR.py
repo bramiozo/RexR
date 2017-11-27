@@ -144,6 +144,7 @@ class RexR():
                                                        'verbose': True,
                                                         'n_iter': 100,
                                                         'learning_rate': 0.01},
+                                                "t-SNE":{ },
                                                 "ica":{'algorithm':'parallel', 
                                                         'whiten': True, 
                                                         'fun':'logcosh', 

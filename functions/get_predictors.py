@@ -92,6 +92,8 @@ def classify_treatment(self, model_type='CART',
                 x, Reducer = _helpers.get_lda_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
         elif(pipeline['dim_reduction']['type'] == 'RBM'):
                 x, Reducer = _helpers.get_rbm_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
+        elif(pipeline['dim_reduction']['type'] == 't-SNE'):
+                x, Reducer = _helpers.get_rbm_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
         elif(pipeline['dim_reduction']['type'] == 'genome_variance'):
                 x, Reducer = _helpers.get_filtered_genomes(x_, filter_type = None)
 
