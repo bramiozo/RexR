@@ -84,18 +84,9 @@ def classify_treatment(self, model_type='CART',
     if pipeline['dim_reduction']['type'] is not None:
         print("- "*30, 'Reducing dimensionality')
         x_ = np.copy(x)
-        if(pipeline['dim_reduction']['type'] == 'PCA'):
-                x, Reducer = _helpers.get_pca_transform(x_, pipeline['dim_reduction']['n_comp'], self)      
-        elif(pipeline['dim_reduction']['type'] == 'PLS'):
-                x, Reducer = _helpers.get_pls_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
-        elif(pipeline['dim_reduction']['type'] == 'LDA'):
-                x, Reducer = _helpers.get_lda_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
-        elif(pipeline['dim_reduction']['type'] == 'RBM'):
-                x, Reducer = _helpers.get_rbm_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
-        elif(pipeline['dim_reduction']['type'] == 't-SNE'):
-                x, Reducer = _helpers.get_rbm_transform(x_, y, pipeline['dim_reduction']['n_comp'], self)
-        elif(pipeline['dim_reduction']['type'] == 'genome_variance'):
-                x, Reducer = _helpers.get_filtered_genomes(x_, filter_type = None)
+        x, Reducer = _helper.get_dim_reduction(x_, y, n_comp = pipeline['dim_reduction']['n_comp'], 
+                                                method = pipeline['dim_reduction']['type'], self)
+
 
     # if dimension reduction AND feature selection, then perform FeatureUnion
     ## http://scikit-learn.org/stable/auto_examples/plot_feature_stacker.html#sphx-glr-auto-examples-plot-feature-stacker-py

@@ -4,6 +4,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics import confusion_matrix
 from sklearn.cluster import AffinityPropagation
 from sklearn.manifold import TSNE
+from sklearn.manifold import MDS
+from sklearn.manifold import Isomap as ISO
+from sklearn.manifold import LocallyLinearEmbedding as LLE
 
 import numpy as np
 import pandas as pd
@@ -417,78 +420,41 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rc
 
 
 def get_dim_reduction(X, y = None, n_comp = 1000, method = 'pca', RexR):
-    if(method == 'pca'):
+    if(method.lower() == 'pca'):
+        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pca']
+        Transform = decomposition.PCA(n_components = n_comp, **pars).fit(X)
+    elif(method.lower() == 'lda'):
+        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['lda']
+        Transform = discriminant_analysis.LinearDiscriminantAnalysis(n_components = n_comp, **pars).fit(X,y)
+    elif(method.lower() == 'pls'):
+        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pls']
+        Transform = cross_decomposition.PLSRegression(n_components = n_comp, **pars).fit(X, y)
+    elif(method.lower() == 'rbm'):
+        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['rbm']
+        Transform = neural_network.BernoulliRBM(n_components = n_comp, **pars).fit(X,y)
+    elif(method.lower() == 'lle'):
+        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['lle']
+        Transform = LLE(**pars).fit(X)
+    elif(method.lower() == 'isomap'):
+        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['isomap']
+        Transform = ISO(**pars).fit(X)
+    elif(method.lower() == 'mds'):
+        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['mds']
+        Transform = MDS(**pars).fit(X)
+    elif(method.lower() == 't-sne'):
+        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['t-sne']
+        Transform = TSNE(**pars).fit(X)
+    elif(method.lower() == 'sae')
+        #https://github.com/fchollet/keras/issues/358
+        return True
+    elif(method.lower() == 'genome_variance'):
+        X_out, Transform = get_filtered_genomes(x_, filter_type = None)
+        return X_out, Transform
+    else:
+        raise ValueError 
 
-    elif(method == 'lda'):
-
-
-    elif(method == 'pls'):
-
-
-    elif(method == 'rbm'):
-
-
-    elif(method == 'lle'):
-
-
-    elif(method == 'isomap'):
-
-    elif(method == 'mds'):
-
-
-    elif(method == 't-sne'):
-
-
-    elif(method == 'sae')
-
-
-
-def get_pca_transform(X, n_comp, RexR): # principal components, used for the classifiers
-    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pca']
-    Transform = decomposition.PCA(n_components = n_comp, **pars).fit(X)
     X_out = Transform.transform(X)
     return X_out, Transform
-
-def get_pls_transform(X,y, n_comp, RexR):
-    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pls']
-    Transform = cross_decomposition.PLSRegression(n_components = n_comp, **pars).fit(X, y)
-    X_out = Transform.transform(X)
-    return X_out, Transform
-
-def get_ica_transform(X, n_comp, RexR): # individual component analysis
-    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['ica']
-    Transform = decomposition.FastICA(n_components = n_comp, **pars).fit(X)
-    X_out = Transform.transform(X)
-    return X_out, Transform  
-
-def get_lda_transform(X, y, n_comp, RexR): 
-    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['lda']
-    Transform = discriminant_analysis.LinearDiscriminantAnalysis(n_components = n_comp, **pars).fit(X,y)
-    X_out = Transform.transform(X)
-    return X_out, Transform
-
-def get_rbm_transform(X,y, n_comp, RexR):
-    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['rbm']
-    Transform = neural_network.BernoulliRBM(n_components = n_comp, **pars).fit(X,y)
-    X_out = Transform.transform(X)
-    return X_out, Transform
-
-def get_autoencoded_features(X,y, num_layers = 1):
-    ## TO FINISH use Keras, or tensorflow
-    # https://github.com/fchollet/keras/issues/358
-
-    # Transform is basically list of booleans
-    return autoencoded_features, Transform 
-
-def get_tsne_transform(X, n_dim, RexR):
-    #
-    pars = RexR.DIMENSION_REDUCTION_PARAMETERS['t-sne']
-    Transform = TSNE(n_components=n_dim, **pars)
-    X_out = Transform.fit_transform(X)
-    return X_out
-
-def get_mds_transform(X, y):
-    return True
 
 
 def get_vector_characteristics():

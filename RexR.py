@@ -33,18 +33,16 @@ Probeset drivers for cancer types/pathways:
 
 Survival estimation given a particular treatment:
 
-to-do's (september/october 2017):
-- deep learner
-- sparse auto encoding
-- t-sne / optics analyser
-- ROC/confusion matrix visualiser
-- patient similarity
-- xgboost
-- cohort-bias reducer
-- conditional survival estimator
-
-
-GEO DataSets
+to-do's (Q4 2017):
+- [x] deep learner
+- [ ] sparse auto encoding
+- [ ] t-sne / optics analyser
+- [x] ROC/confusion matrix visualiser
+- [x] patient similarity
+- [x] xgboost
+- [ ] cohort-bias reducer
+- [ ] conditional survival estimator
+- [ ] GEO DataSets lib integration
  
 '''
 
@@ -104,7 +102,8 @@ class RexR():
                    'random_state': None, 'max_features': None, 'verbose': 0, 'max_leaf_nodes': None, 
                    'warm_start': False, 'presort': 'auto'},
             "LR": {'penalty':'l2', 'dual': False, 'tol':0.0001, 'C':0.9},
-            "XGB": {}, # seperate lib, XGBOOST
+            "XGB": {'n_estimator': 100, 'max_depth': 3, 'learning_rate': 0.1, 'objective': 'reg:linear', 
+                    'n_jobs': 1, 'random_state': self.SEED, }, # seperate lib, XGBOOST
             "RVM": {}, # seperate code, RVM
             "DNN": {}, # deep network (dense fully connected layers)
             "CNN": {'architecture': None, 'model_location': None}, # convolutional network , 
@@ -118,7 +117,7 @@ class RexR():
                     'presort':False},
             "GPC":{'optimizer': 'fmin_l_bfgs_b', 'n_restarts_optimizer': 0, 
                     'max_iter_predict': 100, 'warm_start': False, 
-                    'copy_X_train': True, 'random_state': None, 
+                    'copy_X_train': True, 'random_state': self.SEED, 
                     'multi_class': 'one_vs_rest', 'n_jobs': 1}
         }
         #http://scikit-learn.org/stable/modules/feature_selection.html#univariate-feature-selection
@@ -144,7 +143,48 @@ class RexR():
                                                        'verbose': True,
                                                         'n_iter': 100,
                                                         'learning_rate': 0.01},
-                                                "t-SNE":{ },
+                                                "t-SNE":{'n_components':3, 
+                                                         'perplexity': 30.0, 
+                                                         'early_exaggeration': 12.0, 
+                                                         'learning_rate':200.0, 
+                                                         'n_iter':1000, 
+                                                         'n_iter_without_progress':300, 
+                                                         'min_grad_norm':1e-07, 
+                                                         'metric':'euclidean', 
+                                                         'init':'random', 
+                                                         'verbose':0, 
+                                                         'random_state':None, 
+                                                         'method':'barnes_hut',
+                                                         'angle'0.5},
+                                                "lle": {'n_neighbors':5, 
+                                                        'n_components':3, 
+                                                        'reg':0.001,
+                                                        'eigen_solver':'auto', 
+                                                        'tol':1e-06, 
+                                                        'max_iter':100, 
+                                                        'method':'standard', 
+                                                        'hessian_tol':0.0001, 
+                                                        'modified_tol':1e-12, 
+                                                        'neighbors_algorithm':'auto', 
+                                                        'random_state':None, 
+                                                        'n_jobs':4},
+                                                "mds": {'n_components':3, 
+                                                        'metric':True, 
+                                                        'n_init':4, 
+                                                        'max_iter':300, 
+                                                        'verbose':0, 
+                                                        'eps':0.001, 
+                                                        'n_jobs':1, 
+                                                        'random_state':None, 
+                                                        'dissimilarity':'euclidean'},
+                                                "isomap": { 'n_neighbors':5, 
+                                                            'n_components':3, 
+                                                            'eigen_solver':'auto', 
+                                                            'tol':0, 
+                                                            'max_iter':None, 
+                                                            'path_method':'auto', 
+                                                            'neighbors_algorithm':'auto', 
+                                                            'n_jobs':4},
                                                 "ica":{'algorithm':'parallel', 
                                                         'whiten': True, 
                                                         'fun':'logcosh', 
