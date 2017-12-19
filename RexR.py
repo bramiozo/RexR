@@ -35,6 +35,7 @@ Survival estimation given a particular treatment:
 
 to-do's (Q4 2017):
 - [x] deep learner
+- [ ] LightGBM
 - [ ] sparse auto encoding
 - [ ] t-sne / optics analyser
 - [x] ROC/confusion matrix visualiser
@@ -43,7 +44,7 @@ to-do's (Q4 2017):
 - [ ] cohort-bias reducer
 - [ ] conditional survival estimator
 - [ ] GEO DataSets lib integration
- 
+- [ ] gene importance visualiser
 '''
 
 
@@ -103,7 +104,7 @@ class RexR():
                    'warm_start': False, 'presort': 'auto'},
             "LR": {'penalty':'l2', 'dual': False, 'tol':0.0001, 'C':0.9},
             "XGB": {'n_estimator': 100, 'max_depth': 3, 'learning_rate': 0.1, 'objective': 'reg:linear', 
-                    'n_jobs': 1, 'random_state': self.SEED, }, # seperate lib, XGBOOST
+                    'n_jobs': 1, 'random_state': self.SEED}, # seperate lib, XGBOOST
             "RVM": {}, # seperate code, RVM
             "DNN": {}, # deep network (dense fully connected layers)
             "CNN": {'architecture': None, 'model_location': None}, # convolutional network , 
@@ -155,7 +156,7 @@ class RexR():
                                                          'verbose':0, 
                                                          'random_state':None, 
                                                          'method':'barnes_hut',
-                                                         'angle'0.5},
+                                                         'angle':0.5},
                                                 "lle": {'n_neighbors':5, 
                                                         'n_components':3, 
                                                         'reg':0.001,

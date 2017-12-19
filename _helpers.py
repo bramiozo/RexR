@@ -419,32 +419,32 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rc
     return pred, acc
 
 
-def get_dim_reduction(X, y = None, n_comp = 1000, method = 'pca', RexR):
+def get_dim_reduction(X, y = None, n_comp = 1000, method = 'pca', Rclass = None):
     if(method.lower() == 'pca'):
-        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pca']
+        pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['pca']
         Transform = decomposition.PCA(n_components = n_comp, **pars).fit(X)
     elif(method.lower() == 'lda'):
-        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['lda']
+        pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['lda']
         Transform = discriminant_analysis.LinearDiscriminantAnalysis(n_components = n_comp, **pars).fit(X,y)
     elif(method.lower() == 'pls'):
-        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['pls']
+        pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['pls']
         Transform = cross_decomposition.PLSRegression(n_components = n_comp, **pars).fit(X, y)
     elif(method.lower() == 'rbm'):
-        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['rbm']
+        pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['rbm']
         Transform = neural_network.BernoulliRBM(n_components = n_comp, **pars).fit(X,y)
     elif(method.lower() == 'lle'):
-        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['lle']
+        pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['lle']
         Transform = LLE(**pars).fit(X)
     elif(method.lower() == 'isomap'):
-        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['isomap']
+        pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['isomap']
         Transform = ISO(**pars).fit(X)
     elif(method.lower() == 'mds'):
-        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['mds']
+        pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['mds']
         Transform = MDS(**pars).fit(X)
     elif(method.lower() == 't-sne'):
-        pars = RexR.DIMENSION_REDUCTION_PARAMETERS['t-sne']
+        pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['t-sne']
         Transform = TSNE(**pars).fit(X)
-    elif(method.lower() == 'sae')
+    elif(method.lower() == 'sae'):
         #https://github.com/fchollet/keras/issues/358
         return True
     elif(method.lower() == 'genome_variance'):

@@ -84,8 +84,8 @@ def classify_treatment(self, model_type='CART',
     if pipeline['dim_reduction']['type'] is not None:
         print("- "*30, 'Reducing dimensionality')
         x_ = np.copy(x)
-        x, Reducer = _helper.get_dim_reduction(x_, y, n_comp = pipeline['dim_reduction']['n_comp'], 
-                                                method = pipeline['dim_reduction']['type'], self)
+        x, Reducer = _helpers.get_dim_reduction(x_, y, n_comp = pipeline['dim_reduction']['n_comp'], 
+                                                        method = pipeline['dim_reduction']['type'], Rclass = self)
 
 
     # if dimension reduction AND feature selection, then perform FeatureUnion
