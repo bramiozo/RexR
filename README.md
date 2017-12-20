@@ -23,8 +23,8 @@ Prediction
 * ensemble learning
 * multi-layer neural network
 * deep learning
-* tree-based algorithms: extraTrees, random forest, C5.0, CART
-* novel extremely-biased estimator (EBE)
+* tree-based algorithms: extraTrees, random forest, C5.0, CART, XGB, LightGBM
+* novel Cluster-enhanced extremely-biased estimator (CEBE)
 
 hyperlearning
 * simulated annealing
@@ -32,7 +32,7 @@ hyperlearning
 * Bayesian optimisation
 * grid search (1)
 * random selection (3)
-* succesive halving
+* successive halving
 * active learning (2) --> output difficult classes and output test samples that
                           need labeling
 
@@ -75,20 +75,29 @@ Piggyback:
 
 
 # To Do
-- basic functionality of all classifiers
-  -- XGBOOST
-  -- DNN
-  -- CNN 
-  -- RVM
-  -- EBE: extremely biased estimator
-- generate table with classification per patient, per classification method => send to Jules
-- top-genome selector => send to Jules
-- top-genome visualiser: top-N list -> hierarchical clustering
-- patient clustering ==> all genomes, reduced
-- genome clustering ==> reduced..
-- visualisation of training process
-- user-friendly way to set-up pipelines
-- add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
-- add SOM for genome seperation
-
-- refactor/optimize: Cython, numba, static def's, parallelise
+- [x] XGBOOST
+- [x] DNN
+- [x] CNN 
+- [x] RVM
+- [ ] lightGBM
+- [ ] CEBE: Cluster-enhanced extremely biased estimator
+- [ ] PAM method
+- [x] generate table with classification per patient, per classification method => send to Jules
+- [ ] routine to generate table's
+- [ ] top-genome selector => send to Jules
+- [ ] top-genome visualiser: top-N list -> hierarchical clustering
+- [ ] patient clustering ==> all genomes, reduced
+- [ ] genome clustering ==> reduced..
+- [ ] visualisation of training process
+- [ ] user-friendly way to set-up pipelines
+- [ ] add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
+- [ ] add SOM for genome seperation
+- [ ] sparse auto encoding
+- [ ] t-sne / optics analyser
+- [x] ROC/confusion matrix visualiser
+- [x] patient similarity
+- [ ] cohort-bias reducer
+- [ ] conditional survival estimator
+- [ ] GEO DataSets lib integration
+- [ ] gene importance visualiser
+- [ ] refactor/optimize: Cython, numba, static def's, parallelise
