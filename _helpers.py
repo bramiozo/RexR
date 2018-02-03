@@ -7,6 +7,7 @@ from sklearn.manifold import TSNE
 from sklearn.manifold import MDS
 from sklearn.manifold import Isomap as ISO
 from sklearn.manifold import LocallyLinearEmbedding as LLE
+from sklearn.model_selection import train_test_split, cross_val_score  
 
 import numpy as np
 import pandas as pd
@@ -27,6 +28,10 @@ from itertools import product
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation, Dropout
 from keras.callbacks import Callback
+
+import lightgbm as lgb
+
+
 
 class BatchLogger(Callback):
     def on_train_begin(self, epoch, logs={}):
@@ -129,20 +134,6 @@ def _group_patients(df, method = 'first', Rclass = None): # method = ['first', '
     else:
         return df
 
-def _cohort_correction(df):
-    ## TO FINISH
-    # correct for bias introduced by measurements
-    # check for means in measurement groups, for similar patients (use groups from affinity propagation?)
-    # assumptions: patients sampled over different groups in a stratified manner
-
-
-
-    return True
-
-def gene_map(genes = None, color_scheme = None, map_type = None, gene_sim = None):
-
-
-    return True
 
 def patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None, normalised = True, inflation = 1):
     ''' Function to get similarity measures between patients  
@@ -200,63 +191,8 @@ def patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None
     ###
     return patient_similarity
 
-def get_genome_similarity(df, reduction = 'filtered', max_dim = 10000):
-    ## TO FINISH, low-dim, high number of vectors
-    ## need to create sparse representation otherwise we end up with a 55.000 x 55.000 matrix
-    df_reduced = _get_reduced(df, reduce_type= reduction)
 
 
-    return True
-
-def get_patient_clusters(df, method="AP"):
-    # methods: AP, MCL, SOG
-    # append cluster id's to df
-
-    return df
-
-def get_genome_clusters(df):
-
-
-    # append cluster id's to df
-
-    return df
-
-
-def _get_reduced(df, reduction = 'filtered'):
-    if reduction == 'filtered':
-        df_reduced = get_filtered_genomes
-    elif reduction == 'pca':
-        df_reduced = get_principal_components
-    elif reduction == 'lda':
-        df_reduced = get_individual_components
-    elif reduction == 'autoencoding':
-        df_reduced = get_autoencoded_features
-    elif reduction == 'mds':
-        df_reduced = get_mds_features
-    elif reduction == 'tsne':
-        df_reduced = get_tsne_features
-    elif reduction == 'rf': # random forest
-        df_reduced = get_rf_features
-    return df_reduced
-
-def _graph_affinity_propagation(df):
-    ## TO FINISH
-    ## 
-
-    return True
-
-def _graph_markov_clustering(df):
-
-    return True
-
-def _graph_community_detector(df, method = "SBM"):
-    ## TO FINISH
-    # method: SBM, Louvain, AP
-    # ap :http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.399.6701&rep=rep1&type=pdf, change preference and check modularity
-    # maximize betweenness, modularity and group homogeneity, minimize conductance
-    # https://www.youtube.com/watch?v=jIS5pZ8doH8
-
-    return True
 
 
 
@@ -321,8 +257,8 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rc
     if framework == 'sklearn':
         for train_index, test_index in splitter.split(x, y):
             x_train, x_test = x[train_index], x[test_index]
-            y_train, y_test = y[train_index], y[test_index] 
-            model[1].fit(x_train,y_train)
+            y_train, y_test = y[train_index], y[test_index]            
+            model[1].fit(x_train, y_train)
             pred_test = model[1].predict_proba(x_test) # (model[1].predict_proba(x_test)>threshold).astype(int)
             pred_test_ = model[1].predict(x_test) #[np.round(l[1]).astype(int) for l in pred_test]
             pred[test_index] =  pred_test_ #np.round(pred_test)[0]
@@ -414,8 +350,7 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rc
             plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred)
                 
             plt.tight_layout()
-            plt.show()        
-
+            plt.show()
     return pred, acc
 
 
@@ -456,79 +391,6 @@ def get_dim_reduction(X, y = None, n_comp = 1000, method = 'pca', Rclass = None)
     X_out = Transform.transform(X)
     return X_out, Transform
 
-
-def get_vector_characteristics():
-    # 
-
-    return True
-
-
-def get_filtered_genomes(x, filter_type = None):
-    # 1. low variance filter: minimum relative relative variance (var/mean)_i / (var/mean)_all 
-
-    # 2. low variance filter: minimum summed succesive (absolute) differences
-
-    # 3. Wilcoxon-Mann-Whitney, between classes
-    # scipy.stats.mannwhitneyu, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
-
-    # 4. Wilcoxon signed-rank, between classes
-    # scipy.stats.wilcoxon, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
-
-    # 4. Chi-Square, between classes
-    # scipy.stats.chisquare, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html
-
-    # 5. t-test independent, between classes
-    # scipy.stats.ttest_ind, https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.stats.ttest_ind.html
-
-    # 6. t-test related, between classes
-    # scipy.stats.ttest_rel
-
-    # 7. remove collinearity of feature vectors within class set (leave one)
-
-    # 8. remove collinearity of feature vectors between classes (remove both)
-
-    # Transform is basically list of booleans
-    return True, Transform
-
- 
-def get_rf_weights(x, y, n):
-    forest = ensemble.RandomForestClassifier(n_estimators=n, random_state=0, n_jobs=-1)
-    forest.fit(x, y)
-    importances = forest.feature_importances_
-    return 
-
-def get_et_weights(x, y, n):
-    forest = ensemble.GradientBoostingClassifier(n_estimators=n, random_state=0, n_jobs=-1)
-    forest.fit(x, y)
-    importances = forest.feature_importances_
-    return importances
-
-def get_gbm_weights(x, y, n):
-    forest = ensemble.ExtraTreesClassifier(n_estimators=n, random_state=0, n_jobs=-1)
-    forest.fit(x, y)
-    importances = forest.feature_importances_
-    return importances
-
-def get_ada_weights(x, y, n):
-    forest = ensemble.AdaBoostClassifier(n_estimators=n, random_state=0, n_jobs=-1)
-    forest.fit(x, y)
-    importances = forest.feature_importances_
-    return importances
-
-def get_svm_weights(x, y):    
-    forest = LinearSVC()
-    forest.fit(x, y)
-    importances = forest.coef_[0]
-    return importances
-
-
-def get_lr_weights(x, y, method = 'one-versus-all'):
-    if (method == 'one-versus-all'):
-        coef = []
-    elif (method == 'all-versus-all'):
-        coef = []
-    return coef
-
 def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
     ''' Extract the genomes that are most relevant for the classification
     * method
@@ -545,7 +407,7 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
     '''   
     top_genomes_weights = pd.DataFrame()
     for mod in MODELS:
-        if(mod['method'] in ['RandomForest', 'GBM', 'AdaBoost', 'ExtraTrees']): # RF, ET, GBM, ADA
+        if(mod['method'].lower() in ['randomforest', 'gbm', 'adaboost', 'extratrees', 'lgbm', 'xgb']): # RF, ET, GBM, ADA
             try:
                 top_genomes_weights[mod['method']]=mod['model'].feature_importances_
                 # column normalise
@@ -583,8 +445,113 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
 
     return top_genomes_weights, top_genomes_coeffs[-int(n_max/2):].append(top_genomes_coeffs[:int(n_max/2)]).sort_values(by="MEAN")
 
-    ########
-    ## couple genomes to probesets
+
+
+def _get_reduced(df, reduction = 'filtered'):
+    if reduction == 'filtered':
+        df_reduced = get_filtered_genomes
+    elif reduction == 'pca':
+        df_reduced = get_principal_components
+    elif reduction == 'lda':
+        df_reduced = get_individual_components
+    elif reduction == 'autoencoding':
+        df_reduced = get_autoencoded_features
+    elif reduction == 'mds':
+        df_reduced = get_mds_features
+    elif reduction == 'tsne':
+        df_reduced = get_tsne_features
+    elif reduction == 'rf': # random forest
+        df_reduced = get_rf_features
+    return df_reduced
+
+def _cohort_correction(df):
+    ## TO FINISH
+    # correct for bias introduced by measurements
+    # check for means in measurement groups, for similar patients (use groups from affinity propagation?)
+    # assumptions: patients sampled over different groups in a stratified manner
+
+    return True
+
+def gene_map(genes = None, color_scheme = None, map_type = None, gene_sim = None):
+    return True
+
+
+def _graph_affinity_propagation(df):
+    ## TO FINISH
+    ## 
+
+    return True
+
+def _graph_markov_clustering(df):
+    return True
+
+def _graph_community_detector(df, method = "SBM"):
+    ## TO FINISH
+    # method: SBM, Louvain, AP
+    # ap :http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.399.6701&rep=rep1&type=pdf, change preference and check modularity
+    # maximize betweenness, modularity and group homogeneity, minimize conductance
+    # https://www.youtube.com/watch?v=jIS5pZ8doH8
+    return True
+
+def couple_probeset_to_genome():
+
+    return 
+
+def get_genome_similarity(df, reduction = 'filtered', max_dim = 10000):
+    ## TO FINISH, low-dim, high number of vectors
+    ## need to create sparse representation otherwise we end up with a 55.000 x 55.000 matrix
+    df_reduced = _get_reduced(df, reduce_type= reduction)
+
+    return True
+
+def get_patient_clusters(df, method="AP"):
+    # methods: AP, MCL, SOG
+    # append cluster id's to df
+
+    return df
+
+def get_genome_clusters(df):
+
+
+    # append cluster id's to df
+
+    return df
+
+def get_vector_characteristics():
+    # 
+
+    return True
+
+
+def get_filtered_genomes(x, filter_type = None):
+    # Use FDR with a number of different statistical measures:
+    # also see: http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFdr.html#sklearn.feature_selection.SelectFdr
+
+    # 1. low variance filter: minimum relative relative variance (var/mean)_i / (var/mean)_all 
+
+    # 2. low variance filter: minimum summed succesive (absolute) differences
+
+    # 3. Wilcoxon-Mann-Whitney, between classes
+    # scipy.stats.mannwhitneyu, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
+
+    # 4. Wilcoxon signed-rank, between classes
+    # scipy.stats.wilcoxon, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
+
+    # 4. Chi-Square, between classes
+    # scipy.stats.chisquare, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html
+
+    # 5. t-test independent, between classes
+    # scipy.stats.ttest_ind, https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.stats.ttest_ind.html
+
+    # 6. t-test related, between classes
+    # scipy.stats.ttest_rel
+
+    # 7. remove collinearity of feature vectors within class set (leave one)
+
+    # 8. remove collinearity of feature vectors between classes (remove both)
+
+    # Transform is basically list of booleans
+    return True, Transform
 
     
 def rotation_norm(x, y, norm):   
@@ -606,5 +573,12 @@ def get_difference_markers():
 def get_outliers(X, method = "sos"):
     # sos, t-sne --> lof; t-sne --> dbscan, t-sne with pij = sqrt(pi|j*pj|i)
 
-
     return True;
+
+
+def get_lr_weights(x, y, method = 'one-versus-all'):
+    if (method == 'one-versus-all'):
+        coef = []
+    elif (method == 'all-versus-all'):
+        coef = []
+    return coef

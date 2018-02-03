@@ -1,0 +1,114 @@
+#
+# This function takes a dataset (genes on rows, cases/samples on columns) and
+# applies the Wilcoxon test per gene to check if there are differentially expressed genes
+# Inputs
+# dataset: a matrix with ngenes rows and nsamples columns
+# yvar: a variable with the same length as nsamples with two values, defining the groups to be compared
+# To use with genetic subtypes
+
+wpvals.braintumor <- function(data.vsn.read,histo)
+{
+n.yvar <- design[!is.na(yvar)]
+f.yvar <- factor(n.yvar)
+n.histo <- length(f.yvar)
+subset.histo <- data.vsn.read[,!is.na(yvar)]
+histo.wpvals <- rep(0,nrow(subset.histo))
+for(i in 1:nrow(subset.histo))
+ {
+  histo.wpvals[i] <- wilcox.test(as.numeric(subset.histo[i,f.yvar==levels(f.yvar)[1]]),as.numeric(subset.histo[i,f.yvar==levels(f.yvar)[2]]))$p.value
+ }
+histo.wpvals
+}
+#
+# This function takes a dataset (genes on rows, cases/samples on columns) and
+# applies the Wilcoxon test per gene to check if there are differentially expressed genes
+# Inputs
+# dataset: a matrix with ngenes rows and nsamples columns
+# yvar: a variable with the same length as nsamples with three values, defining the groups to be compared
+# The intermediate value is abandoned
+# To use with drug resistance status
+
+wpvals.histo <- function(dataset,yvar)
+{
+n.yvar <- yvar[!is.na(yvar)]
+f.yvar <- factor(n.yvar)
+f.histo2 <- f.yvar[ f.yvar!=levels(f.yvar)[2] ]
+n.histo <- length(f.drug2)
+subset.histo1 <- dataset[,!is.na(yvar)]
+subset.histo <- subset.histo1[,f.yvar!=levels(f.yvar)[2] ]
+histo.wpvals <- rep(0,n.histo)
+for(i in 1:n.histo)
+ {
+  histo.wpvals[i] <- wilcox.test(as.numeric(subset.histo[i,f.histo2==levels(f.histo2)[1]]),as.numeric(subset.histo[i,f.histo2==levels(f.histo2)[3]]))$p.value
+ }
+histo.wpvals
+}
+
+#
+# This function takes a dataset (genes on rows, cases/samples on columns) and
+# applies the Wilcoxon test per gene to check if there are differentially expressed genes
+# Given a factor, it compares samples from one level to the remaining samples
+# Inputs
+# dataset: a matrix with ngenes rows and nsamples columns
+# yvar: a variable with the same length as nsamples with at least two values, defining the groups to be compared
+# val: the value of yvar to define the group, all samples not associated with this value are in the "other" group
+# To use with genetic subtypes
+
+wpvals.pairs <- function(dataset,yvar,val)
+{
+n.yvar <- yvar[!is.na(yvar)]
+f.yvar <- factor(n.yvar)
+n.histo <- length(f.yvar)
+subset.histo <- dataset[,!is.na(yvar)]
+histo.wpvals <- rep(0,nrow(subset.histo))
+for(i in 1:nrow(subset.histo))
+ {
+  histo.wpvals[i] <- wilcox.test(as.numeric(subset.histo[i,f.yvar==val]),as.numeric(subset.histo[i,f.yvar!=val]))$p.value
+ }
+histo.wpvals
+}
+
+
+#
+# This function does the BH-FDR multiple testing adjustment and produces graphs
+# It requires the multtest library to be loaded
+# Input
+# pvals: a vector containing the p-values of the features
+
+adj.bhfdr <- function(pvals)
+{
+adj1pvals <- mt.rawp2adjp(pvals,"BH")
+adj.pvals <- adj1pvals$adjp[order(adj1pvals$index),2]
+ngenes <- length(pvals)
+
+# Making graphs to visualise effect
+
+par(mfrow=c(1,3))
+hist(pvals,main="Raw p-values",xlab="")
+plot(1:ngenes,sort(pvals),main="Sorted raw p-values",xlab="Genes",ylab="",pch=20,col="blue")
+segments(0,0,ngenes,1,lty="dashed")
+plot(1:ngenes,sort(adj.pvals),main="FDR-corrected p-values",xlab="Genes",ylab="sorted p-values",pch=20,col="blue")
+segments(0,0.05,ngenes,0.05,lty="dashed")
+
+# Output
+
+adj.pvals
+}
+
+#
+# Function to compute a table with numbers of genes selected for various levels of error
+#
+# Input
+# pvals: a vector with (multiple-testing adjusted) p-values
+
+table.npvals <- function(pvals)
+{
+error.levels <- c(0.01,0.025,0.05,0.075,0.10)
+sel.id <- (pvals<=error.levels[1])
+for(i in 2:length(error.levels))
+ {
+  sel.id <- cbind(sel.id, (pvals<=error.levels[i]) )
+ }
+colnames(sel.id) <- c(0.01,0.025,0.05,0.075,0.10)
+n.selected <- apply(sel.id,2,sum)
+}

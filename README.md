@@ -75,29 +75,54 @@ Piggyback:
 
 
 # To Do
+Complexity: 1, 3, 5, 7, 13
 - [x] XGBOOST
 - [x] DNN
 - [x] CNN 
 - [x] RVM
-- [ ] lightGBM
-- [ ] CEBE: Cluster-enhanced extremely biased estimator
-- [ ] PAM method
-- [x] generate table with classification per patient, per classification method => send to Jules
-- [ ] routine to generate table's
-- [ ] top-genome selector => send to Jules
-- [ ] top-genome visualiser: top-N list -> hierarchical clustering
-- [ ] patient clustering ==> all genomes, reduced
-- [ ] genome clustering ==> reduced..
-- [ ] visualisation of training process
-- [ ] user-friendly way to set-up pipelines
-- [ ] add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
-- [ ] add SOM for genome seperation
-- [ ] sparse auto encoding
-- [ ] t-sne / optics analyser
-- [x] ROC/confusion matrix visualiser
-- [x] patient similarity
-- [ ] cohort-bias reducer
-- [ ] conditional survival estimator
-- [ ] GEO DataSets lib integration
-- [ ] gene importance visualiser
-- [ ] refactor/optimize: Cython, numba, static def's, parallelise
+- 13, 	[ ] Combat bias corrector
+- 13, 	[ ] PCA bias corrector
+- 3, 	[ ] noise addition to increase robustness
+- 3, 	[ ] n-repetitions and bagging of stochastic methods (i.e.  varying seed's)
+- 1, 	[x] lightGBM
+- 13, 	[ ] CEBE: Cluster-enhanced extremely biased estimator
+- 13, 	[ ] PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
+- 3,  	[x] generate table with classification per patient, per classification method => send to Jules
+*- 5, 	[ ] routine to generate table's
+- 1, 	[x] top-genome selector => send to Jules
+*- 5, 	[ ] top-genome visualiser: top-N list -> hierarchical clustering
+- 3,	[ ] patient clustering ==> all genomes, reduced
+- 7,	[ ] genome clustering ==> reduced..
+- ? 	[x] visualisation of training process
+- 7,	[ ] user-friendly way to set-up pipelines
+- 5,	[ ] add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
+- 7, 	[ ] add SOM for genome seperation
+- 3,	[ ] sparse auto encoding for pre-processing
+- 3,	[ ] t-sne / optics analyser
+- 3,	[x] ROC/confusion matrix visualiser
+- 5,	[x] patient similarity
+- 5,	[ ] conditional survival estimator. i.e. add a regressor.
+- 5,	[ ] GEO DataSets lib integration
+- 13,	[ ] refactor/optimize: Cython, numba, static def's, parallelise
+- x, 	[ ] add healthy patient reference routine
+
+## Datasets
+
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL10558
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL96
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE83744
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL97
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52581
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE11863
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE31586
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE66499 !
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE80796 !
+
+# future
+
+* use of PyTorch, https://eng.uber.com/pyro/
+* https://python-graph-gallery.com/405-dendrogram-with-heatmap-and-coloured-leaves/
+* search engine for medical documents: hierarchical/DT based, human-in-the-loop
+* build domain specific word embeddings for medical graph search
+* use Siamese neural-network to get rid of the cohort bias
+* add variational autoencoder? why?

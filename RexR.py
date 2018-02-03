@@ -103,13 +103,16 @@ class RexR():
                    'random_state': None, 'max_features': None, 'verbose': 0, 'max_leaf_nodes': None, 
                    'warm_start': False, 'presort': 'auto'},
             "LR": {'penalty':'l2', 'dual': False, 'tol':0.0001, 'C':0.9},
-            "XGB": {'n_estimator': 100, 'max_depth': 3, 'learning_rate': 0.1, 'objective': 'reg:linear', 
-                    'n_jobs': 1, 'random_state': self.SEED}, # seperate lib, XGBOOST
+            "XGB": {'seed': self.SEED, 'n_estimators': 100, 'max_depth': 3,
+                    'learning_rate': 0.1, 'objective': 'reg:linear', 'nthread': -1}, # seperate lib, XGBOOST
             "RVM": {}, # seperate code, RVM
             "DNN": {}, # deep network (dense fully connected layers)
             "CNN": {'architecture': None, 'model_location': None}, # convolutional network , 
                     #architecture: vgg16, vgg19, resnet50, inception, xception
             "EBE": {}, # custom predictor for low sample/high dimensional data
+            "LGBM": {'boosting_type':'gbdt' ,'learning_rate': 0.75, # boosting: gbdt,dart,goss,rf
+                    'max_depth': 4, 'num_leaves': 100, 'n_jobs': -1,
+                    'n_estimators':100, 'random_state': self.SEED},
             "CART":{'criterion':'gini', 'splitter':'best', 
                     'max_depth':10, 'min_samples_split':10, 'min_samples_leaf':5, 
                     'min_weight_fraction_leaf':0.0, 'max_features': None, 

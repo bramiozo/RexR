@@ -1,23 +1,21 @@
 from sklearn import preprocessing, svm, tree, ensemble, naive_bayes 
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
-import itertools
-
-import matplotlib.pyplot as plt
-
 from xgboost.sklearn import XGBClassifier as xgb
-import numpy as np
-import _helpers
-import copy
-#import sys
-#sys.setrecursionlimit(10000) 
-
+import lightgbm as lgb
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation, Dropout, Flatten
 from keras.layers import MaxPooling1D
 from keras.callbacks import Callback
 from keras.layers.convolutional import Conv1D
 from keras.layers import Input 
+
+import matplotlib.pyplot as plt
+import _helpers
+import copy
+import itertools
+#import sys
+#sys.setrecursionlimit(10000) 
 
 import pandas as pd
 import numpy as np
@@ -118,6 +116,10 @@ def classify_treatment(self, model_type='CART',
         pars = parameters['GBM']
         model = ensemble.GradientBoostingClassifier(**pars)
         models.append(('GBM', model))
+    elif(model_type == 'LGBM'):
+        pars = parameters['LGBM'] 
+        model = lgb.LGBMClassifier(**pars)      
+        models.append(('LGBM', model))
     elif(model_type in ['AdaBoost','Ada']):
         pars = parameters['ADA']
         model = ensemble.AdaBoostClassifier(**pars)
@@ -241,6 +243,7 @@ def classify_treatment(self, model_type='CART',
             pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'keras', Rclass = self)
         else:
             pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn', Rclass = self)
+
         #acc = metrics.accuracy_score(y,pred)
         accuracy.append({'model': clf[0], 'acc': np.mean(acc), 'var' : np.var(acc)})
         print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))
@@ -261,7 +264,16 @@ def classify_treatment(self, model_type='CART',
     elif(model_type == 'RVM'):
         model = rvm.rvm(x, y, noise = 0.01)
         model.iterateUntilConvergence()
+    elif(model_type.lower() in ['lgbm', 'lightgbm']):
+        x_ = lgb.Dataset(x, label=None, max_bin=8192) #
+        ''' params = {'early_stopping_rounds':10,  
+                   'eval_metric':'logloss', 
+                   'train_set': d_train, 
+                   'num_boost_round':7000, 
+                   'verbose_eval':1000,
+                   'verbose'=True}'''       
 
+        model.fit(x_, y, early_stopping_rounds=10, verbose=True)
 
     if self.SET_NAME == 'ALL_10':
         var_columns = df.columns[21:]   
@@ -289,13 +301,15 @@ def classify_treatment(self, model_type='CART',
         preds   = model.predict_on_batch(np.array(x_pred))[:,0]  
     elif model_type == 'CNN':
         preds   = model.predict(np.expand_dims(x_pred, axis=2))[:,0] 
+    elif model_type.lower() in ['lgbm', 'lightgbm']:
+        preds = model.predict_proba(X_test, num_iteration = model.best_iteration)
 
     ################
     ################
 
     print("+"*50)
     ################################################################
-    ##### ADD PATIENT INFO TO PREDICTOR
+    ##### ADD PATIENT INFO TO PREDICTOR, is specific to ALL-10
     if(features == 'all'):
         #### This assumes that the previous predictions are suitable as features.
         ##################################
