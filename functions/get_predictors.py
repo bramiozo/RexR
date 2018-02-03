@@ -1,75 +1,201 @@
 from sklearn import preprocessing, svm, tree, ensemble, naive_bayes 
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
-import numpy as np
+from xgboost.sklearn import XGBClassifier as xgb
+import lightgbm as lgb
+from keras.models import Sequential
+from keras.layers.core import Dense, Activation, Dropout, Flatten
+from keras.layers import MaxPooling1D
+from keras.callbacks import Callback
+from keras.layers.convolutional import Conv1D
+from keras.layers import Input 
+
+import matplotlib.pyplot as plt
 import _helpers
 import copy
+import itertools
 #import sys
 #sys.setrecursionlimit(10000) 
 
+import pandas as pd
+import numpy as np
+
+class BatchLogger(Callback):
+    def on_train_begin(self, epoch, logs={}):
+        self.log_values = {}
+        for k in self.params['metrics']:
+            self.log_values[k] = []
+
+    def on_epoch_end(self, batch, logs={}):
+        for k in self.params['metrics']:
+            if k in logs:
+                self.log_values[k].append(logs[k])
+    
+    def get_values(self, metric_name, window):
+        d =  pd.Series(self.log_values[metric_name])
+        return d.rolling(window,center=False).mean()
+BL = BatchLogger()
+
 def classify_treatment(self, model_type='CART', 
                             features = 'genome', 
-                            grouping= 'first', 
-                            n_splits = 10,
-                            reduction = None):  
+                            parameters = {},
+                            pipeline = {}):  
     # model=['SVM', 'CART', 'LR', 'RandomForest', 'AdaBoost']
     # grouping=['first', 'median', 'mean']
     # features=['all', 'genomes']
-    # reduction = ['LDA', 'QDA', 'PCA', 'genome_variance', 'None']
+    # reduction = ['PCA']
     # topN = None [None, N] 
-    #
+    # parameters: dict of dicts, **kwargs for functions
     #
     # streamlining code: create data pipelines http://sebastianraschka.com/Articles/2014_ensemble_classifier.html
     ############################################
-    n_comp = 100 # number of components for dimensionality reduction
-    min_nom_var = 0.2
+    if parameters == {}: # empty dict, so fetch defaults
+        parameters = self.MODEL_PARAMETERS
+
+    if pipeline == {}:    
+        pipeline = self.PIPELINE_PARAMETERS
+    ##########################
+    ######## PIPELINE ########
+    ##########################
+    ##########################
     df = self.DATA_merged
-    if(self.DATA_merged_processed is None):
+    if self.DATA_merged_processed is None and pipeline['scaler'] is not None:
         print("+ "*30, 'Prepping data, this may take a while..')
-        df = _helpers._preprocess(df)
+        df = _helpers._preprocess(df, scaler = pipeline['scaler']['type'], Rclass = self)
         print("- "*30, 'Grouping probesets')
-        df = _helpers._group_patients(df, method = grouping)
+        df = _helpers._group_patients(df, method = pipeline['pre_processing']['patient_grouping'], Rclass = self)
+        if pipeline['pre_processing']['bias_removal'] == True:
+            print("- "*30, 'Removing cohort biases')
+            df = _helpers._cohort_correction(df)
         self.DATA_merged_processed = df
     else:
-        df = self.DATA_merged_processed
+        df= self.DATA_merged_processed
     print("+ "*30, 'Creating X,y')
-    x,y =_helpers._get_matrix(df, type = 'genomic', target = 'Treatment risk group in ALL10')      
-    if(reduction == 'PCA'):
-            x = _helpers.get_principal_components(x, n_comp)
-    elif(reduction == 'LDA'):
-            x = _helpers.get_linear_discriminant_analysis(x, y)
-    elif(reduction == 'QDA'):
-            x = _helpers.get_quadrant_discriminant_analysis(x, y)
-    elif(reduction == 'genome_variance'):
-            x = _helpers.get_genome_variation(x, min_norm_var)
-    ############################################
+    if(self.X_GENOME is None):
+        x,y =_helpers._get_matrix(df, features = 'genomic', target = parameters['target'], Rclass = self)
+        self.X_GENOME = x
+        self.Y_CLASS = y
+    else:
+        x = self.X_GENOME
+        y = self.Y_CLASS    
+
+    if pipeline['dim_reduction']['type'] is not None:
+        print("- "*30, 'Reducing dimensionality')
+        x_ = np.copy(x)
+        x, Reducer = _helpers.get_dim_reduction(x_, y, n_comp = pipeline['dim_reduction']['n_comp'], 
+                                                        method = pipeline['dim_reduction']['type'], Rclass = self)
+
+
+    # if dimension reduction AND feature selection, then perform FeatureUnion
+    ## http://scikit-learn.org/stable/auto_examples/plot_feature_stacker.html#sphx-glr-auto-examples-plot-feature-stacker-py
+    
+    #########################
+    #########################
     models = []
     if(model_type == 'SVM'):
-        model = svm.SVC(degree = 3, tol = 0.0001, C= 0.9, probability= True)
+        pars = parameters['SVM']
+        model = svm.SVC(**pars)
         models.append(('SVM', model))
     elif(model_type == 'CART'):
-        model = tree.DecisionTreeClassifier(criterion='gini', splitter='best', 
-                                max_depth=10, min_samples_split=2, min_samples_leaf=3, min_weight_fraction_leaf=0.0, 
-                                max_features=None, random_state=self.SEED, max_leaf_nodes=None, min_impurity_split=1e-07, 
-                                class_weight=None, presort=False)
+        pars = parameters['CART']
+        model = tree.DecisionTreeClassifier(**pars)
         models.append(('CART', model))
     elif(model_type == 'LR'):
-        model = linear_model.LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.9)
+        pars  = parameters['LR']
+        model = linear_model.LogisticRegression(**pars)
         models.append(('LR', model))
-    elif(model_type == 'RandomForest'):
-        model = ensemble.RandomForestClassifier(n_estimators=100, max_depth=25, n_jobs=-1, min_samples_split=5,\
-                min_samples_leaf=5)
+    elif(model_type in ['RandomForest', 'RF']):
+        pars = parameters['RF']
+        model = ensemble.RandomForestClassifier(**pars)
         models.append(('RF', model))
     elif(model_type == 'ExtraTrees'):
-        model = ensemble.ExtraTreesClassifier(n_estimators=100, max_depth=75, n_jobs=-1, min_samples_split=5,\
-                min_samples_leaf=5)
+        pars = parameters['ET']
+        model = ensemble.ExtraTreesClassifier(**pars)
         models.append(('ET', model))
     elif(model_type == 'GBM'):
-        model = ensemble.GradientBoostingClassifier(loss='deviance', learning_rate=0.1, n_estimators=100, 
-            subsample=1.0, criterion='friedman_mse', min_samples_split=5, min_samples_leaf=5, 
-            min_weight_fraction_leaf=0.0, max_depth=4, min_impurity_split=1e-07, init=None, 
-            random_state=None, max_features=None, verbose=0, max_leaf_nodes=None, warm_start=False, presort='auto')
+        pars = parameters['GBM']
+        model = ensemble.GradientBoostingClassifier(**pars)
         models.append(('GBM', model))
+    elif(model_type == 'LGBM'):
+        pars = parameters['LGBM'] 
+        model = lgb.LGBMClassifier(**pars)      
+        models.append(('LGBM', model))
+    elif(model_type in ['AdaBoost','Ada']):
+        pars = parameters['ADA']
+        model = ensemble.AdaBoostClassifier(**pars)
+        models.append(('ADA', model))
+    elif(model_type in ['XGBoost', 'XGB']):
+        pars = parameters['XGB']
+        model = xgb(**pars)
+        models.append(('XGB', model))
+    elif(model_type == 'DNN'): # version 1: Keras, not very useful atm given that we have so few samples.
+        model = Sequential()
+        input_dim = x.shape[1]
+        model.add(Dense(356, input_shape=(input_dim,), activation='tanh'))
+        model.add(Dense(356, input_shape=(input_dim,), activation='tanh'))
+        model.add(Dense(256, activation='relu')) # relu, selu, tanh, sigmoid
+        model.add(Dense(256, activation='relu')) # relu, selu, tanh, sigmoid
+        model.add(Dropout(0.5))
+        model.add(Dense(64, activation='relu'))
+        model.add(Dense(64, activation='relu'))
+        model.add(Dense(30, activation='relu'))
+        model.add(Dense(30, activation='relu'))
+        model.add(Dense(10, activation='relu'))
+        model.add(Dense(10, activation='relu'))
+        model.add(Dense(1,  activation='sigmoid'))   
+        model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])   
+        models.append(('DNN', model))
+    elif(model_type == 'CNN'): # version 1: Keras, load common cnn architecture like Inception       
+        x = np.expand_dims(x, axis=2)
+        arch = parameters['CNN']['architecture']
+        input_dim = x.shape[1]
+        if (arch in ['vgg16', 'vgg19', 'resnet50', 'inception', 'xception']):
+            # load directly using keras
+            # these models assume 2D-images, hence the data has to be re-shaped.
+            # simply re-shaping, or re-shaping according to the Hilbert curve
+            # how if input_dim is a prime number?? :-D
+            if arch == 'resnet50':
+                from keras.applications import ResNet50
+                model = ResNet50(weights=None, input_tensor=Input(shape=(input_dim,1)))            
+            elif arch == 'vgg16':
+                from keras.applications import VGG16
+                model = VGG16(weights=None, input_tensor=Input(shape=(input_dim,1)))
+            elif arch == 'vgg19':
+                from keras.applications import VGG19
+                model = VGG19(weights=None, input_tensor=Input(shape=(input_dim,1))) 
+            elif arch == 'inception':
+                from keras.applications import InceptionV3
+                model = InceptionV3(weights=None, input_tensor=Input(shape=(input_dim,1)))  
+            elif arch == 'xception':
+                from keras.applications import Xception
+                model = Xception(weights=None, input_tensor=Input(shape=(input_dim,1)))
+            model.compile(optimizer='rmsprop', loss='binary_crossentropy')    
+            models.append(('CNN', model))
+        else:
+            # read h5 from model_location or use custom model
+            model = Sequential()
+            model.add(Conv1D(32, 6, input_shape=(input_dim, 1)))
+            model.add(Activation('relu'))
+            model.add(MaxPooling1D(pool_size=2))
+            model.add(Conv1D(32, 6))
+            model.add(Activation('relu'))
+            model.add(MaxPooling1D(pool_size=2))
+            model.add(Conv1D(64, 6))
+            model.add(Activation('relu'))
+            model.add(MaxPooling1D(pool_size=2))
+            model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
+            model.add(Dense(64))
+            model.add(Activation('relu'))
+            model.add(Dropout(0.5))
+            model.add(Dense(1))
+            model.add(Activation('sigmoid'))
+            model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+            models.append(('CNN', model))
+    elif(model_type == 'RVM'):
+        import rvm
+        models.append(('RVM', None))
+    elif(model_type == 'EBE'): # Extremely Biased Estimator
+        print("NOT AVAILABLE YET")
     elif(model_type == 'QDA'):
         model = discriminant_analysis.QuadraticDiscriminantAnalysis(priors = None, reg_param = 0.0)
         models.append(('QDA', model))
@@ -78,87 +204,136 @@ def classify_treatment(self, model_type='CART',
         models.append(('LDA', model))
     elif(model_type == 'GPC'):
         Kernel = 1.0 * gaussian_process.kernels.RBF(length_scale=1.0)
-        model = gaussian_process.GaussianProcessClassifier(kernel=Kernel, 
-                                                optimizer='fmin_l_bfgs_b', 
-                                                n_restarts_optimizer=0, 
-                                                max_iter_predict=100, 
-                                                warm_start=False, 
-                                                copy_X_train=True, 
-                                                random_state=None, 
-                                                multi_class='one_vs_rest', 
-                                                n_jobs=1)
+        pars = parameters['GPC']
+        model = gaussian_process.GaussianProcessClassifier(kernel=Kernel, **pars)
         models.append(('GPC', model))
     elif(model_type == 'NaiveBayes'):
         model = naive_bayes.GaussianNB()
         models.append(('GNB', model))
     elif(model_type == 'MLNN'):
-        model = neural_network.MLPClassifier(activation='relu', alpha=1e-05, batch_size='auto',
-                                       beta_1=0.9, beta_2=0.999, early_stopping=False,
-                                       epsilon=1e-08, hidden_layer_sizes=(15, 7, 2), learning_rate='constant',
-                                       learning_rate_init=0.001, max_iter=200, momentum=0.9,
-                                       nesterovs_momentum=True, power_t=0.5, random_state=1, shuffle=True,
-                                       solver='lbfgs', tol=0.0001, validation_fraction=0.1, verbose=False,
-                                       warm_start=False)
+        pars = parameters['MLNN']
+        model = neural_network.MLPClassifier(**pars) #  solver = 'lbfgs'
         models.append(('MLNN', model))
     elif(model_type == 'ensemble'):
         models_ = [
-            ("GNB", naive_bayes.GaussianNB()),
-            ("SVM", svm.SVC(degree = 3, tol = 0.0001, C= 0.9, probability= True)),
-            ("LogisticRegression", linear_model.LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=0.9)),
-            ("RandomForest", ensemble.RandomForestClassifier(n_estimators=100, max_depth=25, n_jobs=2, min_samples_split=5,\
-                min_samples_leaf=5)),
-            ("ExtraTrees", ensemble.ExtraTreesClassifier(n_estimators=100, max_depth=50, n_jobs=2, min_samples_split=5,\
-                min_samples_leaf=5)),
-            ("GBM", ensemble.GradientBoostingClassifier(loss='deviance', learning_rate=0.1, n_estimators=100, 
-            subsample=1.0, criterion='friedman_mse', min_samples_split=5, min_samples_leaf=5, 
-            min_weight_fraction_leaf=0.0, max_depth=4, min_impurity_split=1e-07, init=None, 
-            random_state=None, max_features=None, verbose=0, max_leaf_nodes=None, warm_start=False, presort='auto')),
-            ("CART", tree.DecisionTreeClassifier(criterion='gini', splitter='best', 
-                                max_depth=10, min_samples_split=2, min_samples_leaf=3, min_weight_fraction_leaf=0.0, 
-                                max_features=None, random_state=self.SEED, max_leaf_nodes=None, min_impurity_split=1e-07, 
-                                class_weight=None, presort=False))
+            ("SVM", svm.SVC(**parameters['SVM'])),
+            ("LogisticRegression", linear_model.LogisticRegression(**parameters['LR'])),
+            ("RandomForest", ensemble.RandomForestClassifier(**parameters['RF'])),
+            ("ExtraTrees", ensemble.ExtraTreesClassifier(**parameters['ET'])),
+            ("GBM", ensemble.GradientBoostingClassifier(**parameters['GBM'])),
+            ("ADA", ensemble.AdaBoostClassifier(**parameters['ADA'])),
+            ("CART", tree.DecisionTreeClassifier(**parameters['CART'])),
+            ("XGB", xgb(**parameters['XGB']))
             ]
         models = copy.copy(models_)
-        model = ensemble.VotingClassifier(models_, n_jobs = 2, voting = 'soft')
+        model = ensemble.VotingClassifier(models_, n_jobs = -1 , voting = 'soft')
         models.append(("Ensembled", model))
 
     ############################################
     ############################## MODEL FITTING
-    splitter = model_selection.StratifiedKFold(n_splits, random_state = self.SEED)
+    splitter = model_selection.StratifiedKFold(parameters['n_splits'], random_state = self.SEED)
     print("+"*30,' RESULTS FOR CLASSIFICATION WITH GENOMIC DATA',"+"*30)
+    print("+"*20, "..processing feature array {} and class vector {}".format(np.shape(x), np.shape(y)))
     preds = []
+    accuracy = []
     for clf in models:
-        pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED)
-        report = metrics.classification_report(y,pred)
-        #acc = metrics.accuracy_score(y,pred)
-        print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))
-        print("+"*30,' Report', "+"*30)
-        print(report)
-        preds.append(pred)
+        if clf[0] == 'RVM':
+            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm', Rclass = self)
+        elif clf[0] in ['DNN', 'CNN']:
+            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'keras', Rclass = self)
+        else:
+            pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn', Rclass = self)
 
-    model.fit(x, y)
-    var_columns = df.columns[21:]   
-    x = df.loc[:,var_columns].values    
-    preds = model.predict(x) 
+        #acc = metrics.accuracy_score(y,pred)
+        accuracy.append({'model': clf[0], 'acc': np.mean(acc), 'var' : np.var(acc)})
+        print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))
+        if self.VIZ == True:
+            report = metrics.classification_report(y,pred)
+            print("+"*30,' Report', "+"*30)
+            print(report)
+    
+    '''
+        model = rvm.rvm(x, y, noise = 0.01)
+        preds = np.dot(x_test, model.wInferred);
+        pred_ = np.append(preds, 1-preds[:], 1)
+    '''
+    if(model_type not in ['RVM', 'DNN', 'CNN']): # 'XGB', 'XGBoost'
+        model.fit(x, y) 
+    elif(model_type in ['DNN', 'CNN']): 
+        model.fit(x, y, batch_size = 10, epochs = 5, verbose = 0, callbacks=[BL]) 
+    elif(model_type == 'RVM'):
+        model = rvm.rvm(x, y, noise = 0.01)
+        model.iterateUntilConvergence()
+    elif(model_type.lower() in ['lgbm', 'lightgbm']):
+        x_ = lgb.Dataset(x, label=None, max_bin=8192) #
+        ''' params = {'early_stopping_rounds':10,  
+                   'eval_metric':'logloss', 
+                   'train_set': d_train, 
+                   'num_boost_round':7000, 
+                   'verbose_eval':1000,
+                   'verbose'=True}'''       
+
+        model.fit(x_, y, early_stopping_rounds=10, verbose=True)
+
+    if self.SET_NAME == 'ALL_10':
+        var_columns = df.columns[21:]   
+    elif self.SET_NAME == 'MELA':
+        var_columns = df.loc[:, (df.columns!=parameters['target']) &  (df.columns!=parameters['ID'])].columns
+    x_pred = df.loc[:,var_columns].values  
+    # apply dimensionality reduction
+    #
+    if(pipeline['dim_reduction']['type'] == 'PCA'):
+        x_pred = Reducer.transform(x_pred)
+    elif(pipeline['dim_reduction']['type']  == 'LDA'):
+        x_pred = Reducer.transform(x_pred)
+    elif(pipeline['dim_reduction']['type'] == 'PLS'):
+        x_pred = Reducer.transform(x_pred)
+    elif(pipeline['dim_reduction']['type']  == 'genome_variance'):
+        x_pred = Reducer(x_pred)
+    
+    if(model_type not in ['RVM', 'DNN', 'CNN']): # , 'XGB', 'XGBoost'
+        preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
+    #elif model_type == 'DNN':
+    #    #preds = 
+    elif model_type == 'RVM':
+        preds   = np.reshape(np.dot(x_pred, model.wInferred), newshape=[len(x_pred),])/2+0.5    
+    elif model_type == 'DNN':
+        preds   = model.predict_on_batch(np.array(x_pred))[:,0]  
+    elif model_type == 'CNN':
+        preds   = model.predict(np.expand_dims(x_pred, axis=2))[:,0] 
+    elif model_type.lower() in ['lgbm', 'lightgbm']:
+        preds = model.predict_proba(X_test, num_iteration = model.best_iteration)
+
+    ################
+    ################
 
     print("+"*50)
     ################################################################
-    ##### ADD PATIENT INFO TO PREDICTOR
+    ##### ADD PATIENT INFO TO PREDICTOR, is specific to ALL-10
     if(features == 'all'):
+        #### This assumes that the previous predictions are suitable as features.
+        ##################################
         print("+"*30,' RESULTS FOR CLASSIFICATION INCLUDING PATIENT DATA',"+"*30)
-        p_x,y = _helpers._get_matrix(df, type = 'patient', target = 'Treatment risk group in ALL10')
+        p_x,y = _helpers._get_matrix(df, features = 'patient', target = parameters['target'], Rclass = self)
+        scaler = preprocessing.StandardScaler()
+        p_x = scaler.fit_transform(p_x)
         pred = np.reshape(pred, (pred.shape[0], 1))
         print("---------")
         x = np.hstack([pred, p_x])
         for clf in models:
-            pred, acc = _helpers._benchmark_classifier(clf,x,y,splitter, self.SEED)
+            if clf[0] == 'RVM':
+                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm', Rclass=self)
+            else:
+                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn', Rclass=self)            
             report = metrics.classification_report(y,pred)
             #acc = metrics.accuracy_score(y,pred)
             print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))            
-            print("+"*30,' Report', "+"*30)
-            print(report)   
+            if self.VIZ == True:
+                print("+"*30,' Report', "+"*30)
+                print(report)   
 
-        model.fit(x, y)
+        if(model_type not in ['RVM', 'DNN', 'CNN']): # , 'XGB', 'XGBoost'
+            model.fit(x, y)
         # total x
         var_columns = ["Age", "WhiteBloodCellcount", "Gender"]
         df[var_columns] = df[var_columns].fillna(0.0)       
@@ -168,26 +343,15 @@ def classify_treatment(self, model_type='CART',
         preds = model.predict_proba(x)
     
 
-    return preds, model
+    return preds, model, accuracy
 
 
-def get_top_genes(model, n = 10):
-    coef = model.coef_
-    coef = np.reshape(coef, (coef.shape[1],))
-    ordering = np.argsort(np.abs(coef))
-    topN = ordering[-n:]
+    # hyper optimalisation routines.
+    ## start with grid search
 
-    gene_columns = self.DATA_merged.columns[21:].values
 
-    top_genes = []
-    for test in topN:
-        top_genes.append({'probeset': gene_columns[test], 'rank_coeff': test})
 
-    #coef_list = []
-    #for coef in model._coef:
-    #    coef_list.append(coef)
-
-    return top_genes
+    # relapse predictor / survival rate
 
 
 
