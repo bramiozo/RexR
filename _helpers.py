@@ -18,6 +18,7 @@ from math import*
 from scipy.spatial.distance import minkowski
 from scipy.spatial.distance import cdist
 from scipy import sparse
+from scipy.stats import wilcoxon, mannwhitneyu
 
 from decimal import Decimal
 from time import time
@@ -552,6 +553,27 @@ def get_filtered_genomes(x, filter_type = None):
 
     # Transform is basically list of booleans
     return True, Transform
+
+def get_filtered_genomes(x, y, alpha = 0.05, filter_type = None):
+    zero_idx = np.where(y == 0)[0]
+    one_idx = np.where(y == 1)[0]
+
+    pos_samples = x[one_idx]
+    neg_samples = x[zero_idx]
+
+    # null hypothesis: the two groups have the same mean
+    # p_value < alpha => alternative hypothesis: groups don't have the same mean
+
+    # mannwhitneyu = two sample wilxocon test
+    # alternative = less : ONE SIDED TEST
+
+    def apply_test(pos, neg, column):
+        _, p_value = mannwhitneyu(pos[:,column], neg[:,column], alternative="less")
+        return p_value
+ 
+    p_values = np.array(list(map(lambda c: apply_test(pos_samples, neg_samples, c), range(0,x.shape[1]))))
+
+    return p_values, p_values < alpha
 
     
 def rotation_norm(x, y, norm):   
