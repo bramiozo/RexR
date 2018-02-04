@@ -407,12 +407,14 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
     # http://scikit-learn.org/stable/modules/feature_selection.html
     '''   
     top_genomes_weights = pd.DataFrame()
-    for mod in MODELS:
-        if(mod['method'].lower() in ['randomforest', 'gbm', 'adaboost', 'extratrees', 'lgbm', 'xgb']): # RF, ET, GBM, ADA
+    for idx, mod in enumerate(MODELS):
+        if(mod['method'].lower() in ['randomforest', 'gbm', 'adaboost', 'extratrees', 'xgb']): # RF, ET, GBM, ADA
             try:
-                top_genomes_weights[mod['method']]=mod['model'].feature_importances_
+                method_name = str(idx)+'_'+mod['method']
+                top_genomes_weights[method_name]=mod['model'].feature_importances_
                 # column normalise
-                top_genomes_weights[mod['method']] = top_genomes_weights[mod['method']]/top_genomes_weights[mod['method']].max()
+                top_genomes_weights[method_name] = top_genomes_weights[method_name]/\
+                                                top_genomes_weights[method_name].max()
             except AttributeError as e:
                 print("model {} does not contain feature importances: {}".format(mod['method'] , e))
     # if multiple methods are used, only keep overlapping genes
@@ -425,26 +427,36 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
         
 
     top_genomes_weights['MEAN'] = top_genomes_weights.mean(axis=1)
+    top_genomes_weights['MEDIAN'] = top_genomes_weights.median(axis=1)
     top_genomes_weights = top_genomes_weights.sort_values(by='MEAN', ascending=False)[:n_max]
            
     ### Coefficients
     top_genomes_coeffs = pd.DataFrame()
+    coeffs_check = False
     for mod in MODELS:
         if(mod['method'] in ['LR', 'SVM']):
-            top_genomes_coeffs[mod['method']] = mod['model'].coef_[0,:]
-            top_genomes_coeffs[mod['method']] = top_genomes_coeffs[mod['method']]/top_genomes_coeffs[mod['method']].max() #\
+            coeffs_check = True
+            method_name = str(idx)+'_'+mod['method']
+            top_genomes_coeffs[method_name] = mod['model'].coef_[0,:]
+            top_genomes_coeffs[method_name] = top_genomes_coeffs[method_name]/\
+                                            top_genomes_coeffs[method_name].max() #\
                                                                    #  -top_genomes[mod['method']].min())
                                                                      #+numpy.abs(top_genomes[mod['method']].min())
-    if(RexR.SET_NAME == 'MELA'):            
-        top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(['target', 'ID'], axis=1).columns
-    elif(RexR.SET_NAME == 'ALL_10'):
-        drop_columns = RexR.DATA_merged_processed.columns[:21]
-        top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(drop_columns, axis=1).columns
-    #top_genomes['ALL'] = top_genomes.sum(axis=1)
-    top_genomes_coeffs['MEAN'] = top_genomes_coeffs.mean(axis=1)
-    top_genomes_coeffs = top_genomes_coeffs.sort_values(by='MEAN', ascending=False)[:]    
+    if coeffs_check:
+        if(RexR.SET_NAME == 'MELA'):            
+            top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(['target', 'ID'], axis=1).columns
+        elif(RexR.SET_NAME == 'ALL_10'):
+            drop_columns = RexR.DATA_merged_processed.columns[:21]
+            top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(drop_columns, axis=1).columns
+        #top_genomes['ALL'] = top_genomes.sum(axis=1)
+        top_genomes_coeffs['MEAN'] = top_genomes_coeffs.mean(axis=1)
+        top_genomes_coeffs['MEDIAN'] = top_genomes_coeffs.median(axis=1)
+        top_genomes_coeffs = top_genomes_coeffs.sort_values(by='MEAN', ascending=False)[:]    
 
-    return top_genomes_weights, top_genomes_coeffs[-int(n_max/2):].append(top_genomes_coeffs[:int(n_max/2)]).sort_values(by="MEAN")
+        return top_genomes_weights, top_genomes_coeffs[-int(n_max/2):].append(top_genomes_coeffs[:int(n_max/2)])\
+                                                                  .sort_values(by="MEAN")
+    else:
+        return top_genomes_weights, top_genomes_coeffs
 
 
 
@@ -524,7 +536,14 @@ def get_vector_characteristics():
     return True
 
 
-def get_filtered_genomes(x, filter_type = None):
+def get_filtered_genomes(x, y, alpha = 0.05, filter_type = None):
+
+    zero_idx = np.where(y == 0)[0]
+    one_idx = np.where(y == 1)[0]
+
+    pos_samples = x[one_idx]
+    neg_samples = x[zero_idx]
+
     # Use FDR with a number of different statistical measures:
     # also see: http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFdr.html#sklearn.feature_selection.SelectFdr
 
@@ -535,44 +554,28 @@ def get_filtered_genomes(x, filter_type = None):
     # 3. Wilcoxon-Mann-Whitney, between classes
     # scipy.stats.mannwhitneyu, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
 
-    # 4. Wilcoxon signed-rank, between classes
-    # scipy.stats.wilcoxon, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
-
-    # 4. Chi-Square, between classes
-    # scipy.stats.chisquare, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html
-
-    # 5. t-test independent, between classes
-    # scipy.stats.ttest_ind, https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.stats.ttest_ind.html
-
-    # 6. t-test related, between classes
-    # scipy.stats.ttest_rel
-
-    # 7. remove collinearity of feature vectors within class set (leave one)
-
-    # 8. remove collinearity of feature vectors between classes (remove both)
-
-    # Transform is basically list of booleans
-    return True, Transform
-
-def get_filtered_genomes(x, y, alpha = 0.05, filter_type = None):
-    zero_idx = np.where(y == 0)[0]
-    one_idx = np.where(y == 1)[0]
-
-    pos_samples = x[one_idx]
-    neg_samples = x[zero_idx]
-
-    # null hypothesis: the two groups have the same mean
-    # p_value < alpha => alternative hypothesis: groups don't have the same mean
-
-    # mannwhitneyu = two sample wilxocon test
-    # alternative = less : ONE SIDED TEST
-
     def apply_test(pos, neg, column):
         _, p_value = mannwhitneyu(pos[:,column], neg[:,column], alternative="less")
         return p_value
- 
     p_values = np.array(list(map(lambda c: apply_test(pos_samples, neg_samples, c), range(0,x.shape[1]))))
 
+    # 4. Wilcoxon signed-rank, between classes
+    # scipy.stats.wilcoxon, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
+
+    # 5. Chi-Square, between classes
+    # scipy.stats.chisquare, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html
+
+    # 6. t-test independent, between classes
+    # scipy.stats.ttest_ind, https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.stats.ttest_ind.html
+
+    # 7. t-test related, between classes
+    # scipy.stats.ttest_rel
+
+    # 8. remove collinearity of feature vectors within class set (leave one)
+
+    # 9. remove collinearity of feature vectors between classes (remove both)
+
+    # Transform is basically list of booleans
     return p_values, p_values < alpha
 
     
