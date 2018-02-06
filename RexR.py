@@ -65,6 +65,10 @@ class RexR():
     DIMENSION_REDUCTION_PARAMETERS = {}
     PIPELINE_PARAMETERS = {}
     READ_PARAMETERS = {}
+    
+    PREP_HASH = None
+    PREP_SELECTOR = None
+    PREP_DEL = None
 
     write_out = None
     SEED = 1234

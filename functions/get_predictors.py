@@ -79,18 +79,37 @@ def classify_treatment(self, model_type='CART',
         x = self.X_GENOME
         y = self.Y_CLASS    
 
-    if pipeline['feature_selection']['type'] is not None:
-        print("- "*30, 'Selecting features using a {} filtered'.format(pipeline['feature_selection']['type']))
-        x_ = np.copy(x)
-        or_cols = x_.shape[1]
-        if pipeline['feature_selection']['type'] == 'low_variance':
-            x, Selector = _helpers.get_filtered_genomes(x_, y, alpha=pipeline['feature_selection']['pvalue'],
-                                                 filter_type = pipeline['feature_selection']['method'])
+    if pipeline['feature_selection']['type'] is not None:        
+        NOW_HASH = hash(pipeline['feature_selection']['type']+
+                        pipeline['feature_selection']['method']+
+                        str(pipeline['feature_selection']['pvalue'])+
+                        str(x.trace()))
 
-        print("- "*30, 'Kept {} of {} features using {} with p = {}'.format(str(x.shape[1]),
-                                                  str(or_cols),
-                                                  pipeline['feature_selection']['method'],
-                                                  pipeline['feature_selection']['pvalue']))
+        if NOW_HASH == self.PREP_HASH:
+            Selector = self.PREP_SELECTOR
+        elif self.PREP_HASH is None:
+            print("- "*30, 'Selecting features using a {} filter'.format(pipeline['feature_selection']['type']))
+            x_ = np.copy(x)
+            or_cols = x_.shape[1]
+            if pipeline['feature_selection']['type'] == 'low_variance':
+                x, Selector = _helpers.get_filtered_genomes(x_, y, alpha=pipeline['feature_selection']['pvalue'],
+                                                     filter_type = pipeline['feature_selection']['method'])
+
+            print("- "*30, 'Kept {} of {} features using {} with p = {}'.format(str(x.shape[1]),
+                                                      str(or_cols),
+                                                      pipeline['feature_selection']['method'],
+                                                      pipeline['feature_selection']['pvalue']))
+            
+            self.X_GENOME = x
+            self.PREP_HASH = hash(pipeline['feature_selection']['type']+
+                                 pipeline['feature_selection']['method']+
+                                 str(pipeline['feature_selection']['pvalue'])+
+                                 str(x.trace()))
+            self.PREP_SELECTOR = Selector
+            if(pipeline['feature_selection']['method']=='mannwhitney'):
+                self.PREP_DEL = Selector.transform(x)[1]
+            elif(pipeline['feature_selection']['method']=='FDR'):
+                self.PREP_DEL = [idx for idx, item in enumerate(Selector.get_support()) if item == False]
 
     if pipeline['dim_reduction']['type'] is not None:
         print("- "*30, 'Reducing dimensionality using {}'.format(pipeline['dim_reduction']['type']))
@@ -297,7 +316,10 @@ def classify_treatment(self, model_type='CART',
     # apply feature selection
     #
     if(pipeline['feature_selection']['type'] is not None):
-        x_pred = Selector.transform(x_pred)
+        if pipeline['feature_selection']['method'] == 'mannwhitney':
+            x_pred = Selector.transform(x_pred)[0]
+        else:
+            x_pred = Selector.transform(x_pred)
 
     # apply dimensionality reduction
     #
@@ -342,9 +364,11 @@ def classify_treatment(self, model_type='CART',
         x = np.hstack([pred, p_x])
         for clf in models:
             if clf[0] == 'RVM':
-                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'custom_rvm', Rclass=self)
+                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, 
+                                                        framework = 'custom_rvm', Rclass=self)
             else:
-                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn', Rclass=self)            
+                pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, 
+                                                            framework = 'sklearn', Rclass=self)            
             report = metrics.classification_report(y,pred)
             #acc = metrics.accuracy_score(y,pred)
             print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))            

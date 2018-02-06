@@ -410,7 +410,8 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
     '''   
     top_genomes_weights = pd.DataFrame()
     for idx, mod in enumerate(MODELS):
-        if(mod['method'].lower() in ['randomforest', 'gbm', 'adaboost', 'extratrees', 'xgb']): # RF, ET, GBM, ADA
+        if(mod['method'].lower() in ['rf', 'et', 'randomforest', 'gbm', 
+                                    'adaboost', 'extratrees', 'xgb', 'ada']): # RF, ET, GBM, ADA
             try:
                 method_name = str(idx)+'_'+mod['method']
                 top_genomes_weights[method_name]=mod['model'].feature_importances_
@@ -424,8 +425,15 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
     if(RexR.SET_NAME == 'MELA'):
         top_genomes_weights.index = RexR.DATA_merged_processed.drop(['target', 'ID'], axis=1).columns
     elif(RexR.SET_NAME == 'ALL_10'):
-        drop_columns = RexR.DATA_merged_processed.columns[:21]
-        top_genomes_weights.index = RexR.DATA_merged_processed.drop(drop_columns, axis=1).columns
+        pre_cols = RexR.DATA_merged_processed.columns[:21]
+        if(RexR.PREP_DEL is not None):
+            feat_sel = RexR.DATA_merged_processed.columns[21:][RexR.PREP_DEL]
+            top_genomes_weights.index = RexR.DATA_merged_processed.drop(pre_cols, axis=1)\
+                                                                  .drop(feat_sel, axis=1)\
+                                                                  .columns
+        else:
+            top_genomes_weights.index = RexR.DATA_merged_processed.drop(pre_cols, axis=1)\
+                                                                  .columns            
         
 
     top_genomes_weights['MEAN'] = top_genomes_weights.mean(axis=1)
@@ -448,8 +456,15 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
         if(RexR.SET_NAME == 'MELA'):            
             top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(['target', 'ID'], axis=1).columns
         elif(RexR.SET_NAME == 'ALL_10'):
-            drop_columns = RexR.DATA_merged_processed.columns[:21]
-            top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(drop_columns, axis=1).columns
+            pre_cols = RexR.DATA_merged_processed.columns[:21]
+            if(RexR.PREP_DEL is not None):
+                feat_sel = RexR.DATA_merged_processed.columns[21:][RexR.PREP_DEL]
+                top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(pre_cols, axis=1)\
+                                                                     .drop(feat_sel, axis=1)\
+                                                                     .columns
+            else:
+                top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(pre_cols, axis=1)\
+                                                                      .columns     
         #top_genomes['ALL'] = top_genomes.sum(axis=1)
         top_genomes_coeffs['MEAN'] = top_genomes_coeffs.mean(axis=1)
         top_genomes_coeffs['MEDIAN'] = top_genomes_coeffs.median(axis=1)
@@ -561,7 +576,7 @@ class fs_mannwhitney():
     def transform(self, x):
         not_signif = self.p_values<self.pvalue
         to_delete = [idx for idx, item in enumerate(not_signif) if item == False]
-        return np.delete(x, to_delete, axis = 1)
+        return np.delete(x, to_delete, axis = 1), to_delete
 
 def get_filtered_genomes(x, y, alpha = 0.05, filter_type = None):
 
@@ -574,7 +589,7 @@ def get_filtered_genomes(x, y, alpha = 0.05, filter_type = None):
     # scipy.stats.mannwhitneyu, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
     if filter_type == 'mannwhitney':
         Selector = fs_mannwhitney(pvalue = alpha).fit(x,y)
-        x_out = Selector.transform(x)
+        x_out = Selector.transform(x)[0]
 
     elif filter_type == 'FDR':
         # Use FDR with a number of different statistical measures:
