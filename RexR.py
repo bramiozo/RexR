@@ -206,8 +206,9 @@ class RexR():
         self.PIPELINE_PARAMETERS =   {  "scaler": {"type": "minmax"},
                                         "pre_processing": {"patient_grouping": 'mean', "bias_removal": False}, # patient grouping and cohort bias removal
                                         "dim_reduction": {"type": "PCA", "n_comp": 1000},
-                                        "feature_selection": {"type": "UNI", "top_n": 1000}}
-
+                                        "feature_selection": {"type": "low_variance", 
+                                                              "p_value": 0.05, 
+                                                              "stat_method": 'wilcoxon'}}
 
     def _read_cohort(self, path):
         if self.SET_NAME == 'ALL_10':

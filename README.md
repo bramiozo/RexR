@@ -123,6 +123,7 @@ Complexity: 1, 3, 5, 7, 13
 * use of PyTorch, https://eng.uber.com/pyro/
 * https://python-graph-gallery.com/405-dendrogram-with-heatmap-and-coloured-leaves/
 * search engine for medical documents: hierarchical/DT based, human-in-the-loop
+* use entity linking to fetch relevant journal papers
 * build domain specific word embeddings for medical graph search
 * use Siamese neural-network to get rid of the cohort bias
 * add variational autoencoder? why?

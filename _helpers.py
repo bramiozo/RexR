@@ -8,6 +8,7 @@ from sklearn.manifold import MDS
 from sklearn.manifold import Isomap as ISO
 from sklearn.manifold import LocallyLinearEmbedding as LLE
 from sklearn.model_selection import train_test_split, cross_val_score  
+from sklearn.feature_selection import SelectFdr
 
 import numpy as np
 import pandas as pd
@@ -19,6 +20,7 @@ from scipy.spatial.distance import minkowski
 from scipy.spatial.distance import cdist
 from scipy import sparse
 from scipy.stats import wilcoxon, mannwhitneyu
+
 
 from decimal import Decimal
 from time import time
@@ -536,28 +538,52 @@ def get_vector_characteristics():
     return True
 
 
+class fs_mannwhitney():
+    pvalue = 0.01
+    p_values = None
+
+    def __init__(self, pvalue = 0.01):
+        self.pvalue = pvalue
+
+    def apply_test(self, pos, neg, column):
+        _, p_value = mannwhitneyu(pos[:,column], neg[:,column], alternative="less")
+        return p_value
+
+    def fit(self, x, y):
+        zero_idx = np.where(y == 0)[0]
+        one_idx = np.where(y == 1)[0]
+        pos_samples = x[one_idx]
+        neg_samples = x[zero_idx]                
+        self.p_values = np.array(list(map(lambda c: 
+            self.apply_test(pos_samples, neg_samples, c), range(0,x.shape[1]))))
+        return self
+
+    def transform(self, x):
+        not_signif = self.p_values<self.pvalue
+        to_delete = [idx for idx, item in enumerate(not_signif) if item == False]
+        return np.delete(x, to_delete, axis = 1)
+
 def get_filtered_genomes(x, y, alpha = 0.05, filter_type = None):
 
-    zero_idx = np.where(y == 0)[0]
-    one_idx = np.where(y == 1)[0]
-
-    pos_samples = x[one_idx]
-    neg_samples = x[zero_idx]
-
-    # Use FDR with a number of different statistical measures:
-    # also see: http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFdr.html#sklearn.feature_selection.SelectFdr
-
+    
     # 1. low variance filter: minimum relative relative variance (var/mean)_i / (var/mean)_all 
 
     # 2. low variance filter: minimum summed succesive (absolute) differences
 
     # 3. Wilcoxon-Mann-Whitney, between classes
     # scipy.stats.mannwhitneyu, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
+    if filter_type == 'mannwhitney':
+        Selector = fs_mannwhitney(pvalue = alpha).fit(x,y)
+        x_out = Selector.transform(x)
 
-    def apply_test(pos, neg, column):
-        _, p_value = mannwhitneyu(pos[:,column], neg[:,column], alternative="less")
-        return p_value
-    p_values = np.array(list(map(lambda c: apply_test(pos_samples, neg_samples, c), range(0,x.shape[1]))))
+    elif filter_type == 'FDR':
+        # Use FDR with a number of different statistical measures:
+        # f_classif, chi2, 
+        FDR = SelectFdr(alpha = alpha) # score_func = f_classif()
+        Selector = FDR.fit(x, y)
+        x_out = FDR.transform(x)
+
+   
 
     # 4. Wilcoxon signed-rank, between classes
     # scipy.stats.wilcoxon, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
@@ -576,7 +602,8 @@ def get_filtered_genomes(x, y, alpha = 0.05, filter_type = None):
     # 9. remove collinearity of feature vectors between classes (remove both)
 
     # Transform is basically list of booleans
-    return p_values, p_values < alpha
+
+    return x_out, Selector
 
     
 def rotation_norm(x, y, norm):   

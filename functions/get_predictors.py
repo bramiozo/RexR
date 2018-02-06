@@ -79,11 +79,24 @@ def classify_treatment(self, model_type='CART',
         x = self.X_GENOME
         y = self.Y_CLASS    
 
+    if pipeline['feature_selection']['type'] is not None:
+        print("- "*30, 'Selecting features using a {} filtered'.format(pipeline['feature_selection']['type']))
+        x_ = np.copy(x)
+        or_cols = x_.shape[1]
+        if pipeline['feature_selection']['type'] == 'low_variance':
+            x, Selector = _helpers.get_filtered_genomes(x_, y, alpha=pipeline['feature_selection']['pvalue'],
+                                                 filter_type = pipeline['feature_selection']['method'])
+
+        print("- "*30, 'Kept {} of {} features using {} with p = {}'.format(str(x.shape[1]),
+                                                  str(or_cols),
+                                                  pipeline['feature_selection']['method'],
+                                                  pipeline['feature_selection']['pvalue']))
+
     if pipeline['dim_reduction']['type'] is not None:
-        print("- "*30, 'Reducing dimensionality')
+        print("- "*30, 'Reducing dimensionality using {}'.format(pipeline['dim_reduction']['type']))
         x_ = np.copy(x)
         x, Reducer = _helpers.get_dim_reduction(x_, y, n_comp = pipeline['dim_reduction']['n_comp'], 
-                                                        method = pipeline['dim_reduction']['type'], Rclass = self)
+                                                method = pipeline['dim_reduction']['type'], Rclass = self)
 
 
     # if dimension reduction AND feature selection, then perform FeatureUnion
@@ -280,6 +293,12 @@ def classify_treatment(self, model_type='CART',
     elif self.SET_NAME == 'MELA':
         var_columns = df.loc[:, (df.columns!=parameters['target']) &  (df.columns!=parameters['ID'])].columns
     x_pred = df.loc[:,var_columns].values  
+
+    # apply feature selection
+    #
+    if(pipeline['feature_selection']['type'] is not None):
+        x_pred = Selector.transform(x_pred)
+
     # apply dimensionality reduction
     #
     if(pipeline['dim_reduction']['type'] == 'PCA'):
@@ -290,6 +309,7 @@ def classify_treatment(self, model_type='CART',
         x_pred = Reducer.transform(x_pred)
     elif(pipeline['dim_reduction']['type']  == 'genome_variance'):
         x_pred = Reducer(x_pred)
+
     
     if(model_type not in ['RVM', 'DNN', 'CNN']): # , 'XGB', 'XGBoost'
         preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
