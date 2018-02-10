@@ -127,3 +127,7 @@ Complexity: 1, 3, 5, 7, 13
 * build domain specific word embeddings for medical graph search
 * use Siamese neural-network to get rid of the cohort bias
 * add variational autoencoder? why?
+
+# funds
+* WBSO https://www.ugoo.nl/wbso-subsidie/wbso-subsidiecheck/?gclid=Cj0KCQiAzfrTBRC_ARIsAJ5ps0uImsv_6m-NiWK_jod-_XaW-8exS616zNvqDH_Pojs6MayyepqhT58aAgdiEALw_wcB
+* SIDN https://www.sidnfonds.nl/aanvragen/internetprojecten
