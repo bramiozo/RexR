@@ -79,6 +79,9 @@ def classify_treatment(self, model_type='CART',
         x = self.X_GENOME
         y = self.Y_CLASS    
 
+    if pipeline['pre_processing']['noise'] == True:
+        x = _helpers._add_noise(x.copy())
+
     if pipeline['feature_selection']['type'] is not None:        
         NOW_HASH = hash(pipeline['feature_selection']['type']+
                         pipeline['feature_selection']['method']+

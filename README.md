@@ -76,13 +76,13 @@ Piggyback:
 
 # To Do
 Complexity: 1, 3, 5, 7, 13
-- [x] XGBOOST
-- [x] DNN
-- [x] CNN 
-- [x] RVM
+- 1		[x] XGBOOST
+- 3,	[x] DNN
+- 5, 	[x] CNN 
+- 3,	[x]	RVM
 - 13, 	[ ] Combat bias corrector
 - 13, 	[ ] PCA bias corrector
-- 3, 	[ ] noise addition to increase robustness
+- 3, 	[x] simple noise addition to increase robustness
 - 3, 	[ ] n-repetitions and bagging of stochastic methods (i.e.  varying seed's)
 - 1, 	[x] lightGBM
 - 13, 	[ ] CEBE: Cluster-enhanced extremely biased estimator
@@ -105,6 +105,7 @@ Complexity: 1, 3, 5, 7, 13
 - 5,	[ ] GEO DataSets lib integration
 - 13,	[ ] refactor/optimize: Cython, numba, static def's, parallelise
 - x, 	[ ] add healthy patient reference routine
+- x,	[ ] add disease dependent measurement error detector/filter
 
 ## Datasets
 
@@ -131,3 +132,7 @@ Complexity: 1, 3, 5, 7, 13
 # funds
 * WBSO https://www.ugoo.nl/wbso-subsidie/wbso-subsidiecheck/?gclid=Cj0KCQiAzfrTBRC_ARIsAJ5ps0uImsv_6m-NiWK_jod-_XaW-8exS616zNvqDH_Pojs6MayyepqhT58aAgdiEALw_wcB
 * SIDN https://www.sidnfonds.nl/aanvragen/internetprojecten
+
+# Data protection and distribution
+
+https://oceanprotocol.com/#why

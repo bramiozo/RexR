@@ -216,8 +216,12 @@ def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL1
         y = df[:]['target'].map(lambda x: 0 if x =="Genotype: primary tumor" else 1).values
         df = df.drop(target, inplace = False, axis = 1)
         x = df.loc[:, (df.columns!='target') & (df.columns!='ID')].values            
-
     return x,y
+
+def _add_noise(x, noise_level = 0.01):
+    # element-wise
+    x = np.random.normal(x, scale = 0.noise_level)
+    return x
 
 def _survival_matrix(df):
     valid = [0,1]
@@ -411,7 +415,7 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
     top_genomes_weights = pd.DataFrame()
     for idx, mod in enumerate(MODELS):
         if(mod['method'].lower() in ['rf', 'et', 'randomforest', 'gbm', 
-                                    'adaboost', 'extratrees', 'xgb', 'ada']): # RF, ET, GBM, ADA
+                                    'adaboost', 'extratrees', 'xgb', 'ada', 'lgbm']): # RF, ET, GBM, ADA
             try:
                 method_name = str(idx)+'_'+mod['method']
                 top_genomes_weights[method_name]=mod['model'].feature_importances_
@@ -422,8 +426,16 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
                 print("model {} does not contain feature importances: {}".format(mod['method'] , e))
     # if multiple methods are used, only keep overlapping genes
 
-    if(RexR.SET_NAME == 'MELA'):
-        top_genomes_weights.index = RexR.DATA_merged_processed.drop(['target', 'ID'], axis=1).columns
+    if(RexR.SET_NAME == 'MELA'):        
+        if(RexR.PREP_DEL is not None):
+            feat_sel = RexR.DATA_merged_processed.columns[RexR.PREP_DEL]
+            top_genomes_weights.index = RexR.DATA_merged_processed.drop(feat_sel, axis=1)\
+                                                                  .drop(['target', 'ID'], axis=1)\
+                                                                  .columns
+        else:
+            top_genomes_weights.index = RexR.DATA_merged_processed.drop(['target', 'ID'], axis=1)\
+                                                                  .columns          
+        
     elif(RexR.SET_NAME == 'ALL_10'):
         pre_cols = RexR.DATA_merged_processed.columns[:21]
         if(RexR.PREP_DEL is not None):
@@ -453,18 +465,19 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
                                                                    #  -top_genomes[mod['method']].min())
                                                                      #+numpy.abs(top_genomes[mod['method']].min())
     if coeffs_check:
-        if(RexR.SET_NAME == 'MELA'):            
-            top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(['target', 'ID'], axis=1).columns
-        elif(RexR.SET_NAME == 'ALL_10'):
-            pre_cols = RexR.DATA_merged_processed.columns[:21]
-            if(RexR.PREP_DEL is not None):
-                feat_sel = RexR.DATA_merged_processed.columns[21:][RexR.PREP_DEL]
-                top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(pre_cols, axis=1)\
-                                                                     .drop(feat_sel, axis=1)\
-                                                                     .columns
-            else:
-                top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(pre_cols, axis=1)\
-                                                                      .columns     
+        top_genomes_coeffs.index = top_genomes_weights.index
+        # if(RexR.SET_NAME == 'MELA'):            
+        #     top_genomes_coeffs.index = top_genomes_weights.index
+        # elif(RexR.SET_NAME == 'ALL_10'):
+        #     pre_cols = RexR.DATA_merged_processed.columns[:21]
+        #     if(RexR.PREP_DEL is not None):
+        #         feat_sel = RexR.DATA_merged_processed.columns[21:][RexR.PREP_DEL]
+        #         top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(pre_cols, axis=1)\
+        #                                                              .drop(feat_sel, axis=1)\
+        #                                                              .columns
+        #     else:
+        #         top_genomes_coeffs.index = RexR.DATA_merged_processed.drop(pre_cols, axis=1)\
+        #                                                               .columns     
         #top_genomes['ALL'] = top_genomes.sum(axis=1)
         top_genomes_coeffs['MEAN'] = top_genomes_coeffs.mean(axis=1)
         top_genomes_coeffs['MEDIAN'] = top_genomes_coeffs.median(axis=1)
