@@ -220,7 +220,7 @@ def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL1
 
 def _add_noise(x, noise_level = 0.01):
     # element-wise
-    x = np.random.normal(x, scale = 0.noise_level)
+    x = np.random.normal(x, scale = noise_level)
     return x
 
 def _survival_matrix(df):
@@ -446,10 +446,11 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
         else:
             top_genomes_weights.index = RexR.DATA_merged_processed.drop(pre_cols, axis=1)\
                                                                   .columns            
-        
+	        
 
     top_genomes_weights['MEAN'] = top_genomes_weights.mean(axis=1)
     top_genomes_weights['MEDIAN'] = top_genomes_weights.median(axis=1)
+    top_genomes_index = top_genomes_weights.index
     top_genomes_weights = top_genomes_weights.sort_values(by='MEAN', ascending=False)[:n_max]
            
     ### Coefficients
@@ -465,7 +466,7 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
                                                                    #  -top_genomes[mod['method']].min())
                                                                      #+numpy.abs(top_genomes[mod['method']].min())
     if coeffs_check:
-        top_genomes_coeffs.index = top_genomes_weights.index
+        top_genomes_coeffs.index = top_genomes_index
         # if(RexR.SET_NAME == 'MELA'):            
         #     top_genomes_coeffs.index = top_genomes_weights.index
         # elif(RexR.SET_NAME == 'ALL_10'):
