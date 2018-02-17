@@ -54,7 +54,39 @@ https://blog.keras.io/building-powerful-image-classification-models-using-very-l
 Science:
 *	Jules Meijerink; principal investigator
 *	Dr. Mohammed El Kebir; computational biologist 
-*	Dr. Gunnar W. Klau; computational biologist
+*	Dr. Gunnar W. Klau; c
+.ipynb_checkpoints	update	4 days ago
+__pycache__	update	4 days ago
+_external_codes	Added R-codes	14 days ago
+_literature	update	11 days ago
+functions	updates, added noiser, updated top_genome function	4 days ago
+out	update	4 days ago
+.gitignore	update	11 days ago
+1_generate_data_set.py	Add files via upload	8 months ago
+2_pre-process_data_set.py	Add files via upload	8 months ago
+ALL_10.ipynb	updates, added noiser, updated top_genome function	4 days ago
+GEOdata reader.ipynb	Added R-codes	14 days ago
+MELA.ipynb	update	4 days ago
+README.md	updates, added noiser, updated top_genome function	4 days ago
+RexR.py	integrated low variance feature selector	10 days ago
+__init__.py	update	8 months ago
+_helpers.py
+.ipynb_checkpoints	update	4 days ago
+__pycache__	update	4 days ago
+_external_codes	Added R-codes	14 days ago
+_literature	update	11 days ago
+functions	updates, added noiser, updated top_genome function	4 days ago
+out	update	4 days ago
+.gitignore	update	11 days ago
+1_generate_data_set.py	Add files via upload	8 months ago
+2_pre-process_data_set.py	Add files via upload	8 months ago
+ALL_10.ipynb	updates, added noiser, updated top_genome function	4 days ago
+GEOdata reader.ipynb	Added R-codes	14 days ago
+MELA.ipynb	update	4 days ago
+README.md	updates, added noiser, updated top_genome function	4 days ago
+RexR.py	integrated low variance feature selector	10 days ago
+__init__.py	update	8 months ago
+_helpers.pyomputational biologist
 *	Dr. Marc Deisenroth; trust and transparancy in ML
 * 	Dr. Peter Hinrich (peter.hinrich@surfnet.nl); project bios/bbmri shared datastorage/processing for diabetes
 
@@ -69,20 +101,32 @@ Business angels:
 *	Helmuth van Es: multiple gentech companies
 *	Fred Smulders: ingang bij Rockstart accelerator?
 
+Partners:
+*	hospitals? 
+*	government?
 
-Piggyback:
-*	Deloitte
+
+People:
+*	Tjebbe (manager)
+* 	Bram (data science/q.a./privacy)
+*	Sebastiaan (machine learning)
+*	xxx (junior machine learning)
+*	xxx (devops)
+*	xxx (data viz)
+*	xxx (UX)
+*	xxx (developer)
 
 
 # To Do
 Complexity: 1, 3, 5, 7, 13
-- 1		[x] XGBOOST
-- 3,	[x] DNN
-- 5, 	[x] CNN 
-- 3,	[x]	RVM
+- [x] XGBOOST
+- [x] DNN
+- [x] CNN 
+- [x] RVM
 - 13, 	[ ] Combat bias corrector
 - 13, 	[ ] PCA bias corrector
-- 3, 	[x] simple noise addition to increase robustness
+- 3, 	[x] simple noise addition to increase robustness (uniform distribution, single value range for entire matrix)
+- 5, 	[ ] element-wise noise addition using relative value range (n percentage of absolute value)
 - 3, 	[ ] n-repetitions and bagging of stochastic methods (i.e.  varying seed's)
 - 1, 	[x] lightGBM
 - 13, 	[ ] CEBE: Cluster-enhanced extremely biased estimator
@@ -105,7 +149,10 @@ Complexity: 1, 3, 5, 7, 13
 - 5,	[ ] GEO DataSets lib integration
 - 13,	[ ] refactor/optimize: Cython, numba, static def's, parallelise
 - x, 	[ ] add healthy patient reference routine
+- x,	[ ] healthy tissue/unhealthy tissue
 - x,	[ ] add disease dependent measurement error detector/filter
+- x,	[ ] cancer type detector
+- x,	[ ] cancer phase detector
 
 ## Datasets
 
@@ -128,6 +175,7 @@ Complexity: 1, 3, 5, 7, 13
 * build domain specific word embeddings for medical graph search
 * use Siamese neural-network to get rid of the cohort bias
 * add variational autoencoder? why?
+
 
 # funds
 * WBSO https://www.ugoo.nl/wbso-subsidie/wbso-subsidiecheck/?gclid=Cj0KCQiAzfrTBRC_ARIsAJ5ps0uImsv_6m-NiWK_jod-_XaW-8exS616zNvqDH_Pojs6MayyepqhT58aAgdiEALw_wcB
