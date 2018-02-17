@@ -54,41 +54,9 @@ https://blog.keras.io/building-powerful-image-classification-models-using-very-l
 Science:
 *	Jules Meijerink; principal investigator
 *	Dr. Mohammed El Kebir; computational biologist 
-*	Dr. Gunnar W. Klau; c
-.ipynb_checkpoints	update	4 days ago
-__pycache__	update	4 days ago
-_external_codes	Added R-codes	14 days ago
-_literature	update	11 days ago
-functions	updates, added noiser, updated top_genome function	4 days ago
-out	update	4 days ago
-.gitignore	update	11 days ago
-1_generate_data_set.py	Add files via upload	8 months ago
-2_pre-process_data_set.py	Add files via upload	8 months ago
-ALL_10.ipynb	updates, added noiser, updated top_genome function	4 days ago
-GEOdata reader.ipynb	Added R-codes	14 days ago
-MELA.ipynb	update	4 days ago
-README.md	updates, added noiser, updated top_genome function	4 days ago
-RexR.py	integrated low variance feature selector	10 days ago
-__init__.py	update	8 months ago
-_helpers.py
-.ipynb_checkpoints	update	4 days ago
-__pycache__	update	4 days ago
-_external_codes	Added R-codes	14 days ago
-_literature	update	11 days ago
-functions	updates, added noiser, updated top_genome function	4 days ago
-out	update	4 days ago
-.gitignore	update	11 days ago
-1_generate_data_set.py	Add files via upload	8 months ago
-2_pre-process_data_set.py	Add files via upload	8 months ago
-ALL_10.ipynb	updates, added noiser, updated top_genome function	4 days ago
-GEOdata reader.ipynb	Added R-codes	14 days ago
-MELA.ipynb	update	4 days ago
-README.md	updates, added noiser, updated top_genome function	4 days ago
-RexR.py	integrated low variance feature selector	10 days ago
-__init__.py	update	8 months ago
-_helpers.pyomputational biologist
+*	Dr. Gunnar W. Klau; computational biologist
 *	Dr. Marc Deisenroth; trust and transparancy in ML
-* 	Dr. Peter Hinrich (peter.hinrich@surfnet.nl); project bios/bbmri shared datastorage/processing for diabetes
+* Dr. Peter Hinrich (peter.hinrich@surfnet.nl); project bios/bbmri shared datastorage/processing for diabetes
 
 Technology:
 *	NLeScienceCenter: Dr. Adriënne Mendrik
