@@ -195,10 +195,6 @@ def patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None
     return patient_similarity
 
 
-
-
-
-
 def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10', Rclass = None): # type = ['genomic', ] 
     if(Rclass.SET_NAME=='ALL_10'):
         if(features =='genomic'):

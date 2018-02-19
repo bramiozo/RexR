@@ -295,7 +295,7 @@ class RexR():
         return self.DATA_merged
         
 
-    from functions.get_predictors import classify_treatment
+    from functions.get_predictors import classify_treatment, run_classification
 
     def main():
         load_probeset_data()

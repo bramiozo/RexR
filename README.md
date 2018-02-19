@@ -121,6 +121,10 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] add disease dependent measurement error detector/filter
 - x,	[ ] cancer type detector
 - x,	[ ] cancer phase detector
+- x,	[ ] Image recognition 
+- x,	[ ] add genome/probeset mapping function, use docker with db
+- x, 	[ ] add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
+- x,	[ ] add hyperoptimisation routine
 
 ## Datasets
 

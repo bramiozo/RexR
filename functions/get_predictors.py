@@ -36,6 +36,44 @@ class BatchLogger(Callback):
         return d.rolling(window,center=False).mean()
 BL = BatchLogger()
 
+def run_classification(self, method_list = ['RF'], 
+                             num_run = 1, pipeline = {}, 
+                             parameters = {}, features = 'genomic'):
+    MODELS  = []
+    Runs = []
+    ACC = pd.DataFrame()   
+    Results = None
+    for i in range(0, num_run):
+        self.SEED = np.random.randint(0,10000)    
+        for idx, METHOD in enumerate(method_list):
+            preds, class_model, accuracy = self.classify_treatment(model_type = METHOD, 
+                                                          features = features,
+                                                          parameters = parameters,
+                                                          pipeline = pipeline)
+            MODELS.append({'method': METHOD, 'model': class_model})
+            ACC = ACC.append(accuracy, ignore_index= True)
+            if (METHOD.lower() in ["rvm", "dnn", "cnn"]):
+                preds = [pred_ for pred_ in preds]
+            else: 
+                preds = [pred_[1]for pred_ in preds]
+
+            if Results is None:
+                Results = self.DATA_merged_processed.copy()
+            Results['pred'] = preds
+            Results['method'] = METHOD
+            if idx == 0:
+                AllResults = Results[[self.MODEL_PARAMETERS['ID'], 
+                                    'pred', 'method', self.MODEL_PARAMETERS['target']]]
+            else:
+                AllResults = AllResults.append(Results[[self.MODEL_PARAMETERS['ID'], 
+                                                        'pred', 
+                                                        'method', 
+                                                        self.MODEL_PARAMETERS['target']]], 
+                                          ignore_index = True)
+        Runs.append(AllResults)
+    return Runs, MODELS, ACC
+
+
 def classify_treatment(self, model_type='CART', 
                             features = 'genome', 
                             parameters = {},
@@ -86,8 +124,7 @@ def classify_treatment(self, model_type='CART',
         NOW_HASH = hash(pipeline['feature_selection']['type']+
                         pipeline['feature_selection']['method']+
                         str(pipeline['feature_selection']['pvalue'])+
-                        str(x.trace()))
-
+                        str(y))
         if NOW_HASH == self.PREP_HASH:
             Selector = self.PREP_SELECTOR
         elif self.PREP_HASH is None:
@@ -107,7 +144,7 @@ def classify_treatment(self, model_type='CART',
             self.PREP_HASH = hash(pipeline['feature_selection']['type']+
                                  pipeline['feature_selection']['method']+
                                  str(pipeline['feature_selection']['pvalue'])+
-                                 str(x.trace()))
+                                 str(y))
             self.PREP_SELECTOR = Selector
             if(pipeline['feature_selection']['method']=='mannwhitney'):
                 self.PREP_DEL = Selector.transform(x)[1]
@@ -393,13 +430,3 @@ def classify_treatment(self, model_type='CART',
     return preds, model, accuracy
 
 
-    # hyper optimalisation routines.
-    ## start with grid search
-
-
-
-    # relapse predictor / survival rate
-
-
-
-    
