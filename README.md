@@ -97,12 +97,12 @@ Complexity: 1, 3, 5, 7, 13
 - 5, 	[ ] element-wise noise addition using relative value range (n percentage of absolute value)
 - 3, 	[ ] n-repetitions and bagging of stochastic methods (i.e.  varying seed's)
 - 1, 	[x] lightGBM
-- 13, 	[ ] CEBE: Cluster-enhanced extremely biased estimator
-- 13, 	[ ] PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
-- 3,  	[x] generate table with classification per patient, per classification method => send to Jules
-*- 5, 	[ ] routine to generate table's
+- 13, [ ] CEBE: Cluster-enhanced extremely biased estimator
+- 13, [ ] PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
+- 3,  [x] generate table with classification per patient, per classification method => send to Jules
+- 5, 	[ ] routine to generate table's
 - 1, 	[x] top-genome selector => send to Jules
-*- 5, 	[ ] top-genome visualiser: top-N list -> hierarchical clustering
+- 5, 	[ ] top-genome visualiser: top-N list -> hierarchical clustering
 - 3,	[ ] patient clustering ==> all genomes, reduced
 - 7,	[ ] genome clustering ==> reduced..
 - ? 	[x] visualisation of training process
@@ -122,8 +122,11 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] cancer type detector
 - x,	[ ] cancer phase detector
 - x,	[ ] Image recognition 
-- x,	[ ] add genome/probeset mapping function, use docker with db
-- x, 	[ ] add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
+- 5,	[ ] add genome/probeset mapping function, use docker with db
+- 3, 	[ ] add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
+- 3,  [ ] add plot (number of genomes, versus accuracy)
+- x,  [ ] add graph visualisation (intra-similarity of most prominent genomes, per label)
+- x,  [ ] add measuring bias detector (multiple datasets as inputs)
 - x,	[ ] add hyperoptimisation routine
 
 ## Datasets
