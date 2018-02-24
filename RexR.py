@@ -33,10 +33,9 @@ Probeset drivers for cancer types/pathways:
 
 Survival estimation given a particular treatment:
 
-to-do's (Q4 2017):
+to-do's (Q1 2018):
 - [x] deep learner
-- [ ] LightGBM
-- [ ] sparse auto encoding
+- [x] LightGBM
 - [ ] t-sne / optics analyser
 - [x] ROC/confusion matrix visualiser
 - [x] patient similarity

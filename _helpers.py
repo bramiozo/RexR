@@ -34,6 +34,20 @@ from keras.callbacks import Callback
 
 import lightgbm as lgb
 
+from time import time
+from functools import wraps
+
+def timed(f):
+    @wraps(f)
+    def wrapper(*args, **kwds):
+        start = time()
+        result = f(*args, **kwds)
+        elapsed = time() - start
+        print("{}.{} took {:4.2f} seconds to finish".format(f.__module__,
+                                                     f.__name__, elapsed))
+        return result
+    return wrapper
+
 
 
 class BatchLogger(Callback):
@@ -533,9 +547,35 @@ def _graph_community_detector(df, method = "SBM"):
     # https://www.youtube.com/watch?v=jIS5pZ8doH8
     return True
 
-def couple_probeset_to_genome():
+@timed
+def _probeset_mapper(probeset_type = 'HT_HG-U133', 
+                     mapping_file = None,
+                     probeset_col = 'Probe Set ID', 
+                     description_list = ['Pathway','Gene Title', 'Gene Symbol', 'Chromosomal Location'], 
+                     probe_list = []):
+    # if mapping_file is empty one will be taken from the predefined list based
+    # on the probeset_type
+    # description_list: is a list of columns to append to the probeset id in the dictionary
+    # probe_list: is a list of probesets to map
+    if mapping_file == None:
+        if(probeset_type == 'HT_HG-U133'):
+            mapping_file = '_data/genomic_data/mapping-data/HT_HG-U133_Plus_PM.na35.annot.txt'
+        elif(probeset_type == 'HG-U133'):
+            mapping_file = '_data/genomic_data/mapping-data/HG-U133_Plus_2.na36annot.txt'
 
-    return 
+    ColSelect = description_list.append(probeset_col)
+    mapping_data = pd.read_csv(mapping_file, usecols = ColSelect, sep='\t')
+
+    probemap = {}
+    for probeset_id in probe_list:
+        try:
+            probemap[probeset_id] = dict(zip(mapping_data.loc[mapping_data[probeset_col]==probeset_id].keys().tolist(), 
+                                         mapping_data.loc[mapping_data[probeset_col]==probeset_id].values[0].tolist()))
+        except Exception as e:
+            print("Problem with mapping the probes onto the genomes : {}".format(e))
+
+
+    return probemap
 
 def get_genome_similarity(df, reduction = 'filtered', max_dim = 10000):
     ## TO FINISH, low-dim, high number of vectors
