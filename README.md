@@ -115,6 +115,7 @@ Complexity: 1, 3, 5, 7, 13
 - 5,	[x] patient similarity
 - 5,	[ ] conditional survival estimator. i.e. add a regressor.
 - 5,	[ ] GEO DataSets lib integration
+- 7,	[ ] Make GEO datasets interactive
 - 13,	[ ] refactor/optimize: Cython, numba, static def's, parallelise
 - x, 	[ ] add healthy patient reference routine
 - x,	[ ] healthy tissue/unhealthy tissue
@@ -130,6 +131,7 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] add hyperoptimisation routine
 - x,	[ ] add quiver visualisation for genomes
 - x,	[ ] add lime visualisation for genomes
+- x, 	[ ] add wrapper for (circos)[http://circos.ca/]
 
 ## Datasets
 

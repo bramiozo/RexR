@@ -56,7 +56,12 @@ def _hyper_opt(model, ):
 
     return model, hyperparameters
 
-def classify_treatment(self, model_type='CART', 
+def run_classification():
+
+    return True
+
+
+def _classify_treatment(self, model_type='CART', 
                             features = 'genome', 
                             parameters = {},
                             pipeline = {}):  
