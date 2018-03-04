@@ -99,7 +99,8 @@ def classify_treatment(self, model_type='CART',
     df = self.DATA_merged
     if self.DATA_merged_processed is None and pipeline['scaler'] is not None:
         print("+ "*30, 'Prepping data, this may take a while..')
-        df = _helpers._preprocess(df, scaler = pipeline['scaler']['type'], Rclass = self)
+        df = _helpers._preprocess(df, cohorts = ["cohort 1", "JB", "IA", "ALL-10"], 
+                                      scaler = pipeline['scaler']['type'], Rclass = self) # cohort1
         print("- "*30, 'Grouping probesets')
         df = _helpers._group_patients(df, method = pipeline['pre_processing']['patient_grouping'], Rclass = self)
         if pipeline['pre_processing']['bias_removal'] == True:
