@@ -13,6 +13,62 @@
 
 \end{abstract}
 
-\section{}
+
+\section{Pre-processing}
+
+\subsection{Cohort-bias removal}
+
+Cohort-based normalisation: minmax, standard, normaliser.
+The normalisation per cohort guarantees that the features have the same bounds 
+over the cohorts and the means are similar.
+
+PCA-based bias removal: apply PCA with full components, then apply cohort-based normalisation, 
+then transform it back. 
+
+\subsection{Dimension reduction}
+\subsubsection{Covariance based transformation}
+
+Partial least squares: overfitting
+
+Latent Dirichlet Allocation: requires availability of classification for fitting, hence
+the transformation is biased to the training set.
+
+Principle Component Analysis: transformation of the feature space based on the eigenvectors 
+of the covariance matrix. Can be applied to the entire dataset. 
+
+\subsubsection{Variance-based feature reduction}
+
+Mann-Whitney U
+
+FDR - ANOVA
+
+Wilcoxon 
+
+\section{Classification}
+
+\subsection{Tree based}
+
+
+\subsection{Neural networks}
+
+Accuracy, but not transparant
+
+\subsection{Linear methods}
+
+Simplicity, transparancy.
+
+\subsection{Bagging}
+
+increases the accuracy, removes method-specific biases and at the same time helps reduce overfitting
+
+\section{Post-processing}
+
+importance/weights, what are they, how are they obtained?
+
+\section{Discussion}
+
+\begin{item}
+\item check for inflection point in ordering of eigenvalue to 'smartly' select the number of components
+\end{item}
 
 \end{document}
