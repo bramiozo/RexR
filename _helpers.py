@@ -250,8 +250,17 @@ def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], sc
             scaler = preprocessing.MinMaxScaler()
         elif scaler in ["normalizer", "normaliser"]:
             scaler = preprocessing.Normalizer()
-        ch = df["array-batch"].isin(cohorts)
-        df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
+
+        if Rclass.PIPELINE_PARAMETERS['pre_processing']['bias_removal'] == True:
+            # Assume for now we simply perform cohort-wise normalisation..
+            print("- "*30, 'Removing cohort biases')
+            for cohort in cohorts:
+                ch = df["array-batch"] == cohort
+                df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
+        else:
+            ch = df["array-batch"].isin(cohorts)
+            df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
+
         df = df[df["array-batch"].isin(cohorts)]
     elif(Rclass.SET_NAME == 'MELA'):
         gene_columns = df.loc[:, (df.columns!='target') & (df.columns!='ID')].columns
@@ -631,27 +640,21 @@ class fs_mannwhitney():
 def get_filtered_genomes(x, y, alpha = 0.05, filter_type = None):
 
     
-    # 1. low variance filter: minimum relative relative variance (var/mean)_i / (var/mean)_all 
-
-    # 2. low variance filter: minimum summed succesive (absolute) differences
-
-    # 3. Wilcoxon-Mann-Whitney, between classes
+    #  Wilcoxon-Mann-Whitney, between classes
     # scipy.stats.mannwhitneyu, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
     if filter_type == 'mannwhitney':
         Selector = fs_mannwhitney(pvalue = alpha).fit(x,y)
         x_out = Selector.transform(x)[0]
 
     elif filter_type == 'FDR':
-        # Use FDR with a number of different statistical measures:
-        # f_classif, chi2, 
+    # Use FDR with a number of different statistical measures:
+    # f_classif, chi2, 
         FDR = SelectFdr(alpha = alpha) # score_func = f_classif()
         Selector = FDR.fit(x, y)
         x_out = FDR.transform(x)
-
-   
-
     # 4. Wilcoxon signed-rank, between classes
     # scipy.stats.wilcoxon, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
+
 
     # 5. Chi-Square, between classes
     # scipy.stats.chisquare, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html

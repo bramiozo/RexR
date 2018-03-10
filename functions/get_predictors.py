@@ -89,9 +89,13 @@ def classify_treatment(self, model_type='CART',
     ############################################
     if parameters == {}: # empty dict, so fetch defaults
         parameters = self.MODEL_PARAMETERS
+    else:
+        self.MODEL_PARAMETERS = parameters
 
     if pipeline == {}:    
         pipeline = self.PIPELINE_PARAMETERS
+    else:
+        self.PIPELINE_PARAMETERS = pipeline
     ##########################
     ######## PIPELINE ########
     ##########################
@@ -103,9 +107,7 @@ def classify_treatment(self, model_type='CART',
                                       scaler = pipeline['scaler']['type'], Rclass = self) # cohort1
         print("- "*30, 'Grouping probesets')
         df = _helpers._group_patients(df, method = pipeline['pre_processing']['patient_grouping'], Rclass = self)
-        if pipeline['pre_processing']['bias_removal'] == True:
-            print("- "*30, 'Removing cohort biases')
-            df = _helpers._cohort_correction(df)
+
         self.DATA_merged_processed = df
     else:
         df= self.DATA_merged_processed

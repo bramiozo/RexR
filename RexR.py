@@ -301,4 +301,9 @@ class RexR():
 
 
 if __name__ == '__main__':
-        main()
+    Rocket = RexR(datalocation = None, #'_data/genomic_data/data.pkl', 
+                   seed = 3123, 
+                   debug = True, 
+                   write_out=True,
+                   set_name = 'ALL_10') # data to read in ALL_10, or MELA
+    data = Rocket.load_probeset_data()
