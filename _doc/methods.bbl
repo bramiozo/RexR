@@ -1,0 +1,36 @@
+\begin{thebibliography}{1}
+
+\bibitem{Alter2000}
+Orly Alter, Patrick~O. Brown, and David Botstein.
+\newblock Singular value decomposition for genome-wide expression data
+  processing and modeling.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  97(18):10101--10106, 2000.
+
+\bibitem{Benito2005}
+Monica Benito, Joel Parker, Quan Du, Junyuan Wu, Dong Xiang, Charles~M. Perou,
+  and J.~S. Marron.
+\newblock Adjustment of systematic microarray data biases.
+\newblock {\em Bioinformatics}, 20(1):105--114, 2004.
+
+\bibitem{Johnson2007}
+W.~Evan Johnson, Cheng Li, and Ariel Rabinovic.
+\newblock Adjusting batch effects in microarray expression data using empirical
+  bayes methods.
+\newblock {\em Biostatistics}, 8(1):118--127, 2007.
+
+\bibitem{Price2006}
+A.L. Price, Patterson N.J, R.M. Plenge, M.E. Weinblatt, N.A. Shadick, and
+  D.~Reich.
+\newblock Principal components analysis corrects for stratification in
+  genome-wide association studies.
+\newblock {\em Nature Genetics}, 38:904--909, 2006.
+
+\bibitem{Zang2016}
+C.~Zang, T.~Wang, K.~Deng, B.~Li, T.~Xiao, S.~Zhang, C.A. Meyer, H.H. He,
+  M.~Brown, J.S. Liu, Y.~Xie, and X.S. Liu.
+\newblock High-dimensional genomic data bias correction and data integration
+  using mancie.
+\newblock {\em Nature Communications}, 7, 2016.
+
+\end{thebibliography}

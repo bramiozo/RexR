@@ -135,8 +135,7 @@ def classify_treatment(self, model_type='CART',
             x_ = np.copy(x)
             or_cols = x_.shape[1]
             if pipeline['feature_selection']['type'] == 'low_variance':
-                x, Selector = _helpers.get_filtered_genomes(x_, y, alpha=pipeline['feature_selection']['pvalue'],
-                                                     filter_type = pipeline['feature_selection']['method'])
+                x, Selector = _helpers.get_filtered_genomes(x_, y, Rclass = self)
 
             print("- "*30, 'Kept {} of {} features using {} with p = {}'.format(str(x.shape[1]),
                                                       str(or_cols),

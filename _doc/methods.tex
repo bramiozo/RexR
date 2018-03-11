@@ -1,5 +1,6 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 
 %opening
 \title{Methods used}
@@ -7,7 +8,6 @@
 
 \begin{document}
 
-\maketitle
 
 \begin{abstract}
 
@@ -17,32 +17,67 @@
 \section{Pre-processing}
 
 \subsection{Cohort-bias removal}
+%
+For the cohort-bias removal we apply a genome-wise Location and scale (L/S) adjustment per cohort.
+Using a normalisation per cohort guarantees that the features have the same bounds 
+over the cohorts and that the means are similar. The caveat of this approach is that we asume 
+that the genome expression measurements are independent and it is sensitive to outliers.
+%
+The standard normalisation transforms the genome expression values $\mathbf{x}$ per genome as follows
+\begin{equation}
+  \mathbf{x} = \frac{\mathbf{x} - \overline{\mathbf{x}}}{\sigma},
+\end{equation}
+%
+where $\mathbf{x}$ is the genome expression vector for some genome over all samples. 
+This centers the mean and normalises the  expression values with the standard deviation. 
+To ensure similar bounds we can then scale the values by largest absolute value per genome vector, i.e.
+\begin{equation}
+  \mathbf{x} = \frac{\mathbf{x}}{\max{(\mathbf{x})}},
+\end{equation}
+%
+and as an alternative to the standard normalisation we can also apply a minmax normalisation
+\begin{equation}
+ \mathbf{x} = \frac{\mathbf{x} - \min{(\mathbf{x})}}{\max{(\mathbf{x})} - \min{(\mathbf{x})}}.
+\end{equation}
+%
+There are also robust scalers which are appropriate if outlying expression values 
+are still present in the data. In our case we assume that these values are filtered out a priori. \\ \\
+%
+To demonstrate the effect of these transformations with regard to cohort bias we take two genomes, one with high and one with low variance
+over the classifications. \\ \\
+%
+%Strong: 1569566_at, 223748_at, 223017_at, 1568713_a_at, 201015_s_at
+%Weak: 214958_s_at, 200934_at, 207908_at, 205107_s_at, 243806_at
 
-Cohort-based normalisation: minmax, standard, normaliser.
-The normalisation per cohort guarantees that the features have the same bounds 
-over the cohorts and the means are similar.
-
-PCA-based bias removal: apply PCA with full components, then apply cohort-based normalisation, 
-then transform it back. 
+%
+There are various more elaborate methods to remove bias such as the SVD-based method from Alter et al.\cite{Alter2000}, the 
+PCA-based bias removal methods EIGENSTRAT by Price et al.\cite{Price2006}, MANCIE by Zang et al.\cite{Zang2016}, the distance weighted discrimination (DWD)
+approach from Benito et al.\cite{Benito2005} or the ComBat method by Johnson et al.\cite{Johnson2007} who apply an empirical Bayes approach. 
+A comparison of bias removal methods is out of scope for this work, for more details we refer the reader to Johnson et al\cite{Johnson2007}.
+The basic underlying assumption for all methods is that the samples are stratified over the cohorts, i.e. that in terms
+of patients each cohort represents a random selection from the total set of patients. Also, it is assumed that 
+the distribution has only one mode.
 
 \subsection{Dimension reduction}
 \subsubsection{Covariance based transformation}
 
 Partial least squares: overfitting
 
-Latent Dirichlet Allocation: requires availability of classification for fitting, hence
-the transformation is biased to the training set.
-
 Principle Component Analysis: transformation of the feature space based on the eigenvectors 
-of the covariance matrix. Can be applied to the entire dataset. 
+of the covariance matrix. Can be applied to the entire dataset.  The downside is that we obfuscate the 
+biological meaning of the features. Any value in the feature set of the transformed matrix is a linear combination 
+of $N$ genome expression values, where $N$ is the number of expressions. 
+Linear Discrimination Analysis: requires availability of classification for fitting, hence
+the transformation is biased to the training set. 
+
+Because the Covariance based transformation obfuscates the biological meaning of the feature vectors 
+we choose variance-based feature reduction as the most suitable method to reduce the number of dimensions.
 
 \subsubsection{Variance-based feature reduction}
 
 Mann-Whitney U
-
-FDR - ANOVA
-
-Wilcoxon 
+FDR, Benjamini-Hochberg procedure - ANOVA F-value
+FDR, Benjamini-Hochberg procedure - Wilcoxon 
 
 \section{Classification}
 
@@ -67,8 +102,12 @@ importance/weights, what are they, how are they obtained?
 
 \section{Discussion}
 
-\begin{item}
-\item check for inflection point in ordering of eigenvalue to 'smartly' select the number of components
-\end{item}
+\begin{itemize}
+\item if we choose PCA, LDA, check for inflection point in eigenvalue magnitude to 'smartly' select the number of components
+\item improve bias removal by mimicking featurewise distribution of expression values
+\item improve bias removal method L/S by ignoring outliers during normalisation
+\end{itemize}
 
+\bibliographystyle{plain}
+\bibliography{methods}
 \end{document}

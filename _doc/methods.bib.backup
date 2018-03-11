@@ -1,0 +1,17 @@
+@Article{Zang2016,
+ author = {C. Zang AND T. Wang AND K. Deng AND B. Li AND T. Xiao AND S. Zhang AND C.A. Meyer AND H.H. He AND M. Brown AND J.S. Liu AND Y. Xie AND X.S. Liu},
+ title = {High-dimensional genomic data bias correction and data integration using MANCIE},
+ journal = {Nature Communications},
+ year = {2016},
+ OPTvolume = {7},
+ OPTdoi = {http://dx.doi.org/10.1038/ncomms11305}
+}
+@Article{Price2006,
+ author = {A.L. Price AND N.J, Patterson AND R.M. Plenge AND M.E. Weinblatt AND N.A. Shadick AND D. Reich},
+ title = {Principal components analysis corrects for stratification in genome-wide association studies},
+ journal = {Nature Genetics},
+ year = {2006},
+ OPTvolume = {38},
+ OPTpages = {904-909},
+ OPTdoi = {http://dx.doi.org/10.1038/ng1847}
+}

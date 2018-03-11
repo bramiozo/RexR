@@ -9,6 +9,7 @@ from sklearn.manifold import Isomap as ISO
 from sklearn.manifold import LocallyLinearEmbedding as LLE
 from sklearn.model_selection import train_test_split, cross_val_score  
 from sklearn.feature_selection import SelectFdr
+from sklearn.feature_selection import f_classif, chi2
 
 import numpy as np
 import pandas as pd
@@ -637,19 +638,28 @@ class fs_mannwhitney():
         to_delete = [idx for idx, item in enumerate(not_signif) if item == False]
         return np.delete(x, to_delete, axis = 1), to_delete
 
-def get_filtered_genomes(x, y, alpha = 0.05, filter_type = None):
+def get_filtered_genomes(x, y, Rclass = None):
+    try:
+        alpha = Rclass.PIPELINE_PARAMETERS['feature_selection']['pvalue']
+        filter_type = Rclass.PIPELINE_PARAMETERS['feature_selection']['method']
+        FDR_function =  Rclass.PIPELINE_PARAMETERS['feature_selection']['score_function']
+    except Exception as e:
+        print("Exception with {} handling the function get_filtered_genomes".format(e))
+        alpha = 0.05
+        filter_type = 'FDR'
+        FDR_function = 'ANOVA'
 
+    FDR_function = f_classif if FDR_function == 'ANOVA' else eval(FDR_function)
     
-    #  Wilcoxon-Mann-Whitney, between classes
+    #  Mann-Whitney, between classes
     # scipy.stats.mannwhitneyu, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
     if filter_type == 'mannwhitney':
         Selector = fs_mannwhitney(pvalue = alpha).fit(x,y)
         x_out = Selector.transform(x)[0]
-
     elif filter_type == 'FDR':
     # Use FDR with a number of different statistical measures:
     # f_classif, chi2, 
-        FDR = SelectFdr(alpha = alpha) # score_func = f_classif()
+        FDR = SelectFdr(alpha = alpha, score_func = FDR_function) #f_classif, chi2
         Selector = FDR.fit(x, y)
         x_out = FDR.transform(x)
     # 4. Wilcoxon signed-rank, between classes
