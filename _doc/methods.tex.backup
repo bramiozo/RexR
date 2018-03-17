@@ -14,12 +14,31 @@
 \end{abstract}
 
 
+% Description of what is done
+  % Detailed description of array normalization and batch correction strategy
+  % Detailed description of procedures
+  % Potential literature references
+  % Flow charts
+  % Thresholds/cut-offs
+  % Iterations
+  % Scripts (github), some journals require scripts
+% In between results
+  % Description of results obtained using your strategy and validation.
+  % Plots/tables/text containing information of why this is a valid approach, for multiple steps
+  % Rational behind the idea, prove of correctness
+% Prediction of HR/NHR for ALL10
+% Prediction of HR/NHR for Cohort1
+
+
 \section{Pre-processing}
 
 \subsection{Cohort-bias removal}
 %
+For the cohort-bias removal we apply a genome-wise Location and scale (L/S) adjustment per cohort.
 Using a normalisation per cohort guarantees that the features have the same bounds 
-over the cohorts and that the means are similar. 
+over the cohorts and that the means are similar. The caveat of this approach is that we asume 
+that the genome expression measurements are independent, also it is sensitive to outliers.
+%
 The standard normalisation transforms the genome expression values $\mathbf{x}$ per genome as follows
 \begin{equation}
   \mathbf{x} = \frac{\mathbf{x} - \overline{\mathbf{x}}}{\sigma},
@@ -29,63 +48,86 @@ where $\mathbf{x}$ is the genome expression vector for some genome over all samp
 This centers the mean and normalises the  expression values with the standard deviation. 
 To ensure similar bounds we can then scale the values by largest absolute value per genome vector, i.e.
 \begin{equation}
-  \mathbf{x} = \frac{\mathbf{x}}{\max{\mathbf{x}}},
+  \mathbf{x} = \frac{\mathbf{x}}{\max{(\mathbf{x})}},
 \end{equation}
 %
 and as an alternative to the standard normalisation we can also apply a minmax normalisation
 \begin{equation}
- \mathbf{x} = \frac{\mathbf{x} - \min{\mathbf{x}}}{\max{\mathbf{x}} - \min{\mathbf{x}}}.
+ \mathbf{x} = \frac{\mathbf{x} - \min{(\mathbf{x})}}{\max{(\mathbf{x})} - \min{(\mathbf{x})}}.
 \end{equation}
 %
 There are also robust scalers which are appropriate if outlying expression values 
 are still present in the data. In our case we assume that these values are filtered out a priori. \\ \\
 %
-To demonstrate the effect of these transformations with regard to cohort bias we take two genomes, one with high and with low variance
+To demonstrate the effect of these transformations with regard to cohort bias we take two genomes, one with high and one with low variance
 over the classifications. \\ \\
 %
-There are various more elaborate methods to remove bias, such as  
-the SVD-based method from Alter et al.\cite{Alter2000}, the 
+%Strong: 1569566_at, 223748_at, 223017_at, 1568713_a_at, 201015_s_at
+%Weak: 214958_s_at, 200934_at, 207908_at, 205107_s_at, 243806_at
+
+%
+There are various more elaborate methods to remove bias such as the SVD-based method from Alter et al.\cite{Alter2000}, the 
 PCA-based bias removal methods EIGENSTRAT by Price et al.\cite{Price2006}, MANCIE by Zang et al.\cite{Zang2016}, the distance weighted discrimination (DWD)
-approach from Benito et al.\cite{Benito2004} or the ComBat method by Johnson et al.\cite{Johnson2007} which applies an empirical Bayes approach. 
+approach from Benito et al.\cite{Benito2005} or the ComBat method by Johnson et al.\cite{Johnson2007} who apply an empirical Bayes approach. 
 A comparison of bias removal methods is out of scope for this work, for more details we refer the reader to Johnson et al\cite{Johnson2007}.
+The basic underlying assumption for all methods is that the samples are stratified over the cohorts, i.e. that in terms
+of patients each cohort represents a random selection from the total set of patients. Also, it is assumed that 
+the distribution has only one mode.
 
 \subsection{Dimension reduction}
 \subsubsection{Covariance based transformation}
 
 Partial least squares: overfitting
 
-Latent Dirichlet Allocation: requires availability of classification for fitting, hence
-the transformation is biased to the training set.
-
 Principle Component Analysis: transformation of the feature space based on the eigenvectors 
 of the covariance matrix. Can be applied to the entire dataset.  The downside is that we obfuscate the 
-biological meaning of the . Any value in the feature set of the transformed matrix is a linear combination 
-of $N$ genome expression values, where $N$ is the number of expression
+biological meaning of the features. Any value in the feature set of the transformed matrix is a linear combination 
+of $N$ genome expression values, where $N$ is the number of expressions. 
 
-For this reason variance-based feature reduction is the most suitable method to reduce the number of dimensions.
+Linear Discrimination Analysis: requires availability of classification for fitting, hence
+the transformation is biased to the training set. 
+
+Because the Covariance based transformation obfuscates the biological meaning of the feature vectors 
+we choose variance-based feature reduction as the most suitable method to reduce the number of dimensions.
 
 \subsubsection{Variance-based feature reduction}
 
-Mann-Whitney U
-FDR, Benjamini-Hochberg procedure - ANOVA F-value
-FDR, Benjamini-Hochberg procedure - Wilcoxon 
-
+We apply the False Discovery Rate method, with the Benjamin-Hochberg approach and the ANOVA model
+to determine the F-values, with the maximum p-value set at $0.05$. % ANOVA versus Wilcoxon, Mann-Whitney U
+%
 \section{Classification}
+%
+We will shortly describe the methods used for the predictions and the determination of genome importances.
+We will not go in detail on the selection of the method parameters, we refer the reader to the appendix for 
+parameter selection.
 
 \subsection{Tree based}
 
+We employ several tree-methods: Random Forest (RF) by Breiman\cite{Breiman2001}, XGBoost (XGB) by Chen and Guestrin\cite{Chen2016}, (Light)GBM (LGBM) ref., ExtraTrees (ET) ref. and CART ref.
+The RF, XGB, LGBM and ET methods are ensemble methods that apply quasi-random combinations of decision trees. 
+The CART method is a particular type of Decision Tree.
 
 \subsection{Neural networks}
 
-Accuracy, but not transparant
+We use $2$ types of neural networks, a Deep Neural Network (DNN) and a Convolutional Neural Network (CNN). 
 
 \subsection{Linear methods}
 
+Logistic Regression (LR) and linear Support Vector Machines (lSVM)
+
 Simplicity, transparancy.
 
-\subsection{Bagging}
+\subsection{Probabilistic methods}
+%
+Naive Bayes (NB), Gaussian Processes (GPC), Relevance Vector Machines (RVM)
 
-increases the accuracy, removes method-specific biases and at the same time helps reduce overfitting
+
+
+\subsection{Bagging}
+%
+Finally we combine the different models in one meta-model. 
+This bagging of models increases the accuracy, removes method-specific biases and at the same time its helps reduces overfitting.
+The downside of bagging is that it obfuscates the results.
 
 \section{Post-processing}
 
@@ -94,8 +136,9 @@ importance/weights, what are they, how are they obtained?
 \section{Discussion}
 
 \begin{itemize}
-\item check for inflection point in ordering of eigenvalue to 'smartly' select the number of components, if we choose PCA, LDA
-\item improval of bias removal by mimicking featurewise distribution of expression values
+\item if we choose PCA, LDA, check for inflection point in eigenvalue magnitude to 'smartly' select the number of components
+\item improve bias removal by mimicking featurewise distribution of expression values
+\item improve bias removal method L/S by ignoring outliers during normalisation
 \end{itemize}
 
 \bibliographystyle{plain}

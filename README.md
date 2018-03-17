@@ -91,6 +91,7 @@ Complexity: 1, 3, 5, 7, 13
 - [x] DNN
 - [x] CNN 
 - [x] RVM
+- [ ] add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
 - 13, 	[ ] Combat bias corrector
 - 13, 	[ ] PCA bias corrector
 - 3, 	[x] simple noise addition to increase robustness (uniform distribution, single value range for entire matrix)

@@ -3,15 +3,91 @@
  title = {High-dimensional genomic data bias correction and data integration using MANCIE},
  journal = {Nature Communications},
  year = {2016},
- OPTvolume = {7},
- OPTdoi = {http://dx.doi.org/10.1038/ncomms11305}
+ volume = {7},
+ doi = {10.1038/ncomms11305}
 }
 @Article{Price2006,
  author = {A.L. Price AND N.J, Patterson AND R.M. Plenge AND M.E. Weinblatt AND N.A. Shadick AND D. Reich},
  title = {Principal components analysis corrects for stratification in genome-wide association studies},
  journal = {Nature Genetics},
  year = {2006},
- OPTvolume = {38},
- OPTpages = {904-909},
- OPTdoi = {http://dx.doi.org/10.1038/ng1847}
+ volume = {38},
+ pages = {904--909},
+ doi = {10.1038/ng1847}
 }
+@article{Johnson2007,
+author = {Johnson, W. Evan and Li, Cheng and Rabinovic, Ariel},
+title = {Adjusting batch effects in microarray expression data using empirical Bayes methods},
+journal = {Biostatistics},
+volume = {8},
+number = {1},
+pages = {118--127},
+year = {2007},
+doi = {10.1093/biostatistics/kxj037},
+}
+@article {Alter2000,
+author = {Alter, Orly and Brown, Patrick O. and Botstein, David},
+title = {Singular value decomposition for genome-wide expression data processing and modeling},
+volume = {97},
+number = {18},
+pages = {10101--10106},
+year = {2000},
+doi = {10.1073/pnas.97.18.10101},
+journal = {Proceedings of the National Academy of Sciences}
+}
+@article{Benito2005,
+author = {Benito, Monica and Parker, Joel and Du, Quan and Wu, Junyuan and Xiang, Dong and Perou, Charles M. and Marron, J. S.},
+title = {Adjustment of systematic microarray data biases},
+journal = {Bioinformatics},
+volume = {20},
+number = {1},
+pages = {105-114},
+year = {2004},
+doi = {10.1093/bioinformatics/btg385},
+}
+@Article{Breiman2001,
+ author = {Breiman,L.},
+ title = {Random Forests},
+ journal = {Machine Learning},
+ year = {2001},
+ OPTkey = {},
+ OPTvolume = {45},
+ OPTnumber = {1},
+ OPTpages = {5-32}
+}
+@InProceedings{Chen2016,
+ author = {Chen, T. AND Guestrin, C.},
+ title = {Xgboost: A scalable tree boosting system},
+ booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+ pages = {785-794},
+ year = {2016},
+ organization = {ACM}
+}
+@Article{Geurts2006,
+ author = {},
+ title = {},
+ journal = {},
+ year = {},
+ OPTkey = {},
+ OPTvolume = {},
+ OPTnumber = {},
+ OPTpages = {},
+ OPTmonth = {},
+ OPTnote = {},
+ OPTannote = {},
+ OPTurl = {},
+ OPTurldate = {},
+ OPTlastchecked = {},
+ OPTdoi = {},
+ OPTisbn = {},
+ OPTissn = {},
+ OPTlocalfile = {},
+ OPTabstract = {},
+ OPTkeywords = {},
+}
+
+
+
+
+https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf
+
