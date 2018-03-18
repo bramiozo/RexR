@@ -41,29 +41,31 @@ that the genome expression measurements are independent and we have no outliers.
 %
 The standard normalisation transforms the genome expression values $\mathbf{x}$ per genome as follows
 \begin{equation}
-  \mathbf{x} = \frac{\mathbf{x} - \overline{\mathbf{x}}}{\sigma},
+  \mathbf{x}^* = \frac{\mathbf{x} - \overline{\mathbf{x}}}{\sigma},
 \end{equation}
 %
 where $\mathbf{x}$ is the genome expression vector for some genome over all samples. 
 This centers the mean and normalises the  expression values with the standard deviation. 
-To ensure similar bounds we can then scale the values by largest absolute value per genome vector, i.e.
+To limit the influence of outliers we can center the median and use the interquantile range (IQR)
+for the scaling, i.e.
+%
 \begin{equation}
-  \mathbf{x} = \frac{\mathbf{x}}{\max{(\mathbf{x})}},
+  \mathbf{x}^* = \frac{\mathbf{x} - median\left({\mathbf{x}}\right)}{IQR},
 \end{equation}
 %
-and as an alternative to the standard normalisation we can also apply a minmax normalisation
-\begin{equation}
- \mathbf{x} = \frac{\mathbf{x} - \min{(\mathbf{x})}}{\max{(\mathbf{x})} - \min{(\mathbf{x})}}.
-\end{equation}
-%
-There are also robust scalers which are appropriate if outlying expression values 
-are still present in the data. In our case we assume that these values are filtered out a priori. \\ \\
+%To ensure similar bounds we can then scale the values by largest absolute value per genome vector, i.e.
+%\begin{equation}
+%  \mathbf{x}^* = \frac{\mathbf{x}}{\max{(\mathbf{x})}}.
+%\end{equation}
 %
 To demonstrate the effect of these transformations with regard to cohort bias we take two genomes, one with high and one with low variance
 over the classifications. \\ \\
 %
+images..
 %Strong: 1569566_at, 223748_at, 223017_at, 1568713_a_at, 201015_s_at
 %Weak: 214958_s_at, 200934_at, 207908_at, 205107_s_at, 243806_at
+
+
 
 %
 There are various more elaborate methods to remove bias such as the SVD-based method from Alter et al.\cite{Alter2000}, the 
@@ -81,16 +83,14 @@ the distribution has only one mode.
 
 Principle Component Analysis (PCA): transformation of the feature space based on the eigenvectors 
 of the covariance matrix. Can be applied to the entire dataset.  The downside is that we obfuscate the 
-biological meaning of the features: any value in the feature set of the transformed matrix is a linear combination 
+biological meaning of the features: any value in the feature set of the transformed matrix is now a linear combination 
 of $N$ genome expression values, where $N$ is the number of dimensions. 
-
 Linear Discrimination Analysis: requires availability of classification for fitting, hence
-the transformation is biased to the training set, also the features are obfuscated similar to PCA.
-
+the transformation is biased to the training set, also the features are obfuscated similar to PCA. \\
 Because the Covariance based transformation obfuscates the biological meaning of the feature vectors 
 we choose variance-based feature reduction as the most suitable method to reduce the number of dimensions.
-As for LDA, variance-based feature reduction has bias towards the training set because it dismissed features solely
-on the basis of 
+As for LDA, variance-based feature reduction has a bias towards the training set because it dismisses features solely
+on the basis of variance across the different classifications which are obviously not available for the test set.
 
 \subsubsection{Variance-based feature reduction}
 
@@ -108,7 +108,7 @@ parameter selection.
 Single decision trees are known to be sensitive to changes in the input data. These ensemble methods 
 help to decrease the variance without increasing the bias, i.e. increasing the ability to be generalised.
 We employ several tree-ensemble methods: Random Forest (RF) by Breiman\cite{Breiman2001}, ExtraTrees (ET) by Geurts et al.\cite{Geurts2006} 
-XGBoost (XGB) by Chen and Guestrin\cite{Chen2016} and (Light)GBM (LGBM) by Ke et al.\cite{Key2017}.
+XGBoost (XGB) by Chen and Guestrin\cite{Chen2016} and (Light)GBM (LGBM) by Ke et al.\cite{Ke2017}.
 The RF and ET methods are ensemble methods that combine an arbitrary number of decision trees, using bootstrapped samples,
 random feature selection and a majority vote classification. The XGB and LGBM methods are ensemble methods 
 that apply a technique called gradient boosting by Breiman\cite{Breiman1997}.
@@ -128,22 +128,25 @@ Simplicity, transparancy.
 Naive Bayes (NB), Gaussian Processes (GPC), Relevance Vector Machines (RVM)
 
 
-\subsection{Bagging}
+\begin{tabular}{l|c}
+ 
+\end{tabular} 
 %
-Finally we combine the different models in one meta-model. 
-This bagging of models increases the accuracy, removes method-specific biases and at the same time its helps reduce overfitting.
-The downside of bagging is that it obfuscates the results.
+
+The tree-methods are not sensitive to the bias removal, or to the normalisation.
 
 \section{Post-processing}
 %
-
+Description of weight/importance retrieval
 
 \section{Discussion}
 
 \begin{itemize}
 \item if we choose PCA, LDA, check for inflection point in eigenvalue magnitude to 'smartly' select the number of components
-\item improve bias removal by mimicking featurewise distribution of expression values
+\item successively apply standard scaling and maxabs scaling to center cohort data?
 \item improve bias removal method L/S by ignoring outliers during normalisation
+\item we can combine the different models in one meta-model. This bagging of models increases the accuracy, removes method-specific biases and at the same time its helps reduce overfitting.
+The downside of bagging is that it obfuscates the results.
 \end{itemize}
 
 \bibliographystyle{plain}

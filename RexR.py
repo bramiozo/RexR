@@ -90,7 +90,7 @@ class RexR():
             #"LSVM": {'C':1.0, 'class_weight':None, 'dual':True, 'fit_intercept':True,
             #            'intercept_scaling':1, 'loss':'squared_hinge', 'max_iter':1000,
             #            'multi_class':'ovr', 'penalty':'l2', 'random_state':0, 'tol': 0.0001, 'verbose':0}, 
-            "RF": {'n_estimators': 50, 'max_depth': 20, 'n_jobs': -1, 'min_samples_split': 10, 'min_samples_leaf': 5},
+            "RF": {'n_estimators': 200, 'max_depth': 10, 'n_jobs': -1, 'min_samples_split': 10, 'min_samples_leaf': 5},
             "MLNN": {'activation':'tanh', 'alpha':1e-04, 'batch_size': 10,
                     'beta_1':0.9, 'beta_2':0.999, 'early_stopping':False,
                     'epsilon':1e-06, 'hidden_layer_sizes':(60, 30, 15, 7, 2), 'learning_rate':'adaptive',

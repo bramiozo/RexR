@@ -297,7 +297,8 @@ def classify_treatment(self, model_type='CART',
             ("GBM", ensemble.GradientBoostingClassifier(**parameters['GBM'])),
             ("ADA", ensemble.AdaBoostClassifier(**parameters['ADA'])),
             ("CART", tree.DecisionTreeClassifier(**parameters['CART'])),
-            ("XGB", xgb(**parameters['XGB']))
+            ("XGB", xgb(**parameters['XGB'])),
+            ("MLNN", neural_network.MLPClassifier(**pars))
             ]
         models = copy.copy(models_)
         model = ensemble.VotingClassifier(models_, n_jobs = -1 , voting = 'soft')

@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{Alter2000}
 Orly Alter, Patrick~O. Brown, and David Botstein.
@@ -13,11 +13,39 @@ Monica Benito, Joel Parker, Quan Du, Junyuan Wu, Dong Xiang, Charles~M. Perou,
 \newblock Adjustment of systematic microarray data biases.
 \newblock {\em Bioinformatics}, 20(1):105--114, 2004.
 
+\bibitem{Breiman2001}
+L.~Breiman.
+\newblock Random forests.
+\newblock {\em Machine Learning}, 45(1):5--32, 2001.
+
+\bibitem{Breiman1997}
+Leo Breiman.
+\newblock Arcing the edge.
+\newblock Technical Report Technical Report 486, Statistics Department
+  University of California, 08 1997.
+
+\bibitem{Chen2016}
+T.~Chen and C.~Guestrin.
+\newblock Xgboost: A scalable tree boosting system.
+\newblock In {\em Proceedings of the 22nd ACM SIGKDD International Conference
+  on Knowledge Discovery and Data Mining}, pages 785--794. ACM, 2016.
+
+\bibitem{Geurts2006}
+P.~Geurts, D.~Ernst, and L.~Wehenkel.
+\newblock Extremely randomized trees.
+\newblock {\em Machine Learning}, 63(1):3--42, 2006.
+
 \bibitem{Johnson2007}
 W.~Evan Johnson, Cheng Li, and Ariel Rabinovic.
 \newblock Adjusting batch effects in microarray expression data using empirical
   bayes methods.
 \newblock {\em Biostatistics}, 8(1):118--127, 2007.
+
+\bibitem{Ke2017}
+G.~Ke, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T-Y Liu.
+\newblock Lightgbm: a highly efficient gradient boosting decision tree.
+\newblock In {\em 31st conference on Neural Information Processing Systems}.
+  NIPS, 2017.
 
 \bibitem{Price2006}
 A.L. Price, Patterson N.J, R.M. Plenge, M.E. Weinblatt, N.A. Shadick, and

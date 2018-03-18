@@ -245,10 +245,14 @@ def _survival_matrix(df):
 def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], scaler = "standard", Rclass = None):
     if(Rclass.SET_NAME == 'ALL_10'):
         gene_columns = df.columns[21:]
+        # MinMaxScaler(), MaxAbsScaler(), RobustScaler(), QuantileTransformer(), Normalizer()
         if scaler == "standard":
-            scaler = preprocessing.StandardScaler() # MinMaxScaler(), MaxAbsScaler(), RobustScaler(), QuantileTransformer(), Normalizer()
+            scaler = preprocessing.StandardScaler(with_mean=True, with_std=True)
         elif scaler == "minmax":
             scaler = preprocessing.MinMaxScaler()
+        elif scaler == "robust":
+            scaler = preprocessing.RobustScaler(quantile_range=(25.0, 75.0), 
+                                                    with_scaling=True, with_centering=True)
         elif scaler in ["normalizer", "normaliser"]:
             scaler = preprocessing.Normalizer()
 
@@ -258,11 +262,21 @@ def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], sc
             for cohort in cohorts:
                 ch = df["array-batch"] == cohort
                 df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
+                if Rclass.PIPELINE_PARAMETERS['scaler']['maxabs']==True:
+                    print("- "*30, 'Apply maxabs scaling')
+                    scaler = preprocessing.MaxAbsScaler()
+                    df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
         else:
             ch = df["array-batch"].isin(cohorts)
             df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
+            if Rclass.PIPELINE_PARAMETERS['scaler']['maxabs']==True:
+                print("- "*30, 'Apply maxabs scaling')
+                scaler = preprocessing.MaxAbsScaler()
+                df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])
+            
 
         df = df[df["array-batch"].isin(cohorts)]
+        return df
     elif(Rclass.SET_NAME == 'MELA'):
         gene_columns = df.loc[:, (df.columns!='target') & (df.columns!='ID')].columns
         #df[gene_columns] = df[gene_columns].apply(pd.to_numeric)
@@ -273,7 +287,11 @@ def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], sc
         elif scaler in ["normalizer", "normaliser"]:
             scaler = preprocessing.Normalizer()
         df.loc[:,gene_columns] = scaler.fit_transform(df.loc[:,gene_columns])
-    return df
+        if Rclass.PIPELINE_PARAMETERS['scaler']['maxabs']==True:
+            print("- "*30, 'Apply maxabs scaling')
+            scaler = preprocessing.MaxAbsScaler()
+            df.loc[ch,gene_columns] = scaler.fit_transform(df.loc[ch,gene_columns])        
+        return df
 
 def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rclass = None):
     splitter.random_state = seed
