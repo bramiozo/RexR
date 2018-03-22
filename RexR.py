@@ -125,7 +125,9 @@ class RexR():
             "GPC":{'optimizer': 'fmin_l_bfgs_b', 'n_restarts_optimizer': 0, 
                     'max_iter_predict': 100, 'warm_start': False, 
                     'copy_X_train': True, 'random_state': self.SEED, 
-                    'multi_class': 'one_vs_rest', 'n_jobs': 1}
+                    'multi_class': 'one_vs_rest', 'n_jobs': 1},
+            "LDA":{'shrinkage': 'auto', 'solver': 'lsqr', 'priors': None},
+            "QDA":{'priors': None, 'reg_param': 0.0, 'store_covariance':False, 'tol':0.0001, 'store_covariances':None}
         }
         #http://scikit-learn.org/stable/modules/feature_selection.html#univariate-feature-selection
         self.FEATURE_SELECTION_PARAMETERS = {   "low_variance":{"lib": "sklearn"}, 

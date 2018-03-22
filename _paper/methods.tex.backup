@@ -61,7 +61,17 @@ for the scaling, i.e.
 To demonstrate the effect of these transformations with regard to cohort bias we take two genomes, one with high and one with low variance
 over the classifications. \\ \\
 %
-images..
+\begin{figure}[htp]
+\centering
+\includegraphics[width=6cm]{diversitysection}
+\includegraphics[width=6cm]{diversitysentiment}
+\caption{Diversity score distribution of one of the recommender systems, based on the (a) section of the recommended articles, (b) sentiment of the article}
+% * <bramiozo@gmail.com> 2017-02-28T00:14:12.742Z:
+% 
+% Note, the plot uses the 'feeling' column...the sentiment analysis I had on my laptop and which is the basis for the numbers in the table requires python 2 and unfortunately my notebook was freezing all the time so I resorted to the followthenews notebook which does not run python2..etc etc :D. Maybe for next time, can you install a python 2 kernel for the notebook :). Good night
+
+\label{fig:distusercoll}
+\end{figure}
 %Strong: 1569566_at, 223748_at, 223017_at, 1568713_a_at, 201015_s_at
 %Weak: 214958_s_at, 200934_at, 207908_at, 205107_s_at, 243806_at
 
@@ -119,7 +129,7 @@ We use $2$ types of neural networks, a Deep Neural Network (DNN) and a Convoluti
 
 \subsection{Linear methods}
 
-Logistic Regression (LR) and linear Support Vector Machines (lSVM)
+Logistic Regression (LR), linear Support Vector Machines (lSVM), linear discriminant analysis (LDA)
 
 Simplicity, transparancy.
 
@@ -128,9 +138,20 @@ Simplicity, transparancy.
 Naive Bayes (NB), Gaussian Processes (GPC), Relevance Vector Machines (RVM)
 
 
-\begin{tabular}{l|c}
- 
-\end{tabular} 
+\begin{table}[htp]
+\centering
+\caption{Mean accuracies over $10$ runs with $1\%$ added random noise per run}
+\label{tab:diversitymetrics}
+\begin{tabular}{lllllll}
+				& RF     & DNN 		& CNN  		& LSVM 		& 	XGB 	& 	LDA  \\
+FDR $\alpha=0.05$		& 0.38   &  0.29      	&  0.38     	&  0.43    	& 0.25    	& 0.42  \\
+FDR $\alpha=0.1$ 		& 1.59   &  1.70      	&  1.68 	&  1.65    	& 1.79    	& 1.66  \\
+PCA $N=200$    			& 1.86   &  2.10      	&  1.88         &  1.79    	& 1.88          & 1.76  \\
+LDA $N=200$        		& 1.54   &  1.73      	&  1.65         &  1.56    	& 1.48          & 1.55  \\
+PCA $N=500$    			& 1.86   &  2.10      	&  1.88         &  1.79    	& 1.88          & 1.76  \\
+LDA $N=500$        		& 1.54   &  1.73      	&  1.65         &  1.56    	& 1.48          & 1.55  \\
+\end{tabular}
+\end{table}
 %
 
 The tree-methods are not sensitive to the bias removal, or to the normalisation.

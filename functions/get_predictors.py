@@ -271,10 +271,14 @@ def classify_treatment(self, model_type='CART',
     elif(model_type == 'EBE'): # Extremely Biased Estimator
         print("NOT AVAILABLE YET")
     elif(model_type == 'QDA'):
-        model = discriminant_analysis.QuadraticDiscriminantAnalysis(priors = None, reg_param = 0.0)
+        pars = parameters['QDA']
+        model = discriminant_analysis.QuadraticDiscriminantAnalysis(**pars)
         models.append(('QDA', model))
     elif(model_type == 'LDA'):
-        model = discriminant_analysis.LinearDiscriminantAnalysis(priors = None, n_components = n_comp)
+        pars = parameters['LDA']
+        if  (pipeline['dim_reduction']['n_comp'] is not None):
+            pars['n_components'] = pipeline['dim_reduction']['n_comp']
+        model = discriminant_analysis.LinearDiscriminantAnalysis(**pars)
         models.append(('LDA', model))
     elif(model_type == 'GPC'):
         Kernel = 1.0 * gaussian_process.kernels.RBF(length_scale=1.0)
