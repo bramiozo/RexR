@@ -121,7 +121,7 @@ def classify_treatment(self, model_type='CART',
         y = self.Y_CLASS    
 
     if pipeline['pre_processing']['noise'] == True:
-        x = _helpers._add_noise(x.copy())
+        x = _helpers._add_noise(x.copy(), noise_level = pipeline['pre_processing']['noise_level'])
 
     if pipeline['feature_selection']['type'] is not None:        
         NOW_HASH = hash(pipeline['feature_selection']['type']+
@@ -358,6 +358,7 @@ def classify_treatment(self, model_type='CART',
         var_columns = df.columns[21:]   
     elif self.SET_NAME == 'MELA':
         var_columns = df.loc[:, (df.columns!=parameters['target']) &  (df.columns!=parameters['ID'])].columns
+    
     x_pred = df.loc[:,var_columns].values  
 
     # apply feature selection
@@ -379,7 +380,9 @@ def classify_treatment(self, model_type='CART',
     elif(pipeline['dim_reduction']['type']  == 'genome_variance'):
         x_pred = Reducer(x_pred)
 
-    
+    self.X_test = x_pred
+
+
     if(model_type not in ['RVM', 'DNN', 'CNN']): # , 'XGB', 'XGBoost'
         preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
     #elif model_type == 'DNN':
@@ -436,4 +439,21 @@ def classify_treatment(self, model_type='CART',
 
     return preds, model, accuracy
 
+
+def ensemble_prediction(models, x, weighted = False, train_acc = None):
+    preds = []
+    for MODEL in models:
+        if MODEL['method']=='RVM':
+            _pred = np.reshape(np.dot(x, model.wInferred), newshape=[len(x),])/2+0.5 
+        elif MODEL['method']=='DNN':
+            _pred = MODEL['model'].predict_on_batch(np.array(x))[:,0] 
+        elif MODEL['method']=='CNN':
+            _pred = MODEL['model'].predict(np.expand_dims(x, axis=2))[:,0]
+        elif MODEL['method'].lower() in ['lgbm', 'lightgbm']:
+            _pred = MODEL['model'].predict_proba(x, num_iteration = model.best_iteration)
+        else:
+            _pred = MODEL['model'].predict(x)
+        preds.append(_pred)
+    if weighted == False:       
+        return sum(preds)/len(preds)
 

@@ -133,7 +133,8 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] add quiver visualisation for genomes
 - x,	[ ] add lime visualisation for genomes
 - x, 	[ ] add wrapper for (circos)[http://circos.ca/]
-- x,  [ ] add option for nested cross-validation
+- x,  	[ ] add option for nested cross-validation
+- x,	[ ] add relative noise-level
 
 ## Datasets
 
