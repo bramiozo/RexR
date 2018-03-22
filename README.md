@@ -52,7 +52,7 @@ https://blog.keras.io/building-powerful-image-classification-models-using-very-l
 # Possible collaborations
 
 Science:
-*	Jules Meijerink; principal investigator
+*	Dr. Jules Meijerink; principal investigator
 *	Dr. Mohammed El Kebir; computational biologist 
 *	Dr. Gunnar W. Klau; computational biologist
 *	Dr. Marc Deisenroth; trust and transparancy in ML
