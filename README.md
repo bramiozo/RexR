@@ -94,26 +94,26 @@ Complexity: 1, 3, 5, 7, 13
 - [ ] add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
 - 13, 	[ ] Combat bias corrector
 - 13, 	[ ] PCA bias corrector
-- 3, 	[x] simple noise addition to increase robustness (uniform distribution, single value range for entire matrix)
+- [x] 1  simple noise addition to increase robustness (uniform distribution, single value range for entire matrix)
 - 5, 	[ ] element-wise noise addition using relative value range (n percentage of absolute value)
 - 3, 	[ ] n-repetitions and bagging of stochastic methods (i.e.  varying seed's)
-- 1, 	[x] lightGBM
+- [x] 1 lightGBM
 - 13, 	[ ] CEBE: Cluster-enhanced extremely biased estimator
 - 13, 	[ ] PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
-- 3,  	[x] generate table with classification per patient, per classification method => send to Jules
+- [x] 2 generate table with classification per patient, per classification method => send to Jules
 - 5, 	[ ] routine to generate table's
-- 1, 	[x] top-genome selector => send to Jules
+- [x] 1 top-genome selector => send to Jules
 - 5, 	[ ] top-genome visualiser: top-N list -> hierarchical clustering
 - 3,	[ ] patient clustering ==> all genomes, reduced
 - 7,	[ ] genome clustering ==> reduced..
-- ? 	[x] visualisation of training process
+- ? 	[ ] visualisation of training process
 - 7,	[ ] user-friendly way to set-up pipelines
 - 5,	[ ] add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
 - 7, 	[ ] add SOM for genome seperation
 - 3,	[ ] sparse auto encoding for pre-processing
 - 3,	[ ] t-sne / optics analyser
-- 3,	[x] ROC/confusion matrix visualiser
-- 5,	[x] patient similarity
+- [x] 3 ROC/confusion matrix visualiser
+- [x] 5	patient similarity
 - 5,	[ ] conditional survival estimator. i.e. add a regressor.
 - 5,	[ ] GEO DataSets lib integration
 - 7,	[ ] Make GEO datasets interactive
@@ -135,6 +135,7 @@ Complexity: 1, 3, 5, 7, 13
 - x, 	[ ] add wrapper for (circos)[http://circos.ca/]
 - x,  	[ ] add option for nested cross-validation
 - x,	[ ] add relative noise-level
+- x,	[ ] add containers for Neo4j
 
 ## Datasets
 
