@@ -1,6 +1,7 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{graphicx}
 
 %opening
 \title{Methods used}
@@ -63,20 +64,21 @@ over the classifications. \\ \\
 %
 \begin{figure}[htp]
 \centering
-\includegraphics[width=6cm]{diversitysection}
-\includegraphics[width=6cm]{diversitysentiment}
-\caption{Diversity score distribution of one of the recommender systems, based on the (a) section of the recommended articles, (b) sentiment of the article}
-% * <bramiozo@gmail.com> 2017-02-28T00:14:12.742Z:
-% 
-% Note, the plot uses the 'feeling' column...the sentiment analysis I had on my laptop and which is the basis for the numbers in the table requires python 2 and unfortunately my notebook was freezing all the time so I resorted to the followthenews notebook which does not run python2..etc etc :D. Maybe for next time, can you install a python 2 kernel for the notebook :). Good night
-
-\label{fig:distusercoll}
+\includegraphics[width=6cm]{images/strong_genome_distribution_noCorrection_noNormalisation}
+\includegraphics[width=6cm]{images/weak_genome_distribution_noCorrection_noNormalisation}
+\caption{Two sets of distributions prior the bias correct, for, (left) a strong predictor and (right) a weak predictor}
+\label{fig:expression_distribution_cohorts}
+\end{figure}
+%
+\begin{figure}[htp]
+\centering
+\includegraphics[width=6cm]{images/strong_genome_distribution_withCorrection_standardNormalisation}
+\includegraphics[width=6cm]{images/weak_genome_distribution_withCorrection_standardNormalisation}
+\caption{Two sets of distributions with L/S cohort correct, for, (left) a strong predictor and (right) a weak predictor}
+\label{fig:expression_distribution_cohorts_withBiasCorrection}
 \end{figure}
 %Strong: 1569566_at, 223748_at, 223017_at, 1568713_a_at, 201015_s_at
 %Weak: 214958_s_at, 200934_at, 207908_at, 205107_s_at, 243806_at
-
-
-
 %
 There are various more elaborate methods to remove bias such as the SVD-based method from Alter et al.\cite{Alter2000}, the 
 PCA-based bias removal methods EIGENSTRAT by Price et al.\cite{Price2006}, MANCIE by Zang et al.\cite{Zang2016}, the distance weighted discrimination (DWD)
@@ -84,33 +86,46 @@ approach from Benito et al.\cite{Benito2005} or the ComBat method by Johnson et 
 A comparison of bias removal methods is out of scope for this work, for more details we refer the reader to Johnson et al\cite{Johnson2007}.
 The basic underlying assumption for all methods is that the samples are stratified over the cohorts, i.e. that in terms
 of patients each cohort represents a random selection from the total set of patients. Also, it is assumed that 
-the distribution has only one mode.
+the distribution has only one mode. In figures \ref{fig:expression_distribution_cohorts} and \ref{fig:expression_distribution_cohorts_withBiasCorrection}
+we show examples of distributions for two different genomes without and with bias removal respectively.
 
 \subsection{Dimension reduction}
-\subsubsection{Covariance based transformation}
-
-%Partial least squares: overfitting
-
-Principle Component Analysis (PCA): transformation of the feature space based on the eigenvectors 
-of the covariance matrix. Can be applied to the entire dataset.  The downside is that we obfuscate the 
-biological meaning of the features: any value in the feature set of the transformed matrix is now a linear combination 
-of $N$ genome expression values, where $N$ is the number of dimensions. 
-Linear Discrimination Analysis: requires availability of classification for fitting, hence
-the transformation is biased to the training set, also the features are obfuscated similar to PCA. \\
-Because the Covariance based transformation obfuscates the biological meaning of the feature vectors 
-we choose variance-based feature reduction as the most suitable method to reduce the number of dimensions.
-As for LDA, variance-based feature reduction has a bias towards the training set because it dismisses features solely
-on the basis of variance across the different classifications which are obviously not available for the test set.
-
-\subsubsection{Variance-based feature reduction}
-
-We apply the False Discovery Rate method, with the Benjamin-Hochberg approach and the ANOVA model
-to determine the F-values, with the maximum p-value set at $0.05$. % ANOVA versus Wilcoxon, Mann-Whitney U
+%
+We considered several dimension reduction techniques such as Principal Component Analysis (PCA, see e.g. Shlens\cite{Shlens2014}), 
+Linear Discriminant Analysis (LDA) and the False discovery rate (FDR, see Yoav and Hochberg\cite{Yoav1995}). \\ 
+%
+PCA is basically a transformation of the feature space based on the eigenvectors 
+of the covariance matrix and can be applied to the entire dataset, including the test set.
+Using the eigenvectors of the covariance matrix as the basis for the features ensures maximal
+variance perpendicular to the coordinate axes. This is a coarse of saying that we maximize the information
+content per dimension. The downside is that we obfuscate the biological meaning of the features: any value in the feature set of the transformed matrix is now a linear combination 
+of $N$ genome expression values, where $N$ is the number of dimensions. \\
+%
+In LDA we try to find a linear transformation that maximizes the seperation 
+\textbf{between} classes with respect to the seperation \textbf{within} classes.
+LDA requires availability of the classification label for fitting, hence the transformation is biased to the training set, 
+also the features are obfuscated similar to PCA. For both LDA and PCA we need to select the number of dimensions a priori. \\ 
+%
+The FDR method is basically a feature selection based on a minimum statistical seperarability of the distributions over the different classes.
+This minimum seperability is in this case the $p$-value for the rejection of the null hypothesis that the samples are drawn from the same distribution.  \\ 
+%
+Because the Covariance or linear-discrimination based transformation obfuscates the biological meaning of the feature vectors
+we choose the FDR method as the most suitable method to reduce the number of dimensions. Also, the FDR method is commonly applied in genomic research. \\
+We apply the FDR method with the Benjamin-Hochberg approach and the ANOVA model to compare the distributions with a maximum $p$-value set at $0.05$. \\ % ANOVA versus Wilcoxon, Mann-Whitney U
+%
+Arguably, a shortcoming of the FDR method is that, as for LDA, it has a bias towards the training set because it dismisses features solely
+on the basis of variance across the different classifications which are obviously not available for the test set. Another shortcoming is that it ignores
+feature interdependency, i.e. we may accidentally dismiss feature combinations as predictors because we have removed their constitutive parts. \\ 
+%
+For this reason, the use of a generic dimension reduction technique such as PCA is advised to improve
+the robustness of the model in terms of classification accuracy. As we are currently primarily interested in the importance of individual genomes and not per se the accuracy of the predictor
+we consider this out of scope.
+%
 %
 \section{Classification}
 %
 We will shortly describe the methods used for the predictions and the determination of genome importances.
-We will not go in detail on the selection of the method parameters, we refer the reader to the appendix for 
+We will not go in detail on the selection of the method parameters, we refer the reader to the appendix for the
 parameter selection.
 
 \subsection{Tree based}
@@ -124,20 +139,33 @@ random feature selection and a majority vote classification. The XGB and LGBM me
 that apply a technique called gradient boosting by Breiman\cite{Breiman1997}.
 %
 \subsection{Neural networks}
+%
+We use $2$ types of neural networks, a Deep Neural Network (DNN) \cite{lecun2015deep} and a Convolutional Neural Network (CNN) \cite{Lecun98}. 
+The main advantage of neural networks is that they can learn nonlinear relationships between features. 
+A DNN uses several fully connected layers of nodes as a network architecture. 
+A high level explanation of the difference between DNNs and CNNs is that a DNN looks at the entire dataset in each node (layers are fully connected).
+While a CNN contains operations that allow it to focus on smaller subsets of the data (convolutional layers) 
+and operations that allow it to filter out irrelevant data (pooling layers). 
 
-We use $2$ types of neural networks, a Deep Neural Network (DNN) and a Convolutional Neural Network (CNN). 
-
+It is not possible out-of-the-box to discern which features are important for the final prediction. 
+Using Local Interpretable Model-Agnostic Explanations (LIME) developed by Ribeiro et al.\cite{Ribeiro2016} 
+we can...?
+%
 \subsection{Linear methods}
 
-Logistic Regression (LR), linear Support Vector Machines (lSVM), linear discriminant analysis (LDA)
+Logistic Regression (LR), 
+linear Support Vector Machines (lSVM), 
+linear discriminant analysis (LDA)
 
-Simplicity, transparancy.
+Simplicity, transparancy, robustness. However, what we gain in expressiveness we may lose in accuracy as 
 
 \subsection{Probabilistic methods}
 %
 Naive Bayes (NB), Gaussian Processes (GPC), Relevance Vector Machines (RVM)
 
 
+\section{Results}
+% 
 \begin{table}[htp]
 \centering
 \caption{Mean accuracies over $10$ runs with $1\%$ added random noise per run}
@@ -155,7 +183,7 @@ LDA $N=500$        		& 1.54   &  1.73      	&  1.65         &  1.56    	& 1.48  
 %
 
 The tree-methods are not sensitive to the bias removal, or to the normalisation.
-
+% Is this correct? Seperate bias removal for each cohort might change the overall ordering of a feature -> which does make a tree sensitive to bias removal
 \section{Post-processing}
 %
 Description of weight/importance retrieval
