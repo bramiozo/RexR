@@ -144,6 +144,14 @@ We use $2$ types of neural networks, a Deep Neural Network (DNN) \cite{lecun2015
 The main advantage of neural networks is that they can learn nonlinear relationships between features. 
 A DNN uses several fully connected layers of nodes as a network architecture. 
 A high level explanation of the difference between DNNs and CNNs is that a DNN looks at the entire dataset in each node (layers are fully connected).
+
+% \begin{figure}[htp]
+% \centering
+% \includegraphics[width=6cm]{images/dnn.svg}
+% \caption{Example architecture of a deep neural network.}
+% \label{fig:ddn_architecture}
+% \end{figure}
+
 While a CNN contains operations that allow it to focus on smaller subsets of the data (convolutional layers) 
 and operations that allow it to filter out irrelevant data (pooling layers). 
 
@@ -180,12 +188,14 @@ LDA $N=200$        		& 1.54   &  1.73      	&  1.65         &  1.56    	& 1.48  
 PCA $N=500$    			& 1.86   &  2.10      	&  1.88         &  1.79    	& 1.88          & 1.76  \\
 LDA $N=500$        		& 1.54   &  1.73      	&  1.65         &  1.56    	& 1.48          & 1.55  \\
 \end{tabular}
+% Why is the mean accuracy not between 0 and 1? Are these placeholder results?
 \end{table}
 %
 
 The tree-methods are not sensitive to the bias removal, or to the normalisation.
 % Is this correct? Seperate bias removal for each cohort might change the overall ordering of a feature -> which does make a tree sensitive to bias removal
 % good point: it could also be that the tree methods mostly ignore the weak features automagically but I will need to verify.
+% Tree methods do their own feature selection, if it is not possible to make a decent split of the data with a certain feature itll be ignored, however since the sample size is so small it still might be able to make a decent split on a shit feature, because of pure luck. I was talking about the bias removal tho, which doesn't have much to do with feature selection?
 \section{Post-processing}
 %
 Description of weight/importance retrieval
