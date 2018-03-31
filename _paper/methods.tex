@@ -141,16 +141,23 @@ that apply a technique called gradient boosting by Breiman\cite{Breiman1997}.
 \subsection{Neural networks}
 %
 We use $2$ types of neural networks, a Deep Neural Network (DNN) \cite{lecun2015deep} and a Convolutional Neural Network (CNN) \cite{Lecun98}. The main advantage of neural networks is that they can learn nonlinear relationships between features. Despite the small sample size, it is interesting to apply neural networks in this context due to the high dimensionality of the data. Neural networks with multiple layers are proficient in discerning more subtle patterns in the data compared to other approaches. Shallow neural networks have been succesfully applied to similar sets of genetic expression data in the past, such as in \cite{khan2001classification}.
-A DNN uses several fully connected layers of nodes as a network architecture. A high level explanation of the difference between DNNs and CNNs is that a DNN looks at the entire dataset in each node (layers are fully connected).
+A DNN, as shown in figure \ref{fig:dnn_architecture}, uses several fully connected layers of nodes as a network architecture. A high level explanation of the difference between DNNs and CNNs is that a DNN looks at the entire dataset in each node (layers are fully connected).
 While a CNN contains operations that allow it to focus on smaller subsets of the data (convolutional layers) 
-and operations that allow it to filter out irrelevant data (pooling layers). 
+and operations that allow it to filter out irrelevant data (pooling layers). An example of a CNN architecture for image classification is shown in figure \ref{fig:cnn_architecture}.
 
-% \begin{figure}[htp]
-% \centering
-% \includegraphics[width=6cm]{images/dnn.svg}
-% \caption{Example architecture of a deep neural network.}
-% \label{fig:ddn_architecture}
-% \end{figure}
+\begin{figure}[htp]
+  \centering{}
+  \includegraphics[width=8cm]{images/DNN}
+  \caption{A generic architecture for a deep feedforward neural network.}
+  \label{fig:dnn_architecture}
+\end{figure}
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=8cm]{images/CNN}
+  \caption{A typical convolutional neural network architecture for image classification from \cite{Lecun98}.}
+  \label{fig:cnn_architecture}
+\end{figure}
 
 It is not possible out-of-the-box to discern which features are important for the final prediction. 
 Using Local Interpretable Model-Agnostic Explanations (LIME) developed by Ribeiro et al.\cite{Ribeiro2016} 
