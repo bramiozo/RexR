@@ -54,6 +54,14 @@ G.~Ke, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T-Y Liu.
 \newblock In {\em 31st conference on Neural Information Processing Systems}.
   NIPS, 2017.
 
+\bibitem{khan2001classification}
+Javed Khan, Jun~S Wei, Markus Ringner, Lao~H Saal, Marc Ladanyi, Frank
+  Westermann, Frank Berthold, Manfred Schwab, Cristina~R Antonescu, Carsten
+  Peterson, et~al.
+\newblock Classification and diagnostic prediction of cancers using gene
+  expression profiling and artificial neural networks.
+\newblock {\em Nature medicine}, 7(6):673, 2001.
+
 \bibitem{lecun2015deep}
 Yann LeCun, Yoshua Bengio, and Geoffrey Hinton.
 \newblock Deep learning.
