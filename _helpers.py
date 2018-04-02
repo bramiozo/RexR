@@ -8,7 +8,7 @@ from sklearn.manifold import MDS
 from sklearn.manifold import Isomap as ISO
 from sklearn.manifold import LocallyLinearEmbedding as LLE
 from sklearn.model_selection import train_test_split, cross_val_score  
-from sklearn.feature_selection import SelectFdr
+from sklearn.feature_selection import SelectFdr, SelectFpr
 from sklearn.feature_selection import f_classif, chi2
 
 import numpy as np
@@ -212,22 +212,34 @@ def patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None
 
 def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL10', Rclass = None): # type = ['genomic', ] 
     if(Rclass.SET_NAME=='ALL_10'):
-        if(features =='genomic'):
-            var_columns = df.columns[21:]# .values.tolist()
-        elif(features =='patient'):
-            var_columns = ["Age", "WhiteBloodCellcount", "Gender"]
-            df[var_columns] = df[var_columns].fillna(0.0)
+        if target == 'Treatment_risk_group_in_ALL10':
+            if(features =='genomic'):
+                var_columns = df.columns[21:]# .values.tolist()
+            elif(features =='patient'):
+                var_columns = ["Age", "WhiteBloodCellcount", "Gender", 
+                               "mutations_NOTCH_pathway", "mutations_IL7R_pathway",
+                               "mutations_PTEN_AKT_pathway", "code_OS"]
+                df[var_columns] = df[var_columns].fillna(0.0)
 
-        train_idx = df[target].isin(["HR","MR","SR"])
+            train_idx = df[target].isin(["HR","MR","SR"])
 
-        y = df[train_idx][target].map(lambda x: 0 if x in ["MR", "SR"] else 1).values
-        df = df.drop(target, inplace = False, axis = 1)
-        x = df.loc[train_idx,var_columns].values    
+            y = df[train_idx][target].map(lambda x: 0 if x in ["MR", "SR"] else 1).values
+            df = df.drop(target, inplace = False, axis = 1)
+            x = df.loc[train_idx,var_columns].values
+
+            return x, y
+        elif target == 'code_OS':
+            valid = [0,1]
+            gene_columns = df.columns[21:]
+            target = "code_OS"
+            df = df[df[target].isin(valid)]
+
+            return df[gene_columns].values, df[target].values           
     elif(Rclass.SET_NAME =='MELA'):
         y = df[:]['target'].map(lambda x: 0 if x =="Genotype: primary tumor" else 1).values
         df = df.drop(target, inplace = False, axis = 1)
         x = df.loc[:, (df.columns!='target') & (df.columns!='ID')].values            
-    return x,y
+        return x, y
 
 def _add_noise(x, noise_level = 0.01):
     # absolute noise addition: x_ij +- noise_level
@@ -401,12 +413,15 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rc
 
 
 def get_dim_reduction(X, y = None, n_comp = 1000, method = 'pca', Rclass = None):
+    #print("\ "*15, 'Dimension reduction, current matrix shape is {}, N is {}'.format(X.shape, n_comp))
     if(method.lower() == 'pca'):
+        Rclass.DIMENSION_REDUCTION_PARAMETERS['pca']['n_components'] = n_comp
         pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['pca']
-        Transform = decomposition.PCA(n_components = n_comp, **pars).fit(X)
+        Transform = decomposition.PCA(**pars).fit(X)
     elif(method.lower() == 'lda'):
         pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['lda']
-        Transform = discriminant_analysis.LinearDiscriminantAnalysis(n_components = n_comp, **pars).fit(X,y)
+        Rclass.DIMENSION_REDUCTION_PARAMETERS['lda']['n_components'] = n_comp
+        Transform = discriminant_analysis.LinearDiscriminantAnalysis(**pars).fit(X,y)
     elif(method.lower() == 'pls'):
         pars = Rclass.DIMENSION_REDUCTION_PARAMETERS['pls']
         Transform = cross_decomposition.PLSRegression(n_components = n_comp, **pars).fit(X, y)
@@ -428,16 +443,17 @@ def get_dim_reduction(X, y = None, n_comp = 1000, method = 'pca', Rclass = None)
     elif(method.lower() == 'sae'):
         #https://github.com/fchollet/keras/issues/358
         return True
-    elif(method.lower() == 'genome_variance'):
-        X_out, Transform = get_filtered_genomes(x_, filter_type = None)
-        return X_out, Transform
+    #elif(method.lower() == 'genome_variance'):
+    #    X_out, Transform = get_filtered_genomes(x_, filter_type = None)
+    #    return X_out, Transform
     else:
         raise ValueError 
 
     X_out = Transform.transform(X)
+    #print("/ "*15, 'Reduced matrix shape is {}'.format(X_out.shape))
     return X_out, Transform
 
-def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
+def get_top_genes(MODELS=None, n_max = 1000, sort_by = 'MEAN', RexR=None):
     ''' Extract the genomes that are most relevant for the classification
     * method
     * extra-trees weights
@@ -490,7 +506,7 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
     top_genomes_weights['MEAN'] = top_genomes_weights.mean(axis=1)
     top_genomes_weights['MEDIAN'] = top_genomes_weights.median(axis=1)
     top_genomes_index = top_genomes_weights.index
-    top_genomes_weights = top_genomes_weights.sort_values(by='MEAN', ascending=False)[:n_max]
+    top_genomes_weights = top_genomes_weights.sort_values(by=sort_by, ascending=False)[:n_max]
            
     ### Coefficients
     top_genomes_coeffs = pd.DataFrame()
@@ -521,10 +537,10 @@ def get_top_genes(MODELS=None, n_max = 1000, RexR=None):
         #top_genomes['ALL'] = top_genomes.sum(axis=1)
         top_genomes_coeffs['MEAN'] = top_genomes_coeffs.mean(axis=1)
         top_genomes_coeffs['MEDIAN'] = top_genomes_coeffs.median(axis=1)
-        top_genomes_coeffs = top_genomes_coeffs.sort_values(by='MEAN', ascending=False)[:]    
+        top_genomes_coeffs = top_genomes_coeffs.sort_values(by=sort_by, ascending=False)[:]    
 
         return top_genomes_weights, top_genomes_coeffs[-int(n_max/2):].append(top_genomes_coeffs[:int(n_max/2)])\
-                                                                  .sort_values(by="MEAN")
+                                                                  .sort_values(by=sort_by)
     else:
         return top_genomes_weights, top_genomes_coeffs
 
@@ -661,14 +677,14 @@ def get_filtered_genomes(x, y, Rclass = None):
     try:
         alpha = Rclass.PIPELINE_PARAMETERS['feature_selection']['pvalue']
         filter_type = Rclass.PIPELINE_PARAMETERS['feature_selection']['method']
-        FDR_function =  Rclass.PIPELINE_PARAMETERS['feature_selection']['score_function']
+        F_function =  Rclass.PIPELINE_PARAMETERS['feature_selection']['score_function']
     except Exception as e:
         print("Exception with {} handling the function get_filtered_genomes".format(e))
         alpha = 0.05
         filter_type = 'FDR'
-        FDR_function = 'ANOVA'
+        F_function = 'ANOVA'
 
-    FDR_function = f_classif if FDR_function == 'ANOVA' else eval(FDR_function)
+    
     
     #  Mann-Whitney, between classes
     # scipy.stats.mannwhitneyu, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
@@ -678,9 +694,16 @@ def get_filtered_genomes(x, y, Rclass = None):
     elif filter_type == 'FDR':
     # Use FDR with a number of different statistical measures:
     # f_classif, chi2, 
+        FDR_function = f_classif if F_function == 'ANOVA' else eval(F_function)
         FDR = SelectFdr(alpha = alpha, score_func = FDR_function) #f_classif, chi2
         Selector = FDR.fit(x, y)
         x_out = FDR.transform(x)
+    elif filter_type == 'FPR':
+        FPR_function = f_classif if F_function == 'ANOVA' else eval(F_function)
+        FPR = SelectFpr(alpha = alpha, score_func = FPR_function) #f_classif, chi2
+        Selector = FPR.fit(x, y)
+        x_out = FPR.transform(x)        
+
     # 4. Wilcoxon signed-rank, between classes
     # scipy.stats.wilcoxon, https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
 

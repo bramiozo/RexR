@@ -127,3 +127,53 @@ publisher={Nature Publishing Group}
   biburl    = {https://dblp.org/rec/bib/journals/corr/Shlens14},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
+@article{Yoav1995,
+  title={Controlling the false discovery rate: a practical and powerful approach to multiple testing},
+  author={Benjamini, Yoav and Hochberg, Yosef},
+  journal={Journal of the royal statistical society. Series B (Methodological)},
+  pages={289--300},
+  year={1995},
+  publisher={JSTOR}
+}
+@article{khan2001classification,
+  title={Classification and diagnostic prediction of cancers using gene expression profiling and artificial neural networks},
+  author={Khan, Javed and Wei, Jun S and Ringner, Markus and Saal, Lao H and Ladanyi, Marc and Westermann, Frank and Berthold, Frank and Schwab, Manfred and Antonescu, Cristina R and Peterson, Carsten and others},
+  journal={Nature medicine},
+  volume={7},
+  number={6},
+  pages={673},
+  year={2001},
+  publisher={Nature Publishing Group}
+}
+@article{Sun1996,
+  title={Inappropriate use of bivariable analysis to screen risk factors for use in multivariable analysis},
+  author={Sun, G-W AND Shook, T.L. AND Kay, G.L.},
+  journal={Journal of Clinical Epidemiology},
+  pages={907--916},
+  volume = {49},
+  number = {8},
+  year={1996},
+  publisher={Elsevier}
+}
+@article{Sandberg2001,
+  title={Capturing Whole-Genome Characteristics in Short Sequences Using a Na{\"{i}}ve Bayesian Classifier},
+  author={Sandberg, R. AND Winberg, G. AND Br{\"{a}}nden C-I AND Kaske, A. AND Ernberg, I. AND C{\"{o}}ster, J.},
+  journal={Genome Research},
+  pages={1404--1409},
+  volume = {11},
+  year={2001},
+  doi = {10.1101/gr.186401}
+}
+@article{Ferrari2006,
+  title={Mining housekeeping genes with a Naive Bayes classifier},
+  author={De Ferrari, L. AND Aitken, S.},
+  journal={BMC Genomics},
+  pages={277--291},
+  volume = {7},
+  number = {1},
+  year={2006},
+  doi = {10.1186/1471-2164-7-277}
+}
+
+
+

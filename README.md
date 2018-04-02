@@ -130,12 +130,15 @@ Complexity: 1, 3, 5, 7, 13
 - x,  	[ ] add graph visualisation (intra-similarity of most prominent genomes, per label)
 - x,  	[ ] add measuring bias detector (multiple datasets as inputs)
 - x,	[ ] add hyperoptimisation routine
-- x,	[ ] add quiver visualisation for genomes
+- x,	[ ] add quiver visualisation for genomes, also see https://distill.pub/2018/building-blocks/
 - x,	[ ] add lime visualisation for genomes
 - x, 	[ ] add wrapper for (circos)[http://circos.ca/]
 - x,  	[ ] add option for nested cross-validation
 - x,	[ ] add relative noise-level
 - x,	[ ] add containers for Neo4j
+- x, 	[ ] add a posteriori accuracy checker
+- 1, 	[x] add false positive rate (sklearn.feature_selection.SelectFpr)
+- x,	[ ] add Automatic Relevance Determination (ARD), Bayesian Discriminative Modelling.
 
 ## Datasets
 

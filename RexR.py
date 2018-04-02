@@ -136,7 +136,7 @@ class RexR():
                                                 "univariate":{"lib": "sklearn"}
                                             }
         self.DIMENSION_REDUCTION_PARAMETERS = {"pca": {'copy' : True, 'whiten' : False, 
-                                                       'svd_solver' : 'auto', 
+                                                       'svd_solver' : 'full', 
                                                        'tol' : 0.001, 'iterated_power':'auto', 
                                                        'random_state' : None},
                                                 "pls": {'scale': True, 
@@ -248,9 +248,9 @@ class RexR():
 
     def _read_patient_file(self, path):
         patients = pd.read_excel(path)
-        columns = patients.ix[0].values
-        patients = patients.drop(patients.index[0])
-        patients.columns = columns
+        #columns = patients.ix[0].values
+        #patients = patients.drop(patients.index[0])
+        #patients.columns = columns
 
         return patients
 
@@ -267,9 +267,9 @@ class RexR():
             self.MODEL_PARAMETERS['ID'] = 'labnr_patient'
             self.DATA_all_samples = self._read_cohort("_data/genomic_data/leukemia/all_10.txt")
             self.DATA_patients = self._read_patient_file("_data/genomic_data/patients.xlsx")
-            self.DATA_Tnormal = pd.read_csv("_data/genomic_data/TALLnormalTcellsTransposed.txt", sep="\t")
-       
-            all_10 = ["ALL-10","IA","JB"]
+            self.DATA_Tnormal = pd.read_csv("_data/genomic_data/TALLnormalTcellsTransposed.txt", sep="\t")            
+
+            self.DATA_patients = self.DATA_patients[self.DATA_patients.Age<17]
 
             if(self.DATA_loc is None):
                 self.DATA_merged = pd.merge(self.DATA_patients, 

@@ -37,6 +37,25 @@ T.~Chen and C.~Guestrin.
 \newblock In {\em Proceedings of the 22nd ACM SIGKDD International Conference
   on Knowledge Discovery and Data Mining}, pages 785--794. ACM, 2016.
 
+\bibitem{Chu2005}
+W.~Chu, Z.~Ghahramani, F.~Falciani, and D.~L.Wild.
+\newblock Biomarker discovery in microarray gene expression data with gaussian
+  processes.
+\newblock {\em Bioinformatics}, 21(16):3385--3393, 2005.
+
+\bibitem{Ferrari2006}
+L.~De~Ferrari and S.~Aitken.
+\newblock Mining housekeeping genes with a naive bayes classifier.
+\newblock {\em BMC Genomics}, 7(1):277--291, 2006.
+
+\bibitem{DePristo2011}
+M.A. DePristo, E.~Banks, R.~Poplin, K.V. Garimella, J.R Maguire, C.~Hartl, A.A.
+  Philippakis, G.~del Angel, M.A. Rivas, M.~Hanna, A.~McKenna, T.J. Fennell,
+  A.M. Sivachenko, K.~Cibulskis, S.B. Gabriel, D.~Altshuler, and M.J. Daly.
+\newblock A framework for variation discovery and genotyping using
+  next-generation dna sequencing data.
+\newblock {\em Nature Genetics}, 43(491):491--498, 2011.
+
 \bibitem{Geurts2006}
 P.~Geurts, D.~Ernst, and L.~Wehenkel.
 \newblock Extremely randomized trees.
@@ -53,6 +72,14 @@ G.~Ke, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T-Y Liu.
 \newblock Lightgbm: a highly efficient gradient boosting decision tree.
 \newblock In {\em 31st conference on Neural Information Processing Systems}.
   NIPS, 2017.
+
+\bibitem{khan2001classification}
+Javed Khan, Jun~S Wei, Markus Ringner, Lao~H Saal, Marc Ladanyi, Frank
+  Westermann, Frank Berthold, Manfred Schwab, Cristina~R Antonescu, Carsten
+  Peterson, et~al.
+\newblock Classification and diagnostic prediction of cancers using gene
+  expression profiling and artificial neural networks.
+\newblock {\em Nature medicine}, 7(6):673, 2001.
 
 \bibitem{lecun2015deep}
 Yann LeCun, Yoshua Bengio, and Geoffrey Hinton.
@@ -79,10 +106,23 @@ Marco~Tulio Ribeiro, Sameer Singh, and Carlos Guestrin.
   Conference on Knowledge Discovery and Data Mining, San Francisco, CA, USA,
   August 13-17, 2016}, pages 1135--1144, 2016.
 
+\bibitem{Sandberg2001}
+R.~Sandberg, G.~Winberg, Br{\"{a}}nden C-I, A.~Kaske, I.~Ernberg, and
+  J.~C{\"{o}}ster.
+\newblock Capturing whole-genome characteristics in short sequences using a
+  na{\"{i}}ve bayesian classifier.
+\newblock {\em Genome Research}, 11:1404--1409, 2001.
+
 \bibitem{Shlens2014}
 Jonathon Shlens.
 \newblock A tutorial on principal component analysis.
 \newblock {\em CoRR}, abs/1404.1100, 2014.
+
+\bibitem{Sun1996}
+G-W Sun, T.L. Shook, and G.L. Kay.
+\newblock Inappropriate use of bivariable analysis to screen risk factors for
+  use in multivariable analysis.
+\newblock {\em Journal of Clinical Epidemiology}, 49(8):907--916, 1996.
 
 \bibitem{Zang2016}
 C.~Zang, T.~Wang, K.~Deng, B.~Li, T.~Xiao, S.~Zhang, C.A. Meyer, H.H. He,

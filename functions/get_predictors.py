@@ -19,6 +19,8 @@ import itertools
 
 import pandas as pd
 import numpy as np
+import gc
+gc.enable()
 
 class BatchLogger(Callback):
     def on_train_begin(self, epoch, logs={}):
@@ -50,7 +52,7 @@ def run_classification(self, method_list = ['RF'],
                                                           features = features,
                                                           parameters = parameters,
                                                           pipeline = pipeline)
-            MODELS.append({'method': METHOD, 'model': class_model})
+            MODELS.append({'method': METHOD, 'model': class_model, 'accuracy': accuracy})
             ACC = ACC.append(accuracy, ignore_index= True)
             if (METHOD.lower() in ["rvm", "dnn", "cnn"]):
                 preds = [pred_ for pred_ in preds]
@@ -70,6 +72,7 @@ def run_classification(self, method_list = ['RF'],
                                                         'method', 
                                                         self.MODEL_PARAMETERS['target']]], 
                                           ignore_index = True)
+            gc.collect()
         Runs.append(AllResults)
     return Runs, MODELS, ACC
 
@@ -103,7 +106,7 @@ def classify_treatment(self, model_type='CART',
     df = self.DATA_merged
     if self.DATA_merged_processed is None and pipeline['scaler'] is not None:
         print("+ "*30, 'Prepping data, this may take a while..')
-        df = _helpers._preprocess(df, cohorts = ["cohort 1", "JB", "IA", "ALL-10"], 
+        df = _helpers._preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], 
                                       scaler = pipeline['scaler']['type'], Rclass = self) # cohort1
         print("- "*30, 'Grouping probesets')
         df = _helpers._group_patients(df, method = pipeline['pre_processing']['patient_grouping'], Rclass = self)
@@ -121,6 +124,7 @@ def classify_treatment(self, model_type='CART',
         y = self.Y_CLASS    
 
     if pipeline['pre_processing']['noise'] == True:
+        print("+ "*30, 'Adding {} noise'.format(pipeline['pre_processing']['noise_level']))
         x = _helpers._add_noise(x.copy(), noise_level = pipeline['pre_processing']['noise_level'])
 
     if pipeline['feature_selection']['type'] is not None:        
@@ -450,10 +454,10 @@ def ensemble_prediction(models, x, weighted = False, train_acc = None):
         elif MODEL['method']=='CNN':
             _pred = MODEL['model'].predict(np.expand_dims(x, axis=2))[:,0]
         elif MODEL['method'].lower() in ['lgbm', 'lightgbm']:
-            _pred = MODEL['model'].predict_proba(x, num_iteration = model.best_iteration)
+            _pred = MODEL['model'].predict_proba(x)[:,0]
         else:
-            _pred = MODEL['model'].predict(x)
+            _pred = MODEL['model'].predict_proba(x)[:,0]
         preds.append(_pred)
     if weighted == False:       
-        return sum(preds)/len(preds)
+        return (1-sum(preds)/len(preds))
 
