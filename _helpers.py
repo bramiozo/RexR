@@ -241,10 +241,14 @@ def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL1
         x = df.loc[:, (df.columns!='target') & (df.columns!='ID')].values            
         return x, y
 
-def _add_noise(x, noise_level = 0.01):
+def _add_noise(x, noise_level = 0.01, noise_type = 'absolute'):
     # absolute noise addition: x_ij +- noise_level
-    x = np.random.normal(x, scale = noise_level)
+    if noise_type == 'absolute':
+        x = np.random.normal(x, scale = noise_level)
     # relative noise addition: x_ij* (1 + noise_level)
+    elif noise_type == 'relative':
+        noise_level = noise_level * np.mean(x)
+        x = np.random.normal(x, scale = noise_level)
     return x
 
 def _survival_matrix(df):
@@ -725,7 +729,24 @@ def get_filtered_genomes(x, y, Rclass = None):
 
     return x_out, Selector
 
-    
+def _get_filtered_matrix(x, filter_method = 'FDR', loops = 10, noise_level = 0.01, Rclass = None):
+    '''
+        filter_method: FDR, MW-U (univariate) 
+    '''
+
+    # normalise?
+
+    filter_res = []
+    # loop
+        # add noise
+
+        # filter
+
+        # 
+
+
+    return x_out, filter_res
+
 def rotation_norm(x, y, norm):   
     rot_vector = numpy.cross(a = x, b = y)
     norm_of_rotation = numpy.linalg.norm(rot_vector, ord = norm)

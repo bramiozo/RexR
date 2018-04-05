@@ -139,6 +139,8 @@ Complexity: 1, 3, 5, 7, 13
 - x, 	[ ] add a posteriori accuracy checker
 - 1, 	[x] add false positive rate (sklearn.feature_selection.SelectFpr)
 - x,	[ ] add Automatic Relevance Determination (ARD), Bayesian Discriminative Modelling.
+- x,	[ ] add lgbm/xgb/rf model visualisation
+- x, 	[ ] FDR/MW-U loop function with noise addition to get top genomes without creating a model
 
 ## Datasets
 

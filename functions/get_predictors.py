@@ -38,6 +38,8 @@ class BatchLogger(Callback):
         return d.rolling(window,center=False).mean()
 BL = BatchLogger()
 
+
+
 def run_classification(self, method_list = ['RF'], 
                              num_run = 1, pipeline = {}, 
                              parameters = {}, features = 'genomic'):
@@ -75,6 +77,7 @@ def run_classification(self, method_list = ['RF'],
             gc.collect()
         Runs.append(AllResults)
     return Runs, MODELS, ACC
+
 
 
 def classify_treatment(self, model_type='CART', 
