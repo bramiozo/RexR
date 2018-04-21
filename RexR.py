@@ -269,7 +269,7 @@ class RexR():
             self.DATA_patients = self._read_patient_file("_data/genomic_data/patients.xlsx")
             self.DATA_Tnormal = pd.read_csv("_data/genomic_data/TALLnormalTcellsTransposed.txt", sep="\t")            
 
-            self.DATA_patients = self.DATA_patients[self.DATA_patients.Age<17]
+            self.DATA_patients = self.DATA_patients[(self.DATA_patients.Age<17) or (np.isnan(self.DATA_patients.Age))]
 
             if(self.DATA_loc is None):
                 self.DATA_merged = pd.merge(self.DATA_patients, 
