@@ -124,7 +124,7 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] cancer type detector
 - x,	[ ] cancer phase detector
 - x,	[ ] Image recognition 
-- 5,	[ ] add genome/probeset mapping function, use docker with db
+- 5,	[ ] add genome/probeset mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
 - 3, 	[ ] add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
 - 3,  	[ ] add plot (number of genomes, versus accuracy)
 - x,  	[ ] add graph visualisation (intra-similarity of most prominent genomes, per label)
@@ -141,6 +141,13 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] add Automatic Relevance Determination (ARD), Bayesian Discriminative Modelling.
 - x,	[ ] add lgbm/xgb/rf model visualisation
 - x, 	[ ] FDR/MW-U loop function with noise addition to get top genomes without creating a model
+- x,	[ ] viz: https://www.kaggle.com/kanncaa1/rare-visualization-tools
+- x, 	[ ] viz: https://www.kaggle.com/mirichoi0218/classification-breast-cancer-or-not-with-15-ml
+- x, 	[ ] add support for image based classification: test on kaggle set, https://www.kaggle.com/c/data-science-bowl-2018/data
+- x,	[ ] add support for time series based classification: test on EEG kaggle set, https://www.kaggle.com/c/grasp-and-lift-eeg-detection
+			MyFly (CNN, LSTM): add TCN, GRU support
+
+
 
 ## Datasets
 

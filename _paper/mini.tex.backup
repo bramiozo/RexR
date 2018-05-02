@@ -1,0 +1,22 @@
+For the cohort-bias removal we apply a genome-wise Location and scale (L/S) adjustment per cohort. This guarantees
+similar bounds and means over the different cohorts. To remove the multiplicity of probesets per patients
+we simply take the mean of the measurements per patient. Having obtained a normalised dataset we add $5\%$
+of noise (with respect the maximum value) to increase the robustness of the final model. To further increase robustness, and improve 
+interpretability we reduce the number of features by applying the FDR method with ANOVA for the distribution comparison, 
+following the Benjamin-Hochberg procedure, using a maximum $p$-value of $0.05$. 
+
+
+
+
+For the model creation we employ several \textit{tree-ensemble methods}: Random Forest (RF) by Breiman\cite{Breiman2001}, ExtraTrees (ET) by Geurts et al.\cite{Geurts2006} 
+XGBoost (XGB) by Chen and Guestrin\cite{Chen2016} and (Light)GBM (LGBM) by Ke et al.\cite{Ke2017}. 
+We use three types of linear methods, Linear Discrimination Analysis, Logistic Regression and linear SVM.
+We use two nonlinear methods, both \textit{neural networks}, a Deep Neural Network (DNN) \cite{lecun2015deep} and a Convolutional Neural Network (CNN) \cite{Lecun98}.
+Finally, we use two Bayesian methods, Naive Bayes and Gaussian Processes Classication (GPC).
+
+Finally we combine them in a so-called stacked method, either by majority vote or by weighted averaging based on their prediction probabilities.
+
+The benefit of combining these techniques is that we have the highest possible accuracy without compromising interpretability.
+
+- TO DO : build stacker
+- TO DO : apply to training scenario II

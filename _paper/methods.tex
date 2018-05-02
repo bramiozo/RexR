@@ -43,6 +43,7 @@ prior decisions by medical experts. The steps taken can be summarised as follows
     \subitem extraction of feature weights and importances from the models to identify genomic drivers
 \end{itemize}
 %
+
 The target values of our predictor are based on treatment decisions by medical experts, hence we are predicting the decision that 
 medical experts would make. This decision itself is likely based on a mixed set of predictors/features like, the chance of survival, the clinical 
 situation of the patient and perhaps even the family wishes, which of course is not present in the data. Also, in this specific 
@@ -246,8 +247,7 @@ with Gaussian NB we assign a Gaussian distribution to each feature per classific
 %
 Gaussian Processes Classification (GPC) uses Gaussian Processes to model the prior probabilities and tries to find
 the conditional class probabilities comparable to Naive Bayes, see e.g. Chu et al.\cite{Chu2005} who applied it to genome sequences. 
-The GPC method requires a sampling method such as Markov-Chain-Monte-Carlo which scales quadratically with the dimensionality, hence it is limited to low-dimensional problems.
-The downside of Bayesian method, the dependency on prior probabilities (i.e. bias), is also their strength, as the model is much less prone to overfitting. 
+The GPC method requires a sampling method such as Markov-Chain-Monte-Carlo which scales quadratically with the dimensionality, hence it is limited to low-dimensional problems. The downside of Bayesian methods, the dependency on prior probabilities (i.e. bias), is also their strength, as the model is much less prone to overfitting. 
 %
 \section{Results}
 % 
