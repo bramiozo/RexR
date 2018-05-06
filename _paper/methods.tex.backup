@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{subfig}
+\usepackage{listings}
 
 %opening
 \title{Methods used}
@@ -43,6 +44,7 @@ prior decisions by medical experts. The steps taken can be summarised as follows
     \subitem extraction of feature weights and importances from the models to identify genomic drivers
 \end{itemize}
 %
+
 The target values of our predictor are based on treatment decisions by medical experts, hence we are predicting the decision that 
 medical experts would make. This decision itself is likely based on a mixed set of predictors/features like, the chance of survival, the clinical 
 situation of the patient and perhaps even the family wishes, which of course is not present in the data. Also, in this specific 
@@ -191,7 +193,8 @@ parameter selection.
 \subsection{Tree based}
 
 Single decision trees are known to be sensitive to changes in the input data. These ensemble methods 
-help to decrease the variance without increasing the bias, i.e. increasing the ability to be generalised.
+help to decrease the variance without increasing the bias, i.e. increasing the ability to be generalised. For small
+data sets however they are sensitive to overfitting. 
 We employ several tree-ensemble methods: Random Forest (RF) by Breiman\cite{Breiman2001}, ExtraTrees (ET) by Geurts et al.\cite{Geurts2006} 
 XGBoost (XGB) by Chen and Guestrin\cite{Chen2016} and (Light)GBM (LGBM) by Ke et al.\cite{Ke2017}.
 The RF and ET methods are ensemble methods that combine an arbitrary number of decision trees, using bootstrapped samples,
@@ -246,8 +249,7 @@ with Gaussian NB we assign a Gaussian distribution to each feature per classific
 %
 Gaussian Processes Classification (GPC) uses Gaussian Processes to model the prior probabilities and tries to find
 the conditional class probabilities comparable to Naive Bayes, see e.g. Chu et al.\cite{Chu2005} who applied it to genome sequences. 
-The GPC method requires a sampling method such as Markov-Chain-Monte-Carlo which scales quadratically with the dimensionality, hence it is limited to low-dimensional problems.
-The downside of Bayesian method, the dependency on prior probabilities (i.e. bias), is also their strength, as the model is much less prone to overfitting. 
+The GPC method requires a sampling method such as Markov-Chain-Monte-Carlo which scales quadratically with the dimensionality, hence it is limited to low-dimensional problems. The downside of Bayesian methods, the dependency on prior probabilities (i.e. bias), is also their strength, as the model is much less prone to overfitting. 
 %
 \section{Results}
 % 
@@ -312,13 +314,16 @@ influence on several models for training strategy $\mathcal{I}$}
 %
 In figure \ref{fig:weightsFromModels} we present the density distributions of the feature weights/importances that
 are part of the models generated using all available features (i.e. no feature selection or dimension reduction), 
-clearly only few genomic expression values have a significant individual contribution. 
-If we apply the FDR method with $\alpha=0.05$ we reduce the dimensionality to about $170$ features;
-
+clearly only few genomic expression values have a significant individual contribution. The distribution of importances that are
+produced by the tree methods are dominated by the large number of insignificant features. 
+If we apply the FDR method with $\alpha=0.05$ we reduce the dimensionality to about $200$ features. We then train the
+models on the reduced data set so we get a smoother distribution of importances, see figure \ref{fig:weightsFromModels}, 
+and the same for the weights obtained from the lSVM and LR methods, see figure \ref{fig:coeffsFromModels}.
+%
 \begin{figure}[htp!]
 \centering
 % met width = 7 cm kunnen we het naast elkaar plotten
-\includegraphics[width=8cm]{images/top30_importances_FDR005}
+\includegraphics[width=12cm]{images/top30_importances_FDR005}
 \caption{Top $30$ probesets in terms of median absolute importances (weights) for the RF, ET, XGB and LGBM models}
 \label{fig:weightsFromModels}
 \end{figure}
@@ -326,23 +331,95 @@ If we apply the FDR method with $\alpha=0.05$ we reduce the dimensionality to ab
 \begin{figure}[htp!]
 \centering
 % met width = 7 cm kunnen we het naast elkaar plotten
-\includegraphics[width=8cm]{images/top30_weights_FDR005}
+\includegraphics[width=12cm]{images/top30_weights_FDR005}
 \caption{Top $30$ probesets in terms of median absolute weights for the lSVM and LR models}
 \label{fig:coeffsFromModels}
 \end{figure}
 %
-TO-DO: some more explanatory text
-
+%
+\section{Summarising}
+%
+For the cohort-bias removal we apply a genome-wise Location and scale (L/S) adjustment per cohort. This guarantees
+similar bounds and means over the different cohorts. To remove the multiplicity of probesets per patients
+we simply take the mean of the measurements per patient. Having obtained a normalised dataset we add $5\%$
+of noise (with respect the maximum value) to increase the robustness of the final model. To further increase robustness, and improve 
+interpretability we reduce the number of features by applying the FDR method with ANOVA for the distribution comparison, 
+following the Benjamin-Hochberg procedure, using a maximum $p$-value of $0.05$. 
+%
+We have two data scenario's. Scenario $\mathcal{I}$ uses the data from adult patients with a known high/low intensity diagnosis (where 
+medium intensity is considered equal to the low intensity diagnosis) to train a model to predict the diagnosis for the other non-labelled patients.
+Scenario $\mathcal{II}$ uses the survival label of the patients as a proxy for the high/low intensity treatment. Now the training set from scenario
+$\mathcal{I}$ is used as a validation set.
+%
+For the model creation we employ several \textit{tree-ensemble methods}: Random Forest (RF) by Breiman\cite{Breiman2001}, ExtraTrees (ET) by Geurts et al.\cite{Geurts2006} 
+XGBoost (XGB) by Chen and Guestrin\cite{Chen2016} and (Light)GBM (LGBM) by Ke et al.\cite{Ke2017}. 
+We use three types of linear methods, Linear Discrimination Analysis, Logistic Regression and linear SVM.
+We use two nonlinear methods, both \textit{neural networks}, a Deep Neural Network (DNN) \cite{lecun2015deep} and a Convolutional Neural Network (CNN) \cite{Lecun98}.
+Finally, we use two Bayesian methods, Naive Bayes and Gaussian Processes Classication (GPC).
+%
+Finally we combine them in a so-called stacked method, either by a majority vote of the classifications or by weighted averaging based on their prediction probabilities.
+The benefit of combining these techniques is that we have the highest possible accuracy without compromising interpretability. \\ \\
+%
+Having obtained the models we can extract their relative importance from the tree-based models, and the weights from the linear models.
+In our case we could reduce the more than $50.000$ expression values to about $200$ without losing accuracy. 
+%
 \section{Discussion}
 
 \begin{itemize}
 \item when choosing PCA, LDA, check for inflection point in eigenvalue magnitude to 'smartly' select the number of components
 \item successively apply standard scaling and maxabs scaling to center cohort data?
 \item improve bias removal method L/S by ignoring outliers during normalisation
-\item instead of applying FDR once on the dataset, apply it $N$ times on the same dataset with added noise to remove spurious contributors
+\item instead of applying FDR once on the dataset, apply it several times on the same dataset with added noise to remove spurious contributors
 \item we can combine the different models in one meta-model. This bagging of models increases the accuracy, removes method-specific biases and at the same time its helps reduce overfitting
-\item the model generators that we applied, primarily used default parameter settings, we can likely improve the model quality by perform parameter optimisation
+\item the model generators that we applied, primarily used default parameter settings, we can likely improve the model quality by performing parameter optimisation
 \end{itemize}
+
+\section*{Appendix}
+\subsection*{Model parameters}
+
+\lstset{ 
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+\begin{lstlisting}[frame=single]
+            "GPC":{'optimizer': 'fmin_l_bfgs_b', 'n_restarts_optimizer': 0, 
+                    'max_iter_predict': 100, 'warm_start': False, 
+                    'copy_X_train': True, 'random_state': self.SEED, 
+                    'multi_class': 'one_vs_rest', 'n_jobs': 1},
+            "LDA":{'shrinkage': 'auto', 'solver': 'lsqr', 'priors': None},
+            "LGBM": {'boosting_type':'gbdt' ,'learning_rate': 0.75, # boosting: gbdt,dart,goss,rf
+                    'max_depth': 4, 'num_leaves': 100, 'n_jobs': -1,
+                    'n_estimators':100, 'random_state': self.SEED},  
+            "XGB": {'seed': self.SEED, 'n_estimators': 100, 'max_depth': 3,
+                    'learning_rate': 0.1, 'objective': 'reg:linear', 'nthread': -1},
+            "ET": {'n_estimators': 50, 'max_depth': 15, 'n_jobs': -1, 'min_samples_split': 10, 'min_samples_leaf': 5},
+            "RF": {'n_estimators': 200, 'max_depth': 10, 'n_jobs': -1, 'min_samples_split': 10, 'min_samples_leaf': 5},            
+            "SVM":{'kernel': 'linear', 'gamma': 'auto', 'tol': 0.0005, 'C':  0.9, 'probability' : True, 'max_iter': 3000},
+            "LR": {'penalty':'l2', 'dual': False, 'tol':0.0001, 'C':0.9},
+\end{lstlisting}
 
 \bibliographystyle{plain}
 \bibliography{methods}
