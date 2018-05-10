@@ -251,6 +251,15 @@ Gaussian Processes Classification (GPC) uses Gaussian Processes to model the pri
 the conditional class probabilities comparable to Naive Bayes, see e.g. Chu et al.\cite{Chu2005} who applied it to genome sequences. 
 The GPC method requires a sampling method such as Markov-Chain-Monte-Carlo which scales quadratically with the dimensionality, hence it is limited to low-dimensional problems. The downside of Bayesian methods, the dependency on prior probabilities (i.e. bias), is also their strength, as the model is much less prone to overfitting. 
 %
+\subsection{Stacking}
+%
+For the final predictions we stack the models, combining the predictions of the individual 
+models in one final prediction. To do this we use the uncertainty estimation from the model per sample plus the overall accuracy from cross-validation
+as weights
+\begin{equation*}
+ y_i =  \frac{\sum_i 2(\vert \hat{y} - 1/2\vert\beta \hat{y})_i}{\sum_i{2(\vert \hat{y} - 1/2\vert\beta)_i}} 
+\end{equation*}
+%
 \section{Results}
 % 
 \subsection{Model Evaluation}

@@ -17,27 +17,30 @@ Analysis methods
 * self-organising maps
 * Hierarchical clustering
 * t-SNE, isomap, mds
-* affinity propagation
+* affinity propagation, community detection
+* cancer similarity based on open data
 
 Prediction
 * ensemble learning
-* multi-layer neural network
-* deep learning
+* deep learning, both for classification and regression.
+* simple (but descriptive) methods: GPC, lSVM, LR etc.
 * tree-based algorithms: extraTrees, random forest, C5.0, CART, XGB, LightGBM
 * novel Cluster-enhanced extremely-biased estimator (CEBE)
 
-hyperlearning
+Hyperlearning
 * simulated annealing
 * genetic algorithm
 * Bayesian optimisation
-* grid search (1)
-* random selection (3)
+* grid search 
+* random selection 
 * successive halving
-* active learning (2) --> output difficult classes and output test samples that
-                          need labeling
+* active learning -> output difficult classes and output test samples that
+                          need labeling (interactive)
 
 Visualisation
 * 	gene importance using graphs
+*   gene cluster identification
+*   patient cluster identification
 
 
 # Possible upgrades
@@ -75,14 +78,16 @@ Partners:
 
 
 People:
-*	Tjebbe (manager)
-* 	Bram (data science/q.a./privacy)
-*	Sebastiaan (machine learning)
-*	xxx (junior machine learning)
-*	xxx (devops)
-*	xxx (data viz)
-*	xxx (UX)
-*	xxx (developer)
+*	Tjebbe Tauber (manager)
+* 	Bram van Es (data science/q.a./privacy)
+*	Sebastiaan de Jong (machine learning)
+*	Mats Willemsen (machine learning)
+*	Evgeny? (devops)
+*	xxx (data viz/UX)
+*	xxx (bio-statistician)
+
+
+
 
 
 # To Do
@@ -110,20 +115,20 @@ Complexity: 1, 3, 5, 7, 13
 - 7,	[ ] user-friendly way to set-up pipelines
 - 5,	[ ] add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
 - 7, 	[ ] add SOM for genome seperation
-- 3,	[ ] sparse auto encoding for pre-processing
+- 3,	[ ] sparse auto encoding for pre-processing and feature detection
 - 3,	[ ] t-sne / optics analyser
 - [x] 3 ROC/confusion matrix visualiser
 - [x] 5	patient similarity
 - 5,	[ ] conditional survival estimator. i.e. add a regressor.
 - 5,	[ ] GEO DataSets lib integration
 - 7,	[ ] Make GEO datasets interactive
-- 13,	[ ] refactor/optimize: Cython, numba, static def's, parallelise
+- 13,	[ ] refactor/optimize: Cython, numba, static def's, parallelise, modularize
 - x, 	[ ] add healthy patient reference routine
 - x,	[ ] healthy tissue/unhealthy tissue
 - x,	[ ] add disease dependent measurement error detector/filter
 - x,	[ ] cancer type detector
 - x,	[ ] cancer phase detector
-- x,	[ ] Image recognition 
+- x,	[ ] Image recognition
 - 5,	[ ] add genome/probeset mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
 - 3, 	[ ] add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
 - 3,  	[ ] add plot (number of genomes, versus accuracy)
@@ -146,7 +151,8 @@ Complexity: 1, 3, 5, 7, 13
 - x, 	[ ] add support for image based classification: test on kaggle set, https://www.kaggle.com/c/data-science-bowl-2018/data
 - x,	[ ] add support for time series based classification: test on EEG kaggle set, https://www.kaggle.com/c/grasp-and-lift-eeg-detection
 			MyFly (CNN, LSTM): add TCN, GRU support
-
+- x,    [ ] add "deep dreaming": or sample generator functionality given a classification label generate a representative
+            sample.
 
 
 ## Datasets
@@ -169,7 +175,7 @@ Complexity: 1, 3, 5, 7, 13
 * use entity linking to fetch relevant journal papers
 * build domain specific word embeddings for medical graph search
 * use Siamese neural-network to get rid of the cohort bias
-* add variational autoencoder? why?
+* add variational autoencoder?
 
 
 # funds

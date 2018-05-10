@@ -214,8 +214,8 @@ def classify_treatment(self, model_type='CART',
         input_dim = x.shape[1]
         model.add(Dense(356, input_shape=(input_dim,), activation='tanh'))
         model.add(Dense(356, input_shape=(input_dim,), activation='tanh'))
-        model.add(Dense(256, activation='relu')) # relu, selu, tanh, sigmoid
-        model.add(Dense(256, activation='relu')) # relu, selu, tanh, sigmoid
+        model.add(Dense(256, activation='relu')) # relu, elu, selu, tanh, sigmoid
+        model.add(Dense(256, activation='relu')) # relu, elu, selu, tanh, sigmoid
         model.add(Dropout(0.5))
         model.add(Dense(64, activation='relu'))
         model.add(Dense(64, activation='relu'))
@@ -447,20 +447,66 @@ def classify_treatment(self, model_type='CART',
     return preds, model, accuracy
 
 
-def ensemble_prediction(models, x, weighted = False, train_acc = None):
+def ensemble_prediction(models, x, weighted=False, plot_certainty=False):
     preds = []
+    if plot_certainty == True:
+        plt.figure(figsize=(10, 8))
     for MODEL in models:
-        if MODEL['method']=='RVM':
-            _pred = np.reshape(np.dot(x, model.wInferred), newshape=[len(x),])/2+0.5 
-        elif MODEL['method']=='DNN':
-            _pred = MODEL['model'].predict_on_batch(np.array(x))[:,0] 
-        elif MODEL['method']=='CNN':
-            _pred = MODEL['model'].predict(np.expand_dims(x, axis=2))[:,0]
+        if MODEL['method'] == 'RVM':
+            _pred = 1 - np.reshape(np.dot(x, MODEL['model'].wInferred), newshape=[len(x), ]) / 2 + 0.5
+            if (plot_certainty == True):
+                pd.DataFrame(_pred).plot.kde(label='RVM')
+        elif MODEL['method'] == 'DNN':
+            _pred = 1 - MODEL['model'].predict_on_batch(np.array(x))[:, 0]
+            if (plot_certainty == True):
+                pd.DataFrame(_pred).plot.kde(label='DNN')
+        elif MODEL['method'] == 'CNN':
+            _pred = 1 - MODEL['model'].predict(np.expand_dims(x, axis=2))[:, 0]
+            if (plot_certainty == True):
+                pd.DataFrame(_pred).plot.kde(label='CNN')
         elif MODEL['method'].lower() in ['lgbm', 'lightgbm']:
-            _pred = MODEL['model'].predict_proba(x)[:,0]
+            _pred = 1 - MODEL['model'].predict_proba(x)[:, 0]
+            if (plot_certainty == True):
+                pd.DataFrame(_pred).plot.kde(label='LGBM')
         else:
-            _pred = MODEL['model'].predict_proba(x)[:,0]
+            _pred = 1 - MODEL['model'].predict_proba(x)[:, 0]
+            if (plot_certainty == True):
+                try:
+                    pd.DataFrame(_pred).plot.kde(label=MODEL['method'])
+                except:
+                    continue
+
         preds.append(_pred)
-    if weighted == False:       
-        return (1-sum(preds)/len(preds))
+    if weighted == False:
+        _preds = sum(preds) / len(preds)
+        if (plot_certainty == True):
+            try:
+                pd.DataFrame(_pred).plot.kde(label=MODEL['method'])
+            except Exception as e:
+                print(e)
+
+        # weighted either by overall accuracy of by prediction certainty
+        if plot_certainty == True:
+            plt.legend()
+
+        return _preds
+    else:
+        pd_list = []
+        for idx, _pred in enumerate(preds):
+            df = pd.DataFrame(data=_pred, columns=['proba'])
+            df['id'] = df.index
+            df['acc'] = MODELS[idx]['accuracy'][0]['acc']
+            pd_list.append(df)
+        dfconcat = pd.concat(pd_list)
+        dfconcat['weight'] = 2 * (dfconcat['proba'] - 0.5).abs() * dfconcat['acc']
+        _preds = dfconcat.groupby(by='id').apply(lambda x: (x.weight * x.proba).sum() / x.weight.sum()) \
+            .reset_index()
+
+        # weighted either by overall accuracy of by prediction certainty
+        if plot_certainty == True:
+            plt.legend()
+
+        return _preds
+
+
 

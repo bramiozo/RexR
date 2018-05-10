@@ -15,38 +15,6 @@ import numpy as np
 # Tjebbe Tauber (ABN AMRO)
 #################
 
-'''
-Suggested features
---------------------------
-
-Classification:
-apply denoising
-apply dimensionality reduction
-apply probabilistic classifiers
-
-
-Probeset drivers for treatment:
-
-
-Probeset drivers for cancer types/pathways:
-
-
-Survival estimation given a particular treatment:
-
-to-do's (Q1 2018):
-- [x] deep learner
-- [x] LightGBM
-- [ ] t-sne / optics analyser
-- [x] ROC/confusion matrix visualiser
-- [x] patient similarity
-- [x] xgboost
-- [ ] cohort-bias reducer
-- [ ] conditional survival estimator
-- [ ] GEO DataSets lib integration
-- [ ] gene importance visualiser
-'''
-
-
 
 
 class RexR():
@@ -269,7 +237,7 @@ class RexR():
             self.DATA_patients = self._read_patient_file("_data/genomic_data/patients.xlsx")
             self.DATA_Tnormal = pd.read_csv("_data/genomic_data/TALLnormalTcellsTransposed.txt", sep="\t")            
 
-            self.DATA_patients = self.DATA_patients[(self.DATA_patients.Age<17) or (np.isnan(self.DATA_patients.Age))]
+            self.DATA_patients = self.DATA_patients.loc[(self.DATA_patients.Age<17) | (self.DATA_patients.Age.isnull())]
 
             if(self.DATA_loc is None):
                 self.DATA_merged = pd.merge(self.DATA_patients, 
