@@ -7,9 +7,7 @@ import numpy as np
 # AUTHORS
 # Bram van Es (NLeSC)
 # Sebastiaan de Jong (ABN AMRO)
-# Wybe Rozema (ABN AMRO)
-# Sabrina Wandl (ABN AMRO)
-# Nick Heuls (ABN AMRO)
+
 
 # Jules Meijerink (Erasmus)
 # Tjebbe Tauber (ABN AMRO)
@@ -50,6 +48,7 @@ class RexR():
         self.DEBUG = debug
         self.SET_NAME = set_name
         self.write_out = write_out
+        self.n_jobs = 4
         self.MODEL_PARAMETERS = {
             "target": 'Treatment_risk_group_in_ALL10',
             "ID": 'ID',
@@ -70,7 +69,7 @@ class RexR():
             "ADA": {'base_estimator': None, 'n_estimators': 100, 'learning_rate': 1.25, 'algorithm': 'SAMME.R', 'random_state': self.SEED},
             "GBM": {'loss':'deviance', 'learning_rate': 0.1, 'n_estimators': 50, 
                    'subsample': 1.0, 'criterion': 'friedman_mse', 'min_samples_split': 5, 'min_samples_leaf': 5, 
-                   'min_weight_fraction_leaf': 0.0, 'max_depth': 5, 'min_impurity_split': 1e-07, 'init': None, 
+                   'min_weight_fraction_leaf': 0.0, 'max_depth': 5, 'min_impurity_decrease': 1e-07, 'init': None,
                    'random_state': None, 'max_features': None, 'verbose': 0, 'max_leaf_nodes': None, 
                    'warm_start': False, 'presort': 'auto'},
             "LR": {'penalty':'l2', 'dual': False, 'tol':0.0001, 'C':0.9},
@@ -88,7 +87,7 @@ class RexR():
                     'max_depth':10, 'min_samples_split':10, 'min_samples_leaf':5, 
                     'min_weight_fraction_leaf':0.0, 'max_features': None, 
                     'random_state': self.SEED, 'max_leaf_nodes': None, 
-                    'min_impurity_split':1e-07, 'class_weight':None, 
+                    'min_impurity_decrease':1e-07, 'class_weight':None,
                     'presort':False},
             "GPC":{'optimizer': 'fmin_l_bfgs_b', 'n_restarts_optimizer': 0, 
                     'max_iter_predict': 100, 'warm_start': False, 
@@ -265,6 +264,7 @@ class RexR():
         
 
     from functions.get_predictors import classify_treatment, run_classification
+    from functions.predictors import Ensemble
 
     def main():
         load_probeset_data()

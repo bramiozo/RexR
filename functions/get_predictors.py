@@ -299,7 +299,7 @@ def classify_treatment(self, model_type='CART',
         pars = parameters['MLNN']
         model = neural_network.MLPClassifier(**pars) #  solver = 'lbfgs'
         models.append(('MLNN', model))
-    elif(model_type == 'ensemble'):
+    elif(model_type == 'ensemble'): # only works for sklearn methods, build general ensembler.
         models_ = [
             ("SVM", svm.SVC(**parameters['SVM'])),
             ("LogisticRegression", linear_model.LogisticRegression(**parameters['LR'])),
@@ -308,11 +308,10 @@ def classify_treatment(self, model_type='CART',
             ("GBM", ensemble.GradientBoostingClassifier(**parameters['GBM'])),
             ("ADA", ensemble.AdaBoostClassifier(**parameters['ADA'])),
             ("CART", tree.DecisionTreeClassifier(**parameters['CART'])),
-            ("XGB", xgb(**parameters['XGB'])),
             ("MLNN", neural_network.MLPClassifier(**parameters['MLNN']))
             ]
         models = copy.copy(models_)
-        model = ensemble.VotingClassifier(models_, n_jobs = -1 , voting = 'soft')
+        model = ensemble.VotingClassifier(estimators = models_, n_jobs = self.n_jobs, voting = 'soft')
         models.append(("Ensembled", model))
 
     ############################################
@@ -331,7 +330,7 @@ def classify_treatment(self, model_type='CART',
             pred, acc = _helpers._benchmark_classifier(clf, x, y, splitter, self.SEED, framework = 'sklearn', Rclass = self)
 
         #acc = metrics.accuracy_score(y,pred)
-        accuracy.append({'model': clf[0], 'acc': np.mean(acc), 'var' : np.var(acc)})
+        accuracy={'model': clf[0], 'acc': np.mean(acc), 'var' : np.var(acc)}
         print('MODEL:', clf[0], 'accuracy: ',np.mean(acc), '+/-:', np.var(acc))
         if self.VIZ == True:
             report = metrics.classification_report(y,pred)

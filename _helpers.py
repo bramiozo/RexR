@@ -154,7 +154,7 @@ def _group_patients(df, method = 'first', Rclass = None): # method = ['first', '
 
 
 def patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None, normalised = True, inflation = 1):
-    ''' Function to get similarity measures between patients  
+    """ Function to get similarity measures between patients
         Variables:
             patient_matrix : dataframe with patient 1..N as columns and genome expressions 1..M as rows.
             sim_type : type of similarity measure
@@ -166,7 +166,7 @@ def patient_similarity(patient_matrix, sim_type = 'cosine', minkowski_dim = None
             normalised : boolean
         output : 
             similarity matrix (DataFrame)       
-    '''
+    """
     
     if len(patient_matrix<1000): 
         if (sim_type in ['cosine', 'manhattan', 'euclidian', 'minkowski', 'braycurtis', 'canberra', 'chebyshev', 'dice','hamming', 'jaccard', 'kulsinski', 'mahalanobis', 
@@ -319,9 +319,9 @@ def _benchmark_classifier(model, x, y, splitter, seed, framework = 'sklearn', Rc
     if framework == 'sklearn':
         for train_index, test_index in splitter.split(x, y):
             x_train, x_test = x[train_index], x[test_index]
-            y_train, y_test = y[train_index], y[test_index]            
+            y_train, y_test = y[train_index], y[test_index]
             model[1].fit(x_train, y_train)
-            pred_test = model[1].predict_proba(x_test) # (model[1].predict_proba(x_test)>threshold).astype(int)
+#           pred_test = model[1].predict_proba(x_test) # (model[1].predict_proba(x_test)>threshold).astype(int)
             pred_test_ = model[1].predict(x_test) #[np.round(l[1]).astype(int) for l in pred_test]
             pred[test_index] =  pred_test_ #np.round(pred_test)[0]
             acc[test_index] = metrics.accuracy_score(y_test, pred_test_)
