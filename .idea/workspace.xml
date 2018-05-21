@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="58f5dc81-cb5b-4cac-84cb-c54f6389042e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GEOdata reader.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/GEOdata reader.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/predictors.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions/predictors.py" afterDir="false" />
-    </list>
+    <list default="true" id="58f5dc81-cb5b-4cac-84cb-c54f6389042e" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,8 +38,8 @@
       <file leaf-file-name="get_predictors.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/functions/get_predictors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="100" column="26" lean-forward="true" selection-start-line="100" selection-start-column="26" selection-end-line="100" selection-end-column="26" />
+            <state relative-caret-position="5">
+              <caret line="81" lean-forward="true" selection-start-line="81" selection-end-line="81" />
               <folding>
                 <element signature="e#0#67#0" expanded="true" />
               </folding>
@@ -153,7 +149,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-256" />
     <option name="y" value="230" />
     <option name="width" value="1910" />
@@ -241,7 +237,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1533" height="1175" extended-state="6" />
+    <frame x="67" y="25" width="1533" height="1175" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.116112195" />
@@ -604,8 +600,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/functions/get_predictors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="100" column="26" lean-forward="true" selection-start-line="100" selection-start-column="26" selection-end-line="100" selection-end-column="26" />
+        <state relative-caret-position="5">
+          <caret line="81" lean-forward="true" selection-start-line="81" selection-end-line="81" />
           <folding>
             <element signature="e#0#67#0" expanded="true" />
           </folding>
