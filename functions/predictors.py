@@ -21,7 +21,6 @@ import pandas as pd
 
 from sklearn import preprocessing, svm, tree, ensemble, naive_bayes, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, decomposition, cross_decomposition
-from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics import confusion_matrix
 from sklearn.cluster import AffinityPropagation
 from sklearn.manifold import TSNE
@@ -183,6 +182,40 @@ def _benchmark_classifier(model, x, y, splitter, framework='sklearn', Rclass=Non
             plt.show()
     return acc
 
+
+class Classifier:
+    """
+    # Tree methods: LGBM, XGB, RF, ET
+    # Stochastic methods: GPC, NB
+    # stacked nonlinear methods: DNN, CNN
+    # template matching: lSVM
+    # linear methods: LR
+    """
+
+
+    def __init__(self, ):
+
+
+
+
+
+    def fit(self):
+
+
+
+    def predict(self):
+
+
+
+    def weights(self):
+        """
+
+        :return: [{'method': xxx, 'weights': pd.DataFrame(weights, index)}]
+        """
+
+
+
+
 class Ensemble:
     """
      ens = ensemble()
@@ -193,8 +226,8 @@ class Ensemble:
      ens.fit(X_train, y_train, models)
      preds, acc = ens.predict(X_test)
     """
-    _models_trained  = None
-    _models_untrained = None
+    _models_trained  = []
+    _models_untrained = []
 
     def __init__(self, weighted = True,
                        use_accuracy = True,
@@ -248,7 +281,7 @@ class Ensemble:
             self._add_untrained_models(MODELS)
         else:
             MODELS = []
-            if self._models_untrained is None:
+            if len(self._models_untrained) > 0:
                 raise ValueError("_models_untrained cannot be empty..")
 
         # go through untrained models, fit them and add them to the _models_trained list.
@@ -269,6 +302,9 @@ class Ensemble:
 
     def predict(self, x):
         preds = []
+        if len(self._models.trained) == 0:
+            raise ValueError("There are no trained models loaded yet :(")
+
         for MODEL in self._models_trained:
             if MODEL['method'] == 'RVM':
                 _pred = 1 - np.reshape(np.dot(x, MODEL['model'].wInferred), newshape=[len(x), ]) / 2 + 0.5
@@ -298,8 +334,5 @@ class Ensemble:
                 .reset_index()
             return _preds
 
-
-    def __main__(self):
-        return True
 
 
