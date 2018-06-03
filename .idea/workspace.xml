@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="58f5dc81-cb5b-4cac-84cb-c54f6389042e" name="Default" comment="" />
+    <list default="true" id="58f5dc81-cb5b-4cac-84cb-c54f6389042e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_hackathon2018/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/_hackathon2018/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_paper/methods.tex" beforeDir="false" afterPath="$PROJECT_DIR$/_paper/methods.tex" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,6 +16,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="1740">
+                <caret line="116" column="54" selection-start-line="116" selection-start-column="54" selection-end-line="116" selection-end-column="54" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="RexR.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RexR.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -26,7 +43,7 @@
       <file leaf-file-name="_helpers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_helpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="61">
+            <state relative-caret-position="300">
               <caret line="58" selection-start-line="58" selection-end-line="58" />
               <folding>
                 <element signature="e#0#109#0" expanded="true" />
@@ -35,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="get_predictors.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="get_predictors.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/functions/get_predictors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5">
-              <caret line="81" lean-forward="true" selection-start-line="81" selection-end-line="81" />
+            <state relative-caret-position="105">
+              <caret line="28" column="35" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
               <folding>
                 <element signature="e#0#67#0" expanded="true" />
               </folding>
@@ -50,7 +67,7 @@
       <file leaf-file-name="predictors.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/functions/predictors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
+            <state relative-caret-position="2070">
               <caret line="195" column="23" selection-start-line="195" selection-start-column="23" selection-end-line="195" selection-end-column="23" />
               <folding>
                 <element signature="e#346#364#0" expanded="true" />
@@ -71,20 +88,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="descriptors.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/functions/descriptors.py">
+      <file leaf-file-name="dataReduction.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/functions/dataReduction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="315">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dataReduction.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/functions/dataReduction.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="75" selection-start-column="75" selection-end-column="75" />
+      <file leaf-file-name="readme.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/_hackathon2018/readme.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="588">
+                <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -126,6 +146,7 @@
       <find>ensemble</find>
       <find>n_jobs</find>
       <find>confusion_matrix</find>
+      <find>proteines</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -135,7 +156,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/functions/classifiers.py" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/functions/descriptors.py" />
         <option value="$PROJECT_DIR$/functions/dataReduction.py" />
         <option value="$PROJECT_DIR$/functions/dataCleaning.py" />
@@ -146,13 +166,15 @@
         <option value="$PROJECT_DIR$/RexR.py" />
         <option value="$PROJECT_DIR$/_helpers.py" />
         <option value="$PROJECT_DIR$/functions/predictors.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/_hackathon2018/readme.md" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-256" />
-    <option name="y" value="230" />
-    <option name="width" value="1910" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1712" />
+    <option name="y" value="188" />
+    <option name="width" value="1523" />
     <option name="height" value="810" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -173,7 +195,7 @@
             <path>
               <item name="RexR" type="b2602c69:ProjectViewProjectNode" />
               <item name="RexR" type="462c0819:PsiDirectoryNode" />
-              <item name="functions" type="462c0819:PsiDirectoryNode" />
+              <item name="_hackathon2018" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -237,19 +259,20 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1533" height="1175" extended-state="7" />
+    <frame x="1600" y="-2" width="1920" height="1082" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.116112195" />
       <window_info anchor="bottom" id="TODO" order="10" />
-      <window_info anchor="right" id="R Packages" order="2" />
-      <window_info anchor="right" id="R Graphics" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" weight="0.32955715" />
       <window_info anchor="bottom" id="Version Control" order="2" />
       <window_info anchor="bottom" id="Python Console" order="3" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.3299389" />
-      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.115625" />
+      <window_info anchor="right" id="R Packages" order="2" />
+      <window_info anchor="right" id="R Graphics" order="0" />
+      <window_info anchor="bottom" id="Find" order="5" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
@@ -258,13 +281,97 @@
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="5" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/functions/dataHandling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RexR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3960">
+          <caret line="266" column="36" selection-start-line="266" selection-start-column="36" selection-end-line="266" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
+          <folding>
+            <element signature="e#0#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions/predictors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2070">
+          <caret line="195" column="23" selection-start-line="195" selection-start-column="23" selection-end-line="195" selection-end-column="23" />
+          <folding>
+            <element signature="e#346#364#0" expanded="true" />
+            <marker date="1526759534958" expanded="true" signature="7843:7853" ph="..." />
+            <marker date="1526759534958" expanded="true" signature="7867:7875" ph="..." />
+            <marker date="1526759534958" expanded="true" signature="7893:7901" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions/visualisation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions/descriptors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions/dataReduction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="75" selection-start-column="75" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions/dataCleaning.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions/dataHandling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions/get_predictors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="81" lean-forward="true" selection-start-line="81" selection-end-line="81" />
+          <folding>
+            <element signature="e#0#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/RexR.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3960">
@@ -506,27 +613,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="1185">
-            <caret line="145" column="50" lean-forward="true" selection-start-line="145" selection-start-column="50" selection-end-line="145" selection-end-column="50" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/functions/descriptors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/functions/dataReduction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="75" selection-start-column="75" selection-end-column="75" />
         </state>
       </provider>
     </entry>
@@ -577,7 +667,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/_helpers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
+        <state relative-caret-position="300">
           <caret line="58" selection-start-line="58" selection-end-line="58" />
           <folding>
             <element signature="e#0#109#0" expanded="true" />
@@ -587,7 +677,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/functions/predictors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
+        <state relative-caret-position="2070">
           <caret line="195" column="23" selection-start-line="195" selection-start-column="23" selection-end-line="195" selection-end-column="23" />
           <folding>
             <element signature="e#346#364#0" expanded="true" />
@@ -600,11 +690,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/functions/get_predictors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5">
-          <caret line="81" lean-forward="true" selection-start-line="81" selection-end-line="81" />
+        <state relative-caret-position="105">
+          <caret line="28" column="35" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
           <folding>
             <element signature="e#0#67#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="1740">
+            <caret line="116" column="54" selection-start-line="116" selection-start-column="54" selection-end-line="116" selection-end-column="54" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions/dataReduction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_hackathon2018/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="588">
+            <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
