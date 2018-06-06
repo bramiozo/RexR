@@ -30,7 +30,7 @@ from sklearn.manifold import LocallyLinearEmbedding as LLE
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.feature_selection import SelectFdr, SelectFpr
 from sklearn.feature_selection import f_classif, chi2
-from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKfold
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn import preprocessing, svm, tree, naive_bayes
 from sklearn import linear_model, neural_network, model_selection, metrics
 from sklearn import discriminant_analysis, gaussian_process
@@ -183,36 +183,35 @@ def _benchmark_classifier(model, x, y, splitter, framework='sklearn', Rclass=Non
     return acc
 
 
-class Classifier:
-    """
-    # Tree methods: LGBM, XGB, RF, ET
-    # Stochastic methods: GPC, NB
-    # stacked nonlinear methods: DNN, CNN
-    # template matching: lSVM
-    # linear methods: LR
-    """
-
-
-    def __init__(self, ):
-
-
-
-
-
-    def fit(self):
-
-
-
-    def predict(self):
-
-
-
-    def weights(self):
-        """
-
-        :return: [{'method': xxx, 'weights': pd.DataFrame(weights, index)}]
-        """
-
+# class Classifier:
+#     """
+#     # Tree methods: LGBM, XGB, RF, ET
+#     # Stochastic methods: GPC, NB
+#     # stacked nonlinear methods: DNN, CNN
+#     # template matching: lSVM
+#     # linear methods: LR
+#     """
+#
+#
+#     def __init__(self, ):
+#
+#
+#
+#
+#
+#     def fit(self):
+#
+#
+#
+#     def predict(self):
+#
+#
+#
+#     def weights(self):
+#         """
+#
+#         :return: [{'method': xxx, 'weights': pd.DataFrame(weights, index)}]
+#         """
 
 
 

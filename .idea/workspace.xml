@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="58f5dc81-cb5b-4cac-84cb-c54f6389042e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_hackathon2018/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/_hackathon2018/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_paper/methods.tex" beforeDir="false" afterPath="$PROJECT_DIR$/_paper/methods.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/predictors.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions/predictors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebook.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebook.ipynb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,14 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RexR.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RexR.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RexR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3960">
-              <caret line="266" column="36" selection-start-line="266" selection-start-column="36" selection-end-line="266" selection-end-column="36" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="409">
+              <caret line="215" selection-start-line="215" selection-end-line="215" />
             </state>
           </provider>
         </entry>
@@ -67,14 +63,8 @@
       <file leaf-file-name="predictors.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/functions/predictors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2070">
-              <caret line="195" column="23" selection-start-line="195" selection-start-column="23" selection-end-line="195" selection-end-column="23" />
-              <folding>
-                <element signature="e#346#364#0" expanded="true" />
-                <marker date="1526759534958" expanded="true" signature="7843:7853" ph="..." />
-                <marker date="1526759534958" expanded="true" signature="7867:7875" ph="..." />
-                <marker date="1526759534958" expanded="true" signature="7893:7901" ph="..." />
-              </folding>
+            <state relative-caret-position="-3445">
+              <caret line="46" column="27" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -97,12 +87,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="readme.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="readme.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_hackathon2018/readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="588">
-                <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
+              <first_editor relative-caret-position="1515">
+                <caret line="101" column="48" selection-start-line="101" selection-start-column="48" selection-end-line="101" selection-end-column="48" />
               </first_editor>
               <second_editor />
             </state>
@@ -163,18 +153,18 @@
         <option value="$PROJECT_DIR$/functions/visualisation.py" />
         <option value="$PROJECT_DIR$/../Kaggle/talkingdataproject/stacker.py" />
         <option value="$PROJECT_DIR$/functions/get_predictors.py" />
-        <option value="$PROJECT_DIR$/RexR.py" />
         <option value="$PROJECT_DIR$/_helpers.py" />
-        <option value="$PROJECT_DIR$/functions/predictors.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/_hackathon2018/readme.md" />
+        <option value="$PROJECT_DIR$/functions/predictors.py" />
+        <option value="$PROJECT_DIR$/RexR.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1712" />
-    <option name="y" value="188" />
-    <option name="width" value="1523" />
+    <option name="x" value="-304" />
+    <option name="y" value="258" />
+    <option name="width" value="1513" />
     <option name="height" value="810" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -259,28 +249,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1600" y="-2" width="1920" height="1082" extended-state="6" />
+    <frame x="67" y="25" width="1533" height="1175" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.11545988" />
       <window_info anchor="bottom" id="TODO" order="10" />
+      <window_info anchor="right" id="R Packages" order="2" />
+      <window_info anchor="right" id="R Graphics" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" weight="0.32955715" />
       <window_info anchor="bottom" id="Version Control" order="2" />
       <window_info anchor="bottom" id="Python Console" order="3" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.3299389" />
-      <window_info anchor="bottom" id="Terminal" order="0" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.115625" />
-      <window_info anchor="right" id="R Packages" order="2" />
-      <window_info anchor="right" id="R Graphics" order="0" />
-      <window_info anchor="bottom" id="Find" order="5" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="4" />
+      <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="5" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -298,9 +288,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3960">
           <caret line="266" column="36" selection-start-line="266" selection-start-column="36" selection-end-line="266" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -318,12 +305,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2070">
           <caret line="195" column="23" selection-start-line="195" selection-start-column="23" selection-end-line="195" selection-end-column="23" />
-          <folding>
-            <element signature="e#346#364#0" expanded="true" />
-            <marker date="1526759534958" expanded="true" signature="7843:7853" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7867:7875" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7893:7901" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -376,9 +357,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3960">
           <caret line="266" column="36" selection-start-line="266" selection-start-column="36" selection-end-line="266" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -396,12 +374,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3000">
           <caret line="258" column="24" lean-forward="true" selection-start-line="258" selection-start-column="24" selection-end-line="258" selection-end-column="24" />
-          <folding>
-            <element signature="e#346#364#0" expanded="true" />
-            <marker date="1526759534958" expanded="true" signature="7843:7853" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7867:7875" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7893:7901" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -454,9 +426,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1335">
           <caret line="89" column="42" selection-start-line="89" selection-start-column="42" selection-end-line="89" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -491,12 +460,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
           <caret line="102" column="42" selection-start-line="102" selection-start-column="42" selection-end-line="102" selection-end-column="42" />
-          <folding>
-            <element signature="e#346#364#0" expanded="true" />
-            <marker date="1526759534958" expanded="true" signature="7843:7853" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7867:7875" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7893:7901" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -549,9 +512,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3555">
           <caret line="239" column="118" selection-start-line="239" selection-start-column="118" selection-end-line="239" selection-end-column="118" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -566,12 +526,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding>
-            <element signature="e#346#364#0" expanded="true" />
-            <marker date="1526759534958" expanded="true" signature="7843:7853" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7867:7875" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7893:7901" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -648,16 +602,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RexR.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3960">
-          <caret line="266" column="36" selection-start-line="266" selection-start-column="36" selection-end-line="266" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/functions/get_predictors_U.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -671,19 +615,6 @@
           <caret line="58" selection-start-line="58" selection-end-line="58" />
           <folding>
             <element signature="e#0#109#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/functions/predictors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2070">
-          <caret line="195" column="23" selection-start-line="195" selection-start-column="23" selection-end-line="195" selection-end-column="23" />
-          <folding>
-            <element signature="e#346#364#0" expanded="true" />
-            <marker date="1526759534958" expanded="true" signature="7843:7853" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7867:7875" ph="..." />
-            <marker date="1526759534958" expanded="true" signature="7893:7901" ph="..." />
           </folding>
         </state>
       </provider>
@@ -718,10 +649,24 @@
     <entry file="file://$PROJECT_DIR$/_hackathon2018/readme.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="588">
-            <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
+          <first_editor relative-caret-position="1515">
+            <caret line="101" column="48" selection-start-line="101" selection-start-column="48" selection-end-line="101" selection-end-column="48" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions/predictors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3445">
+          <caret line="46" column="27" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RexR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="215" selection-start-line="215" selection-end-line="215" />
         </state>
       </provider>
     </entry>
