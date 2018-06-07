@@ -182,6 +182,12 @@ from our models would be a good validator. In fact, PD-L1 itself is a proto-onco
 it can be inhibited. So, instead of searching for inhibitors, we should be looking for
 proto-oncogenes.
 
+
+The main questions:
+* Why do some patients respond to immunotherapy and others not? --> can we predict who will not respond?
+* What are the pathways related to melanoma (firstly), to immunotherapy response (secondly)
+
+
 "Official" supporting questions:
 * Can you show and visualize the correlations and concepts between the different datasets?
 * As melanoma is a set of diverse diseases, can you stratify the patients based on all the data in to subgroups?
@@ -191,7 +197,7 @@ proto-oncogenes.
 * Can you identify a signature based on an integrative approach that can predict response to immunotherapy?
 * Can you identify a signature that correlates with the prognosis of immunotherapy?
 
-Basic hypotheses that would be nice to confirm
+Basic hypotheses that would be nice to confirm (i.e. nice to haves, feel free to ignore)
 * T(tumor), increased Bresow-thickness correlates with more malignancy (Tis, T1a/b, T2a/b, T3a/b, T4a/b), i.e. decreasing survival rate
 * N(nodal stage), Local spread correlates with more malignancy (N0, N1a/b, N2a/b/c, N3)
 * M(metastasis location), distant metastasis (beyond regional lymph nodes)  corresponds with mmore malignancy (M0, M1)
@@ -203,6 +209,23 @@ Basic hypotheses that would be nice to confirm
 * inhibitor: PTEN/TP53/APC, our method should be able to retrieve this specific mutation as an inhibitor
 * proto-oncogenic: BRAF, our method should be able to retrieve this specific mutation as a proto-oncogene
 * LCK protein expression: correlates positively with patient survival
+* genetic markers for melatonine may be proxy for higher risk of melanoma
+
+Basic information:
+* Moles spatially near eachother, in combination with discolouring is indicative for a higher likelihood
+of metastasis 
+* (Breslow depth) under skin correlates with more malignancy 
+* RNA, each 3 letter combo is associated with a specific amino-acid --> an amino-acid is associated with multiple 
+combinations --> i.e. not every change in RNA coding leads to a delta amino acid.
+* mutations may lead to a change in protein function, and a change in genetic expression of other genes
+* The multi-omic information we have in our hands says nothing about the environmental factors influencing it..but the clinical 
+information may give us a hint; age is likely important, also, someone who has stage 4 cancer is likely to have a significantly 
+different level of immune function.
+
+Questions to people from Erasmus:
+* can we get mappings from genomes to genome groups ? I added a folder to the google drive: mapping_data, which has
+a mapping information from RNA probesets to genomes.
+* how can we couple miRNA to proteomics proteine/miRNA-wise (so not sample wise..)?
 
 # Things biologists like
 
@@ -224,17 +247,48 @@ the most important genomes:
 
 Biologists like to understand the results, not very strange since they will base their laboratory 
 work on it, medications will be derived from it and it will be applied to real patients. 
-This is very important to keep in mind since it excludes a neural-network-only approach.
+This is very important to keep in mind since it **excludes a neural-network-only approach**.
 
 # Suggested approaches 
 
-Please add ideas with your name in the section header.
+Please add ideas with your name in the section header (change the readme.md file in the `_doc` folder, then use `grip readme.md`, to install just do `pip3 install grip`)
 
-## Classifications per layer 
+Overall, I see three paths:
+1. unsupervised learning and general exploratory data analysis to identify promising target variables, plus worth while hypotheses
+2. feature engineering --> transposition of tables --> dimension reduction --> normalisation --> classification --> viz
+3. graph generation and identification of common paths and graph clusters per classification  --> viz
+
+
+## Clusters per layer
+
+For the non-graphs, use some density-based clustering algorithm like HDBSCAN and 
+lower dimension embedding like t-SNE
+
+For the graphs, assuming we can construct them we can try to find 
+* communities
+* exemplars 
+* cliques
+
+Suggested algorithms/tools are :
+* Sparse Affinity Propagation, for exemplars and communities
+* Markov Clustering for cliques
+* t-SNE (in sklearn but not hierarchical): [multicore](https://github.com/DmitryUlyanov/Multicore-TSNE), [multicore2](https://github.com/danielfrg/tsne)
+* HDBSCAN (you can find that [here](http://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html))
+
+## Dimension reduction
+
+I would suggest the golden oldies, because they work :D
+* PCA
+* LDA
+* FDR with ANOVA
+
+If anyone can whip up an autoencoder that we would be cool but likely the above methods will do fine..
+
+## Classifications
 
 This should be easy to do. First we should define the targets that are relevant to our end goal,
 which is to recognize pathways, and inhibitors on those pathways. I.e. we need to be able to 
-predict the level of malignancy, the survival rate and the response to immunotherapy.
+predict the **level of malignancy**, the **survival rate** and the **response** to immunotherapy.
 
 This generates weights/importances per feature and gives the predictive power of each layer.
 
@@ -243,6 +297,19 @@ per classification. For this we would need to transform the 1-dimensional tensor
 into 2-dimensional tensors. This would only work per patient, but as transparency 
 is one of the key-ingredients of personalised medicine, and in my view of ML applied to
 health care in general, it would be a nice touch. 
+
+Suggested algorithms:
+* lightGBM, boosting type = GBDT, or DART, or GOSS in case of scaling problems
+* CNN in Keras, we already have something laying around from last year
+
+In general I see two approaches here:
+* classification per layer plus stacking of the classifiers
+* classification of the merged layers [CNV, mutation, methylation and RNA expression]+[miRNA, proteins]
+
+**These classifications can provide use with input for finding the pathways!** Obviously by looking at the feature importances. 
+
+In particular this will say per layer which features are important, which for the miRNA and the protein 
+data may be key for identifying the final pieces of the pathway puzzle.
 
 ## Correlations between different layers, 
 
@@ -257,27 +324,22 @@ train classifier and characterise the multilayer pairs.
 I.e. Correlated features link the layers pairwise, after which the layers can be connected into 
 a single layer. 
 
-
-## Clusters per layer
-
-We can try to find 
-* communities
-* exemplars 
-* cliques
-
-and then connect these cluster (proxies) between the layers.
-
 ## Bayesian Networks
 
 Given potential pathways we can infer Bayesian Networks as approximations for the GRN and visualize them
-with some graph viz. tool. 
+with some graph viz. tool. [Watch](https://www.youtube.com/watch?v=TuGDMj43ehw), [Read the wiki :D](https://en.wikipedia.org/wiki/Bayesian_network)
+
+
+![Connected layers](_images/Network_layers.png)
 
 ## Graphs, from the ground up 
 
-Per patient we have a graph connecting the genomes to RNA, to miRNA, etc. 
-This graph will mostly be similar per patient in terms of the adjacency matrix 
+Per patient we have a graph connecting the CNV, mutation, methylation and 
+RNA expression data using (Gene, Chr, start, stop). 
+When looking at the gene-connectivity (i.e. counting occurrence of chr, start, stop, amino-acid change, 
+type of mutation), this graph will mostly be similar per patient in terms of the adjacency matrix 
 but dissimilar in terms of the similarity matrix. This opens up some possibilities: 
-
+We can 
 * determine clusters per patient graph: exemplars, communities, cliques. Then determine cluster overlap
 per target label.
 * create multi-layer graph per target label, count edges (or sum edge weights), normalise edge sums. 
@@ -288,6 +350,11 @@ The resulting clusters, and their characteristics can be used to feed a predicto
 * transparency: it is clear why a target value is predicted
 * compatibility: compared to simply merging the data into one matrix we have more guarantee to obtain biologically
 sound estimations
+* it looks f*cking nice ;)
+
+Suggested tools/algo's are:
+* Markov Clustering, 
+* Neo4j-Bloom, networkx
 
 # Sources
 
