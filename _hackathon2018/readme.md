@@ -189,16 +189,18 @@ The main questions:
 
 
 "Official" supporting questions:
-* Can you show and visualize the correlations and concepts between the different datasets?
-* As melanoma is a set of diverse diseases, can you stratify the patients based on all the data in to subgroups?
 * Can you integrate all the data to make more accurate predictions for each patient than you would by only looking at one data source?
+* As melanoma is a set of diverse diseases, can you stratify the patients based on all the data in to subgroups?
+* Can you show and visualize the correlations and concepts between the different datasets?
 * Can you select a list of most informational variables that drive the predictions?
 * Can you select a list of most informational variables distinctive for each patient subgroup?
+
+* What is the difference between patients that do and do not respond
 * Can you identify a signature based on an integrative approach that can predict response to immunotherapy?
 * Can you identify a signature that correlates with the prognosis of immunotherapy?
 
 Basic hypotheses that would be nice to confirm (i.e. nice to haves, feel free to ignore)
-* T(tumor), increased Bresow-thickness correlates with more malignancy (Tis, T1a/b, T2a/b, T3a/b, T4a/b), i.e. decreasing survival rate
+* T(tumor), increased Breslow-thickness correlates with more malignancy (Tis, T1a/b, T2a/b, T3a/b, T4a/b), i.e. decreasing survival rate
 * N(nodal stage), Local spread correlates with more malignancy (N0, N1a/b, N2a/b/c, N3)
 * M(metastasis location), distant metastasis (beyond regional lymph nodes)  corresponds with mmore malignancy (M0, M1)
 * BRAF proto-oncogenic mutations should occcur in about 50% of all cutaneous melanomas.
@@ -210,6 +212,8 @@ Basic hypotheses that would be nice to confirm (i.e. nice to haves, feel free to
 * proto-oncogenic: BRAF, our method should be able to retrieve this specific mutation as a proto-oncogene
 * LCK protein expression: correlates positively with patient survival
 * genetic markers for melatonine may be proxy for higher risk of melanoma
+* proto-oncogenes with higher copy number (in absolute sense) are more visible for the immune system
+* Are the strongest proto-oncogenes mutually exclusive: BRAF, NRAS, MAP2K1, KIT, CTNNB1, GNA11, GNAQ?
 
 Basic information:
 * Moles spatially near eachother, in combination with discolouring is indicative for a higher likelihood
@@ -275,6 +279,11 @@ Suggested algorithms/tools are :
 * t-SNE (in sklearn but not hierarchical): [multicore](https://github.com/DmitryUlyanov/Multicore-TSNE), [multicore2](https://github.com/danielfrg/tsne)
 * HDBSCAN (you can find that [here](http://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html))
 
+
+Interesting candidates for clustering are:
+* similarity between miRNA and proteine
+* similarity between RNA CNV
+
 ## Dimension reduction
 
 I would suggest the golden oldies, because they work :D
@@ -289,6 +298,11 @@ If anyone can whip up an autoencoder that we would be cool but likely the above 
 This should be easy to do. First we should define the targets that are relevant to our end goal,
 which is to recognize pathways, and inhibitors on those pathways. I.e. we need to be able to 
 predict the **level of malignancy**, the **survival rate** and the **response** to immunotherapy.
+
+We choose (for the sake of time):
+*   therapy response: yes/no
+*   tumor type: primary/metastasis
+*   tumor stage: ```T0, T1, T2, N0, N1, N2```
 
 This generates weights/importances per feature and gives the predictive power of each layer.
 
@@ -306,7 +320,23 @@ In general I see two approaches here:
 * classification per layer plus stacking of the classifiers
 * classification of the merged layers [CNV, mutation, methylation and RNA expression]+[miRNA, proteins]
 
-**These classifications can provide use with input for finding the pathways!** Obviously by looking at the feature importances. 
+### Combining the layers
+
+1. proba's per layer as input for a new classifier 
+2. weighted average of the proba's using prediction uncertainty and CV accuracy, or majority vote
+3. merge different datasets
+
+Point 3. needs elaboration:
+*   we need to reduce the omics sets **first**
+    *   create sub-omic sets; split based on meta-descriptors: such as ```strand, Mutation Effect```
+    *   reduce number of features; non-parametric statistical test over the classifications
+*   Sub-omic sets can be combined first within omic's, then between omics
+*   Between omics by:
+    *   simply concatening columns on SampleID --> we lose the relationship between datasets?
+    *   combining by model-based coupling between datasets:```f(x_mut, x_methyl, x_cvn,..)```
+
+**These classifications can provide use with input for finding the pathways!** 
+Obviously by looking at the feature importances. 
 
 In particular this will say per layer which features are important, which for the miRNA and the protein 
 data may be key for identifying the final pieces of the pathway puzzle.
@@ -357,6 +387,8 @@ Suggested tools/algo's are:
 * Neo4j-Bloom, networkx
 
 # Sources
+
+Hardware: Google collab and custom Google compute engines
 
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4731297/
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5496318/#MOESM8
