@@ -199,11 +199,14 @@ The main questions:
 * Can you identify a signature based on an integrative approach that can predict response to immunotherapy?
 * Can you identify a signature that correlates with the prognosis of immunotherapy?
 
-Basic hypotheses that would be nice to confirm (i.e. nice to haves, feel free to ignore)
-* T(tumor), increased Breslow-thickness correlates with more malignancy (Tis, T1a/b, T2a/b, T3a/b, T4a/b), i.e. decreasing survival rate
+Basic hypotheses that would be nice to confirm (i.e. nice to haves, feel free to ignore, but don't ;))
+* T(tumor), increased Bresow-thickness correlates with more malignancy (Tis, T1a/b, T2a/b, T3a/b, T4a/b), i.e. decreasing survival rate
 * N(nodal stage), Local spread correlates with more malignancy (N0, N1a/b, N2a/b/c, N3)
 * M(metastasis location), distant metastasis (beyond regional lymph nodes)  corresponds with mmore malignancy (M0, M1)
 * BRAF proto-oncogenic mutations should occcur in about 50% of all cutaneous melanomas.
+* Gene, if inactivated by mutation then the deactivation by the methylation will be less prominent
+* CNV says something about visibility for the immune system
+* Spink5 not in mestastised tumor
 * We should be able to identify 4 subtypes of cutaneous melanomas: BRAS/RAS(N/H/K)/NF1/Triple-WT
 * order 3 clusters in the mRNA profiles of the most variant genes (keratin, immune, MITF-low)
 * inhibitor: PD-L1/PD-1, our method should be able to retrieve this specific mutation as an inhibitor
@@ -214,6 +217,8 @@ Basic hypotheses that would be nice to confirm (i.e. nice to haves, feel free to
 * genetic markers for melatonine may be proxy for higher risk of melanoma
 * proto-oncogenes with higher copy number (in absolute sense) are more visible for the immune system
 * Are the strongest proto-oncogenes mutually exclusive: BRAF, NRAS, MAP2K1, KIT, CTNNB1, GNA11, GNAQ?
+
+
 
 Basic information:
 * Moles spatially near eachother, in combination with discolouring is indicative for a higher likelihood
@@ -262,6 +267,13 @@ Overall, I see three paths:
 2. feature engineering --> transposition of tables --> dimension reduction --> normalisation --> classification --> viz
 3. graph generation and identification of common paths and graph clusters per classification  --> viz
 
+## Pre-processing
+
+Omics --> sub-omics
+*	split the omics 
+*	apply tf-idf to all count-based features
+*	normalise if appropriate 
+*	reduce if necessary (preferably keeping the features intact)
 
 ## Clusters per layer
 
@@ -279,10 +291,9 @@ Suggested algorithms/tools are :
 * t-SNE (in sklearn but not hierarchical): [multicore](https://github.com/DmitryUlyanov/Multicore-TSNE), [multicore2](https://github.com/danielfrg/tsne)
 * HDBSCAN (you can find that [here](http://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html))
 
-
 Interesting candidates for clustering are:
 * similarity between miRNA and proteine
-* similarity between RNA CNV
+* similarity between RNA and CNV
 
 ## Dimension reduction
 
@@ -291,7 +302,8 @@ I would suggest the golden oldies, because they work :D
 * LDA
 * FDR with ANOVA
 
-If anyone can whip up an autoencoder that we would be cool but likely the above methods will do fine..
+If anyone can whip up an autoencoder that we would be cool but likely the above methods will do fine.
+For the technical jury we should at least mention that we looked at using autoencoders though.
 
 ## Classifications
 
@@ -380,8 +392,7 @@ The resulting clusters, and their characteristics can be used to feed a predicto
 * transparency: it is clear why a target value is predicted
 * compatibility: compared to simply merging the data into one matrix we have more guarantee to obtain biologically
 sound estimations
-* it looks f*cking nice ;)
-
+* it looks fucking nice 
 Suggested tools/algo's are:
 * Markov Clustering, 
 * Neo4j-Bloom, networkx
