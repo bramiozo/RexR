@@ -384,7 +384,8 @@ a single layer.
 ## Bayesian Networks
 
 Given potential pathways we can infer Bayesian Networks as approximations for the GRN and visualize them
-with some graph viz. tool. [Watch](https://www.youtube.com/watch?v=TuGDMj43ehw), [Read the wiki :D](https://en.wikipedia.org/wiki/Bayesian_network)
+with some graph viz. tool. [Watch](https://www.youtube.com/watch?v=TuGDMj43ehw),
+ [Read the wiki :D](https://en.wikipedia.org/wiki/Bayesian_network)
 
 
 ![Connected layers](_images/Network_layers.png)

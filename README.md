@@ -128,7 +128,7 @@ Complexity: 1, 3, 5, 7, 13
 - 10, 	[ ] GAN to generate cancerous genomic profiles
 - 7,	[ ] Treat as 2D classification problem, and visualize with Quiver.
 
-
+****
 - 3,    [ ] add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
 - 13, 	[ ] Combat bias corrector
 - 13, 	[ ] PCA bias correcto
