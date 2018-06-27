@@ -269,9 +269,12 @@ Overall, I see three paths:
 
 ## Pre-processing
 
+Determine feature importances bottom-up: from the proteins->RNA->DNA
+Determine feature importances top-down: from the DNA->RNA->proteins
+
 Omics --> sub-omics
 *	split the omics 
-*	apply tf-idf to all count-based features
+*	apply tf-idf of sorts to all count-based features
 *	normalise if appropriate 
 *	reduce if necessary (preferably keeping the features intact)
 
@@ -373,6 +376,11 @@ with some graph viz. tool. [Watch](https://www.youtube.com/watch?v=TuGDMj43ehw),
 
 
 ![Connected layers](_images/Network_layers.png)
+
+## Markov Networks
+
+Train a Conditional Random Fields to describe the inter-omic network.
+
 
 ## Graphs, from the ground up 
 

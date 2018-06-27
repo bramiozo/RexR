@@ -81,9 +81,8 @@ People:
 *	Tjebbe Tauber (manager)
 * 	Bram van Es (data science/q.a./privacy)
 *	Sebastiaan de Jong (machine learning)
-* 	Kia Eisinga (data science)
-*	Evgeny? (devops)
-*	Roberto Moratore 
+*	Evgeny (devops)
+*   Nela Lekic (graph analysis/machine learning)
 *	xxx (data viz/UX)
 *	xxx (bio-statistician)
 
@@ -108,15 +107,21 @@ Complexity: 1, 3, 5, 7, 13
 - [x] add false positive rate (sklearn.feature_selection.SelectFpr)
 - [x] n-repetitions and bagging of stochastic methods (i.e.  varying seed's)
 
+- x,	[ ] Functionality; cancer type detector
+- x,	[ ] Functionality; cancer phase detector
+- x,	[ ] Functionality; Image recognition
+- x,    [ ] Functionality; cancer pathway estimator
+
 
 - 5     [ ] GEO DataSets lib integration
 - 7     [ ] Make GEO datasets interactive
+- x     [ ] add support for .vcf mutation data
 - 7,	[ ] add hyperoptimisation routine
 - 3, 	[ ] FDR/MW-U loop function with noise addition to get top genomes without creating a model
 - 1,    [ ] add RFECV
 - 3, 	[ ] element-wise noise addition using relative value range (n percentage of absolute value)
 - 3,	[ ] add relative noise-level
-- 5, 	[ ] top-genome visualiser: top-N list -> hierarchical clustering
+- 5, 	[ ] top-genome visualiser: top-N list -> hierarchical (agglomerative) clustering
 - 3,	[ ] patient clustering ==> all genomes, reduced
 - 7,	[ ] genome clustering ==> reduced..
 - 7,	[ ] user-friendly way to set-up pipelines
@@ -134,16 +139,14 @@ Complexity: 1, 3, 5, 7, 13
 - 5,	[ ] add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
 - 7, 	[ ] add SOM for genome seperation
 - 3,	[ ] sparse auto encoding for pre-processing and feature detection
-- 3,	[ ] t-sne / optics analyser
+- 7,	[ ] UMAP / Hierarchical t-SNE / HDBSCAN / OPTICS / diffusion maps, [source](https://medium.com/@LeonFedden/comparative-audio-analysis-with-wavenet-mfccs-umap-t-sne-and-pca-cb8237bfce2f)
+- x,    [ ] add iCluster(?), in [R](https://cran.r-project.org/web/packages/iCluster/iCluster.pdf)
 - 5,	[ ] conditional survival estimator. i.e. add a regressor.
 - 13,	[ ] refactor/optimize: Cython, numba, static def's, parallelise, modularize
 - x, 	[ ] add healthy patient reference routine
 - x,	[ ] healthy tissue/unhealthy tissue
 - x,	[ ] add disease dependent measurement error detector/filter
-- x,	[ ] cancer type detector
-- x,	[ ] cancer phase detector
-- x,	[ ] Image recognition
-- 5,	[ ] add genome/probeset mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
+- 5,	[ ] add genome/probeset/protein/miRNA/methyl mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
 - 3, 	[ ] add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
 - 3,  	[ ] add plot (number of genomes, versus accuracy)
 - x,  	[ ] add graph visualisation (intra-similarity of most prominent genomes, per label)
@@ -163,6 +166,8 @@ Complexity: 1, 3, 5, 7, 13
 			MyFly (CNN, LSTM): add TCN, GRU support
 - x,    [ ] add "deep dreaming": or sample generator functionality given a classification label generate a representative
             sample.
+- 15,    [ ] Add graph abstraction: [source](https://github.com/theislab/graph_abstraction), [source](https://scanpy.readthedocs.io/en/latest/)
+            , MST (Kruskal)
 
 
 ## Datasets
@@ -185,8 +190,9 @@ Complexity: 1, 3, 5, 7, 13
 * use entity linking to fetch relevant journal papers
 * build domain specific word embeddings for medical graph search
 * use Siamese neural-network to get rid of the cohort bias
-* add variational autoencoder?
-
+* add autoencoder for feature reduction
+* add functionality for the practitioner to draw a decision plane to manually create a predictor
+* Neuro-conditional random field for tumor detection(research.baidu.com/Blog/index-view?id=104)
 
 # funds
 * WBSO https://www.ugoo.nl/wbso-subsidie/wbso-subsidiecheck/?gclid=Cj0KCQiAzfrTBRC_ARIsAJ5ps0uImsv_6m-NiWK_jod-_XaW-8exS616zNvqDH_Pojs6MayyepqhT58aAgdiEALw_wcB

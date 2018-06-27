@@ -3,8 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="58f5dc81-cb5b-4cac-84cb-c54f6389042e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_hackathon2018/_notebooks/Copy of _hackathon2018_sebastiaan.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_hackathon2018/_notebooks/_hackathon2018_CNV_Bram.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/_hackathon2018/_notebooks/_hackathon2018_CNV_Bram.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_hackathon2018/_notebooks/hackathon2018_sebastiaan.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/_hackathon2018/_notebooks/hackathon2018_sebastiaan.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_hackathon2018/_notebooks/hackaton_2018_CNV.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/_hackathon2018/_notebooks/hackaton_2018_CNV.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_hackathon2018/_notebooks/melanoma_view.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/_hackathon2018/_notebooks/melanoma_view.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_hackathon2018/_notebooks/plot.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/_hackathon2018/_notebooks/plot.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_hackathon2018/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/_hackathon2018/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hackathon_2018_exploration.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/hackathon_2018_exploration.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebook.ipynb" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,24 +22,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="readme.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="readme.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_hackathon2018/readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="348">
-                <caret line="367" column="52" lean-forward="true" selection-start-line="367" selection-start-column="52" selection-end-line="367" selection-end-column="52" />
+              <first_editor relative-caret-position="576">
+                <caret line="382" column="52" selection-start-line="382" selection-start-column="52" selection-end-line="382" selection-end-column="52" />
               </first_editor>
               <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="15">
-                <caret line="116" column="54" selection-start-line="116" selection-start-column="54" selection-end-line="116" selection-end-column="54" />
+              <first_editor relative-caret-position="-85">
+                <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
               </first_editor>
               <second_editor />
             </state>
@@ -42,7 +49,7 @@
       <file leaf-file-name="RexR.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RexR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3225">
+            <state relative-caret-position="3195">
               <caret line="215" selection-start-line="215" selection-end-line="215" />
             </state>
           </provider>
@@ -51,8 +58,8 @@
       <file leaf-file-name="_helpers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_helpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="58" selection-start-line="58" selection-end-line="58" />
+            <state relative-caret-position="306">
+              <caret line="616" selection-start-line="616" selection-end-line="616" />
               <folding>
                 <element signature="e#0#109#0" expanded="true" />
               </folding>
@@ -137,6 +144,8 @@
       <find>n_jobs</find>
       <find>confusion_matrix</find>
       <find>proteines</find>
+      <find>probese+</find>
+      <find>probese</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -154,17 +163,17 @@
         <option value="$PROJECT_DIR$/../Kaggle/talkingdataproject/stacker.py" />
         <option value="$PROJECT_DIR$/functions/get_predictors.py" />
         <option value="$PROJECT_DIR$/_helpers.py" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/functions/predictors.py" />
         <option value="$PROJECT_DIR$/RexR.py" />
         <option value="$PROJECT_DIR$/_hackathon2018/readme.md" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1491" />
-    <option name="y" value="186" />
-    <option name="width" value="1503" />
+    <option name="x" value="201" />
+    <option name="y" value="204" />
+    <option name="width" value="1493" />
     <option name="height" value="810" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -249,10 +258,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1600" y="-2" width="1920" height="1082" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.0921875" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.09552078" />
       <window_info anchor="bottom" id="TODO" order="10" />
       <window_info anchor="right" id="R Packages" order="2" />
       <window_info anchor="right" id="R Graphics" order="0" />
@@ -609,16 +618,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_helpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
-          <folding>
-            <element signature="e#0#109#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/functions/get_predictors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -645,26 +644,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/RexR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3225">
+        <state relative-caret-position="3195">
           <caret line="215" selection-start-line="215" selection-end-line="215" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="15">
-            <caret line="116" column="54" selection-start-line="116" selection-start-column="54" selection-end-line="116" selection-end-column="54" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/_hackathon2018/readme.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="348">
-            <caret line="367" column="52" lean-forward="true" selection-start-line="367" selection-start-column="52" selection-end-line="367" selection-end-column="52" />
+          <first_editor relative-caret-position="576">
+            <caret line="382" column="52" selection-start-line="382" selection-start-column="52" selection-end-line="382" selection-end-column="52" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="616" selection-start-line="616" selection-end-line="616" />
+          <folding>
+            <element signature="e#0#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="-85">
+            <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
           </first_editor>
           <second_editor />
         </state>
