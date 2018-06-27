@@ -332,8 +332,10 @@ Suggested algorithms:
 * CNN in Keras, we already have something laying around from last year
 
 In general I see two approaches here:
-* classification per layer plus stacking of the classifiers
-* classification of the merged layers [CNV, mutation, methylation and RNA expression]+[miRNA, proteins]
+* classification per layer plus stacking of the classifiers, by whatever means.
+* classification of the merged layers [CNV, mutation, methylation and RNA expression]+[miRNA, proteins], where the layers are filtered a priori by whatever means.
+
+In either case, greedily collect the most important features and visualise the overlap .
 
 ### Combining the layers
 
@@ -362,6 +364,9 @@ data may be key for identifying the final pieces of the pathway puzzle.
 Point 4. Heuristics are for instance: RNA expression as weight for mutations, methylation as weight for RNA
 
 Point 5. Use known proto-oncogenes as starting point initially; BRAF, NRAS, NF1, Triple Wild-Type
+Point 5. Search for mutually exclusive/inclusive gene's/mutations --> intra-omic self-similarity
+
+
 
 ## Correlations between different layers, 
 
