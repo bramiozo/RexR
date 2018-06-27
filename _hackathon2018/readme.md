@@ -337,9 +337,12 @@ In general I see two approaches here:
 
 ### Combining the layers
 
-1. proba's per layer as input for a new classifier 
-2. weighted average of the proba's using prediction uncertainty and CV accuracy, or majority vote
-3. merge different datasets
+Below we describe a concatenated omic integration
+1. **model based**: proba's per layer as input for a new classifier 
+2. **model based nt**: weighted average of the proba's using prediction uncertainty and CV accuracy, or majority vote
+3. **reduced concatenated**: merge different datasets based on most important features per sub-omic 
+4. **model-based inter-omic**: apply heuristics-based models to connect the different sub-omics
+5. **similarity-based path constructor**:  merge different sub-omics based on inter-omics similarities
 
 Point 3. needs elaboration:
 *   we need to reduce the omics sets **first**
@@ -355,6 +358,10 @@ Obviously by looking at the feature importances.
 
 In particular this will say per layer which features are important, which for the miRNA and the protein 
 data may be key for identifying the final pieces of the pathway puzzle.
+
+Point 4. Heuristics are for instance: RNA expression as weight for mutations, methylation as weight for RNA
+
+Point 5. Use known proto-oncogenes as starting point initially; BRAF, NRAS, NF1, Triple Wild-Type
 
 ## Correlations between different layers, 
 
