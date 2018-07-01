@@ -113,61 +113,61 @@ Complexity: 1, 3, 5, 7, 13
 - x,    [ ] Functionality; cancer pathway estimator
 
 
-- 5     [ ] GEO DataSets lib integration
-- 7     [ ] Make GEO datasets interactive
-- x     [ ] add support for .vcf mutation data
-- 7,	[ ] add hyperoptimisation routine
-- 3, 	[ ] FDR/MW-U loop function with noise addition to get top genomes without creating a model
-- 1,    [ ] add RFECV
-- 3, 	[ ] element-wise noise addition using relative value range (n percentage of absolute value)
-- 3,	[ ] add relative noise-level
-- 5, 	[ ] top-genome visualiser: top-N list -> hierarchical (agglomerative) clustering
-- 3,	[ ] patient clustering ==> all genomes, reduced
-- 7,	[ ] genome clustering ==> reduced..
-- 7,	[ ] user-friendly way to set-up pipelines
-- 10, 	[ ] GAN to generate cancerous genomic profiles
-- 7,	[ ] Treat as 2D classification problem, and visualize with Quiver.
+- 5     [ ] api, GEO DataSets lib integration
+- 7     [ ] ux, Make GEO datasets interactive
+- 7,	[ ] ux, user-friendly way to set-up pipelines
+- x     [ ] io, add support for .vcf mutation data
+- 5,	[ ] io, add genome/probeset/protein/miRNA/methyl mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
+- x,	[ ] io, add containers for Neo4j
+
+- 7,	[ ] ml, add hyperoptimisation routine
+- 3, 	[ ] ml, FDR/MW-U loop function with noise addition to get top genomes without creating a model
+- 1,    [ ] ml, add RFECV
+- 3, 	[ ] ml, element-wise noise addition using relative value range (n percentage of absolute value)
+- 3,	[ ] ml, add relative noise-level
+- 3,	[ ] ml, patient clustering ==> all genomes, reduced
+- 7,	[ ] ml, genome clustering ==> reduced..
+- 10, 	[ ] ml, GAN to generate cancerous genomic profiles
+- 7,	[ ] ml, UMAP / Hierarchical t-SNE / HDBSCAN / OPTICS / diffusion maps, [source](https://medium.com/@LeonFedden/comparative-audio-analysis-with-wavenet-mfccs-umap-t-sne-and-pca-cb8237bfce2f)
+- 3,    [ ] ml, add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
+- 13, 	[ ] ml, Combat bias corrector
+- 13, 	[ ] ml, PCA bias corrector
+- x,  	[ ] ml, add measuring bias detector (multiple datasets as inputs)
+- 13, 	[ ] ml, CEBE: Cluster-enhanced extremely biased estimator
+- 13, 	[ ] ml, PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
+- 5,	[ ] ml, add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
+- 7, 	[ ] ml, add SOM for genome seperation
+- 3,	[ ] ml, sparse auto encoding for pre-processing and feature detection, and DAE for denoising
+- x,    [ ] ml, add iCluster(?), in [R](https://cran.r-project.org/web/packages/iCluster/iCluster.pdf)
+- 5,	[ ] ml, conditional survival estimator. i.e. add a regressor.
+- 13,	[ ] ml, refactor/optimize: Cython, numba, static def's, parallelise, modularize
+- x, 	[ ] ml, add healthy patient reference routine
+- x,	[ ] ml, healthy tissue/unhealthy tissue
+- x,	[ ] ml, add disease dependent measurement error detector/filter
+- x,  	[ ] ml, add option for nested cross-validation
+- x, 	[ ] ml, add a posteriori accuracy checker
+- x,	[ ] ml, add Automatic Relevance Determination (ARD), Bayesian Discriminative Modelling.
+- x, 	[ ] ml, add support for image based classification: test on kaggle set, https://www.kaggle.com/c/data-science-bowl-2018/data
+- x,	[ ] ml, add support for time series based classification: test on EEG kaggle set, https://www.kaggle.com/c/grasp-and-lift-eeg-detection MyFly (CNN, LSTM): add TCN, GRU support
+- x,    [ ] ml, add "deep dreaming": or sample generator functionality given a classification label generate a representative sample.		
+- 15,   [ ] ml, Add graph abstraction: [source](https://github.com/theislab/graph_abstraction), [source](https://scanpy.readthedocs.io/en/latest/)
+            , MST (Kruskal)
 
 ****
-- 3,    [ ] add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
-- 13, 	[ ] Combat bias corrector
-- 13, 	[ ] PCA bias correcto
-- 13, 	[ ] CEBE: Cluster-enhanced extremely biased estimator
-- 13, 	[ ] PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
-- 5, 	[ ] routine to generate table's
-- ? 	[ ] visualisation of training process
-- 5,	[ ] add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
-- 7, 	[ ] add SOM for genome seperation
-- 3,	[ ] sparse auto encoding for pre-processing and feature detection
-- 7,	[ ] UMAP / Hierarchical t-SNE / HDBSCAN / OPTICS / diffusion maps, [source](https://medium.com/@LeonFedden/comparative-audio-analysis-with-wavenet-mfccs-umap-t-sne-and-pca-cb8237bfce2f)
-- x,    [ ] add iCluster(?), in [R](https://cran.r-project.org/web/packages/iCluster/iCluster.pdf)
-- 5,	[ ] conditional survival estimator. i.e. add a regressor.
-- 13,	[ ] refactor/optimize: Cython, numba, static def's, parallelise, modularize
-- x, 	[ ] add healthy patient reference routine
-- x,	[ ] healthy tissue/unhealthy tissue
-- x,	[ ] add disease dependent measurement error detector/filter
-- 5,	[ ] add genome/probeset/protein/miRNA/methyl mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
-- 3, 	[ ] add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
-- 3,  	[ ] add plot (number of genomes, versus accuracy)
-- x,  	[ ] add graph visualisation (intra-similarity of most prominent genomes, per label)
-- x,  	[ ] add measuring bias detector (multiple datasets as inputs)
-- x,	[ ] add quiver visualisation for genomes, also see https://distill.pub/2018/building-blocks/
-- x,	[ ] add lime visualisation for genomes
-- x, 	[ ] add wrapper for (circos)[http://circos.ca/]
-- x,  	[ ] add option for nested cross-validation
-- x,	[ ] add containers for Neo4j
-- x, 	[ ] add a posteriori accuracy checker
-- x,	[ ] add Automatic Relevance Determination (ARD), Bayesian Discriminative Modelling.
-- x,	[ ] add lgbm/xgb/rf model visualisation
+- 5,	[ ] viz, add parallel coordinates to visualise 'pathways'
+- ? 	[ ] viz, visualisation of training process
+- 3, 	[ ] viz, add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
+- 3,  	[ ] viz, add plot (number of genomes, versus accuracy)
+- x,  	[ ] viz, add graph visualisation (intra-similarity of most prominent genomes, per label)
+- x,	[ ] viz, add quiver visualisation for genomes, also see https://distill.pub/2018/building-blocks/
+- x,	[ ] viz, add lime visualisation for genomes
 - x,	[ ] viz: https://www.kaggle.com/kanncaa1/rare-visualization-tools
 - x, 	[ ] viz: https://www.kaggle.com/mirichoi0218/classification-breast-cancer-or-not-with-15-ml
-- x, 	[ ] add support for image based classification: test on kaggle set, https://www.kaggle.com/c/data-science-bowl-2018/data
-- x,	[ ] add support for time series based classification: test on EEG kaggle set, https://www.kaggle.com/c/grasp-and-lift-eeg-detection
-			MyFly (CNN, LSTM): add TCN, GRU support
-- x,    [ ] add "deep dreaming": or sample generator functionality given a classification label generate a representative
-            sample.
-- 15,    [ ] Add graph abstraction: [source](https://github.com/theislab/graph_abstraction), [source](https://scanpy.readthedocs.io/en/latest/)
-            , MST (Kruskal)
+- 5, 	[ ] viz, routine to generate heatmap table's
+- 20,	[ ] viz, Treat as 2D classification problem, and visualize with Quiver.
+- 5, 	[ ] viz, top-genome visualiser: top-N list -> hierarchical (agglomerative) clustering
+- x, 	[ ] viz, add wrapper for (circos)[http://circos.ca/]
+- x,	[ ] viz, add lgbm/xgb/rf model visualisation
 
 
 ## Datasets
@@ -190,8 +190,8 @@ Complexity: 1, 3, 5, 7, 13
 * use entity linking to fetch relevant journal papers
 * build domain specific word embeddings for medical graph search
 * use Siamese neural-network to get rid of the cohort bias
-* add autoencoder for feature reduction
 * add functionality for the practitioner to draw a decision plane to manually create a predictor
+* add visualisation of phenotypical manifolds in omics-space and position of patient in that space.
 * Neuro-conditional random field for tumor detection(research.baidu.com/Blog/index-view?id=104)
 
 # funds
