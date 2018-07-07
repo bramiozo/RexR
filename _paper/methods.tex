@@ -230,13 +230,26 @@ for the final overall model.
 %
 \subsection{Linear methods}
 %
-TO-DO: FINISH 
-Logistic Regression (LR),..bladiebladie 
-Supposedly LR requires about $10$ data points per feature to give stable predictions, the so-called \textit{rule-of-ten}, and it assumes that
-the features are independent. \\ 
+The prior discussed methods are general learners that account for non-linearity.
+These methods cannot give a general first-order direction of influence for 
+perturbations in the features. I.e. we do not get a sense of whether a positively valued change of some feature leads to a positive or negative change in the probability of the target variable. \\ \\
 %
-linear Support Vector Machines (lSVM), ..bladiebladie
-linear discriminant analysis (LDA),..bladiebladie
+To do this we need to apply linear methods, specifically 
+we applied Logistic Regression (LR), linear Support Vector Machines (lSVM)
+and Linear Discriminant Analysis (LDA). \\ \\
+%
+Logistic Regression is a probabilistic seperator, whereby per dimension a logistic regression curve
+is fit to the dimension/classification values. The seperating plane is given by the feature values giving
+a probability of $0.5$ per dimension. In our specific case we have between $200$ and $400$
+features with a minimum of $50$ samples, so we fulfill the so-called \textit{rule of ten}; Supposedly LR requires about $10$ data points per feature to give stable predictions, the so-called \textit{rule-of-ten}, and it assumes that the features are independent. \\ \\
+%
+With linear Support Vector Machines (lSVM) we try to find a hyperdimensional
+plane that maximally seperates the data points for the different classifications. Because this plane, although hyperdimensional, is multi-linear, we basically have a resultant slope in each dimension. \\ \\
+%
+With Linear Discriminant Analysis (LDA) we base the seperation on a probability threshold, whereby
+the distributions per feature are assumed to be uniform, independent Gaussians and with homogeneity of variance. \\ \\
+%
+The hyperplanes that are created by lSVM, LDA and LR should be very similar, also see \cite{Pohar2004}, \cite{Yong2015},\cite{Gokcen2002}. 
 %
 %Simplicity, transparancy, robustness. However, what we gain in expressiveness we may lose in accuracy.
 
@@ -245,7 +258,7 @@ linear discriminant analysis (LDA),..bladiebladie
 Naive Bayes (NB) classification revolves around the chaining of conditional probabilities under the naive assumption
 that features are conditionally independent. Naive Bayes has been applied in genomic classification, see e.g. Sandberg et al.\cite{Sandberg2001}, Ferrari and Aitken\cite{Ferrari2006}, DePristo et al.\cite{DePristo2011}. The method is naive because it assumes that the features are independent in determining the probability of a classification. Also, the model is 
 zeroeth order dependent on the prior probability of the class, hence, it assumes this prior probability also when applied
-outside the training data. As the genomic expression values are continuous we have to apply Gaussian NB specifically; 
+outside the training data. As the genomic expression values are continuous we have to apply Gaussian NB (GNB) specifically; 
 with Gaussian NB we assign a Gaussian distribution to each feature per classification. \\ \\
 %
 Gaussian Processes Classification (GPC) uses Gaussian Processes to model the prior probabilities and tries to find
@@ -273,7 +286,7 @@ Model evaluation for training strategy $\mathcal{I}$ is done using the standard 
 \centering
 \begin{tabular}{rlllll}
 
-\textit{method}						& DNN, CNN 		& RF,ET,XGB,LGBM	&  lSVM,LR,LDA		& NB, GPC  			\\
+\textit{method}						& DNN, CNN 		& RF,ET,XGB,LGBM	&  lSVM,LR,LDA		& GNB, GPC  			\\
 							\hline
 RAW, $d=54613$ 						& $71, 71$	 	&  $71, 68, 71, 66$	&  $72, 62, X$		&  $62, 56$  			\\
 FDR $\alpha=0.01$, $d\approx 12$ 	& $96, X$  		&  $86, 84, 80, 81$	&  $82, 87, \mathbf{88}$&  $\mathbf{88}, 86$  		\\
@@ -296,11 +309,30 @@ which may be due to the low effective dimensionality where a few genomic express
 % Furthermore it is somewhat remarkable that Gaussian Naive Bayes performs better than Gaussian Processes Classification as the latter should be a more general version of the 
 % former, this may be due to sampling-induced errors.
 %
-To further increase the accuracy of our predictions (without increasing the bias) we can apply a so-called ensemble method that combines the predictors
-into one predictor. \\ \\
+To further increase the accuracy of our predictions (without increasing the bias) we can apply a so-called ensemble method that combines the predictors into one predictor. For the ensemble predictor we use DNN, RF, lSVM and GNB. \\ \\
 %
-TABLE of prediction accuracies using ensemble methods  \\ % majority vote, unweighted average, weighted by accuracy, weighted by uncertainty 
-PLOT of prediction certainty (i.e. proba's)
+%
+\begin{table}[htp]
+\centering
+\begin{tabular}{rlllll}
+
+\textit{method}						& soft mean     & majority vote  \\
+							\hline
+RAW, $d=54613$ 						&    $63$       &   $64$         \\
+FDR $\alpha=0.01$, $d\approx 12$ 	&    $88$       &   $86$         \\
+FDR $\alpha=0.02$, $d\approx 42$ 	&    $90$       &   $87$         \\
+FDR $\alpha=0.03$, $d\approx 71$ 	&    $90$       &   $85$         \\
+FDR $\alpha=0.05$, $d\approx 220$ 	&    $80$       &   $79$         \\
+FDR $\alpha=0.1$,  $d\approx 469$ 	&    $80$       &   $81$           
+\end{tabular}
+\caption{Training strategy $\mathcal{I}$. Mean accuracies in $\%$ over $10$ runs with $5\%$ added random noise per run, with $10$ folds for the cross-validation. $d$ denotes the number of features}
+\label{tab:diversitymetrics_ensemble}
+\end{table}
+%
+Apparantly, using the full feature space is problematic in terms of accuracy, most likely due to the large amount of noise given that 
+only about $500$, i.e. $1\%$ plays a significant role in driving the predictors.
+%
+%PLOT of prediction certainty (i.e. proba's)
 %
 \subsection{Training strategy $\mathcal{II}$}
 
@@ -349,29 +381,17 @@ and the same for the weights obtained from the lSVM and LR methods, see figure \
 %
 \section{Summarising}
 %
-For the cohort-bias removal we apply a genome-wise Location and scale (L/S) adjustment per cohort. This guarantees
-similar bounds and means over the different cohorts. To remove the multiplicity of probesets per patients
-we simply take the mean of the measurements per patient. Having obtained a normalised dataset we add $5\%$
-of noise (with respect the maximum value) to increase the robustness of the final model. To further increase robustness, and improve 
-interpretability we reduce the number of features by applying the FDR method with ANOVA for the distribution comparison, 
-following the Benjamin-Hochberg procedure, using a maximum $p$-value of $0.05$. 
+For the cohort-bias removal we apply a genome-wise Location and scale (L/S) adjustment per cohort. This guarantees similar bounds and means over the different cohorts. To remove the multiplicity of probesets per patients we simply take the mean of the measurements per patient. Having obtained a normalised dataset we add $5\%$ of noise (with respect the maximum value) to increase the robustness of the final model. To further increase robustness, and improve interpretability we reduce the number of features by applying the FDR method with ANOVA for the distribution comparison, following the Benjamin-Hochberg procedure, using a maximum $p$-value of $0.05$. \\
 %
-We have two data scenario's. Scenario $\mathcal{I}$ uses the data from adult patients with a known high/low intensity diagnosis (where 
-medium intensity is considered equal to the low intensity diagnosis) to train a model to predict the diagnosis for the other non-labelled patients.
-Scenario $\mathcal{II}$ uses the survival label of the patients as a proxy for the high/low intensity treatment. Now the training set from scenario
-$\mathcal{I}$ is used as a validation set.
+We use the data from adult patients with a known high/low intensity diagnosis (where medium intensity is considered equal to the low intensity diagnosis) to train a model to predict the diagnosis for the other non-labelled patients. \\
 %
-For the model creation we employ several \textit{tree-ensemble methods}: Random Forest (RF) by Breiman\cite{Breiman2001}, ExtraTrees (ET) by Geurts et al.\cite{Geurts2006} 
-XGBoost (XGB) by Chen and Guestrin\cite{Chen2016} and (Light)GBM (LGBM) by Ke et al.\cite{Ke2017}. 
+For the model creation we employ several \textit{tree-ensemble methods}: Random Forest (RF) by Breiman\cite{Breiman2001}, ExtraTrees (ET) by Geurts et al.\cite{Geurts2006} XGBoost (XGB) by Chen and Guestrin\cite{Chen2016} and (Light)GBM (LGBM) by Ke et al.\cite{Ke2017}. 
 We use three types of linear methods, Linear Discrimination Analysis, Logistic Regression and linear SVM.
-We use two nonlinear methods, both \textit{neural networks}, a Deep Neural Network (DNN) \cite{lecun2015deep} and a Convolutional Neural Network (CNN) \cite{Lecun98}.
-Finally, we use two Bayesian methods, Naive Bayes and Gaussian Processes Classication (GPC).
+We use two nonlinear methods, both \textit{neural networks}, a Deep Neural Network (DNN) \cite{lecun2015deep} and a Convolutional Neural Network (CNN) \cite{Lecun98}. Finally, we use two Bayesian methods, Naive Bayes and Gaussian Processes Classication (GPC).\\ 
 %
-Finally we combine them in a so-called stacked method, either by a majority vote of the classifications or by weighted averaging based on their prediction probabilities.
-The benefit of combining these techniques is that we have the highest possible accuracy without compromising interpretability. \\ \\
+Finally we combine them in a so-called stacked method, either by a majority vote of the classifications or by weighted averaging based on their prediction probabilities. \\ 
 %
-Having obtained the models we can extract their relative importance from the tree-based models, and the weights from the linear models.
-In our case we could reduce the more than $50.000$ expression values to about $200$ without losing accuracy. 
+Having obtained the models we can extract their relative importance from the tree-based models, and the weights from the linear models. In our case we could reduce the more than $50.000$ expression values to about $200$ genomes without losing accuracy. The best reported accuracies are close to $90\%$ with $10$ to $500$ features. 
 %
 \section{Discussion}
 
@@ -382,6 +402,7 @@ In our case we could reduce the more than $50.000$ expression values to about $2
 \item instead of applying FDR once on the dataset, apply it several times on the same dataset with added noise to remove spurious contributors
 \item we can combine the different models in one meta-model. This bagging of models increases the accuracy, removes method-specific biases and at the same time its helps reduce overfitting
 \item the model generators that we applied, primarily used default parameter settings, we can likely improve the model quality by performing parameter optimisation
+\item we have not, but perhaps should have, applied methods to detect overfitting, i.e. parameter-change sensitivity, accuracy variability with super-imposed noise.
 \end{itemize}
 
 \section*{Appendix}

@@ -180,8 +180,112 @@ def _benchmark_classifier(model, x, y, splitter, framework='sklearn', Rclass=Non
 
             plt.tight_layout()
             plt.show()
-    return acc
+    return pred, acc
 
+def _benchmark_classifier_ensemble(models, x, y, splitter, framework='sklearn', Rclass=None):
+    pred = np.zeros(shape=y.shape)
+    acc = np.zeros(shape=y.shape)
+    coef = np.zeros(shape=(1, x.shape[1]))
+    threshold = 0.5
+    if framework == 'sklearn':
+        for train_index, test_index in splitter.split(x, y):
+            x_train, x_test = x[train_index], x[test_index]
+            y_train, y_test = y[train_index], y[test_index]
+            print("Training model: {}".format(model[0]))
+            model[1].fit(x_train, y_train)
+            # pred_test = model[1].predict_proba(x_test) # (model[1].predict_proba(x_test)>threshold).astype(int)
+            pred_test_ = model[1].predict(x_test)  # [np.round(l[1]).astype(int) for l in pred_test]
+            pred[test_index] = pred_test_  # np.round(pred_test)[0]
+            acc[test_index] = metrics.accuracy_score(y_test, pred_test_)
+            # coef += model.coef_
+        ######################################################
+        ##### For last split, show confusion matrix and ROC ##
+        ######################################################
+        # X_train, X_test, y_train, y_test = train_test_split(X_prep, y, test_size=0.2, random_state=42)
+        if Rclass.VIZ == True:
+            pred_train = model[1].predict_proba(x_train)
+            fig, ax = plt.subplots(1, 3)
+            fig.set_size_inches(15, 5)
+            plot_cm(ax[0], y_train, pred_train, [0, 1], 'Confusion matrix (TRAIN)', threshold)
+            plot_cm(ax[1], y_test, pred_test, [0, 1], 'Confusion matrix (TEST)', threshold)
+            plot_auc(ax[2], y_train, pred_train, y_test, pred_test, threshold)
+            plt.tight_layout()
+            plt.show()
+
+
+    elif framework == 'custom_rvm':
+        import rvm
+        for train_index, test_index in splitter.split(x, y):
+            x_train, x_test = x[train_index], x[test_index]
+            y_train, y_test = y[train_index], y[test_index]
+
+            model = rvm.rvm(x_train, y_train, noise=0.01)
+            model.iterateUntilConvergence()
+            pred_test = np.reshape(np.dot(x_test, model.wInferred), newshape=[len(x_test), ]) / 2 + 0.5
+            pred_test_ = np.round(pred_test);
+            pred[test_index] = pred_test_
+            acc[test_index] = metrics.accuracy_score(y_test, pred_test_)
+
+        ######################################################
+        ##### For last split, show confusion matrix and ROC ##
+        ######################################################
+        # X_train, X_test, y_train, y_test = train_test_split(X_prep, y, test_size=0.2, random_state=42)
+        if Rclass.VIZ == True:
+            pred_train = np.reshape(np.dot(x_train, model.wInferred), newshape=[len(x_train), ]) / 2 + 0.5
+            fig, ax = plt.subplots(1, 3)
+            fig.set_size_inches(15, 5)
+            plot_cm(ax[0], y_train, pred_train, [0, 1], 'Confusion matrix (TRAIN)', threshold)
+            plot_cm(ax[1], y_test, pred_test, [0, 1], 'Confusion matrix (TEST)', threshold)
+            plot_auc(ax[2], y_train, pred_train, y_test, pred_test, threshold)
+            plt.tight_layout()
+            plt.show()
+    elif framework == 'keras':
+        for train_index, test_index in splitter.split(x, y):
+            x_train, x_test = x[train_index], x[test_index]
+            y_train, y_test = y[train_index], y[test_index]
+            model[1].fit(x_train, y_train, batch_size=10, epochs=5, verbose=1,
+                         callbacks=[BL], validation_data=(np.array(x_test), np.array(y_test)))
+            # score = model[1].evaluate(np.array(x_test), np.array(y_test), verbose=0)
+            # print('Test log loss:', score[0])
+            # print('Test accuracy:', score[1])
+            pred_test = model[1].predict(x_test)[:, 0]
+            pred_test_ = np.round(pred_test)
+            pred[test_index] = pred_test_
+            acc[test_index] = metrics.accuracy_score(y_test, pred_test_)
+
+        ######################################################
+        ##### For last split, show confusion matrix and ROC ##
+        ######################################################
+        # https://github.com/natbusa/deepcredit/blob/master/default-prediction.ipynb
+        if Rclass.VIZ == True:
+            plt.figure(figsize=(15, 5))
+            plt.subplot(1, 2, 1)
+            plt.title('loss, per batch')
+            plt.plot(BL.get_values('loss', 1), 'b-', label='train');
+            plt.plot(BL.get_values('val_loss', 1), 'r-', label='test');
+            plt.legend()
+            #
+            plt.subplot(1, 2, 2)
+            plt.title('accuracy, per batch')
+            plt.plot(BL.get_values('acc', 1), 'b-', label='train');
+            plt.plot(BL.get_values('val_acc', 1), 'r-', label='test');
+            plt.legend()
+            plt.show()
+
+            y_train_pred = model[1].predict_on_batch(np.array(x_train))[:, 0]
+            y_test_pred = model[1].predict_on_batch(np.array(x_test))[:, 0]
+
+            fig, ax = plt.subplots(1, 3)
+            fig.set_size_inches(15, 5)
+
+            plot_cm(ax[0], y_train, y_train_pred, [0, 1], 'Confusion matrix (TRAIN)')
+            plot_cm(ax[1], y_test, y_test_pred, [0, 1], 'Confusion matrix (TEST)')
+
+            plot_auc(ax[2], y_train, y_train_pred, y_test, y_test_pred)
+
+            plt.tight_layout()
+            plt.show()
+    return pred, acc
 
 # class Classifier:
 #     """
@@ -231,6 +335,7 @@ class Ensemble:
     def __init__(self, weighted = True,
                        use_accuracy = True,
                        use_uncertainty = True,
+                       voting = 'soft',
                        cross_validation = True,
                        folds = 10,
                        SEED = 1234,
@@ -241,6 +346,7 @@ class Ensemble:
         :param weighted: weighted by accuracy as estimated through cross-validation
         :param use_accuracy:  ..
         :param use_uncertainty: use probability estimate as proxy for uncertainty and use as weight
+        :param voting: 'soft' or 'hard'
         :param cross_validation: use cross-validation for accuracy estimation
         :param folds: number of folds for cross-validation
         :param SEED: seed for cross-validation
@@ -251,6 +357,7 @@ class Ensemble:
         self.parameters = {'weighted':weighted,
                            'use_accuracy': use_accuracy,
                            'use_uncertainty': use_uncertainty,
+                           'voting': voting,
                            'cross_validation': cross_validation,
                            'folds': folds}
         self.sample_weights =  sample_weights
@@ -270,7 +377,6 @@ class Ensemble:
         """
         self._models_untrained += models
 
-
     def fit(self, X_train, y_train, MODELS = []):
         splitter = StratifiedKFold(self.parameters['folds'], random_state=self.SEED)
         def fw_fun(x): return(
@@ -284,18 +390,19 @@ class Ensemble:
                 raise ValueError("_models_untrained cannot be empty..")
 
         # go through untrained models, fit them and add them to the _models_trained list.
-        for model in self._models_untrained:
-            if self.parameters['cross_validation']:
-                framework = fw_fun(model['method'].lower())
-                acc = _benchmark_classifier(X_train, y_train, splitter, framework=framework, Rclass=self)
-                acc_var = np.var(acc)
-            else:
+        if self.parameters['cross_validation']:
+            acc = _benchmark_classifier(self._models_untrained, X_train, y_train, splitter, Rclass=self)
+            acc_var = np.var(acc)
+
+        else:
+            for model in self._models_untrained:
                 acc = None
                 acc_var = None
-            _model = model['model'].fit(X_train, y_train)
-            MODELS.append({'method': model['method'],
-                           'model': _model,
-                           'accuracy':{'acc': np.mean(acc), 'var': acc_var}})
+                _model = model['model'].fit(X_train, y_train)
+                MODELS.append({'method': model['method'],
+                               'model': _model,
+                               'accuracy': {'acc': np.mean(acc), 'var': acc_var}})
+
         self._add_trained_models(MODELS)
 
 
@@ -325,10 +432,14 @@ class Ensemble:
             for idx, _pred in enumerate(preds):
                 df = pd.DataFrame(data=_pred, columns=['proba'])
                 df['id'] = df.index
-                df['acc'] = MODELS[idx]['accuracy'][0]['acc']
+                if (self.parameters['use_accuracy']==True):
+                    df['acc'] = self._models_trained[idx]['accuracy'][0]['acc']
                 pd_list.append(df)
             dfconcat = pd.concat(pd_list)
-            dfconcat['weight'] = 2 * (dfconcat['proba'] - 0.5).abs() * dfconcat['acc']
+            if (self.parameters['use_accuracy']==True):
+                dfconcat['weight'] = 2 * (dfconcat['proba'] - 0.5).abs() * dfconcat['acc']
+            else:
+                dfconcat['weight'] = 2 * (dfconcat['proba'] - 0.5).abs()
             _preds = dfconcat.groupby(by='id').apply(lambda x: (x.weight * x.proba).sum() / x.weight.sum()) \
                 .reset_index()
             return _preds

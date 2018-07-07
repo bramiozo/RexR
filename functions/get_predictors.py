@@ -56,7 +56,8 @@ def run_classification(self, method_list = ['RF'],
                                                           pipeline = pipeline)
             MODELS.append({'method': METHOD, 'model': class_model, 'accuracy': accuracy})
             ACC = ACC.append(accuracy, ignore_index= True)
-            if (METHOD.lower() in ["rvm", "dnn", "cnn"]):
+            if (METHOD.lower() in ["rvm", "dnn", "cnn"]) or (METHOD.lower() in ['ensemble'] and pipeline['ensemble']\
+                                                                                                 ['voting'] == 'hard'):
                 preds = [pred_ for pred_ in preds]
             else: 
                 preds = [pred_[1]for pred_ in preds]
@@ -300,18 +301,21 @@ def classify_treatment(self, model_type='CART',
         model = neural_network.MLPClassifier(**pars) #  solver = 'lbfgs'
         models.append(('MLNN', model))
     elif(model_type == 'ensemble'): # only works for sklearn methods, build general ensembler.
+        Kernel = 1.0 * gaussian_process.kernels.RBF(length_scale=1.0) # for GPC
         models_ = [
             ("SVM", svm.SVC(**parameters['SVM'])),
-            ("LogisticRegression", linear_model.LogisticRegression(**parameters['LR'])),
+            #("LogisticRegression", linear_model.LogisticRegression(**parameters['LR'])),
+            #("LDA", discriminant_analysis.LinearDiscriminantAnalysis(**parameters['LDA'])),
             ("RandomForest", ensemble.RandomForestClassifier(**parameters['RF'])),
-            ("ExtraTrees", ensemble.ExtraTreesClassifier(**parameters['ET'])),
-            ("GBM", ensemble.GradientBoostingClassifier(**parameters['GBM'])),
-            ("ADA", ensemble.AdaBoostClassifier(**parameters['ADA'])),
-            ("CART", tree.DecisionTreeClassifier(**parameters['CART'])),
-            ("MLNN", neural_network.MLPClassifier(**parameters['MLNN']))
+            #("ExtraTrees", ensemble.ExtraTreesClassifier(**parameters['ET'])),
+            #("LGBM", lgb.LGBMClassifier(**parameters['LGBM'])),
+            #("XGB", xgb(**parameters['XGB'])),
+            ("MLNN", neural_network.MLPClassifier(**parameters['MLNN'])),
+            ("GNB", naive_bayes.GaussianNB()),
+            #("GPC", gaussian_process.GaussianProcessClassifier(kernel=Kernel, **parameters['GPC']))
             ]
         models = copy.copy(models_)
-        model = ensemble.VotingClassifier(estimators = models_, n_jobs = self.n_jobs, voting = 'soft')
+        model = ensemble.VotingClassifier(estimators=models_, n_jobs=self.n_jobs, voting=pipeline['ensemble']['voting'])
         models.append(("Ensembled", model))
 
     ############################################
@@ -389,7 +393,7 @@ def classify_treatment(self, model_type='CART',
     self.X_test = x_pred
 
 
-    if(model_type not in ['RVM', 'DNN', 'CNN']): # , 'XGB', 'XGBoost'
+    if(model_type not in ['RVM', 'DNN', 'CNN', 'ensemble', 'lgbm', 'lightgbm']): # , 'XGB', 'XGBoost'
         preds = model.predict_proba(x_pred) # only for sklearn (compatible methods)
     #elif model_type == 'DNN':
     #    #preds = 
@@ -401,7 +405,11 @@ def classify_treatment(self, model_type='CART',
         preds   = model.predict(np.expand_dims(x_pred, axis=2))[:,0] 
     elif model_type.lower() in ['lgbm', 'lightgbm']:
         preds = model.predict_proba(X_test, num_iteration = model.best_iteration)
-
+    elif model_type.lower() in ['ensemble']:
+        if model.voting == 'soft':
+            preds = model.predict_proba(x_pred)
+        else:
+            preds = model.predict(x_pred)
     ################
     ################
 

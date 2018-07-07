@@ -78,10 +78,10 @@ Partners:
 
 
 People:
-*	Tjebbe Tauber (manager)
+*	Tjebbe Tauber (inspiration wizard)
 * 	Bram van Es (data science/q.a./privacy)
 *	Sebastiaan de Jong (machine learning)
-*	Evgeny (devops)
+*	Evgeny (devops and machine learning)
 *   Nela Lekic (graph analysis/machine learning)
 *	xxx (data viz/UX)
 *	xxx (bio-statistician)
@@ -111,7 +111,7 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] Functionality; cancer phase detector
 - x,	[ ] Functionality; Image recognition
 - x,    [ ] Functionality; cancer pathway estimator
-
+- x, 	[ ] Functionality; gene importance estimator
 
 - 5     [ ] api, GEO DataSets lib integration
 - 7     [ ] ux, Make GEO datasets interactive
@@ -120,6 +120,8 @@ Complexity: 1, 3, 5, 7, 13
 - 5,	[ ] io, add genome/probeset/protein/miRNA/methyl mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
 - x,	[ ] io, add containers for Neo4j
 
+- 3,    [ ] ml, PCA/LDA number of components selector.
+- 3,    [ ] ml, add coefficient retrieval for LDA
 - 7,	[ ] ml, add hyperoptimisation routine
 - 3, 	[ ] ml, FDR/MW-U loop function with noise addition to get top genomes without creating a model
 - 1,    [ ] ml, add RFECV
@@ -132,6 +134,7 @@ Complexity: 1, 3, 5, 7, 13
 - 3,    [ ] ml, add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
 - 13, 	[ ] ml, Combat bias corrector
 - 13, 	[ ] ml, PCA bias corrector
+- 13,   [ ] ml, add Kernel Discriminant Analysis as a non-linear feature reducer
 - x,  	[ ] ml, add measuring bias detector (multiple datasets as inputs)
 - 13, 	[ ] ml, CEBE: Cluster-enhanced extremely biased estimator
 - 13, 	[ ] ml, PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
@@ -154,6 +157,7 @@ Complexity: 1, 3, 5, 7, 13
             , MST (Kruskal)
 
 ****
+- 3, 	[ ] viz, add tree visualiser
 - 5,	[ ] viz, add parallel coordinates to visualise 'pathways'
 - ? 	[ ] viz, visualisation of training process
 - 3, 	[ ] viz, add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
