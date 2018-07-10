@@ -121,6 +121,7 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] io, add containers for Neo4j
 
 - 3,    [ ] ml, PCA/LDA number of components selector.
+- 3,    [ ] ml, add factor analysis, gaussian random projection, sparse random projection
 - 3,    [ ] ml, add coefficient retrieval for LDA
 - 7,	[ ] ml, add hyperoptimisation routine
 - 3, 	[ ] ml, FDR/MW-U loop function with noise addition to get top genomes without creating a model
