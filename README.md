@@ -59,7 +59,7 @@ Science:
 *	Dr. Mohammed El Kebir; computational biologist 
 *	Dr. Gunnar W. Klau; computational biologist
 *	Dr. Marc Deisenroth; trust and transparancy in ML
-* Dr. Peter Hinrich (peter.hinrich@surfnet.nl); project bios/bbmri shared datastorage/processing for diabetes
+* 	Dr. Peter Hinrich (peter.hinrich@surfnet.nl); project bios/bbmri shared datastorage/processing for diabetes
 
 Technology:
 *	NLeScienceCenter: Dr. Adriënne Mendrik
@@ -120,17 +120,27 @@ Complexity: 1, 3, 5, 7, 13
 - 5,	[ ] io, add genome/probeset/protein/miRNA/methyl mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
 - x,	[ ] io, add containers for Neo4j
 
+- 20    [ ] ml, add multi-omic combiner class: start with concatenation-based approaches
+- 20    [ ] ml, add similarity class: intra and inter omic.
+
+- 10		[ ] ml,  - feature augmentation? 
+				 	- add transformations of the features
+				 	- add cluster-id from UMAP on raw data
+				 	- add cluster-id from graph clustering on similarity data.
 - 3,    [ ] ml, PCA/LDA number of components selector.
+- 3,	[ ] ml, add frequent item-set analysis: association rules, A-priori, PCY (multi-stage/hash)
+- 3,    [ ] ml, add factor analysis, gaussian random projection, sparse random projection
 - 3,    [ ] ml, add coefficient retrieval for LDA
 - 7,	[ ] ml, add hyperoptimisation routine
 - 3, 	[ ] ml, FDR/MW-U loop function with noise addition to get top genomes without creating a model
+- 3,    [ ] ml, add tree-based cumulative importance threshold for top genome selection
 - 1,    [ ] ml, add RFECV
 - 3, 	[ ] ml, element-wise noise addition using relative value range (n percentage of absolute value)
 - 3,	[ ] ml, add relative noise-level
 - 3,	[ ] ml, patient clustering ==> all genomes, reduced
-- 7,	[ ] ml, genome clustering ==> reduced..
+- 7,	[ ] ml, genome clustering/community detection ==>  Sparse Affinity Propagation, Girvan-Newman Algorithm, Markov clustering, Edge Betweenness Centrality
 - 10, 	[ ] ml, GAN to generate cancerous genomic profiles
-- 7,	[ ] ml, UMAP / Hierarchical t-SNE / HDBSCAN / OPTICS / diffusion maps, [source](https://medium.com/@LeonFedden/comparative-audio-analysis-with-wavenet-mfccs-umap-t-sne-and-pca-cb8237bfce2f)
+- 7,	[ ] ml, UMAP / Hierarchical t-SNE / HDBSCAN / Diffusion Maps / OPTICS / Sammon mapping / LTSA , [source](https://medium.com/@LeonFedden/comparative-audio-analysis-with-wavenet-mfccs-umap-t-sne-and-pca-cb8237bfce2f)
 - 3,    [ ] ml, add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
 - 13, 	[ ] ml, Combat bias corrector
 - 13, 	[ ] ml, PCA bias corrector
@@ -140,9 +150,9 @@ Complexity: 1, 3, 5, 7, 13
 - 13, 	[ ] ml, PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
 - 5,	[ ] ml, add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
 - 7, 	[ ] ml, add SOM for genome seperation
-- 3,	[ ] ml, sparse auto encoding for pre-processing and feature detection, and DAE for denoising
+- 3,	[ ] ml, multilayer sparse auto encoding for pre-processing and feature detection, and DAE for denoising
 - x,    [ ] ml, add iCluster(?), in [R](https://cran.r-project.org/web/packages/iCluster/iCluster.pdf)
-- 5,	[ ] ml, conditional survival estimator. i.e. add a regressor.
+- 5,	[ ] ml, conditional survival estimator. i.e. add a regres sor.
 - 13,	[ ] ml, refactor/optimize: Cython, numba, static def's, parallelise, modularize
 - x, 	[ ] ml, add healthy patient reference routine
 - x,	[ ] ml, healthy tissue/unhealthy tissue
@@ -158,7 +168,7 @@ Complexity: 1, 3, 5, 7, 13
 
 ****
 - 3, 	[ ] viz, add tree visualiser
-- 5,	[ ] viz, add parallel coordinates to visualise 'pathways'
+- 5,	[ ] viz, add parallel coordinates to visualise 'pathways':  inflate height on dim axes by taking Hadamard power.
 - ? 	[ ] viz, visualisation of training process
 - 3, 	[ ] viz, add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
 - 3,  	[ ] viz, add plot (number of genomes, versus accuracy)
