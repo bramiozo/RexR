@@ -89,7 +89,7 @@ People:
 Sources:
 https://gdc.cancer.gov/
 https://www.ncbi.nlm.nih.gov/
-
+https://databricks.com/product/genomics
 
 
 # To Do
@@ -211,6 +211,9 @@ Complexity: 1, 3, 5, 7, 13
 # funds
 * WBSO https://www.ugoo.nl/wbso-subsidie/wbso-subsidiecheck/?gclid=Cj0KCQiAzfrTBRC_ARIsAJ5ps0uImsv_6m-NiWK_jod-_XaW-8exS616zNvqDH_Pojs6MayyepqhT58aAgdiEALw_wcB
 * SIDN https://www.sidnfonds.nl/aanvragen/internetprojecten
+* KPN/Menzis/Monuta: https://fd.nl/economie-politiek/1239055/nieuw-fonds-met-durfkapitaal-voor-zorgstart-ups
+* Blue Sparrows MedTech Fonds
+
 
 # Data protection and distribution
 
