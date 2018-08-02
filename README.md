@@ -119,15 +119,18 @@ Complexity: 1, 3, 5, 7, 13
 - x     [ ] io, add support for .vcf mutation data
 - 5,	[ ] io, add genome/probeset/protein/miRNA/methyl mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
 - x,	[ ] io, add containers for Neo4j
+- 113,	[ ] ux/io/viz, build web interface around Superset/Druid
+
 
 - 20    [ ] ml, add multi-omic combiner class: start with concatenation-based approaches
 - 20    [ ] ml, add similarity class: intra and inter omic.
 
-- 10		[ ] ml,  - feature augmentation? 
-				 	- add transformations of the features
-				 	- add cluster-id from UMAP on raw data
-				 	- add cluster-id from graph clustering on similarity data.
+- 10	[ ] ml,  - feature augmentation? 
+				 - add transformations of the features
+				 - add cluster-id from UMAP on raw data
+				 - add cluster-id from graph clustering on similarity data.
 - 3,    [ ] ml, PCA/LDA number of components selector.
+- 7,	[ ] ml, 
 - 3,	[ ] ml, add frequent item-set analysis: association rules, A-priori, PCY (multi-stage/hash)
 - 3,    [ ] ml, add factor analysis, gaussian random projection, sparse random projection
 - 3,    [ ] ml, add coefficient retrieval for LDA
@@ -182,6 +185,7 @@ Complexity: 1, 3, 5, 7, 13
 - 5, 	[ ] viz, top-genome visualiser: top-N list -> hierarchical (agglomerative) clustering
 - x, 	[ ] viz, add wrapper for (circos)[http://circos.ca/]
 - x,	[ ] viz, add lgbm/xgb/rf model visualisation
+
 
 
 ## Datasets
