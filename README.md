@@ -91,6 +91,8 @@ https://gdc.cancer.gov/
 https://www.ncbi.nlm.nih.gov/
 https://www.kaggle.com/c/santander-value-prediction-challenge --> high dimensionality, low sample count
 
+https://databricks.com/product/genomics
+
 
 # To Do
 Complexity: 1, 3, 5, 7, 13
@@ -130,7 +132,7 @@ Complexity: 1, 3, 5, 7, 13
 				 - add cluster-id from UMAP on raw data
 				 - add cluster-id from graph clustering on similarity data.
 - 3,    [ ] ml, PCA/LDA number of components selector.
-- 7,	[ ] ml, 
+- 21 	[ ] ml, add support for [AutoKeras](http://autokeras.com/)
 - 3,	[ ] ml, add frequent item-set analysis: association rules, A-priori, PCY (multi-stage/hash)
 - 3,    [ ] ml, add factor analysis, gaussian random projection, sparse random projection
 - 3,    [ ] ml, add coefficient retrieval for LDA
