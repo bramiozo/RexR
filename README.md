@@ -174,7 +174,7 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] viz: https://www.kaggle.com/kanncaa1/rare-visualization-tools
 - x, 	[ ] viz: https://www.kaggle.com/mirichoi0218/classification-breast-cancer-or-not-with-15-ml
 - 5, 	[ ] viz, routine to generate heatmap table's
-- 20,	[ ] viz, Treat as 2D classification problem, and visualize with Quiver.
+- 20,	[ ] viz, Treat as 2D classification problem, and visualize with Quiver, get inspiration from this [playground](https://playground.tensorflow.org/)
 - 5, 	[ ] viz, top-genome visualiser: top-N list -> hierarchical (agglomerative) clustering
 - x, 	[ ] viz, add wrapper for (circos)[http://circos.ca/]
 - x,	[ ] viz, add lgbm/xgb/rf model visualisation

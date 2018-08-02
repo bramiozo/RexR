@@ -212,6 +212,7 @@ Basic hypotheses that would be nice to confirm (i.e. nice to haves, feel free to
 * inhibitor: PD-L1/PD-1, our method should be able to retrieve this specific mutation as an inhibitor
 * inhibitor: MEK, our method should be able to retrieve this specific mutation as an inhibitor for BRAF wild-type/NF1 mutant melanoma's
 * inhibitor: PTEN/TP53/APC, our method should be able to retrieve this specific mutation as an inhibitor
+* inhibitor: CTLA4, APRIL
 * proto-oncogenic: BRAF, our method should be able to retrieve this specific mutation as a proto-oncogene
 * LCK protein expression: correlates positively with patient survival
 * genetic markers for melatonine may be proxy for higher risk of melanoma
@@ -307,6 +308,9 @@ I would suggest the golden oldies, because they work :D
 
 If anyone can whip up an autoencoder that we would be cool but likely the above methods will do fine.
 For the technical jury we should at least mention that we looked at using autoencoders though.
+
+We can also use the embedding technique UMAP that, unlike t-SNE, preserves the actual distances in higher dimensions.
+
 
 ## Classifications
 
