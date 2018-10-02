@@ -34,6 +34,7 @@ Hyperlearning
 * grid search 
 * random selection 
 * successive halving
+* neural architecture searh
 * active learning -> output difficult classes and output test samples that
                           need labeling (interactive)
 
@@ -89,6 +90,7 @@ People:
 Sources:
 https://gdc.cancer.gov/
 https://www.ncbi.nlm.nih.gov/
+https://www.kaggle.com/c/santander-value-prediction-challenge --> high dimensionality, low sample count
 https://databricks.com/product/genomics
 
 
@@ -119,21 +121,36 @@ Complexity: 1, 3, 5, 7, 13
 - x     [ ] io, add support for .vcf mutation data
 - 5,	[ ] io, add genome/probeset/protein/miRNA/methyl mapping function, use docker with db (such as MonetDB, Druid or SparkSQL)
 - x,	[ ] io, add containers for Neo4j
+- 113,	[ ] ux/io/viz, build web interface around Superset/Druid
+
 
 - 20    [ ] ml, add multi-omic combiner class: start with concatenation-based approaches
 - 20    [ ] ml, add similarity class: intra and inter omic.
 
-- 10		[ ] ml,  - feature augmentation? 
-				 	- add transformations of the features
-				 	- add cluster-id from UMAP on raw data
-				 	- add cluster-id from graph clustering on similarity data.
+- 5		[ ] ml, add Generalised Additive Methods (GAM)
+- 30	[ ] ml, add Neural Conditional Random Field (NCRF)
+- 10	[ ] ml,  feature augmentation:
+				 - 	add transformations of the features
+				 - 	add cluster-id from UMAP on raw data
+				 - 	add cluster-id from graph clustering on similarity data.
+				 -	add feature combinations
 - 3,    [ ] ml, PCA/LDA number of components selector.
+- 5,	[ ] ml, add [Generalised Additive Models](https://codeburst.io/pygam-getting-started-with-generalized-additive-models-in-python-457df5b4705f) --> only works for limited number of features.
+                [readme](https://multithreaded.stitchfix.com/assets/files/gam.pdf)
+- 21 	[ ] ml, add support for [AutoKeras](http://autokeras.com/)
 - 3,	[ ] ml, add frequent item-set analysis: association rules, A-priori, PCY (multi-stage/hash)
 - 3,    [ ] ml, add factor analysis, gaussian random projection, sparse random projection
 - 3,    [ ] ml, add coefficient retrieval for LDA
 - 7,	[ ] ml, add hyperoptimisation routine
 - 3, 	[ ] ml, FDR/MW-U loop function with noise addition to get top genomes without creating a model
 - 3,    [ ] ml, add tree-based cumulative importance threshold for top genome selection
+- 20,	[ ] ml. add significant factor extractor: 
+			--	combine Kruskal-H with MW-U/FDR/FPR
+			--	PCA for variance explained
+			--  LDA for seperation explained
+			--  linear SVM/Logistic Regression: sign of importances
+			-- 	tree methods for importances
+
 - 1,    [ ] ml, add RFECV
 - 3, 	[ ] ml, element-wise noise addition using relative value range (n percentage of absolute value)
 - 3,	[ ] ml, add relative noise-level
@@ -152,7 +169,7 @@ Complexity: 1, 3, 5, 7, 13
 - 7, 	[ ] ml, add SOM for genome seperation
 - 3,	[ ] ml, multilayer sparse auto encoding for pre-processing and feature detection, and DAE for denoising
 - x,    [ ] ml, add iCluster(?), in [R](https://cran.r-project.org/web/packages/iCluster/iCluster.pdf)
-- 5,	[ ] ml, conditional survival estimator. i.e. add a regres sor.
+- 5,	[ ] ml, conditional survival estimator. i.e. add a regressor.
 - 13,	[ ] ml, refactor/optimize: Cython, numba, static def's, parallelise, modularize
 - x, 	[ ] ml, add healthy patient reference routine
 - x,	[ ] ml, healthy tissue/unhealthy tissue
@@ -180,6 +197,9 @@ Complexity: 1, 3, 5, 7, 13
 - 5, 	[ ] viz, routine to generate heatmap table's
 - 20,	[ ] viz, Treat as 2D classification problem, and visualize with Quiver, get inspiration from this [playground](https://playground.tensorflow.org/)
 - 5, 	[ ] viz, top-genome visualiser: top-N list -> hierarchical (agglomerative) clustering
+- 20,	[ ] viz, Treat as 2D classification problem, and visualize with Quiver.
+- 5, 	[ ] viz, top-genome visualiser: top-N list -> hierarchical (agglomerative) clustering [seaborne](https://seaborn.pydata.org/examples/structured_heatmap.html)
+- 10,	[ ] viz, genome/patient clustering using [Vega](https://vega.github.io/vega/examples/edge-bundling/), [Altair](https://altair-viz.github.io/) or [D3js](https://beta.observablehq.com/@mbostock/d3-hierarchical-edge-bundling)
 - x, 	[ ] viz, add wrapper for (circos)[http://circos.ca/]
 - x,	[ ] viz, add lgbm/xgb/rf model visualisation
 
@@ -213,7 +233,7 @@ Complexity: 1, 3, 5, 7, 13
 * SIDN https://www.sidnfonds.nl/aanvragen/internetprojecten
 * KPN/Menzis/Monuta: https://fd.nl/economie-politiek/1239055/nieuw-fonds-met-durfkapitaal-voor-zorgstart-ups
 * Blue Sparrows MedTech Fonds
-
+* eScience https://www.esciencecenter.nl/funding/big-data-health
 
 # Data protection and distribution
 

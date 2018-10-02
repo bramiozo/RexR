@@ -1,6 +1,12 @@
-# Hackathon 2018
+# MoMa 
+
+Multi-Omic Method aggregator 
+
 
 # Background..
+
+
+Existing methods and frameworks
 
 
 # Data sets
@@ -179,7 +185,7 @@ the type of melanoma's, we distinguish at least the following by their genomic m
 
 The current inhibitor, the one they likely use in the immunotherapy is PD-L1. It is called a checkpoint inhibitor, retrieving this 
 from our models would be a good validator. In fact, PD-L1 itself is a proto-oncogene, but apparently
-it can be inhibited. So, instead of searching for inhibitors, we should be looking for
+it can be inhibited. So, instead of searching for inhibitors specifically, we should be looking for
 proto-oncogenes.
 
 
@@ -257,7 +263,7 @@ the most important genomes:
 
 Biologists like to understand the results, not very strange since they will base their laboratory 
 work on it, medications will be derived from it and it will be applied to real patients. 
-This is very important to keep in mind since it **excludes a neural-network-only approach**.
+This is very important to keep in mind since it (sort of) **excludes a neural-network-only approach**.
 
 # Suggested approaches 
 
@@ -278,6 +284,7 @@ Omics --> sub-omics
 *	apply tf-idf of sorts to all count-based features
 *	normalise if appropriate 
 *	reduce if necessary (preferably keeping the features intact)
+* 	find self-similar features and combine
 
 ## Clusters per layer
 
@@ -293,11 +300,13 @@ Suggested algorithms/tools are :
 * Sparse Affinity Propagation, for exemplars and communities
 * Markov Clustering for cliques
 * t-SNE (in sklearn but not hierarchical): [multicore](https://github.com/DmitryUlyanov/Multicore-TSNE), [multicore2](https://github.com/danielfrg/tsne)
+* instead of t-SNE use UMAP
 * HDBSCAN (you can find that [here](http://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html))
 
 Interesting candidates for clustering are:
 * similarity between miRNA and proteine
 * similarity between RNA and CNV
+* self-similarities
 
 ## Dimension reduction
 
