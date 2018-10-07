@@ -84,6 +84,7 @@ People:
 *	Sebastiaan de Jong (machine learning)
 *	Evgeny (devops and machine learning)
 *   Nela Lekic (graph analysis/machine learning)
+*	Elizaveta Bakaeva (data analysis/visualisation)
 *	xxx (data viz/UX)
 *	xxx (bio-statistician)
 
@@ -94,8 +95,8 @@ https://www.kaggle.com/c/santander-value-prediction-challenge --> high dimension
 https://databricks.com/product/genomics
 
 
-# To Do
-Complexity: 1, 3, 5, 7, 13
+# Done
+
 - [x] XGBOOST
 - [x] DNN
 - [x] CNN 
@@ -109,11 +110,13 @@ Complexity: 1, 3, 5, 7, 13
 - [x] add false positive rate (sklearn.feature_selection.SelectFpr)
 - [x] n-repetitions and bagging of stochastic methods (i.e.  varying seed's)
 
+# TO DO
+Complexity: 1, 3, 5, 7, 13
 - x,	[ ] Functionality; cancer type detector
 - x,	[ ] Functionality; cancer phase detector
 - x,	[ ] Functionality; Image recognition
 - x,    [ ] Functionality; cancer pathway estimator
-- x, 	[ ] Functionality; gene importance estimator
+- x, 	[ ] Functionality; gene importance estimator and general factor importance tool: from weights, importance, variance explained to combinatoric importances (branch-wise importances)
 
 - 5     [ ] api, GEO DataSets lib integration
 - 7     [ ] ux, Make GEO datasets interactive
@@ -146,8 +149,8 @@ Complexity: 1, 3, 5, 7, 13
 - 3,    [ ] ml, add tree-based cumulative importance threshold for top genome selection
 - 20,	[ ] ml. add significant factor extractor: 
 			--	combine Kruskal-H with MW-U/FDR/FPR
-			--	PCA for variance explained
-			--  LDA for seperation explained
+			--	PCA for variance explained --> sum (absolute) coefficients per feature
+			--  LDA for seperation explained --> sum (absolute) coefficients per feature
 			--  linear SVM/Logistic Regression: sign of importances
 			-- 	tree methods for importances
 
@@ -167,6 +170,7 @@ Complexity: 1, 3, 5, 7, 13
 - 13, 	[ ] ml, PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
 - 5,	[ ] ml, add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
 - 7, 	[ ] ml, add SOM for genome seperation
+- 10,   [ ] ml, add Occam factor function to extract approximation of model complexity
 - 3,	[ ] ml, multilayer sparse auto encoding for pre-processing and feature detection, and DAE for denoising
 - x,    [ ] ml, add iCluster(?), in [R](https://cran.r-project.org/web/packages/iCluster/iCluster.pdf)
 - 5,	[ ] ml, conditional survival estimator. i.e. add a regressor.

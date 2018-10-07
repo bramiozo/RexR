@@ -9,6 +9,22 @@ Multi-Omic Method aggregator
 Existing methods and frameworks
 
 
+* effectivity immuno for mela/lunga/..
+* difference between metastasis/primair for ..
+* effectivitiy chemo for mela/lung/..
+* most important phenotypic data..
+* multi omic analysis
+ ** pathways
+ ** drivers per layer
+
+ Output:
+ * biomarkers
+ * diagnostic profiles
+ * pathways
+ * methods to find pathways
+ * library to perform multi-omic analysis/prediction
+
+
 # Data sets
 
 We have two collections of data sets, one for melanoma tumors and one for lung cancer 
