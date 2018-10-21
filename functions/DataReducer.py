@@ -1,3 +1,11 @@
+class DataReducer:
+'''
+	Dimensionality reduction
+		Embedding
+		Feature removal
+
+	Outlier removal	
+
 # Here come all the routines that reduces the dimensionality of the problem
 
 
@@ -8,13 +16,13 @@
 # dimension embedding
 # N features ==> <N features by projecting on a lower dimensional space
 
+'''
+	
+	def __init__(self, ):
 
 
 
-
-
-
-
+		return True
 
 
 
