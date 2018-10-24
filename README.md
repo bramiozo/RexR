@@ -132,6 +132,7 @@ Complexity: 1, 3, 5, 7, 13
 
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
 - 30	[ ] ml, add Neural Conditional Random Field (NCRF)
+- 20	[ ] ml, add factorisation machines for imputance.
 - 10	[ ] ml, Lasso, ElasticNet
 - 20	[ ] ml, add Supersparse linear integer models (SLIM) https://arxiv.org/abs/1502.04269
 - 10	[ ] ml,  feature augmentation:
@@ -190,7 +191,7 @@ Complexity: 1, 3, 5, 7, 13
             , MST (Kruskal)
 
 ****
-- 3, 	[ ] viz, add tree visualiser
+- 3, 	[ ] viz, add tree visualiser, https://github.com/parrt/dtreeviz
 - 5,	[ ] viz, add parallel coordinates to visualise 'pathways':  inflate height on dim axes by taking Hadamard power.
 - ? 	[ ] viz, visualisation of training process
 - 3, 	[ ] viz, add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh

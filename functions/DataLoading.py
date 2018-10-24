@@ -8,8 +8,10 @@ class DataLoading:
 	
 	def __init__(self, ):
 
-
-
 		return True
+
+	def _reader(self, ):
+		return True
+
 
 
