@@ -132,6 +132,9 @@ Complexity: 1, 3, 5, 7, 13
 
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
 - 30	[ ] ml, add Neural Conditional Random Field (NCRF)
+- 20	[ ] ml, add factorisation machines for imputance.
+- 10	[ ] ml, Lasso, ElasticNet
+- 20	[ ] ml, add Supersparse linear integer models (SLIM) https://arxiv.org/abs/1502.04269
 - 10	[ ] ml,  feature augmentation:
 				 - 	add transformations of the features
 				 - 	add cluster-id from UMAP on raw data
@@ -188,14 +191,22 @@ Complexity: 1, 3, 5, 7, 13
             , MST (Kruskal)
 
 ****
-- 3, 	[ ] viz, add tree visualiser
+- 3, 	[ ] viz, add tree visualiser, https://github.com/parrt/dtreeviz
 - 5,	[ ] viz, add parallel coordinates to visualise 'pathways':  inflate height on dim axes by taking Hadamard power.
 - ? 	[ ] viz, visualisation of training process
 - 3, 	[ ] viz, add plot (expression value, importance/coefficient) group by classification, labelled with genome, use Bokeh
 - 3,  	[ ] viz, add plot (number of genomes, versus accuracy)
 - x,  	[ ] viz, add graph visualisation (intra-similarity of most prominent genomes, per label)
 - x,	[ ] viz, add quiver visualisation for genomes, also see https://distill.pub/2018/building-blocks/
-- x,	[ ] viz, add lime visualisation for genomes
+- x,	[ ] viz, add LIME/DeepLift visualisation for model explanations of neural net's (https://papers.nips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions.pdf)
+- x, 	[ ] viz, add SHAP visualisation for the model explanation of tree methods, 
+- x, 	[ ] viz, add visualisation of cumulative importance of tree branches.
+- x, 	[ ] viz, add tree interpreter ELI5 https://github.com/TeamHG-Memex/eli5
+- x, 	[ ] viz, add Additive feature attribution methods
+- x,    [ ] viz, model explainability: using L2X, QII and additive index models (xNN)
+- x,	[ ] viz, train simple model on complex model (GBT-> single DT regressor on proba's)
+- x, 	[ ] viz, partial model dependence plots for clinical data and individual conditional expectation
+- x, 	[ ] viz, add correlation graphs: corr --> networktools
 - x,	[ ] viz: https://www.kaggle.com/kanncaa1/rare-visualization-tools
 - x, 	[ ] viz: https://www.kaggle.com/mirichoi0218/classification-breast-cancer-or-not-with-15-ml
 - 5, 	[ ] viz, routine to generate heatmap table's
