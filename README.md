@@ -79,14 +79,16 @@ Partners:
 
 
 People:
-*	Tjebbe Tauber (inspiration wizard)
-* 	Bram van Es (data science/q.a./privacy)
-*	Sebastiaan de Jong (machine learning)
-*	Evgeny (devops and machine learning)
-*   Nela Lekic (graph analysis/machine learning)
-*	Elizaveta Bakaeva (data analysis/visualisation)
+*	(m) Tjebbe Tauber (inspiration wizard/connector)
+* 	(m) Bram van Es (data science/q.a./privacy)
+*	(m) Sebastiaan de Jong (machine learning)
+*	(m) Evgeny (devops and machine learning)
+*   (f) Nela Lekic (graph analysis/machine learning)
+*	(f) Elizaveta Bakaeva (data analysis/visualisation)
 *	xxx (data viz/UX)
 *	xxx (bio-statistician)
+*   (f) Bo (NLP)
+*   PwC, DNB, AirBnB
 
 Sources:
 https://gdc.cancer.gov/
@@ -165,8 +167,8 @@ Complexity: 1, 3, 5, 7, 13
 - 10, 	[ ] ml, GAN to generate cancerous genomic profiles
 - 7,	[ ] ml, UMAP / Hierarchical t-SNE / HDBSCAN / Diffusion Maps / OPTICS / Sammon mapping / LTSA , [source](https://medium.com/@LeonFedden/comparative-audio-analysis-with-wavenet-mfccs-umap-t-sne-and-pca-cb8237bfce2f)
 - 3,    [ ] ml, add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
-- 13, 	[ ] ml, Combat bias corrector
-- 13, 	[ ] ml, PCA bias corrector
+- 13, 	[ ] ml, bias corrector class: Combat, PCA, DWD, L/S
+- 13,   [ ] ml, outlier detector/removal: isolation forest, one-class SVM, 
 - 13,   [ ] ml, add Kernel Discriminant Analysis as a non-linear feature reducer
 - x,  	[ ] ml, add measuring bias detector (multiple datasets as inputs)
 - 13, 	[ ] ml, CEBE: Cluster-enhanced extremely biased estimator
