@@ -56,7 +56,9 @@ https://blog.keras.io/building-powerful-image-classification-models-using-very-l
 # Possible collaborations
 
 Science:
-*	Dr. Jules Meijerink; principal investigator
+*   Dr. Harry Groen (Lung cancer)
+*   Dr. Casper van Eijck (Pancreas cancer)
+*	Dr. Jules Meijerink (Leukemia)
 *	Dr. Mohammed El Kebir; computational biologist 
 *	Dr. Gunnar W. Klau; computational biologist
 *	Dr. Marc Deisenroth; trust and transparancy in ML
@@ -74,8 +76,9 @@ Business angels:
 *	Fred Smulders: ingang bij Rockstart accelerator?
 
 Partners:
-*	hospitals? 
-*	government?
+* hospitals? 
+* government?
+* https://mytomorrows.com/nl/
 
 
 People:
@@ -121,6 +124,7 @@ Complexity: 1, 3, 5, 7, 13
 - x, 	[ ] Functionality; gene importance estimator and general factor importance tool: from weights, importance, variance explained to combinatoric importances (branch-wise importances)
 
 - 5     [ ] api, GEO DataSets lib integration
+- 5		[ ] api, TCGA integration
 - 7     [ ] ux, Make GEO datasets interactive
 - 7,	[ ] ux, user-friendly way to set-up pipelines
 - x     [ ] io, add support for .vcf mutation data
@@ -134,7 +138,7 @@ Complexity: 1, 3, 5, 7, 13
 
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
 - 30	[ ] ml, add Neural Conditional Random Field (NCRF)
-- 20	[ ] ml, add factorisation machines for imputance.
+- 20	[ ] ml, add factorisation machines (FM), https://github.com/aksnzhy/xlearn
 - 10	[ ] ml, Lasso, ElasticNet
 - 20	[ ] ml, add Supersparse linear integer models (SLIM) https://arxiv.org/abs/1502.04269
 - 10	[ ] ml,  feature augmentation:
@@ -167,7 +171,7 @@ Complexity: 1, 3, 5, 7, 13
 - 10, 	[ ] ml, GAN to generate cancerous genomic profiles
 - 7,	[ ] ml, UMAP / Hierarchical t-SNE / HDBSCAN / Diffusion Maps / OPTICS / Sammon mapping / LTSA , [source](https://medium.com/@LeonFedden/comparative-audio-analysis-with-wavenet-mfccs-umap-t-sne-and-pca-cb8237bfce2f)
 - 3,    [ ] ml, add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
-- 13, 	[ ] ml, bias corrector class: Combat, PCA, DWD, L/S
+- 13, 	[ ] ml, bias corrector class: COMBAT, PCA (EIGENSTRAT), DWD, L/S
 - 13,   [ ] ml, outlier detector/removal: isolation forest, one-class SVM, 
 - 13,   [ ] ml, add Kernel Discriminant Analysis as a non-linear feature reducer
 - x,  	[ ] ml, add measuring bias detector (multiple datasets as inputs)
@@ -244,6 +248,7 @@ Complexity: 1, 3, 5, 7, 13
 * add functionality for the practitioner to draw a decision plane to manually create a predictor
 * add visualisation of phenotypical manifolds in omics-space and position of patient in that space.
 * Neuro-conditional random field for tumor detection(research.baidu.com/Blog/index-view?id=104)
+* contact https://turbine.ai/: they can simulate the effect of anti-tumour medication
 
 # funds
 * WBSO https://www.ugoo.nl/wbso-subsidie/wbso-subsidiecheck/?gclid=Cj0KCQiAzfrTBRC_ARIsAJ5ps0uImsv_6m-NiWK_jod-_XaW-8exS616zNvqDH_Pojs6MayyepqhT58aAgdiEALw_wcB

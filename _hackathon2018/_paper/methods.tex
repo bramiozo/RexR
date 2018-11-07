@@ -1,0 +1,32 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2.54cm, top=3.54cm, right=2.54cm, bottom=2.54cm]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{listings}
+\usepackage{hyperref}
+
+%opening
+\title{Methods used}
+\author{Bram, Evgeny \& Sebastiaan}
+
+\begin{document}
+\section{Cohort bias removal}
+%
+We apply the following bias removal methods
+%
+\begin{itemize}
+\item L/S: cohort based normalisation $\rightarrow$ use RexR
+\item Combat: Bayesian based $\rightarrow$ use \href{http://www.bu.edu/jlab/wp-assets/ComBat/Abstract.html}{1ibrary} 
+\item PCA: removal of most important difference components $\rightarrow$ build custom
+\end{itemize}
+
+We apply the cohort bias removal to the measurement cohorts. These cohorts indicate measurement batches.
+%
+Arguably we have to apply the bias removal, per cohort, per phenotypical cluster, otherwise
+the applicability of the cohort bias removal hinges on the degree of stratification of the phenotypes.
+
+\bibliographystyle{plain}
+\bibliography{methods}
+\end{document}
