@@ -80,6 +80,8 @@ Partners:
 * government?
 * https://mytomorrows.com/nl/
 
+Comparables/competitors:
+* Precision profile: http://precisionprofiledx.squarespace.com/product-portfolio/
 
 People:
 *	(m) Tjebbe Tauber (inspiration wizard/connector)
@@ -223,6 +225,7 @@ Complexity: 1, 3, 5, 7, 13
 - 10,	[ ] viz, genome/patient clustering using [Vega](https://vega.github.io/vega/examples/edge-bundling/), [Altair](https://altair-viz.github.io/) or [D3js](https://beta.observablehq.com/@mbostock/d3-hierarchical-edge-bundling)
 - x, 	[ ] viz, add wrapper for (circos)[http://circos.ca/]
 - x,	[ ] viz, add lgbm/xgb/rf model visualisation
+- x,	[ ] viz, Datawrapper, LocalFocus, Flourish
 
 
 ## Datasets
