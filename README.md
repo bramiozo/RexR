@@ -209,7 +209,8 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] viz, add LIME/DeepLift visualisation for model explanations of neural net's (https://papers.nips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions.pdf)
 - x, 	[ ] viz, add SHAP visualisation for the model explanation of tree methods, 
 - x, 	[ ] viz, add visualisation of cumulative importance of tree branches.
-- x, 	[ ] viz, add tree interpreter ELI5 https://github.com/TeamHG-Memex/eli5
+- x, 	[ ] viz, add tree interpreter (permutation importances) ELI5 https://github.com/TeamHG-Memex/eli5
+- x,	[ ] viz, add model interpreter (shapely values) SHAP https://github.com/slundberg/shap
 - x, 	[ ] viz, add Additive feature attribution methods
 - x,    [ ] viz, model explainability: using L2X, QII and additive index models (xNN)
 - x,	[ ] viz, train simple model on complex model (GBT-> single DT regressor on proba's)

@@ -19,8 +19,6 @@ We apply the following bias removal methods
 \begin{itemize}
 \item L/S: cohort based normalisation $\rightarrow$ use RexR
 \item Combat: Bayesian based $\rightarrow$ use \href{http://www.bu.edu/jlab/wp-assets/ComBat/Abstract.html}{1ibrary} 
-\item PCA: removal of most important difference components $\rightarrow$ build custom
-\item ANOVA: 2-way 
 \end{itemize}
 
 We apply the cohort bias removal to the measurement cohorts. These cohorts indicate measurement batches.
@@ -28,10 +26,49 @@ We apply the cohort bias removal to the measurement cohorts. These cohorts indic
 Arguably we have to apply the bias removal, per cohort, per phenotypical cluster, otherwise
 the applicability of the cohort bias removal hinges on the degree of stratification of the phenotypes.
 
-\section{L/S}
-%
-Mean, median based
+For the RNA expression data we perform cohort bias removal with batch wise normalisation (ComBat in future work).
 
+For the methylation data we apply quantile normalisation (functional normalisation or BEclear in future work).
+
+To identify the cohorts that needed batch correction we compare the distribution for each cohort 
+with the distribution over all the other cohorts using FDR corrected ANOVA.
+
+\begin{itemize}
+\item distribution of the log10 of the p-values, for the FDR we use the current cohort versus the rest as the label
+\item distribution of median deviation
+\item distribution of mean, max, min 
+\item distribution of correlation values between PCA1, PCA2, PCA3
+\item plots of (PCA1, PCA2, PCA3), colored by cohort.
+\end{itemize}
+%
+
+\section{Batch wise normalisation}
+%
+L/S:
+\begin{equation}
+\mbox{Standard}\quad \mathbf{x}^*_k= \frac{\mathbf{x}_k-\overline{\mathbf{x}}_k}{\sigma_k},\quad \forall k\in \mathcal{C}
+\end{equation}
+\begin{equation}
+\mbox{Quantile}\quad \mathbf{x}^*_k= \frac{\mathbf{x}_k-median{(\mathbf{x}_k)}}{IQR_k},\quad \forall k\in \mathcal{C}
+\end{equation}
+%
+Quantile normalisation: \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minfi package $\rightarrow$ preprocessQuantile
+
+\section{Future work}
+\subsection{ComBat}
+%
+\textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ sva package $\rightarrow$ ComBat
+
+\subsection{BEclear}
+
+\textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ BEclear package $\rightarrow$ correctBatchEffect
+
+\subsection{Functional normalisation}
+
+\textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minfi package $\rightarrow$ preprocessFunnorm
+
+Most batch correction methods reduce both the cohort bias \textbf{and} the biological variance.
+Functional normalisation and BEclear 
 
 \bibliographystyle{plain}
 \bibliography{methods}
