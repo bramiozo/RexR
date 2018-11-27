@@ -52,9 +52,12 @@ L/S:
 \mbox{Quantile}\quad \mathbf{x}^*_k= \frac{\mathbf{x}_k-median{(\mathbf{x}_k)}}{IQR_k},\quad \forall k\in \mathcal{C}
 \end{equation}
 %
-Quantile normalisation: \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minfi package $\rightarrow$ preprocessQuantile
 
 \section{Future work}
+\subsection{Quantile normalisation}
+%
+Quantile normalisation: \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minfi package $\rightarrow$ preprocessQuantile
+
 \subsection{ComBat}
 %
 \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ sva package $\rightarrow$ ComBat
@@ -68,7 +71,7 @@ Quantile normalisation: \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minf
 \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minfi package $\rightarrow$ preprocessFunnorm
 
 Most batch correction methods reduce both the cohort bias \textbf{and} the biological variance.
-Functional normalisation and BEclear 
+Also, they assume \textbf{similar stratifications} over the phenotypes and it assumes \textbf{unimodality}.
 
 \bibliographystyle{plain}
 \bibliography{methods}
