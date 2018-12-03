@@ -17,7 +17,7 @@
 We apply the following bias removal methods
 %
 \begin{itemize}
-\item L/S: cohort based normalisation $\rightarrow$ use RexR
+\item L/S adjustment: cohort based normalisation $\rightarrow$ use RexR
 \item Combat: Bayesian based $\rightarrow$ use \href{http://www.bu.edu/jlab/wp-assets/ComBat/Abstract.html}{1ibrary} 
 \end{itemize}
 
@@ -44,14 +44,16 @@ with the distribution over all the other cohorts using FDR corrected ANOVA.
 
 \section{Batch wise normalisation}
 %
-L/S:
+Location and scale adjustment (L/S):
 \begin{equation}
-\mbox{Standard}\quad \mathbf{x}^*_k= \frac{\mathbf{x}_k-\overline{\mathbf{x}}_k}{\sigma_k},\quad \forall k\in \mathcal{C}
+\mbox{Standard}\quad \mathbf{x}^*_k= \frac{\mathbf{x}_k-\overline{\mathbf{x}}_k}{\sigma_k} + \overline{\mathbf{x}}_k,\quad \forall k\in \mathcal{C}
 \end{equation}
 \begin{equation}
-\mbox{Quantile}\quad \mathbf{x}^*_k= \frac{\mathbf{x}_k-median{(\mathbf{x}_k)}}{IQR_k},\quad \forall k\in \mathcal{C}
+\mbox{Quantile}\quad \mathbf{x}^*_k= \frac{\mathbf{x}_k-median{(\mathbf{x}_k)}}{IQR_k} + median{(\mathbf{x}_k)},\quad \forall k\in \mathcal{C}
 \end{equation}
 %
+
+In literate this approach might be referred to as \textit{standardisation}.
 
 \section{Future work}
 \subsection{Quantile normalisation}
@@ -60,7 +62,15 @@ Quantile normalisation: \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minf
 
 \subsection{ComBat}
 %
+A type of location and scale type adjustment method
 \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ sva package $\rightarrow$ ComBat
+
+\subsection{SVA}
+%
+A type of location and scale type adjustment method
+\textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ sva package $\rightarrow$ sva
+
+
 
 \subsection{BEclear}
 
@@ -72,6 +82,13 @@ Quantile normalisation: \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minf
 
 Most batch correction methods reduce both the cohort bias \textbf{and} the biological variance.
 Also, they assume \textbf{similar stratifications} over the phenotypes and it assumes \textbf{unimodality}.
+
+\section{Predictive factors}
+%
+How does methylation affect the RNA expression patterns per phenotype?
+
+
+
 
 \bibliographystyle{plain}
 \bibliography{methods}

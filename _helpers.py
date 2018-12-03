@@ -242,13 +242,11 @@ def _get_matrix(df, features = 'genomic', target = 'Treatment_risk_group_in_ALL1
         return x, y
 
 def _add_noise(x, noise_level = 0.01, noise_type = 'absolute'):
-    # absolute noise addition: x_ij +- noise_level
     if noise_type == 'absolute':
         x = np.random.normal(x, scale = noise_level)
-    # relative noise addition: x_ij* (1 + noise_level)
     elif noise_type == 'relative':
-        noise_level = noise_level * np.mean(x)
-        x = np.random.normal(x, scale = noise_level)
+        noise = noise_level*np.mean(x, axis=0)
+        x = np.random.normal(x, scale = noise)
     return x
 
 def _survival_matrix(df):

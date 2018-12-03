@@ -137,6 +137,7 @@ Complexity: 1, 3, 5, 7, 13
 
 - 20    [ ] ml, add multi-omic combiner class: start with concatenation-based approaches
 - 20    [ ] ml, add similarity class: intra and inter omic.
+- 20 	[ ] ml, multi-modal learner
 
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
 - 30	[ ] ml, add Neural Conditional Random Field (NCRF)
