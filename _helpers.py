@@ -265,7 +265,7 @@ def _preprocess(df, cohorts = ["cohort 1", "cohort 2", "JB", "IA", "ALL-10"], sc
             scaler = preprocessing.StandardScaler(with_mean=True, with_std=True)
         elif scaler == "minmax":
             scaler = preprocessing.MinMaxScaler()
-        elif scaler == "robust":
+        elif scaler == "robust":7
             scaler = preprocessing.RobustScaler(quantile_range=(25.0, 75.0), 
                                                     with_scaling=True, with_centering=True)
         elif scaler in ["normalizer", "normaliser"]:
