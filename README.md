@@ -16,7 +16,7 @@ Analysis methods
 * PCA, LDA, PLS, QDA, Autoencoding
 * self-organising maps
 * Hierarchical clustering
-* t-SNE, isomap, mds
+* t-SNE, isomap, mds, umap
 * affinity propagation, community detection
 * cancer similarity based on open data
 
@@ -139,6 +139,8 @@ Complexity: 1, 3, 5, 7, 13
 - 20    [ ] ml, add multi-omic combiner class: start with concatenation-based approaches
 - 20    [ ] ml, add similarity class: intra and inter omic.
 - 20 	[ ] ml, multi-modal learner
+- 10    [ ] ml, Denoising Autoencoder
+- 10	[ ] ml, Factorisation machine for imputance
 
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
 - 30	[ ] ml, add Neural Conditional Random Field (NCRF)
