@@ -33,7 +33,7 @@ Hyperlearning
 * Bayesian optimisation
 * grid search 
 * random selection 
-* successive halving
+* successive halving, hyperband
 * neural architecture searh
 * active learning -> output difficult classes and output test samples that
                           need labeling (interactive)
@@ -124,6 +124,7 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] Functionality; Image recognition
 - x,    [ ] Functionality; cancer pathway estimator
 - x, 	[ ] Functionality; gene importance estimator and general factor importance tool: from weights, importance, variance explained to combinatoric importances (branch-wise importances)
+- x, 	[ ] Functionality: Counter-factual explanations, (what-if scenario's)
 
 - 5     [ ] api, GEO DataSets lib integration
 - 5		[ ] api, TCGA integration
@@ -250,6 +251,7 @@ Complexity: 1, 3, 5, 7, 13
 * use entity linking to fetch relevant journal papers
 * build domain specific word embeddings for medical graph search
 * use Siamese neural-network to get rid of the cohort bias
+* use [Kubeflow](https://hackernoon.com/what-do-you-call-ai-without-the-boring-bits-8861760bf5e) for pipelining
 * add meta classifier: UMAP embedding+Convex hull+MSP+SVM, 
 * add meta classifier (see [Matching Nets](https://papers.nips.cc/paper/6385-matching-networks-for-one-shot-learning.pdf),
 and [Relation Networks](http://openaccess.thecvf.com/content_cvpr_2018/papers_backup/Sung_Learning_to_Compare_CVPR_2018_paper.pdf)

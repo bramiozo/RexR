@@ -51,3 +51,8 @@ Basic literature:
 * (CT 1)[https://www.lf2.cuni.cz/files/page/files/2014/basic_principles_of_ct.pdf]
 * (the heart)[https://www.imaios.com/en/e-Anatomy/Thorax-Abdomen-Pelvis/Heart-pictures]
 
+Libraries:
+- flair: https://github.com/zalandoresearch/flair
+- gensim
+- spacy
+- pattern
