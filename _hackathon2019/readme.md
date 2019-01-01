@@ -56,3 +56,28 @@ Libraries:
 - gensim
 - spacy
 - pattern
+
+# Plot and caveats, plan B to Z
+
+In the feature mining process we will be biased towards the low-hanging fruit, i.e. the statistically most 
+salient and prominent features. Due to time constraints (only two days for the mining) and due to the inherent limitations of 
+NLP in lieu of broken text and due to the fact that there is no large Dutch medical corpus available.
+
+Assuming we were succesfull in the feature mining process we construct an interpretable multi-modal model.
+
+Figures of merit:
+Sensitivity
+Specifity
+F1 score
+Positive-predictive-value
+
+The model should be interactive through a simple web interface.
+The model results should be made insightful using tools like LIME/DeepLift/SHAP/ELI5.
+
+Initially
+Liza, Faust and Raffaele are the data visualisation team
+Me, Sebastiaan en Evgeny are team ML
+
+
+*Intermediate solution*, if the resulting prediction is uncertain: There are apps/devices available for single-direction ECG measurements
+The data of this device can then be used to improve the accuracy of the predictor

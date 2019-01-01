@@ -259,6 +259,7 @@ Complexity: 1, 3, 5, 7, 13
 and [Relation Networks](http://openaccess.thecvf.com/content_cvpr_2018/papers_backup/Sung_Learning_to_Compare_CVPR_2018_paper.pdf)
 and [Prototypical Networks](https://papers.nips.cc/paper/6996-prototypical-networks-for-few-shot-learning.pdf)): SAE or UMAP embedding+class-matching (Rank correlation, similarity, Wasserstein distance or softmax of distance) with Barycentered sample. Also see [this](https://lilianweng.github.io/lil-log/2018/11/30/meta-learning.html#optimization-based) overview.
 * add MAML/Reptile to speed up learning
+* add image-caption generator to evaluate images?
 * add functionality for the practitioner to draw a decision plane to manually create a predictor
 * add visualisation of phenotypical manifolds in omics-space and position of patient in that space.
 * Neuro-conditional random field for tumor detection(research.baidu.com/Blog/index-view?id=104)
