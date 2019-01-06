@@ -12,19 +12,48 @@
 \author{Bram, Evgeny \& Sebastiaan}
 
 \begin{document}
+
+\section{Cohort bias detection}
+%
+Before we perform cohort bias removal we seek to quantify the presence of such bias.
+We have two general approaches: distribution based and pairwise similarity.
+
+Distribution based: 
+\begin{itemize}
+ \item Wasserstein metrics
+ \item Unsupervised non-parametric statistical significance test: Mann-Whitney U
+ \item Supervised non-parametric statistical significance test: FDR-ANOVA
+\end{itemize}
+%
+Two options for the application:
+1. compare cohorts per feature (or reduced dimension) (columnwise)
+2. compare cohorts per patients over the features (or reduced dimensions) (rowwise)
+
+Pairwise similarity:
+\begin{itemize}
+ \item Kullback-Leibler divergence
+ \item Distance metrics 
+\end{itemize}
+%
+Here, in general we only have on option for the application which is to compare the cohorts per inter-cohort patient-pair.\\\\
+When comparing cohorts we have choose to compare each cohort with eachother, or we can compare each cohort with the overall distribution (minus that specific cohort).
+%
+Multi-modality? 
+%
 \section{Cohort bias removal}
 %
 We apply the following bias removal methods
 %
 \begin{itemize}
 \item L/S adjustment: cohort based normalisation $\rightarrow$ use RexR
-\item Combat: Bayesian based $\rightarrow$ use \href{http://www.bu.edu/jlab/wp-assets/ComBat/Abstract.html}{1ibrary} 
+\item Quantile normalisation.
 \end{itemize}
 
 We apply the cohort bias removal to the measurement cohorts. These cohorts indicate measurement batches.
 %
 Arguably we have to apply the bias removal, per cohort, per phenotypical cluster, otherwise
 the applicability of the cohort bias removal hinges on the degree of stratification of the phenotypes.
+This is however prohibited by the sparsity of the data.
 
 For the RNA expression data we perform cohort bias removal with batch wise normalisation (ComBat in future work).
 
@@ -62,6 +91,8 @@ Quantile normalisation: \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minf
 
 \subsection{ComBat}
 %
+Combat: Bayesian based $\rightarrow$ use \href{http://www.bu.edu/jlab/wp-assets/ComBat/Abstract.html}{1ibrary} 
+
 A type of location and scale type adjustment method
 \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ sva package $\rightarrow$ ComBat
 

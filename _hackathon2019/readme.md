@@ -75,9 +75,20 @@ The model should be interactive through a simple web interface.
 The model results should be made insightful using tools like LIME/DeepLift/SHAP/ELI5.
 
 Initially
-Liza, Faust and Raffaele are the data visualisation team
+Liza, Faust and Raffaele are the data viz
 Me, Sebastiaan en Evgeny are team ML
-
 
 *Intermediate solution*, if the resulting prediction is uncertain: There are apps/devices available for single-direction ECG measurements
 The data of this device can then be used to improve the accuracy of the predictor
+
+
+- Symptoms: Difficult to extract net polarity of symptoms from short anamneses written in various styles
+- Ontologie: we have the ATC code for medication, we can use this reduce the medical history
+- Treatments: if too sparse, ignore for ML model, keep for phenotypical EDA
+- Ergometrie: estimate extraction of hart rate/wattage under load
+- Riskfactors: estimate extraction of riskfactors 
+
+
+The data quality can be much improved if cardiologists and radiologists respect an ontology and avoid ambiguity, for instance through structured anamnese/ergometric/riskfactor forms with (hierarchical dropdowns). Especially hard metrics like the hart rate versus wattage or discrete classifications/observation like ST depression are QRS widening etc.
+
+In the current setup we had to infer/guess rules for text mining which create an unnecessary source of error for the model creation.
