@@ -94,3 +94,25 @@ The data quality can be much improved if cardiologists and radiologists respect 
 
 In the current setup we had to infer/guess rules for text mining which create an unnecessary source of error for the model creation.
 
+
+## Spark MLlib
+
+We will make pipelines
+
+e.g.
+NLP
+val tokenizer = new Tokenizer()..
+val hashingTF = new HashingTF..
+val lr = new LogisticRegression..
+val pipeline = new Pipeline().setStages(Array(tokenizer, hashingTF, lr))
+val model = pipeline.fit(training)
+
+for us:
+1. data normalisation
+2. outlier removal
+3. dim reduction
+4. model selection
+5. pipeline
+6. pipeline.fit
+
+Also has a cross validator and a grid search option

@@ -45,8 +45,10 @@ Multi-modality?
 We apply the following bias removal methods
 %
 \begin{itemize}
-\item L/S adjustment: cohort based normalisation $\rightarrow$ use RexR
-\item Quantile normalisation.
+\item RNA expression data: L/S adjustment: cohort based normalisation
+\item Methylation data: Cohort quantile normalisation and Peak Based Correction (PBC)
+\item RNA data: ComBat 
+\item Methylation data: PBC and ComBat
 \end{itemize}
 
 We apply the cohort bias removal to the measurement cohorts. These cohorts indicate measurement batches.
@@ -59,8 +61,7 @@ For the RNA expression data we perform cohort bias removal with batch wise norma
 
 For the methylation data we apply quantile normalisation (functional normalisation or BEclear in future work).
 
-To identify the cohorts that needed batch correction we compare the distribution for each cohort 
-with the distribution over all the other cohorts using FDR corrected ANOVA.
+
 
 \begin{itemize}
 \item distribution of the log10 of the p-values, for the FDR we use the current cohort versus the rest as the label
@@ -88,6 +89,21 @@ In literate this approach might be referred to as \textit{standardisation}.
 \subsection{Quantile normalisation}
 %
 Quantile normalisation: \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minfi package $\rightarrow$ preprocessQuantile
+
+From Wang et al. \cite{Wang2015}: Quantile normalisation replaces the signal intensity of a probe with the mean intensity of the probes that have the same rank from all studied arrays, and thus makes the distribution of probe intensities from each array the same. We will perform this normalisation 
+on all samples, and per cohort.
+
+Methods: 
+QN  (R, (methy)lumi), 
+SQN (subset quantile normalisation)(R, wateRmelon), 
+SWAN (subset-quantile within array normalisation)(R, minfi),
+BMIQ (beta-mixture quantile normalisation)(R, wateRmelon)
+QN followed by BMIQ
+\subsection{Peak-based correction}
+%
+R, wateRmelon/ima/nimbl
+
+https://bioconductor.org/packages/devel/bioc/vignettes/funtooNorm/inst/doc/funtooNorm.pdf
 
 \subsection{ComBat}
 %
