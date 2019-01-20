@@ -5,27 +5,32 @@ to diagnose a cardial problem there are multiple diagnostic tools;
 * physiological: blood testing, red blood cell, pulsation, oedeem etc.
 * ECG (electrocardiogram), starting in the ambulance with three electrodes to the hospital with twelve electrodes
 * CT (computer tomography), 3D scan of the heart using X-rays: expensive and increases risk of cancer, limited availability
-* NMRI or SPECT imaging, super expensive, very limited availability
+* NMRI or SPECT imaging: limited availability
 
 It can occur that a patient goes through all these diagnostics and turns out be clear of cardial problems, according to the cardiologist.
-We want to detect these non-cardial problems based on all the available data *prior* to the CT and the NMRI/SPECT imaging, 
-and prior to NMRI/SPECT.
-
+We want to detect these non-cardial problems based on all the available data *prior* to the CT and the NMRI/SPECT imaging.
 
 Administrative: Every team member participating in the hackathon has to 
 * sign a non-disclosure agreement
 * participate in a UMCU introduction session of three hours: there is one every first work day of the month
 
+Request from every participant:
+* indicate availability for December 3 and willingness/ability to join the introduction session, the next on will be in January
+* indicate availability between December 3 and December 12 to mine the radiology/cardiology reports, I expect 1/2 days of work (haha)
+* read up on the use of PySpark
+* send me a list of Python libraries we think we need for the hackathon as we don't have root access they will need to install it
+
 Architecturally:
 * Hadoop stack: MapR implementation
 * Python with Jupyter notebooks
 * Distributed computing using PySpark
+..links to tutorials..
 
 Data sets:
-* phenotypical: diagnostic history; past issues and treatments
-* phenotypical: medication table; detailed list of medication, including ontology
+* clinical: diagnostic history; past issues and treatments
+* clinical: medication table; detailed list of medication, including ontology
 * measurement: ECG; pre-processed quasi-timeseries data
-* measurement: cell dynamics; the output of a cell measurement device that uses lasers and spectography (unknown what the values mean, exactly)
+* measurement: cell dynamics; the output of a cell measurement device that uses lasers and spectography
 * measurement: blood measurements; blood values for minerals/white & red bloodcells, etc.
 * descriptive: radiology reports; concise report of radiologists describing outcome of CT/SPECT or NMRI.
 * descriptive: cardiology reports; summarising report of cardiologist, including a so-called anamnese, 
@@ -36,14 +41,12 @@ Challenge 1: extracting features **and** labels from the descriptive data (the r
 Challenge 2: cleaning the non-measurement data
 Challenge 3: create predictors based on the phenotypical data and the measurement data. 
 The primary target variable is: cardial/non-cardial.
-Challenge 4: create interface for these predictors, plus create visual output.
+Challenge 4: get useful insights from the models 
+Synthesis: takeaways lessons with regard to data storage/presentation/architecture and modelling
 
-
-Request from every participant:
-* indicate availability for December 3 and willingness/ability to join the introduction session, the next on will be in January
-* indicate availability between December 3 and December 12 to mine the radiology/cardiology reports, I expect 1/2 days of work
-* read up on the use of PySpark
-* send me a list of Python libraries we think we need for the hackathon as we don't have root access they will need to install it
+Subgoals:
+* find biomarkers from the cell dynamics and lab measurement data: interact with Imo on this
+* verify hypothesis that 
 
 
 Basic literature:
@@ -51,19 +54,14 @@ Basic literature:
 * (CT 1)[https://www.lf2.cuni.cz/files/page/files/2014/basic_principles_of_ct.pdf]
 * (the heart)[https://www.imaios.com/en/e-Anatomy/Thorax-Abdomen-Pelvis/Heart-pictures]
 
-Libraries:
-- flair: https://github.com/zalandoresearch/flair
-- gensim
-- spacy
-- pattern
 
 # Plot and caveats, plan B to Z
 
 In the feature mining process we will be biased towards the low-hanging fruit, i.e. the statistically most 
-salient and prominent features. Due to time constraints (only two days for the mining) and due to the inherent limitations of 
+salient and prominent features. Due to time constraints and due to the inherent limitations of 
 NLP in lieu of broken text and due to the fact that there is no large Dutch medical corpus available.
 
-Assuming we were succesfull in the feature mining process we construct an interpretable multi-modal model.
+Assuming we are succesfull in the feature mining process we construct an interpretable multi-modal model.
 
 Figures of merit:
 Sensitivity
@@ -71,12 +69,13 @@ Specifity
 F1 score
 Positive-predictive-value
 
-The model should be interactive through a simple web interface.
-The model results should be made insightful using tools like LIME/DeepLift/SHAP/ELI5.
+The model results should be made insightful using tools like LIME/DeepLift/SHAP/ELI5/rfpimp.
 
 Initially
-Liza, Faust and Raffaele are the data viz
-Me, Sebastiaan en Evgeny are team ML
+Faust and Raffaele are in team data prep and analytics
+Sebastiaan en Evgeny are in team pipeline
+Eliza, Tjebbe en Merel are in team business
+Bram will be mostly working extracting features from the treatment/medical data 
 
 *Intermediate solution*, if the resulting prediction is uncertain: There are apps/devices available for single-direction ECG measurements
 The data of this device can then be used to improve the accuracy of the predictor. Also, using only single-lead ECG measurements an above-human 
@@ -97,22 +96,44 @@ In the current setup we had to infer/guess rules for text mining which create an
 
 ## Spark MLlib
 
-We will make pipelines
+(pyspark.ml reference)[https://spark.apache.org/docs/2.1.1/api/python/pyspark.ml.html#module-pyspark.ml]
 
-e.g.
-NLP
-val tokenizer = new Tokenizer()..
-val hashingTF = new HashingTF..
-val lr = new LogisticRegression..
-val pipeline = new Pipeline().setStages(Array(tokenizer, hashingTF, lr))
-val model = pipeline.fit(training)
+We will make (pipelines)[https://spark.apache.org/docs/2.1.3/ml-pipeline.html] like 
+
+```
+tokenizer = Tokenizer(inputCol="text", outputCol="words")
+hashingTF = HashingTF(inputCol=tokenizer.getOutputCol(), outputCol="features")
+lr = LogisticRegression(maxIter=10, regParam=0.001)
+pipeline = Pipeline(stages=[tokenizer, hashingTF, lr])
+model = pipeline.fit(training)
+```
 
 for us:
 1. data normalisation
 2. outlier removal
 3. dim reduction
-4. model selection
-5. pipeline
-6. pipeline.fit
+4. polynomial expansion
+5. model selection
+6. hyperoptimisation
 
-Also has a cross validator and a grid search option
+Spark MLlib also has a cross validator and a grid search option, check out (the pyspark reference)[https://spark.apache.org/docs/2.1.3/ml-tuning.html].
+
+Most relevant for us are:
+
+* pyspark.ml.feature.Binarizer
+* pyspark.ml.feature.Bucketizer
+* pyspark.ml.feature.OneHotEncoder
+* pyspark.ml.feature.PCA
+* pyspark.ml.feature.PolynomialExpansion
+* pyspark.ml.classification.GBTClassifier
+* pyspark.ml.classification.RandomForestClassifier
+
+
+# Spark SQL and dataframes
+
+
+# Considerations
+
+- instead of manually extraction text features from reports, rather vectorize and embed the 
+text and apply a supervised ML model on the text 
+- perform full feature engineering + modelling in one pipeline
