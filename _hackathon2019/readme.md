@@ -49,6 +49,7 @@ Subgoals:
 * verify hypothesis that 
 
 
+
 Basic literature:
 * (ECG)[https://www.theheartcheck.com/documents/ECG%20Interpretation%20Made%20Incredibly%20Easy!%20(5th%20edition).pdf]
 * (CT 1)[https://www.lf2.cuni.cz/files/page/files/2014/basic_principles_of_ct.pdf]
@@ -72,10 +73,12 @@ Positive-predictive-value
 The model results should be made insightful using tools like LIME/DeepLift/SHAP/ELI5/rfpimp.
 
 Initially
-Faust and Raffaele are in team data prep and analytics
-Sebastiaan en Evgeny are in team pipeline
-Eliza, Tjebbe en Merel are in team business
-Bram will be mostly working extracting features from the treatment/medical data 
+* Faust and Raffaele are in team data prep and analytics
+* Sebastiaan en Evgeny are in team pipeline
+* Eliza, Tjebbe en Merel are in team business
+* Bram will be mostly working on extracting features from the treatment/medical data and cardio/radio reports
+
+Please see the (Trello board)[https://trello.com/b/kSqJTqqE/rexr-project-heart] for the planning. 
 
 *Intermediate solution*, if the resulting prediction is uncertain: There are apps/devices available for single-direction ECG measurements
 The data of this device can then be used to improve the accuracy of the predictor. Also, using only single-lead ECG measurements an above-human 
@@ -131,8 +134,39 @@ Most relevant for us are:
 
 # Spark SQL and dataframes
 
+..
 
-# Considerations
+
+# Modelling architecture
+
+Two global datasets: measurement data and clinical data
+Two basic techniques to reduce data: dimension reduction (PCA) and feature reduction (FDR-ANOVA)
+Labels: CT score categories (4), MRI defects (2-..), cardial (2)
+Sample groups: 
+* A: ECG, CT + MRI/SPECT (within 100 days)
+* B: ECG, MRI/SPECT 
+* C: ECG, CT + MRI/SPECT (separated by more than 100 days)
+* D: ECG, CT 
+
+
+Basic pipeline ideas:
+* cleaning/pruning -> reduction per individual dataset -> polynomial expansion -> train 
+* cleaning/pruning -> reduction per global dataset -> polynomial expansion -> train
+
+For accuracy analysis we use $10$-fold cross-validation and for the hyperoptimisation we are 
+restricted to a grid search. 
+
+We can train a regressor on the Agatston scores to get more detailed feature dependencies.
+
+We have three models:
+* from group D we can extract the Agatston scores and the degree of stenose
+
+# After the model..
+
+* permutation scores (rfpimp), 
+* shapley scores (SHAP), 
+
+# Suggestions 
 
 - instead of manually extraction text features from reports, rather vectorize and embed the 
 text and apply a supervised ML model on the text 
