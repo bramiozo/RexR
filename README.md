@@ -167,9 +167,10 @@ Complexity: 1, 3, 5, 7, 13
 			--	PCA for variance explained --> sum (absolute) coefficients per feature
 			--  LDA for seperation explained --> sum (absolute) coefficients per feature
 			--  linear SVM/Logistic Regression: sign of importances
-			-- 	tree methods for importances
+			-- 	tree methods for importances (use permutation importances)
 
 - 1,    [ ] ml, add RFECV
+- 10,	[ ] ml, add semi-supervised module (useful in case there is unlabeled data)
 - 3, 	[ ] ml, element-wise noise addition using relative value range (n percentage of absolute value)
 - 3,	[ ] ml, add relative noise-level
 - 3,	[ ] ml, patient clustering ==> all genomes, reduced
@@ -184,6 +185,10 @@ Complexity: 1, 3, 5, 7, 13
 - 13, 	[ ] ml, CEBE: Cluster-enhanced extremely biased estimator
 - 13, 	[ ] ml, PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
 - 5,	[ ] ml, add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
+				with ICA you can find commonalities in different groups.
+
+- 20,	[ ] ml, ICA/CCA module for multi-omic feature analysis
+
 - 7, 	[ ] ml, add SOM for genome seperation
 - 10,   [ ] ml, add Occam factor function to extract approximation of model complexity
 - 3,	[ ] ml, multilayer sparse auto encoding for pre-processing and feature detection, and DAE for denoising
@@ -203,6 +208,7 @@ Complexity: 1, 3, 5, 7, 13
             , MST (Kruskal)
 
 ****
+- 3,	[ ] viz, add missing data visualizer, https://github.com/ResidentMario/missingno
 - 3, 	[ ] viz, add tree visualiser, https://github.com/parrt/dtreeviz
 - 5,	[ ] viz, add parallel coordinates to visualise 'pathways':  inflate height on dim axes by taking Hadamard power.
 - ? 	[ ] viz, visualisation of training process
@@ -247,7 +253,6 @@ Complexity: 1, 3, 5, 7, 13
 
 # future
 
-* use of PyTorch, https://eng.uber.com/pyro/
 * https://python-graph-gallery.com/405-dendrogram-with-heatmap-and-coloured-leaves/
 * search engine for medical documents: hierarchical/DT based, human-in-the-loop
 * use entity linking to fetch relevant journal papers
