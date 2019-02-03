@@ -170,6 +170,7 @@ Complexity: 1, 3, 5, 7, 13
 			-- 	tree methods for importances (use permutation importances)
 
 - 1,    [ ] ml, add RFECV
+- 30	[ ] ml/ux, add support for [Snorkel](https://towardsdatascience.com/introducing-snorkel-27e4b0e6ecff)
 - 10,	[ ] ml, add semi-supervised module (useful in case there is unlabeled data)
 - 3, 	[ ] ml, element-wise noise addition using relative value range (n percentage of absolute value)
 - 3,	[ ] ml, add relative noise-level
