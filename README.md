@@ -121,7 +121,7 @@ https://databricks.com/product/genomics
 Complexity: 1, 3, 5, 7, 13
 - x,	[ ] Functionality; cancer type detector
 - x,	[ ] Functionality; cancer phase detector
-- x,	[ ] Functionality; Image recognition
+- x,	[ ] Functionality; Image recognition, [X-ray](https://news.mit.edu/2019/mimic-chest-x-ray-database-0201), [MRI](https://openfmri.org/dataset/)
 - x,    [ ] Functionality; cancer pathway estimator
 - x, 	[ ] Functionality; gene importance estimator and general factor importance tool: from weights, importance, variance explained to combinatoric importances (branch-wise importances)
 - x, 	[ ] Functionality: Counter-factual explanations, (what-if scenario's)
@@ -164,10 +164,11 @@ Complexity: 1, 3, 5, 7, 13
 - 3,    [ ] ml, add tree-based cumulative importance threshold for top genome selection
 - 20,	[ ] ml. add significant factor extractor: 
 			--	combine Kruskal-H with MW-U/FDR/FPR
+			--  2-sided Kolmogorov-Smirnof
 			--	PCA for variance explained --> sum (absolute) coefficients per feature
 			--  LDA for seperation explained --> sum (absolute) coefficients per feature
 			--  linear SVM/Logistic Regression: sign of importances
-			-- 	tree methods for importances (use permutation importances)
+			-- 	tree methods for importances (use permutation importances (shap, rfpimp))
 
 - 1,    [ ] ml, add RFECV
 - 30	[ ] ml/ux, add support for [Snorkel](https://towardsdatascience.com/introducing-snorkel-27e4b0e6ecff)
