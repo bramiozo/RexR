@@ -9,7 +9,7 @@
 
 %opening
 \title{Methods used}
-\author{Bram, Evgeny \& Sebastiaan}
+\author{Bram}
 
 \begin{document}
 
@@ -38,17 +38,19 @@ Pairwise similarity:
 Here, in general we only have on option for the application which is to compare the cohorts per inter-cohort patient-pair.\\\\
 When comparing cohorts we have choose to compare each cohort with eachother, or we can compare each cohort with the overall distribution (minus that specific cohort).
 %
-Multi-modality? 
+Classification based:
+\begin{itemize}
+ \item separation of biological classes by batch identities
+\end{itemize}
+
 %
 \section{Cohort bias removal}
 %
-We apply the following bias removal methods
+The following bias removal methods are applied
 %
 \begin{itemize}
 \item RNA expression data: L/S adjustment: cohort based normalisation
-\item Methylation data: Cohort quantile normalisation and Peak Based Correction (PBC)
-\item RNA data: ComBat 
-\item Methylation data: PBC and ComBat
+\item Methylation data: 1. L/S adjustment & cohort based QN. 2. SQN (control probes), 3. SQN (color), 4. SQN (type)
 \end{itemize}
 
 We apply the cohort bias removal to the measurement cohorts. These cohorts indicate measurement batches.
@@ -57,12 +59,9 @@ Arguably we have to apply the bias removal, per cohort, per phenotypical cluster
 the applicability of the cohort bias removal hinges on the degree of stratification of the phenotypes.
 This is however prohibited by the sparsity of the data.
 
-For the RNA expression data we perform cohort bias removal with batch wise normalisation (ComBat in future work).
+For the RNA expression data we perform cohort bias removal with batch wise normalisation (ComBat in future work). For the methylation data we apply quantile normalisation 
 
-For the methylation data we apply quantile normalisation (functional normalisation or BEclear in future work).
-
-
-
+Results:
 \begin{itemize}
 \item distribution of the log10 of the p-values, for the FDR we use the current cohort versus the rest as the label
 \item distribution of median deviation
@@ -78,67 +77,34 @@ Location and scale adjustment (L/S):
 \begin{equation}
 \mbox{Standard}\quad \mathbf{x}^*_k= \frac{\mathbf{x}_k-\overline{\mathbf{x}}_k}{\sigma_k} + \overline{\mathbf{x}}_k,\quad \forall k\in \mathcal{C}
 \end{equation}
-\begin{equation}
-\mbox{Quantile}\quad \mathbf{x}^*_k= \frac{\mathbf{x}_k-median{(\mathbf{x}_k)}}{IQR_k} + median{(\mathbf{x}_k)},\quad \forall k\in \mathcal{C}
-\end{equation}
 %
-
-In literate this approach might be referred to as \textit{standardisation}.
-
-\section{Future work}
-\subsection{Quantile normalisation}
+In literate this approach might be referred to as \textit{standardisation}. \\ \\
 %
-Quantile normalisation: \textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minfi package $\rightarrow$ preprocessQuantile
-
 From Wang et al. \cite{Wang2015}: Quantile normalisation replaces the signal intensity of a probe with the mean intensity of the probes that have the same rank from all studied arrays, and thus makes the distribution of probe intensities from each array the same. We will perform this normalisation 
-on all samples, and per cohort.
-
+on all samples, and per cohort. \\ \\ 
+%
 Methods: 
 QN  (R, (methy)lumi), 
 SQN (subset quantile normalisation)(R, wateRmelon), 
 SWAN (subset-quantile within array normalisation)(R, minfi),
 BMIQ (beta-mixture quantile normalisation)(R, wateRmelon)
+Smoothed-QN
 QN followed by BMIQ
-\subsection{Peak-based correction}
+
+From Wang et al. \cite{Wang2015}: Quantile normalisation replaces the signal intensity of a probe with the mean intensity of the probes that have the same rank from all studied arrays, and thus makes the distribution of probe intensities from each array the same. We will perform this normalisation 
+on all samples, and per cohort.
 %
-R, wateRmelon/ima/nimbl
-
-https://bioconductor.org/packages/devel/bioc/vignettes/funtooNorm/inst/doc/funtooNorm.pdf
-
-\subsection{ComBat}
+Other methods are :
+peak-based correction (PBC), implemented R (wateRmelon/ima/nimbl). \\ 
 %
-Combat: Bayesian based $\rightarrow$ use \href{http://www.bu.edu/jlab/wp-assets/ComBat/Abstract.html}{1ibrary} 
-
-A type of location and scale type adjustment method
-\textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ sva package $\rightarrow$ ComBat
-
-\subsection{SVA}
+ComBat, Bayesian based $\rightarrow$ use \href{http://www.bu.edu/jlab/wp-assets/ComBat/Abstract.html}{1ibrary}, part of Bioconductor's sva package. \\
 %
-A type of location and scale type adjustment method
-\textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ sva package $\rightarrow$ sva
-
-
-\subsection{BEclear}
-
-\textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ BEclear package $\rightarrow$ correctBatchEffect
-
-\subsection{Functional normalisation}
-
-\textbf{R} $\rightarrow$ Bioconductor $\rightarrow$ minfi package $\rightarrow$ preprocessFunnorm
-
-Most batch correction methods reduce both the cohort bias \textbf{and} the biological variance.
-Also, they assume \textbf{similar stratifications} over the phenotypes and it assumes \textbf{unimodality}.
-
-\subsection{Concordant bias detection}
-MANCIE, combining CNV data with expression data.
+BEclear, part of Bioconductor's BEclear package. \\
+%
+Functional normalisation, part of Bioconductor's minfi package. \\
+%
+Alternatively: Concordant bias detection, MANCIE, combining CNV data with expression data.
 %https://www.nature.com/articles/ncomms11305
-
-\section{Predictive factors}
-%
-How does methylation affect the RNA expression patterns per phenotype?
-
-
-
 
 \bibliographystyle{plain}
 \bibliography{methods}

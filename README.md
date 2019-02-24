@@ -142,6 +142,7 @@ Complexity: 1, 3, 5, 7, 13
 - 10    [ ] ml, Denoising Autoencoder
 - 10	[ ] ml, Factorisation machine for imputance
 
+- 30	[ ] ml, add Graph neural networks (GrapSage, DiffPool) for multi-omic analysis, [Decagon](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf) [lit](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf)
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
 - 30	[ ] ml, add Neural Conditional Random Field (NCRF)
 - 20	[ ] ml, add factorisation machines (FM), https://github.com/aksnzhy/xlearn
