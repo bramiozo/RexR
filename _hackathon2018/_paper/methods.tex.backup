@@ -53,17 +53,17 @@ The following bias removal methods are applied
 \item Methylation data: 1. cohort correction using ComBat & cohort based QN. 2. SmoothedQN (color), 4. SubsetQN (type)/SubsetQN (islands)
 \end{itemize}
 
-We apply the cohort bias removal to the measurement cohorts. These cohorts indicate measurement batches and the cohort bias removal
-reduces any bias that is seemingly related to the cohorts. Arguably we have to apply the bias removal, per cohort, per phenotypical cluster, otherwise
-the applicability of the cohort bias removal hinges on the degree of stratification of the phenotypes. This is however prohibited by the sparsity of the data.
-The ComBat method uses a combination of L/S normalisation/scaling and empirical Bayes to assess the bias that is introduced by
-the cohort. As a reference we apply L/S, and cohort-wise QN.  \\ 
+We apply the cohort bias removal to the measurement cohorts. These cohorts indicate measurement batches.
 %
-We use the same cohort-bias correction for both the RNA expression data and the methylation data. \\ \\
-%
-Results are evaluated using:
+Arguably we have to apply the bias removal, per cohort, per phenotypical cluster, otherwise
+the applicability of the cohort bias removal hinges on the degree of stratification of the phenotypes.
+This is however prohibited by the sparsity of the data.
+
+For the RNA expression data we perform cohort bias removal with batch wise normalisation (ComBat in future work). For the methylation data we apply quantile normalisation 
+
+Results:
 \begin{itemize}
-\item distribution of the log10 of the p-values (K-S, each cohort compared to the bulk), for the FDR we use the current cohort versus the rest as the label
+\item distribution of the log10 of the p-values, for the FDR we use the current cohort versus the rest as the label
 \item distribution of median deviation
 \item distribution of mean, max, min 
 \item distribution of correlation values between PCA1, PCA2, PCA3
@@ -71,7 +71,7 @@ Results are evaluated using:
 \end{itemize}
 %
 
-\subsection{Batch wise normalisation}
+\section{Batch wise normalisation}
 %
 Location and scale adjustment (L/S):
 \begin{equation}
@@ -105,13 +105,6 @@ Functional normalisation, part of Bioconductor's minfi package. \\
 %
 Alternatively: Concordant bias detection, MANCIE, combining CNV data with expression data.
 %https://www.nature.com/articles/ncomms11305
-
-\subsection{Empirical Bayes}
-%
-
-\section{Measurement group bias correction}
-%
-
 
 \bibliographystyle{plain}
 \bibliography{methods}
