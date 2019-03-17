@@ -141,6 +141,7 @@ Complexity: 1, 3, 5, 7, 13
 - 20 	[ ] ml, multi-modal learner
 - 10    [ ] ml, Denoising Autoencoder
 - 10	[ ] ml, Factorisation machine for imputance
+- 10	[ ] ml, DeepBagNet (see Approximating CNNs with Bag-of-local-features models..)
 
 - 30	[ ] ml, add Graph neural networks (GrapSage, DiffPool) for multi-omic analysis, [Decagon](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf) [lit](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf)
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
@@ -182,6 +183,8 @@ Complexity: 1, 3, 5, 7, 13
 - 7,	[ ] ml, UMAP / Hierarchical t-SNE / HDBSCAN / Diffusion Maps / OPTICS / Sammon mapping / LTSA , [source](https://medium.com/@LeonFedden/comparative-audio-analysis-with-wavenet-mfccs-umap-t-sne-and-pca-cb8237bfce2f)
 - 3,    [ ] ml, add other decision tree methods: FACT, C4.5, QUEST, CRUISE, GUIDE
 - 13, 	[ ] ml, bias corrector class: COMBAT, PCA (EIGENSTRAT), DWD, L/S
+- 20,	[ ] ml, patient/sample similarity/clustering based bias detection
+- 13,	[ ] ml, bias detection class: between class KS/MW-U/Wasserstein/KL-divergence
 - 13,   [ ] ml, outlier detector/removal: isolation forest, one-class SVM, 
 - 13,   [ ] ml, add Kernel Discriminant Analysis as a non-linear feature reducer
 - x,  	[ ] ml, add measuring bias detector (multiple datasets as inputs)

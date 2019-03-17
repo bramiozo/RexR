@@ -1,0 +1,5 @@
+\BOOKMARK [1][-]{section.1}{Cohort bias detection}{}% 1
+\BOOKMARK [1][-]{section.2}{Cohort bias removal}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Batch wise normalisation}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Empirical Bayes}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Measurement group bias correction}{}% 5
