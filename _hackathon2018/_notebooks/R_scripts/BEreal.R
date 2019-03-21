@@ -1,12 +1,14 @@
 ##### 
-type_data <- read.table("/media/koekiemonster/DATA-FAST/genetic_expression/hackathon_2/Lung/MethylationProbeTypes.csv", 
+# /media/koekiemonster/DATA-FAST/genetic_expression/hackathon_2/Lung/
+root_folder ="~/DATA/LungCancerResearch" 
+type_data <- read.table(paste(root_folder, "MethylationProbeTypes.csv", sep=""),
                         sep="\t", header=TRUE)
 TypeI = as.character(type_data[type_data['Infinium_Design_Type']=='I', 'IlmnID'])
 TypeII = as.character(type_data[type_data['Infinium_Design_Type']=='II', 'IlmnID'])
 
 
 #####
-pheno_data <- read.table("/media/koekiemonster/DATA-FAST/genetic_expression/hackathon_2/Lung/_prepped/methylation_combat_meta_small_cont.csv",
+pheno_data <- read.table(paste(root_folder, "_prepped/methylation_combat_meta_small_cont.csv", sep=""),
                          sep="\t", header=TRUE)
 pheno_data <- as.data.frame(pheno_data)
 pheno_data <- pheno_data[!duplicated(pheno_data[[1]]),]
@@ -35,7 +37,7 @@ batch2= as.factor(pheno2$Batch)
 sample_batch_df= pheno_data[c("Array.name", "Batch")]
 names(sample_batch_df) <- c('sample_id', 'batch_id')
 #####
-full_data <- read.table("/media/koekiemonster/DATA-FAST/genetic_expression/hackathon_2/Lung/_prepped/methylation_raw_0nanmax.csv",
+full_data <- read.table(paste(root_folder, "_prepped/methylation_raw_0nanmax.csv", sep=""),
                         sep="\t", 
                         header=TRUE)
 
@@ -59,7 +61,7 @@ BEclear::correctBatchEffect(data = full_data1,
                             colBlockSize = 0, 
                             rowBlockSize = 0,
                             epochs = 5,
-                            dir = "/media/koekiemonster/DATA-FAST/genetic_expression/hackathon_2/Lung/_prepped/methylation_BEclear_noProbewiseTypeI.csv",
+                            dir = paste(root_folder, "_prepped/methylation_BEclear_noProbewiseTypeI.csv", sep=""),
                             outputFormat = 'txt')
 
 BEclear::correctBatchEffect(data = full_data2, 
@@ -69,5 +71,5 @@ BEclear::correctBatchEffect(data = full_data2,
                             colBlockSize = 0, 
                             rowBlockSize = 0,
                             epochs = 5,
-                            dir = "/media/koekiemonster/DATA-FAST/genetic_expression/hackathon_2/Lung/_prepped/methylation_BEclear_noProbewiseTypeII.csv",
+                            dir = paste(root_folder, "_prepped/methylation_BEclear_noProbewiseTypeII.csv", sep=""),
                             outputFormat = 'txt')
