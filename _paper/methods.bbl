@@ -1,5 +1,8 @@
 \begin{thebibliography}{10}
 
+\bibitem{Gokcen2002}
+
+
 \bibitem{Alter2000}
 Orly Alter, Patrick~O. Brown, and David Botstein.
 \newblock Singular value decomposition for genome-wide expression data
@@ -60,12 +63,6 @@ M.A. DePristo, E.~Banks, R.~Poplin, K.V. Garimella, J.R Maguire, C.~Hartl, A.A.
 P.~Geurts, D.~Ernst, and L.~Wehenkel.
 \newblock Extremely randomized trees.
 \newblock {\em Machine Learning}, 63(1):3--42, 2006.
-
-\bibitem{Gokcen2002}
-Ibrahim Gokcen and Jing Peng.
-\newblock Comparing linear discriminant analysis and support vector machines.
-\newblock In Tatyana Yakhno, editor, {\em Advances in Information Systems},
-  page 104–113, Berlin, Heidelberg, 2002. Springer Berlin Heidelberg.
 
 \bibitem{Johnson2007}
 W.~Evan Johnson, Cheng Li, and Ariel Rabinovic.

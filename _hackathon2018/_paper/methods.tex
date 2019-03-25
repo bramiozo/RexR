@@ -50,7 +50,7 @@ where $\gamma$ is the probe intensity and $\alpha$ (usually set to $1$) is some 
 The benefit of using M-values as opposed to Beta-values is: 
 more homoscedastic than Beta-value distributions, i.e. more suitable for application of techniques like ANOVA to compare the variances between samples, see e.g. Du et al.\cite{Du2010}.
 %
-The benefit of the Beta-value is that it has a direct biological interpretation as the \textit{percentage of methylated probes}, however the Beta-values can be directly obtained from the M-values. For this reason Du et al.\cite{Du2010} recommend the use of M-values for differential analysis and Beta-values for biological interpretation.
+The benefit of the Beta-value is that it has a direct biological interpretation as the \textit{percentage of methylated probes}, however the Beta-values can be directly obtained from the M-values. For this reason Du et al.\cite{Du2010} recommend the use of M-values for differential analysis and Beta-values for biological interpretation. 
 %
 \section{Cohort bias detection}
 %
@@ -92,22 +92,29 @@ Variation based:
 
 Is between-array normalisation even appropriate given the large variation of biological groups between the cohorts?
 According to Dedeurwaerder et al.\cite{Dedeurwaerder2014} when looking differential expressions, the loss in signal is not justified by any benefit that a between-array normalisation can incur. From the same paper it is concluded
-that RNA expression correction methods cannot be used as-is to methylation data. The problem being that the different infinium types I and II and the colors within type I are measured on different channels. Also, according 
-to Dedeurwaerder et al. batch effects can generate artifacts that only affect a subset of probes and which thus
-cannot be corrected with global correction methods. A noted exception is the ComBat\cite{Johnson2007} method as demonstrated in Leek et al.\cite{Leek2010} and Sun et al.\cite{Sun2011}.
+that RNA expression correction methods cannot be used as-is to methylation data. The problem being that the different infinium types I and II and the colors within type I are measured on different channels. Also, according to Dedeurwaerder et al. batch effects can generate artifacts that only affect a subset of probes and which thus cannot be corrected with global correction methods. A noted exception is the ComBat\cite{Johnson2007} method as demonstrated in Leek et al.\cite{Leek2010}, Sun et al.\cite{Sun2011} and
+Chen et al.\cite{Chen2011}. Nygaard et al.\cite{Nygaard2015}, i.e. a resolution would be to filter out batches that have a significantly different distribution/contribution of relevant biological/pheno types.
 \\ \\
 %
-Within-array normalisation may be justified by the notion that the genetic data may differ over the target variable in terms of the relative importance of type I/II red/green probe values. According to Dedeurwaerder et al.\cite{Dedeurwaerder2014} a Type I/II correction offers the most significant improvement. Hicks and Irizarry\cite{Hicks2014} also question the use of within-array
-normalisation depending on the nature of the global/between group variation.\\ \\
+Within-array normalisation may be justified by the notion that the genetic data may differ over the target variable in terms of the relative importance of type I/II red/green probe values. According to Dedeurwaerder et al.\cite{Dedeurwaerder2014} a Type I/II correction offers the most significant improvement. Hicks and Irizarry\cite{Hicks2014} also question the use of within-array normalisation depending on the nature of the global/between group variation.\\ \\
 %
-In subsequent papers new methods (other than ComBat) are introduced that do preserve differential expression whilst succesfully removing unwanted bias, methods such as functional normalisation and BEclear. \\ \\
+In subsequent papers new methods (other than ComBat) are introduced that do preserve differential expression whilst succesfully removing unwanted bias, methods such as Functional Normalisation, BEclear (detection followed by probe-selective imputance) 
+and MANCIE (PCA based).  \\ \\
 %
 One obvious way to avoid the need for probewise normalisation is too separate the datasets per distinct group:
-Type I color red, Type I color green and Type II, standardize per dataset, subsequently apply a cohort-bias removal method such as ComBat or BEclear. \\ \\
+Type I color red, Type I color green and Type II, standardize per dataset, subsequently apply a cohort-bias removal method such as Limma, ComBat or BEclear. \\ \\
 %
 Only apply probewise normalisation to sample groups with little variation (if at all)!
+%
+So, arguments to \textit{not} use any corrections are 
+\begin{itemize}
+ \item all types of correction (between/within arrays, PCA-based, linear models, etc.) introduce an unknown bias and may reduce true biological signals 
+ \item we can block the batches or particular probes that seem to be affected by batch effects
+ \item we can split the methylation data by probe types
+ \item for the application of correction methods it is better to use M-values because of the more homoscedastic distributions
+ \item given the large number of batches ($36$), even \textit{if} there are significant batch effects, in the aggregate they may not systematically bias the data
+\end{itemize}
 
-We can use R-quantro to verify?
 %
 Preliminaries:
 \begin{itemize}
