@@ -152,6 +152,7 @@ Results are evaluated using:
 \item plots of (UMAP1, UMAP2, UMAP3), colored by cohort and by target.
 \item clustering of (sample, sample) similarity (HDBSCAN, AP, MC)
 \item differential expression
+\item quantile-quantile plots
 \end{itemize}
 %
 
@@ -208,8 +209,21 @@ From Wang et al. \cite{Wang2015}: Quantile normalisation replaces the signal int
 As an alternative to probewise normalisation it is wiser to simply split the dataset in seperate datasets per probewise group and perform the differential analysis and classification per group: probewise normalisation can reduce the inter-group variation. \\ \\
 %
 To offset this variance reduction we can apply the probewise normalisation only to the probes that significantly separate the biological groups, say top N\% based on the KS-score. Also, we first transform the beta-values to M-values to increase the homoscedasticity.
-
+We apply Subset Quantile Normalisation by either selecting the top N\% type I probes or the (negative) reference probes;
+these reference probes then form the basis for the distribution from which we draw samples for the normalisation. Recall, that
+quantile normalisation revolves around the replacement of each rank per sample by the median rank-value of all samples (in the cohort). Instead of using the median rank-values of all samples, with SQN(see Wu and Aryee\cite{Wu2010}) we can estimate a Cumulative Distribution Function by a combination of an empirical (discrete) CDF and $k$ normal distributions as
 %
+\begin{equation*}
+ CDF = (1-w)\hat{CDF} + w\phi
+\end{equation*}
+%
+where $\phi$ is a mixture of normal distributions and $w$ and $k$ are settable parameters to control the smoothness, where Wu and Aryee advice the values $0.9$ and $5$ respectively. 
+The current implementation in R is limited to a fixed set of control probes. 
+
+Improved Sheather Jones bandwidth for multimodal KDE with Beta values mirrored around $0$ 
+and $1$ (or without mirroring but using M-values). https://github.com/tommyod/KDEpy
+
+
 \section{Methylation plus RNA expression}
 %
 We have about $60.000$ RNA expression values, and about $400.000$ methylation values, per sample.
