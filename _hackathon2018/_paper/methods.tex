@@ -19,23 +19,19 @@
 https://www.ncbi.nlm.nih.gov/pubmed/26036609
 
 between-array correction 
->0 M-values, Type I Green, Type I Red, Type II
+>0 M-values, Type I Green, Type I Red, Type II;
 <0 M-values, Type I Green, Type I Red, Type II 
 
-RNA expression:
-\begin{itemize}
- \item (between-array normalisation) L/S adjustment: no inclusion of covariants
- \item (between-array normalisation) ComBat (L/S plus empirical Bayes): inclusion of covariants using empirical Bayes
-\end{itemize}
+RNA expression: ComBat (L/S plus empirical Bayes): inclusion of covariants using non-parametric empirical Bayes. \\ \\
 %
 Methylation:
 \begin{itemize}
- \item (between-array normalisation) ComBat, BEclear
- \item (probewise normalisation) Infinium I/II correction, color-bias adjustment, background correction
+ \item (between-array normalisation): ComBat, parametric empirical Bayes, BEclear
+ \item (probewise normalisation): minfi, Infinium I/II correction, color-bias adjustment, background correction
 \end{itemize}
 %
 
-The TCGA methylation data contains pre-calculated Beta-values, where it is unknown if dye bias and background noise is removed.
+The TCGA methylation data contains pre-calculated Beta-values, where it is unknown if dye bias and background noise is removed. 
 To apply quantile normalisation we should convert the Beta-values to Methylation values. We then apply QN per type, for methylated and unmethylated, after which we re-establish the Beta-values.
 %
 The so-called M-values are determined as follows:
@@ -107,6 +103,8 @@ and MANCIE (PCA based).  \\ \\
 One obvious way to avoid the need for probewise normalisation is too separate the datasets per distinct group:
 Type I color red, Type I color green and Type II, standardize per dataset, subsequently apply a cohort-bias removal method such as Limma, ComBat or BEclear. \\ \\
 %
+We have $36$, $42$  batches for the methylation and RNA expression data respectively. There is a argument to be made for not applying between-array normalisation by virtue of a (roughly) stratification of the covariants over the batches: for the covariants give distributions per batch compared to the overall distribution.
+
 Only apply probewise normalisation to sample groups with little variation (if at all)!
 %
 So, arguments to \textit{not} use any corrections are 
@@ -177,11 +175,8 @@ In literature this approach might be referred to as \textit{standardisation}. \\
 %
 ComBat, Bayesian based $\rightarrow$ use \href{http://www.bu.edu/jlab/wp-assets/ComBat/Abstract.html}{1ibrary}, part of Bioconductor's sva package. ComBat is a supervised batch effect removal method that requires the explicit input of batches and covariants.\\
 %
-BEclear, K-S to detect bias-affected batches followed by matrix factorisation techniques to replace suspected batch affected genes in those batches. Downside of BEclear is that it does not take care of the co-variances, upside is that
-it only applies batch correction to the genes/probes that seem to have a batch effect. \\ \\
+BEclear, K-S to detect bias-affected batches followed by matrix factorisation techniques to replace suspected batch affected genes in those batches. Downside of BEclear is that it does not take care of the co-variances, upside is that it only applies batch correction to the genes/probes that seem to have a batch effect. When applying this to the methylation data we find approximately 2 million batch affected genes for type I probes and 6 million batch affected genes for type II probes. \\ \\
 % 
-RUVm, 
-
 Functional normalisation, part of Bioconductor's minfi package, function: preprocessFunnorm. An unsupervised 
 normalisation method that uses negative control probes. This method is explicitly designed for 450k methylation
 data although the idea of negative control probes can be generalised. \\ \\
@@ -191,7 +186,6 @@ Alternatively: Concordant bias detection, MANCIE, combining CNV data with expres
 %
 To reduce the effect of collinearity we remove all samples that are correlated more than $99\%$ with 
 any other sample, we also remove all NaN probe's. \\ 
-
 %
 How are the targets distributed over the batches? How do the phenotypical covariants vary within the 
 cohorts and between the cohorts? \\ \\
@@ -211,11 +205,10 @@ An alternative for methylation data is the peak-based correction (PBC). \\ \\
 %
 From Wang et al. \cite{Wang2015}: Quantile normalisation replaces the signal intensity of a probe with the mean intensity of the probes that have the same rank from all studied arrays, and thus makes the distribution of probe intensities from each array the same. We are explicitly interested in variance between the target groups, hence we are fine with probewise bias as long as it is roughly stratified over the target groups. 
 
+As an alternative to probewise normalisation it is wiser to simply split the dataset in seperate datasets per probewise group and perform the differential analysis and classification per group: probewise normalisation can reduce the inter-group variation. \\ \\
+%
+To offset this variance reduction we can apply the probewise normalisation only to the probes that significantly separate the biological groups, say top N\% based on the KS-score. Also, we first transform the beta-values to M-values to increase the homoscedasticity.
 
-
-
-As an alternative to probewise normalisation it is wiser to simply split the dataset in seperate datasets per probewise group and perform the
-differential analysis and classification per group.
 %
 \section{Methylation plus RNA expression}
 %
