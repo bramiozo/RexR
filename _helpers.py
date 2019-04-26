@@ -588,7 +588,7 @@ def _graph_markov_clustering(df):
 
 def _graph_community_detector(df, method = "SBM"):
     ## TO FINISH
-    # method: SBM, Louvain, AP
+    # method: SBM, Louvain/Leiden, AP
     # ap :http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.399.6701&rep=rep1&type=pdf, change preference and check modularity
     # maximize betweenness, modularity and group homogeneity, minimize conductance
     # https://www.youtube.com/watch?v=jIS5pZ8doH8
