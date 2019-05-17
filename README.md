@@ -145,6 +145,7 @@ Complexity: 1, 3, 5, 7, 13
 
 - 30	[ ] ml, add Graph neural networks (GrapSage, DiffPool) for multi-omic analysis, [Decagon](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf) [lit](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf)
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
+- 5     [ ] ml, add ExplainBoostingMachine ([EBM](https://github.com/microsoft/interpret))
 - 30	[ ] ml, add Neural Conditional Random Field (NCRF)
 - 20	[ ] ml, add factorisation machines (FFM) for imputance, https://github.com/aksnzhy/xlearn
 - 10	[ ] ml, Lasso, ElasticNet

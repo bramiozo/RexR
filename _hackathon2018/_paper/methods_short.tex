@@ -57,7 +57,8 @@ where the methylation is also a direct representation of the amount of methylate
 where $\gamma$ is the probe intensity and $\alpha$ (usually set to $1$) is some offset to prevent spurious behavior in case of small $\gamma$. \\ \\
 %
 The benefit of using M-values as opposed to Beta-values is: 
-more homoscedastic than Beta-value distributions, i.e. more suitable for application of techniques like ANOVA to compare the variances between samples, see e.g. Du et al.\cite{Du2010}.
+more homoscedastic than Beta-value distributions, i.e. more suitable for application of techniques
+like ANOVA to compare the variances between samples, see e.g. Du et al.\cite{Du2010}.
 %
 The benefit of the Beta-value is that it has a direct biological interpretation as the \textit{percentage of methylated probes}, however the Beta-values can be directly obtained from the M-values. For this reason Du et al.\cite{Du2010} recommend the use of M-values for differential analysis and Beta-values for biological interpretation. 
 %
@@ -260,7 +261,13 @@ based on the affected genes.
 %
 targets are: cancer type, healthy/cancerous tissue, survived/diseased, etc.
 
+\section{Suggestions}
 
+\begin{itemize}
+ \item Create ghost batches that are copies of current batches with white noise added
+ \item Create ghost batches that are copies of current batches with a bias term added
+\end{itemize}
+%
 \bibliographystyle{plain}
 \bibliography{methods}
 \end{document}
