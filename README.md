@@ -24,8 +24,9 @@ Prediction
 * ensemble learning
 * deep learning, both for classification and regression.
 * simple (but descriptive) methods: GPC, lSVM, LR etc.
-* tree-based algorithms: extraTrees, random forest, C5.0, CART, XGB, LightGBM
+* tree-based algorithms: extraTrees, random forest, C5.0, CART, XGB, LightGBM, EBM
 * novel Cluster-enhanced extremely-biased estimator (CEBE)
+* multi-omic modelling (networks/hierarchy of models)
 
 Hyperlearning
 * simulated annealing
@@ -194,7 +195,7 @@ Complexity: 1, 3, 5, 7, 13
 - 5,	[ ] ml, add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
 				with ICA you can find commonalities in different groups.
 
-- 20,	[ ] ml, ICA/CCA module for multi-omic feature analysis
+- 20,	[ ] ml, Sparse ICA/Sparse CCA/Sparse PLS/joint NMF module for multi-omic feature analysis
 - 10,	[ ] ml, polynomial expansion module for multi-omic feature combinations
 - 7, 	[ ] ml, add SOM for genome seperation
 - 10,   [ ] ml, add Occam factor function to extract approximation of model complexity
