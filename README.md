@@ -144,6 +144,7 @@ Complexity: 1, 3, 5, 7, 13
 - 10	[ ] ml, Factorisation machine for imputance
 - 10	[ ] ml, DeepBagNet (see Approximating CNNs with Bag-of-local-features models..)
 
+- 30	[ ] ml, use DeepRec for treatment recommendation
 - 30	[ ] ml, add Graph neural networks (GrapSage, DiffPool) for multi-omic analysis, [Decagon](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf) [lit](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf)
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
 - 5     [ ] ml, add ExplainBoostingMachine ([EBM](https://github.com/microsoft/interpret))
@@ -244,7 +245,7 @@ Complexity: 1, 3, 5, 7, 13
 - 10,	[ ] viz, genome/patient clustering using [Vega](https://vega.github.io/vega/examples/edge-bundling/), [Altair](https://altair-viz.github.io/) or [D3js](https://beta.observablehq.com/@mbostock/d3-hierarchical-edge-bundling)
 - x, 	[ ] viz, add wrapper for (circos)[http://circos.ca/]
 - x,	[ ] viz, add lgbm/xgb/rf model visualisation
-- x,	[ ] viz, Datawrapper, LocalFocus, Flourish
+- x,	[ ] viz, Datawrapper, LocalFocus, Flourish, Dash
 
 
 ## Datasets
