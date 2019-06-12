@@ -144,6 +144,7 @@ Complexity: 1, 3, 5, 7, 13
 - 10	[ ] ml, Factorisation machine for imputance
 - 10	[ ] ml, DeepBagNet (see Approximating CNNs with Bag-of-local-features models..)
 
+- 30    [ ] ml, Random Forest with Oblique splits (as opposed to orthogonal splits) (more accurate for numerical data)
 - 30	[ ] ml, use DeepRec for treatment recommendation
 - 30	[ ] ml, add Graph neural networks (GrapSage, DiffPool) for multi-omic analysis, [Decagon](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf) [lit](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf)
 - 5		[ ] ml, add Generalised Additive Methods (GAM)
