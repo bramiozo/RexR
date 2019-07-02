@@ -123,12 +123,12 @@ Complexity: 1, 3, 5, 7, 13
 - x,	[ ] Functionality; cancer type detector
 - x,	[ ] Functionality; cancer phase detector
 - x,	[ ] Functionality; Image recognition, [X-ray](https://news.mit.edu/2019/mimic-chest-x-ray-database-0201), [MRI](https://openfmri.org/dataset/)
-- x,    [ ] Functionality; cancer pathway estimator
+- x,    [ ] Functionality; cancer pathway estimator: Similarity Network Fusion (SNF), JNMF, Selective Cross-correlation.
 - x, 	[ ] Functionality; gene importance estimator and general factor importance tool: from weights, importance, variance explained to combinatoric importances (branch-wise importances)
 - x, 	[ ] Functionality: Counter-factual explanations, (what-if scenario's)
 
 - 5     [ ] api, GEO DataSets lib integration
-- 5		[ ] api, TCGA integration
+- 5	[ ] api, TCGA integration
 - 7     [ ] ux, Make GEO datasets interactive
 - 7,	[ ] ux, user-friendly way to set-up pipelines
 - x     [ ] io, add support for .vcf mutation data
@@ -140,6 +140,8 @@ Complexity: 1, 3, 5, 7, 13
 - 20    [ ] ml, add multi-omic combiner class: start with concatenation-based approaches
 - 20    [ ] ml, add similarity class: intra and inter omic.
 - 20 	[ ] ml, multi-modal learner
+- 10	[ ] ml, add single splitting method: split based on modes or median with simple accuracy check
+- 10 	[ ] ml, add super seperation scorer: Combine normalised Wasserstein with classical statistical tests
 - 10    [ ] ml, Denoising Autoencoder
 - 10	[ ] ml, Factorisation machine for imputance
 - 10	[ ] ml, DeepBagNet (see Approximating CNNs with Bag-of-local-features models..)
@@ -147,7 +149,7 @@ Complexity: 1, 3, 5, 7, 13
 - 30    [ ] ml, Random Forest with Oblique splits (as opposed to orthogonal splits) (more accurate for numerical data)
 - 30	[ ] ml, use DeepRec for treatment recommendation
 - 30	[ ] ml, add Graph neural networks (GrapSage, DiffPool) for multi-omic analysis, [Decagon](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf) [lit](https://cs.stanford.edu/people/jure/pubs/drugcomb-ismb18.pdf)
-- 5		[ ] ml, add Generalised Additive Methods (GAM)
+- 5	[ ] ml, add Generalised Additive Methods (GAM)
 - 5     [ ] ml, add ExplainBoostingMachine ([EBM](https://github.com/microsoft/interpret))
 - 30	[ ] ml, add Neural Conditional Random Field (NCRF)
 - 20	[ ] ml, add factorisation machines (FFM) for imputance, https://github.com/aksnzhy/xlearn
@@ -169,12 +171,12 @@ Complexity: 1, 3, 5, 7, 13
 - 3, 	[ ] ml, FDR/MW-U loop function with noise addition to get top genomes without creating a model
 - 3,    [ ] ml, add tree-based cumulative importance threshold for top genome selection
 - 20,	[ ] ml. add significant factor extractor: 
-			--	combine Kruskal-H with MW-U/FDR/FPR
-			--  2-sided Kolmogorov-Smirnof
-			--	PCA for variance explained --> sum (absolute) coefficients per feature
-			--  LDA for seperation explained --> sum (absolute) coefficients per feature
-			--  linear SVM/Logistic Regression: sign of importances
-			-- 	tree methods for importances (use permutation importances (shap, rfpimp))
+			-- combine Kruskal-H with MW-U/FDR/FPR/KS
+			-- 2-sided Kolmogorov-Smirnof
+			-- PCA for variance explained --> sum (absolute) coefficients per feature
+			-- LDA for seperation explained --> sum (absolute) coefficients per feature
+			-- linear SVM/Logistic Regression: sign of importances
+			-- tree methods for importances (use permutation importances (shap, rfpimp))
 
 - 1,    [ ] ml, add RFECV
 - 30	[ ] ml/ux, add support for [Snorkel](https://towardsdatascience.com/introducing-snorkel-27e4b0e6ecff)
@@ -203,7 +205,7 @@ Complexity: 1, 3, 5, 7, 13
 - 10,   [ ] ml, add Occam factor function to extract approximation of model complexity
 - 3,	[ ] ml, multilayer sparse auto encoding for pre-processing and feature detection, and DAE for denoising
 - x,    [ ] ml, add iCluster(?), in [R](https://cran.r-project.org/web/packages/iCluster/iCluster.pdf)
-- 5,	[ ] ml, conditional survival estimator. i.e. add a regressor, Kaplan-Meier
+- 5,	[ ] ml, conditional survival estimator. i.e. add a Bayesian/GP regressor, Kaplan-Meier 
 - 13,	[ ] ml, refactor/optimize: Cython, numba, static def's, parallelise, modularize
 - x, 	[ ] ml, add healthy patient reference routine
 - x,	[ ] ml, healthy tissue/unhealthy tissue
