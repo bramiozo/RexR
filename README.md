@@ -126,6 +126,7 @@ Complexity: 1, 3, 5, 7, 13
 - x,    [ ] Functionality; cancer pathway estimator: Similarity Network Fusion (SNF), JNMF, Selective Cross-correlation.
 - x, 	[ ] Functionality; gene importance estimator and general factor importance tool: from weights, importance, variance explained to combinatoric importances (branch-wise importances)
 - x, 	[ ] Functionality: Counter-factual explanations, (what-if scenario's)
+- x,	[ ] Functionality: survival estimator
 
 - 5     [ ] api, GEO DataSets lib integration
 - 5	[ ] api, TCGA integration
@@ -167,7 +168,7 @@ Complexity: 1, 3, 5, 7, 13
 - 3,	[ ] ml, add frequent item-set analysis: association rules, A-priori, PCY (multi-stage/hash)
 - 3,    [ ] ml, add factor analysis, gaussian random projection, sparse random projection
 - 3,    [ ] ml, add coefficient retrieval for LDA
-- 7,	[ ] ml, add hyperoptimisation routine
+- 7,	[ ] ml, add hyperoptimisation routine: succesive halving (hyperband), grid search, differential evolution (scipy), bayesian opt (optuna)
 - 3, 	[ ] ml, FDR/MW-U loop function with noise addition to get top genomes without creating a model
 - 3,    [ ] ml, add tree-based cumulative importance threshold for top genome selection
 - 20,	[ ] ml. add significant factor extractor: 
@@ -194,7 +195,8 @@ Complexity: 1, 3, 5, 7, 13
 - 13,   [ ] ml, outlier detector/removal: isolation forest, one-class SVM, 
 - 13,   [ ] ml, add Kernel Discriminant Analysis as a non-linear feature reducer
 - x,  	[ ] ml, add measuring bias detector (multiple datasets as inputs)
-- 13, 	[ ] ml, CEBE: Cluster-enhanced extremely biased estimator
+- 20, 	[ ] ml, CEBE: Cluster-enhanced extremely biased estimator
+- 20,	[ ] ml, HYCUB: Sparse hypercube probability map
 - 13, 	[ ] ml, PAM method (bioinformatics) http://statweb.stanford.edu/~tibs/PAM/
 - 5,	[ ] ml, add ICA for genome seperation, http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html
 				with ICA you can find commonalities in different groups.
