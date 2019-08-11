@@ -138,6 +138,7 @@ Complexity: 1, 3, 5, 7, 13
 - 113,	[ ] ux/io/viz, build web interface around Superset/Druid
 
 
+- 15	[ ] ml, add specific outcome uncertainty to estimate accuracy: from the validation set extract a relationship between precision and the uncertainty interval, also consider Conformal Predictions.
 - 20    [ ] ml, add multi-omic combiner class: start with concatenation-based approaches
 - 20    [ ] ml, add similarity class: intra and inter omic.
 - 20 	[ ] ml, multi-modal learner
