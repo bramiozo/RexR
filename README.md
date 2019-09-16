@@ -144,7 +144,8 @@ Complexity: 1, 3, 5, 7, 13
 - 20 	[ ] ml, multi-modal learner
 - 10	[ ] ml, add single splitting method: split based on modes or median with simple accuracy check
 - 10 	[ ] ml, add super seperation scorer: Combine normalised Wasserstein with classical statistical tests
-- 10    [ ] ml, Denoising Autoencoder
+- 10    [ ] ml, Denoising Autoencoder 
+- 10 	[ ] ml, Bayesian deep learning https://www.youtube.com/watch?v=dj-FKXxy7HQ
 - 10	[ ] ml, Factorisation machine for imputance
 - 10	[ ] ml, DeepBagNet (see Approximating CNNs with Bag-of-local-features models..)
 
