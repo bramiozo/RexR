@@ -148,6 +148,7 @@ Complexity: 1, 3, 5, 7, 13
 - 10 	[ ] ml, Bayesian deep learning https://www.youtube.com/watch?v=dj-FKXxy7HQ
 - 10	[ ] ml, Factorisation machine for imputance
 - 10	[ ] ml, DeepBagNet (see Approximating CNNs with Bag-of-local-features models..)
+- 10	[ ] ml, search for differential pairs/triplets/quartets/etc.. : (1) for each n-level prune based on variance-minimum, (2) for each n+-level prune based on minimum differential expression
 
 - 30    [ ] ml, Random Forest with Oblique splits (as opposed to orthogonal splits) (more accurate for numerical data)
 - 30	[ ] ml, use DeepRec for treatment recommendation
