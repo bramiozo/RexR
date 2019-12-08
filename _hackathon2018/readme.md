@@ -370,7 +370,7 @@ In either case, greedily collect the most important features and visualise the o
 
 Below we describe a concatenated omic integration
 1. **model based**: proba's per layer as input for a new classifier 
-2. **model based nt**: weighted average of the proba's using prediction uncertainty and CV accuracy, or majority vote
+2. **model based 2**: weighted average of the proba's using prediction uncertainty and CV accuracy, or majority vote
 3. **reduced concatenated**: merge different datasets based on most important features per sub-omic 
 4. **model-based inter-omic**: apply heuristics-based models to connect the different sub-omics
 5. **similarity-based path constructor**:  merge different sub-omics based on inter-omics similarities
