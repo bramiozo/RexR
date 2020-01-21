@@ -214,7 +214,6 @@ def classify_treatment(self, model_type='CART',
         model = Sequential()
         input_dim = x.shape[1]
         model.add(Dense(356, input_shape=(input_dim,), activation='tanh'))
-        model.add(Dense(356, input_shape=(input_dim,), activation='tanh'))
         model.add(Dense(256, activation='relu')) # relu, elu, selu, tanh, sigmoid
         model.add(Dense(256, activation='relu')) # relu, elu, selu, tanh, sigmoid
         model.add(Dropout(0.5))
