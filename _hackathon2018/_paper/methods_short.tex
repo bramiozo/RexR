@@ -299,6 +299,29 @@ A reference approach could be:
 Interesting multi-omics are: (CNV, mutation, RNA expression), (miRNA, methylation, RNA expression) and just (methylation, RNA expression).
 As methylation and RNA expression sets are by far the largest sets we will focus on these first. 
 %
+\section{Multi-omic pathways}
+%
+To effectively find pathways in multi-omic data we need to clearly constrain the idea of a pathway:
+\begin{itemize}
+ \item how are the omics connected?: are the omic features connected pairwise, can one omic feature have intra-omic connections, can one omic feature have multiple inter-omic connections
+ \item what is the directionality, if there is any?: would the pathway have a preferred direction
+ \item what are impossible connections or direction? i.e. what are hard constraints
+ \item what is the optimisation target? Is one pathway better than another pathway if it is better able to separate target groups?
+\end{itemize}
+%
+
+The questions to these answers should help in defining:
+\begin{itemize}
+ \item what are appropriate edge weights
+ \item what classifies as a good connection between omic features
+ \item should we treat intra-omic connections qualitatively different than inter-omic connection
+ \item what class of network should we construct: sparse/dense, directed/undirected
+ \item what aspect of the network are we trying to optimize
+ \item what types of cluster are we seeking
+ \item what class of network analysis algorithms do we need to get started..
+\end{itemize}
+
+%
 \section{Suggestions}
 
 To detect cohort-bias:
