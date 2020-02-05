@@ -277,6 +277,7 @@ based on the affected genes.
 
 Approaches found in literature are:
 \begin{itemize}
+ \item Similarity Network Fusion: combination of patient/feature clustering
  \item sparse ICA
  \item sparse CCA
  \item sparse MFA
@@ -297,8 +298,17 @@ A reference approach could be:
 %
 
 Interesting multi-omics are: (CNV, mutation, RNA expression), (miRNA, methylation, RNA expression) and just (methylation, RNA expression).
-As methylation and RNA expression sets are by far the largest sets we will focus on these first. 
+As methylation and RNA expression sets are by far the largest sets we will focus on these first. \\ \\
 %
+Roughly the idea of matrix factorisation techniques applied to multi-omic data means that we want to find
+common factors for multi-omic features. These common factors may then contain (parts of) the pathway. 
+You might view this as multi-modal feature clustering. Having said that, other techniques we might use are:
+\begin{itemize}
+\item Field-aware Factorisation Machines
+\item Feature Agglomeration
+\item Similarity fusion (\href{https://www.researchgate.net/publication/221299518_Unifying_user-based_and_item-based_collaborative_filtering_approaches_by_similarity_fusion}{paper})
+\end{itemize}
+
 \section{Multi-omic pathways}
 %
 To effectively find pathways in multi-omic data we need to clearly constrain the idea of a pathway:
