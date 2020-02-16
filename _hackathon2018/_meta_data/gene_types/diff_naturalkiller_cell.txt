@@ -1,0 +1,46 @@
+MGI Gene/Marker ID	Symbol	Name	Chr	Qualifier	Annotated Term	Context	Proteoform	Evidence	Inferred From	Reference(s)
+MGI:1347244	Axl	AXL receptor tyrosine kinase	7		natural killer cell differentiation			IBA	PTN002814496 	J:265628 	
+MGI:1347244	Axl	AXL receptor tyrosine kinase	7		natural killer cell differentiation	results in the differentiation of natural killer cell		IGI	MGI:104294 MGI:96965 	J:112666 	
+MGI:1347244	Axl	AXL receptor tyrosine kinase	7		positive regulation of natural killer cell differentiation			ISO	P30530 	J:164563 	
+MGI:95560	Flt3l	FMS-like tyrosine kinase 3 ligand	7		positive regulation of natural killer cell differentiation	regulates the differentiation of natural killer cell		IMP	MGI:2158499 	J:119213 	
+MGI:95660	Gas6	growth arrest specific 6	8		positive regulation of natural killer cell differentiation			ISO	Q14393 	J:164563 	
+MGI:5595882	Gm36723	predicted gene, 36723	12		natural killer cell differentiation			IMP		J:258967 	
+MGI:2384768	Hectd1	HECT domain E3 ubiquitin protein ligase 1	12		natural killer cell differentiation	happens in decidua		IMP	MGI:2137552 	J:215001 	
+MGI:98504	Hnf1a	HNF1 homeobox A	5		natural killer cell differentiation			ISO	P20823 	J:164563 	
+MGI:96397	Id2	inhibitor of DNA binding 2	12		natural killer cell differentiation	happens in bone marrow,results in the differentiation of mature natural killer cell		IGI	MGI:98510 	J:125739 	
+MGI:96397	Id2	inhibitor of DNA binding 2	12		natural killer cell differentiation	happens in bone marrow,results in the differentiation of mature natural killer cell|happens in spleen,results in the differentiation of mature natural killer cell		IMP	MGI:2384134 	J:125739 	
+MGI:1342540	Ikzf1	IKAROS family zinc finger 1	11		natural killer cell differentiation			IMP	MGI:2158738 	J:20671 	
+MGI:107426	Il11ra1	interleukin 11 receptor, alpha chain 1	4		natural killer cell differentiation	happens in uterus,results in the differentiation of natural killer cell		IMP	MGI:2177774 	J:93811 	
+MGI:103014	Il15	interleukin 15	8		positive regulation of natural killer cell differentiation	regulates the differentiation of natural killer cell		IDA		J:119213 	
+MGI:103014	Il15	interleukin 15	8		positive regulation of natural killer cell differentiation			IGI	MGI:1931086 	J:119985 	
+MGI:103014	Il15	interleukin 15	8		positive regulation of natural killer cell differentiation	regulates the differentiation of natural killer cell		IMP	MGI:2136897 	J:119213 	
+MGI:104644	Il15ra	interleukin 15 receptor, alpha chain	2		positive regulation of natural killer cell differentiation	regulates the differentiation of natural killer cell		IMP	MGI:1934016 	J:119213 	
+MGI:1890474	Il21	interleukin 21	3		positive regulation of natural killer cell differentiation	happens in bone marrow,regulates the differentiation of natural killer cell		IDA		J:88003 	
+MGI:96590	Irf1	interferon regulatory factor 1	11		positive regulation of natural killer cell differentiation			TAS		J:183979 	
+MGI:109496	Lgals9	lectin, galactose binding, soluble 9	11		regulation of natural killer cell differentiation	happens in spleen,happens in liver		IMP		J:197208 	
+MGI:96965	Mertk	MER proto-oncogene tyrosine kinase	2		natural killer cell differentiation	results in the differentiation of natural killer cell		IGI	MGI:104294 MGI:1347244 	J:112666 	
+MGI:1345092	Pglyrp1	peptidoglycan recognition protein 1	7		negative regulation of natural killer cell differentiation involved in immune response			IMP	MGI:2670590 	J:178053 	
+MGI:1928099	Pglyrp2	peptidoglycan recognition protein 2	17		negative regulation of natural killer cell differentiation involved in immune response			IMP	MGI:5297105 	J:178053 	
+MGI:2685266	Pglyrp3	peptidoglycan recognition protein 3	3		negative regulation of natural killer cell differentiation involved in immune response			IMP	MGI:5297106 	J:178053 	
+MGI:2686324	Pglyrp4	peptidoglycan recognition protein 4	3		negative regulation of natural killer cell differentiation involved in immune response			IMP	MGI:5297107 	J:178053 	
+MGI:99655	Prdm1	PR domain containing 1, with ZNF domain	10		regulation of natural killer cell differentiation			IMP		J:232474 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		natural killer cell differentiation	happens in small intestine|happens in large intestine		IMP		J:94797 	
+MGI:1314635	Rasgrp1	RAS guanyl releasing protein 1	2		positive regulation of natural killer cell differentiation			IMP		J:179434 	
+MGI:1351314	Slamf1	signaling lymphocytic activation molecule family member 1	1		natural killer cell differentiation			IMP		J:127620 	
+MGI:1353620	Slamf6	SLAM family member 6	1		natural killer cell differentiation			IMP		J:127620 	
+MGI:1277166	Sp3	trans-acting transcription factor 3	2		natural killer cell differentiation			IMP	MGI:2182438 	J:84837 	
+MGI:103036	Stat5a	signal transducer and activator of transcription 5A	11		natural killer cell differentiation			IGI	MGI:103035 	J:53400 	
+MGI:103036	Stat5a	signal transducer and activator of transcription 5A	11		positive regulation of natural killer cell differentiation	regulates the differentiation of natural killer cell		IMP	MGI:1857249 	J:112035 	
+MGI:103035	Stat5b	signal transducer and activator of transcription 5B	11		natural killer cell differentiation			IGI	MGI:103036 	J:53400 	
+MGI:103035	Stat5b	signal transducer and activator of transcription 5B	11		positive regulation of natural killer cell differentiation	regulates the differentiation of natural killer cell		IMP	MGI:2181592 	J:112035 	
+MGI:98510	Tcf3	transcription factor 3	10		natural killer cell differentiation	happens in bone marrow,results in the differentiation of mature natural killer cell		IGI	MGI:96397 	J:125739 	
+MGI:2181659	Tox	thymocyte selection-associated high mobility group box	4		natural killer cell differentiation			ISO	O94900 	J:164563 	
+MGI:2181659	Tox	thymocyte selection-associated high mobility group box	4		positive regulation of natural killer cell differentiation			IMP	MGI:3773716 	J:164687 	
+MGI:1931086	Tusc2	tumor suppressor 2, mitochondrial calcium regulator	9		natural killer cell differentiation	results in the differentiation of natural killer cell		IGI	MGI:103014 	J:119985 	
+MGI:1931086	Tusc2	tumor suppressor 2, mitochondrial calcium regulator	9		natural killer cell differentiation	happens in liver,results in the differentiation of natural killer cell|happens in bone marrow,results in the differentiation of natural killer cell|happens in spleen,results in the differentiation of natural killer cell		IMP	MGI:3706236 	J:119985 	
+MGI:104294	Tyro3	TYRO3 protein tyrosine kinase 3	2		natural killer cell differentiation	results in the differentiation of natural killer cell		IGI	MGI:1347244 MGI:96965 	J:112666 	
+MGI:2442326	Zbtb1	zinc finger and BTB domain containing 1	12		positive regulation of natural killer cell differentiation			IMP		J:189773 	
+MGI:3650254	Zfp683	zinc finger protein 683	4		natural killer cell differentiation	happens in thymus,results in the differentiation of mature NK T cell		IMP	MGI:4276801 	J:187727 	
+MGI:3650254	Zfp683	zinc finger protein 683	4		regulation of natural killer cell differentiation			IMP		J:232474 	
+MGI:3650254	Zfp683	zinc finger protein 683	4		regulation of natural killer cell differentiation involved in immune response			IMP		J:187727 	
+

@@ -1,0 +1,621 @@
+MGI Gene/Marker ID	Symbol	Name	Chr	Qualifier	Annotated Term	Context	Proteoform	Evidence	Inferred From	Reference(s)
+MGI:1924977	6030468B19Rik	RIKEN cDNA 6030468B19 gene	11		mature B cell differentiation involved in immune response			IMP		J:251374 	
+MGI:87859	Abl1	c-abl oncogene 1, non-receptor tyrosine kinase	2		B cell proliferation	affects a population of T1 B cell,happens in spleen		IMP	MGI:2153718 	J:147102 	
+MGI:87859	Abl1	c-abl oncogene 1, non-receptor tyrosine kinase	2		B cell proliferation involved in immune response	happens in bone marrow,affects a population of precursor B cell		IGI	MGI:96561 	J:28795 	
+MGI:87859	Abl1	c-abl oncogene 1, non-receptor tyrosine kinase	2		B cell proliferation involved in immune response	happens in B cell,happens in spleen		IMP	MGI:1856663 	J:34903 	
+MGI:87859	Abl1	c-abl oncogene 1, non-receptor tyrosine kinase	2		B cell proliferation involved in immune response	affects a population of B cell,happens in spleen		IMP	MGI:2153718 	J:66085 	
+MGI:87859	Abl1	c-abl oncogene 1, non-receptor tyrosine kinase	2		transitional one stage B cell differentiation	happens in spleen		IMP	MGI:2153718 	J:147102 	
+MGI:87916	Ada	adenosine deaminase	2		germinal center B cell differentiation	happens in spleen,results in the differentiation of germinal center B cell		IMP	MGI:1857117 MGI:2683027 	J:106733 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of B cell proliferation	regulates the proliferation of mature B cell		IMP	MGI:1857117 MGI:2683027 	J:106733 	
+MGI:1096335	Adam17	a disintegrin and metallopeptidase domain 17	12		B cell differentiation			IMP		J:143629 	
+MGI:1859670	Adgrg3	adhesion G protein-coupled receptor G3	8		B cell differentiation			IMP		J:222670 	
+MGI:105043	Ahr	aryl-hydrocarbon receptor	12		B cell differentiation			TAS		J:175187 	
+MGI:105043	Ahr	aryl-hydrocarbon receptor	12		regulation of B cell proliferation			ISO	P35869 	J:164563 	
+MGI:1342279	Aicda	activation-induced cytidine deaminase	6		isotype switching	happens in mature B cell		IMP		J:126758 	
+MGI:1342279	Aicda	activation-induced cytidine deaminase	6		isotype switching			IMP		J:172192 	
+MGI:1918775	Ankle1	ankyrin repeat and LEM domain containing 1	8	NOT	regulation of B cell differentiation			IMP		J:235782 	
+MGI:1919353	Aplf	aprataxin and PNKP like factor	6		regulation of isotype switching	regulates a function/process that happens in spleen,regulates a function/process that happens in B cell		IMP	MGI:4128102 	J:168260 	
+MGI:2442925	Atad5	ATPase family, AAA domain containing 5	11		B cell proliferation	affects a population of B cell		IMP	MGI:4127920 	J:230702 	
+MGI:2442925	Atad5	ATPase family, AAA domain containing 5	11		isotype switching	happens in B cell		IMP	MGI:4127920 	J:230702 	
+MGI:2442925	Atad5	ATPase family, AAA domain containing 5	11		positive regulation of B cell proliferation			IMP	MGI:4127920 	J:230702 	
+MGI:2442925	Atad5	ATPase family, AAA domain containing 5	11		positive regulation of isotype switching to IgG isotypes			IMP	MGI:4127920 	J:230702 	
+MGI:107202	Atm	ataxia telangiectasia mutated	9		negative regulation of B cell proliferation			ISO	Q13315 	J:164563 	
+MGI:107202	Atm	ataxia telangiectasia mutated	9		pre-B cell allelic exclusion			IMP		J:149451 	
+MGI:1859661	Atp11c	ATPase, class VI, type 11C	X		positive regulation of B cell differentiation			IMP		J:171924 	
+MGI:1859661	Atp11c	ATPase, class VI, type 11C	X		pre-B cell differentiation			IMP		J:171924 	
+MGI:1096330	Bad	BCL2-associated agonist of cell death	19		positive regulation of B cell differentiation			IMP	MGI:3029528 	J:88139 	
+MGI:1097161	Bak1	BCL2-antagonist/killer 1	17		B cell negative selection	has the participant B cell		IGI	MGI:99702 	J:100463 	
+MGI:2442120	Bank1	B cell scaffold protein with ankyrin repeats 1	3		B cell activation			IBA	PTN002701876 	J:265628 	
+MGI:2442120	Bank1	B cell scaffold protein with ankyrin repeats 1	3		B cell activation			ISO	Q8NDB2 	J:164563 	
+MGI:2442120	Bank1	B cell scaffold protein with ankyrin repeats 1	3		negative regulation of B cell activation			IBA	PTN002701876 	J:265628 	
+MGI:2442120	Bank1	B cell scaffold protein with ankyrin repeats 1	3		negative regulation of B cell activation			IGI	MGI:88336 	J:113321 	
+MGI:1859147	Batf	basic leucine zipper transcription factor, ATF-like	12		isotype switching			IMP		J:160935 J:172119 	
+MGI:99702	Bax	BCL2-associated X protein	7		B cell homeostatic proliferation			IMP	MGI:1857429 	J:29253 	
+MGI:99702	Bax	BCL2-associated X protein	7		B cell negative selection	has the participant B cell		IGI	MGI:1097161 	J:100463 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		B cell differentiation	happens in bone marrow		IMP	MGI:2156165 	J:38087 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		B cell differentiation	results in the differentiation of B cell		IMP	MGI:2156165 	J:73660 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		B cell lineage commitment	happens in bone marrow,results in a cell's commitment to B cell		IMP	MGI:2156165 	J:31364 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		B cell proliferation			ISO	P10415 	J:946 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		positive regulation of B cell proliferation			ISO	P10415 	J:164563 	
+MGI:88140	Bcl3	B cell leukemia/lymphoma 3	7		marginal zone B cell differentiation			IMP	MGI:1861796 	J:38092 	
+MGI:107187	Bcl6	B cell leukemia/lymphoma 6	16		B cell differentiation	results in the differentiation of B cell		IGI	MGI:88337 	J:87846 	
+MGI:107187	Bcl6	B cell leukemia/lymphoma 6	16		negative regulation of isotype switching to IgE isotypes	regulates a function/process that happens in B cell		IGI	MGI:103034 	J:57856 	
+MGI:107187	Bcl6	B cell leukemia/lymphoma 6	16		negative regulation of isotype switching to IgE isotypes	regulates a function/process that happens in B cell		IMP	MGI:2158438 	J:57856 	
+MGI:107187	Bcl6	B cell leukemia/lymphoma 6	16		positive regulation of B cell proliferation	regulates a function/process that happens in spleen lymphoid follicle		IMP	MGI:2158437 	J:40769 	
+MGI:106190	Bcl11a	B cell CLL/lymphoma 11A (zinc finger protein)	11		B cell differentiation			IMP	MGI:2663941 	J:83646 	
+MGI:96878	Blnk	B cell linker	19		B cell activation			IEA	KW-0075 	J:60000 	
+MGI:88174	Bmi1	Bmi1 polycomb ring finger oncogene	2		positive regulation of B cell proliferation			IMP		J:105559 	
+MGI:105370	Bst1	bone marrow stromal cell antigen 1	5		positive regulation of B cell proliferation			IBA	PTN000857252 	J:265628 	
+MGI:88216	Btk	Bruton agammaglobulinemia tyrosine kinase	X		B cell affinity maturation			IMP	MGI:1856317 	J:17954 	
+MGI:88216	Btk	Bruton agammaglobulinemia tyrosine kinase	X		negative regulation of B cell proliferation			IMP	MGI:1856317 	J:17954 	
+MGI:2658978	Btla	B and T lymphocyte associated	16		negative regulation of B cell proliferation			IMP	MGI:3027713 	J:84084 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		B cell differentiation			IMP	MGI:3045950 	J:84036 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		B cell proliferation			IMP	MGI:3045950 	J:84036 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		positive regulation of B cell proliferation	regulates the proliferation of B cell		IMP	MGI:3039682 	J:89322 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		regulation of B cell differentiation			IMP	MGI:3039682 	J:89322 	
+MGI:107739	Casp3	caspase 3	8		negative regulation of B cell proliferation			IMP	MGI:2178778 	J:85809 	
+MGI:1333797	Ccr6	chemokine (C-C motif) receptor 6	17		isotype switching to IgA isotypes			IMP		J:233674 	
+MGI:88319	Cd19	CD19 antigen	7		B cell proliferation involved in immune response			ISO	P15391 	J:164563 	
+MGI:88319	Cd19	CD19 antigen	7		B-1 B cell differentiation			IMP		J:27463 	
+MGI:88319	Cd19	CD19 antigen	7		regulation of B cell activation			ISO	P15391 	J:164563 	
+MGI:88322	Cd22	CD22 antigen	7		B cell activation			ISO	P20273 	J:164563 	
+MGI:88322	Cd22	CD22 antigen	7		regulation of B cell proliferation	happens in B-1 B cell,regulates a function/process that happens in B-1 B cell,happens in bone marrow|happens in B-1 B cell,regulates a function/process that happens in B-1 B cell,happens in spleen|happens in follicular B cell,regulates a function/process that happens in follicular B cell,happens in spleen|happens in marginal zone B cell,regulates a function/process that happens in marginal zone B cell,happens in spleen|happens in B-2 B cell,regulates a function/process that happens in B-2 B cell,happens in spleen|happens in B-1a B cell,regulates a function/process that happens in B-1a B cell,happens in peritoneal cavity		IGI	Q80ZE3 	J:160078 	
+MGI:88323	Cd24a	CD24a antigen	10		negative regulation of B cell proliferation	regulates the proliferation of mature B cell		IDA		J:125136 	
+MGI:88323	Cd24a	CD24a antigen	10		pre-B cell differentiation	results in the differentiation of immature B cell		IMP	MGI:2179996 	J:27374 J:76695 	
+MGI:88323	Cd24a	CD24a antigen	10		regulation of B cell differentiation	regulates the differentiation of B cell		IMP	MGI:2179996 	J:27374 	
+MGI:88323	Cd24a	CD24a antigen	10		regulation of B cell differentiation	regulates the differentiation of immature B cell		IMP	MGI:2179996 	J:76695 	
+MGI:88326	Cd27	CD27 antigen	6		B cell proliferation			NAS		J:113841 	
+MGI:88326	Cd27	CD27 antigen	6		positive regulation of B cell differentiation			IEA	IPR022328 IPR034000 	J:72247 	
+MGI:88327	Cd28	CD28 antigen	1		positive regulation of isotype switching to IgG isotypes			IMP	MGI:1857150 	J:14194 	
+MGI:107474	Cd38	CD38 antigen	5		positive regulation of B cell proliferation			IBA	PTN000857252 	J:265628 	
+MGI:107474	Cd38	CD38 antigen	5		positive regulation of B cell proliferation	regulates the proliferation of B cell		IDA		J:33466 	
+MGI:107474	Cd38	CD38 antigen	5		positive regulation of B cell proliferation			ISO	P28907 	J:164563 	
+MGI:88336	Cd40	CD40 antigen	2		B cell activation			IDA		J:87555 J:113321 	
+MGI:88336	Cd40	CD40 antigen	2		B cell activation			ISO	RGD:619830 	J:155856 	
+MGI:88336	Cd40	CD40 antigen	2		positive regulation of B cell proliferation	regulates the proliferation of B cell		IDA		J:33466 J:64603 J:75401 	
+MGI:88336	Cd40	CD40 antigen	2		positive regulation of B cell proliferation	regulates the proliferation of mature B cell		IDA		J:106733 J:125136 	
+MGI:88336	Cd40	CD40 antigen	2		positive regulation of B cell proliferation	regulates a function/process that happens in spleen,regulates the proliferation of B cell		IGI	MGI:87891 	J:103908 	
+MGI:88336	Cd40	CD40 antigen	2		positive regulation of isotype switching to IgG isotypes			IDA		J:84929 	
+MGI:88337	Cd40lg	CD40 ligand	X		B cell differentiation	results in the differentiation of B cell		IGI	MGI:96556 	J:87846 	
+MGI:88337	Cd40lg	CD40 ligand	X		B cell proliferation			ISO	P29965 	J:164563 	
+MGI:88337	Cd40lg	CD40 ligand	X		isotype switching			IDA		J:113688 	
+MGI:88337	Cd40lg	CD40 ligand	X		positive regulation of B cell proliferation			ISO	RGD:708418 	J:155856 	
+MGI:1195273	Cd70	CD70 antigen	17		B cell proliferation			ISO	P32970 	J:164563 	
+MGI:96534	Cd74	CD74 antigen (invariant polypeptide of major histocompatibility complex, class II antigen-associated)	18		positive regulation of B cell proliferation			ISO	P04233 	J:164563 	
+MGI:101774	Cd79a	CD79A antigen (immunoglobulin-associated alpha)	7		B cell activation			IMP		J:113407 	
+MGI:101774	Cd79a	CD79A antigen (immunoglobulin-associated alpha)	7		B cell differentiation			IBA	PTN000371571 	J:265628 	
+MGI:101774	Cd79a	CD79A antigen (immunoglobulin-associated alpha)	7		B cell differentiation			IMP		J:71100 J:87492 	
+MGI:101774	Cd79a	CD79A antigen (immunoglobulin-associated alpha)	7		B cell proliferation			IMP		J:113407 	
+MGI:96431	Cd79b	CD79B antigen	11		B cell differentiation			IBA	PTN000371571 	J:265628 	
+MGI:1096398	Cd81	CD81 antigen	7		positive regulation of B cell activation			IMP		J:195115 	
+MGI:1096398	Cd81	CD81 antigen	7		positive regulation of B cell proliferation			ISO	P60033 	J:164563 	
+MGI:1096398	Cd81	CD81 antigen	7		positive regulation of B cell proliferation			TAS		J:114144 	
+MGI:101773	Cd86	CD86 antigen	16		B cell activation			IDA		J:152781 	
+MGI:1194924	Cd180	CD180 antigen	13		B cell proliferation involved in immune response			IBA	PTN001223121 	J:265628 	
+MGI:1194924	Cd180	CD180 antigen	13		B cell proliferation involved in immune response	affects a population of B cell		IMP	MGI:3581654 	J:63145 	
+MGI:2443411	Cd300a	CD300A molecule	11		negative regulation of B cell proliferation			ISO	Q9UGN4 	J:164563 	
+MGI:1860083	Cd320	CD320 antigen	17		B cell costimulation			ISO	Q9NPF0 	J:164563 	
+MGI:1860083	Cd320	CD320 antigen	17		positive regulation of B cell proliferation			ISO	Q9NPF0 	J:164563 	
+MGI:1095414	Cdh17	cadherin 17	4		B cell differentiation	happens in bone marrow,happens in spleen,happens in peritoneal cavity,happens in precursor B cell,happens near plasma membrane		IMP		J:96738 	
+MGI:1095414	Cdh17	cadherin 17	4		germinal center B cell differentiation			IMP		J:96738 	
+MGI:1095414	Cdh17	cadherin 17	4		marginal zone B cell differentiation			IMP		J:96738 	
+MGI:104556	Cdkn1a	cyclin-dependent kinase inhibitor 1A (P21)	17		positive regulation of B cell proliferation			IGI	MGI:107739 	J:85809 	
+MGI:104738	Cdkn2a	cyclin dependent kinase inhibitor 2A	4		negative regulation of B cell proliferation			IMP		J:105559 	
+MGI:87888	Chrna4	cholinergic receptor, nicotinic, alpha polypeptide 4	2		B cell activation	has the participant spleen,has the participant B cell		IMP	MGI:1926251 	J:103908 	
+MGI:99779	Chrna7	cholinergic receptor, nicotinic, alpha polypeptide 7	7		B cell activation	has the participant spleen,has the participant B cell		IMP	MGI:1888407 	J:103908 	
+MGI:99779	Chrna7	cholinergic receptor, nicotinic, alpha polypeptide 7	7		B cell activation	has the participant bone marrow,has the participant B cell|has the participant spleen,has the participant B cell		IMP	MGI:1888407 	J:112766 	
+MGI:87891	Chrnb2	cholinergic receptor, nicotinic, beta polypeptide 2 (neuronal)	3		B cell activation	has the participant spleen,has the participant B cell		IMP	MGI:1926253 	J:103908 J:112766 	
+MGI:87891	Chrnb2	cholinergic receptor, nicotinic, beta polypeptide 2 (neuronal)	3		positive regulation of B cell proliferation	regulates a function/process that happens in midbrain,regulates the proliferation of dopaminergic neuron|regulates a function/process that happens in midbrain,regulates the proliferation of GABAergic neuron		IC	GO:0022848 	J:109365 	
+MGI:87891	Chrnb2	cholinergic receptor, nicotinic, beta polypeptide 2 (neuronal)	3		positive regulation of B cell proliferation	regulates a function/process that happens in spleen,regulates the proliferation of B cell		IGI	MGI:88336 	J:103908 	
+MGI:1930088	Clcf1	cardiotrophin-like cytokine factor 1	19		B cell differentiation			IDA		J:57927 	
+MGI:1930088	Clcf1	cardiotrophin-like cytokine factor 1	19		positive regulation of B cell proliferation			IBA	PTN000482584 	J:265628 	
+MGI:1930088	Clcf1	cardiotrophin-like cytokine factor 1	19		positive regulation of B cell proliferation			IDA		J:133136 	
+MGI:1930088	Clcf1	cardiotrophin-like cytokine factor 1	19		positive regulation of isotype switching to IgE isotypes			IDA		J:133136 	
+MGI:2447166	Cmtm7	CKLF-like MARVEL transmembrane domain containing 7	9		B-1a B cell differentiation			IMP		J:207033 	
+MGI:88489	Cr2	complement receptor 2	1		B cell activation			IMP	MGI:2154453 	J:73128 	
+MGI:88489	Cr2	complement receptor 2	1		B cell differentiation			ISO	P20023 	J:164563 	
+MGI:88489	Cr2	complement receptor 2	1		B cell proliferation			ISO	P20023 	J:164563 	
+MGI:88556	Ctla4	cytotoxic T-lymphocyte-associated protein 4	1		negative regulation of B cell proliferation			ISO	P16410 	J:164563 	
+MGI:1858304	Ctps	cytidine 5'-triphosphate synthase	4		B cell proliferation			ISO	P17812 	J:164563 	
+MGI:103567	Cxcr5	chemokine (C-X-C motif) receptor 5	9		B cell activation			IEA	IPR001053 	J:72247 	
+MGI:103567	Cxcr5	chemokine (C-X-C motif) receptor 5	9		B cell activation			IEA	KW-0075 	J:60000 	
+MGI:1921506	Cyld	CYLD lysine 63 deubiquitinase	8		regulation of B cell differentiation			IMP	MGI:3664438 	J:112392 	
+MGI:2445220	Dcaf1	DDB1 and CUL4 associated factor 1	9		B cell differentiation			IMP		J:181758 	
+MGI:2441769	Dclre1c	DNA cross-link repair 1C	2		B cell differentiation	results in the differentiation of B cell		IMP	MGI:2667614 	J:80995 	
+MGI:104659	Dll1	delta like canonical Notch ligand 1	17		marginal zone B cell differentiation			IMP		J:90630 J:146621 	
+MGI:1351618	Dnajb9	DnaJ heat shock protein family (Hsp40) member B9	12		B cell differentiation			IMP		J:222515 	
+MGI:2146320	Dock10	dedicator of cytokinesis 10	1		marginal zone B cell differentiation			IMP		J:238172 	
+MGI:1923224	Dock11	dedicator of cytokinesis 11	X		marginal zone B cell differentiation			IMP		J:238172 	
+MGI:1276116	Ep300	E1A binding protein p300	15		B cell differentiation			IMP	MGI:3813243 	J:140200 	
+MGI:95412	Ercc1	excision repair cross-complementing rodent repair deficiency, complementation group 1	7		isotype switching	happens in spleen,happens in B cell		IMP	MGI:2183944 	J:92471 	
+MGI:1349427	Exo1	exonuclease 1	1		isotype switching			IMP	MGI:2653925 	J:87869 	
+MGI:1913612	Exosc3	exosome component 3	4		isotype switching			IMP		J:173133 	
+MGI:1913612	Exosc3	exosome component 3	4		positive regulation of isotype switching			IMP		J:173133 	
+MGI:1919794	Exosc6	exosome component 6	8		isotype switching			IMP		J:173133 	
+MGI:1919794	Exosc6	exosome component 6	8		positive regulation of isotype switching			IMP		J:173133 	
+MGI:95484	Fas	Fas (TNF receptor superfamily member 6)	19		negative regulation of B cell activation	regulates a function/process that has the participant B cell		IMP	MGI:1856334 	J:7488 	
+MGI:95499	Fcgr2b	Fc receptor, IgG, low affinity IIb	1		negative regulation of B cell proliferation			IMP	MGI:1857166 	J:31133 	
+MGI:95499	Fcgr2b	Fc receptor, IgG, low affinity IIb	1		negative regulation of B cell proliferation	regulates the proliferation of B cell		IMP	MGI:1857166 	J:102982 	
+MGI:2442862	Fcrl1	Fc receptor-like 1	3		B cell activation			ISO	Q96LA6 	J:164563 	
+MGI:95559	Flt3	FMS-like tyrosine kinase 3	5		B cell differentiation			IBA	PTN002814388 	J:265628 	
+MGI:95559	Flt3	FMS-like tyrosine kinase 3	5		B cell differentiation			IMP		J:170520 	
+MGI:95559	Flt3	FMS-like tyrosine kinase 3	5		negative regulation of B cell differentiation			IDA		J:108330 	
+MGI:2444668	Fnip1	folliculin interacting protein 1	11		immature B cell differentiation	happens in spleen|happens in bone marrow		IMP	MGI:5437714 	J:187318 	
+MGI:1347474	Foxj1	forkhead box J1	11		negative regulation of B cell activation			IMP		J:100704 	
+MGI:1914004	Foxp1	forkhead box P1	6		pre-B cell differentiation			IMP	MGI:3711150 	J:112644 	
+MGI:1891436	Foxp3	forkhead box P3	X		negative regulation of isotype switching to IgE isotypes	regulates a function/process that happens in serum		IMP	MGI:3696705 	J:117165 	
+MGI:1891436	Foxp3	forkhead box P3	X		regulation of isotype switching to IgG isotypes	regulates a function/process that happens in serum		IMP	MGI:3696705 	J:117165 	
+MGI:1313278	Fzd9	frizzled class receptor 9	5		B cell differentiation	happens in bone marrow		IMP	MGI:3526665 	J:98133 	
+MGI:3608341	Gapt	Grb2-binding adaptor, transmembrane	13		B cell activation			IEA	KW-0075 	J:60000 	
+MGI:3608341	Gapt	Grb2-binding adaptor, transmembrane	13		B cell proliferation involved in immune response			IBA	PTN002204370 	J:265628 	
+MGI:3608341	Gapt	Grb2-binding adaptor, transmembrane	13		B cell proliferation involved in immune response			IMP	MGI:3809581 	J:138146 	
+MGI:109368	Gimap1	GTPase, IMAP family member 1	6		B cell differentiation	happens in lymph node,results in the differentiation of B cell|happens in spleen,results in the differentiation of B cell		IMP	MGI:2449947 MGI:4459837 	J:160782 	
+MGI:3701966	Gm13271	predicted gene 13271	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:3701966	Gm13271	predicted gene 13271	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:3701968	Gm13272	predicted gene 13272	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:3701968	Gm13272	predicted gene 13272	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:3701970	Gm13275	predicted gene 13275	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:3701970	Gm13275	predicted gene 13275	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:3701972	Gm13276	predicted gene 13276	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:3701972	Gm13276	predicted gene 13276	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:3701974	Gm13277	predicted gene 13277	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:3701974	Gm13277	predicted gene 13277	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:3649573	Gm13283	predicted gene 13283	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:3649573	Gm13283	predicted gene 13283	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:1917579	Gon4l	gon-4-like (C.elegans)	3		B cell differentiation			IMP	MGI:4829629 	J:163412 	
+MGI:2442034	Gpr183	G protein-coupled receptor 183	14		B cell activation involved in immune response			IBA	PTN001201724 	J:265628 	
+MGI:2442034	Gpr183	G protein-coupled receptor 183	14		mature B cell differentiation involved in immune response			IMP		J:151077 	
+MGI:2442034	Gpr183	G protein-coupled receptor 183	14		positive regulation of B cell proliferation			IDA		J:186017 	
+MGI:2442034	Gpr183	G protein-coupled receptor 183	14		positive regulation of B cell proliferation			ISO	P32249 	J:164563 	
+MGI:1891751	Gps2	G protein pathway suppressor 2	11		B cell differentiation			IMP		J:240887 	
+MGI:103070	H2-Ab1	histocompatibility 2, class II antigen A, beta 1	17		B cell affinity maturation			IDA		J:169911 	
+MGI:1333784	Hdac5	histone deacetylase 5	11		B cell activation			TAS		J:113927 	
+MGI:1333784	Hdac5	histone deacetylase 5	11		B cell differentiation			TAS		J:113927 	
+MGI:1891835	Hdac7	histone deacetylase 7	15		B cell activation			TAS		J:113927 	
+MGI:1891835	Hdac7	histone deacetylase 7	15		B cell differentiation			TAS		J:113927 	
+MGI:1931221	Hdac9	histone deacetylase 9	12		B cell activation			TAS		J:113927 	
+MGI:1931221	Hdac9	histone deacetylase 9	12		B cell differentiation			TAS		J:113927 	
+MGI:2671382	hem1	haematopoietic 1	11		B cell differentiation			IMP	MGI:3818728 	J:141377 	
+MGI:96086	Hhex	hematopoietically expressed homeobox	19		B cell differentiation	results in the differentiation of B cell		IMP	MGI:2449914 	J:81415 	
+MGI:1098219	Hmgb3	high mobility group box 3	X		negative regulation of B cell differentiation			IDA		J:84890 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		B cell activation			ISO	P10809 	J:164563 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		B cell proliferation			ISO	P10809 	J:164563 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		isotype switching to IgG isotypes			ISO	P10809 	J:164563 	
+MGI:1354701	Icosl	icos ligand	10		B cell activation			IEA	KW-0075 	J:60000 	
+MGI:1354701	Icosl	icos ligand	10		isotype switching			NAS		J:87124 	
+MGI:96397	Id2	inhibitor of DNA binding 2	12		negative regulation of B cell differentiation	happens in bone marrow,regulates the differentiation of B cell|happens in spleen,regulates the differentiation of B cell|happens in thymus,regulates the differentiation of B cell		IMP	MGI:2384134 	J:138413 	
+MGI:107668	Ifna1	interferon alpha 1	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:107668	Ifna1	interferon alpha 1	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:107666	Ifna2	interferon alpha 2	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:107666	Ifna2	interferon alpha 2	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:107664	Ifna4	interferon alpha 4	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:107664	Ifna4	interferon alpha 4	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:107663	Ifna5	interferon alpha 5	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:107663	Ifna5	interferon alpha 5	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:107662	Ifna6	interferon alpha 6	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:107662	Ifna6	interferon alpha 6	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:107661	Ifna7	interferon alpha 7	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:107661	Ifna7	interferon alpha 7	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:107659	Ifna9	interferon alpha 9	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:107659	Ifna9	interferon alpha 9	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:109210	Ifna11	interferon alpha 11	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:109210	Ifna11	interferon alpha 11	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:2676324	Ifna12	interferon alpha 12	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:2676324	Ifna12	interferon alpha 12	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:2667155	Ifna13	interferon alpha 13	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:2667155	Ifna13	interferon alpha 13	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:3641425	Ifna14	interferon alpha 14	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:3641425	Ifna14	interferon alpha 14	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:3649418	Ifna15	interferon alpha 15	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:3649418	Ifna15	interferon alpha 15	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:3649260	Ifna16	interferon alpha 16	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:3649260	Ifna16	interferon alpha 16	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:1097683	Ifnab	interferon alpha B	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:1097683	Ifnab	interferon alpha B	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:107657	Ifnb1	interferon beta 1, fibroblast	4		B cell activation involved in immune response			ISO	P01574 	J:164563 	
+MGI:107657	Ifnb1	interferon beta 1, fibroblast	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:107657	Ifnb1	interferon beta 1, fibroblast	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:107657	Ifnb1	interferon beta 1, fibroblast	4		B cell proliferation			IMP		J:86527 	
+MGI:2667156	Ifne	interferon epsilon	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:2667156	Ifne	interferon epsilon	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:107656	Ifng	interferon gamma	10		positive regulation of isotype switching to IgG isotypes			IDA		J:84929 	
+MGI:2683287	Ifnk	interferon kappa	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:2683287	Ifnk	interferon kappa	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:2448469	Ifnz	interferon zeta	4		B cell differentiation			IBA	PTN000914537 	J:265628 	
+MGI:2448469	Ifnz	interferon zeta	4		B cell differentiation			IDA		J:81257 	
+MGI:2448469	Ifnz	interferon zeta	4		B cell proliferation			IBA	PTN000914537 	J:265628 	
+MGI:1346500	Igbp1	immunoglobulin (CD79A) binding protein 1	X		B cell activation			IEA	KW-0075 	J:60000 	
+MGI:1354380	Igbp1b	immunoglobulin (CD79A) binding protein 1b	6		B cell activation			IEA	KW-0075 	J:60000 	
+MGI:96444	Igha	immunoglobulin heavy constant alpha	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:96447	Ighd	immunoglobulin heavy constant delta	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:96447	Ighd	immunoglobulin heavy constant delta	12		positive regulation of B cell proliferation	regulates the proliferation of B cell		IDA		J:33466 	
+MGI:2685746	Ighe	Immunoglobulin heavy constant epsilon	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:2144967	Ighg	Immunoglobulin heavy chain (gamma polypeptide)	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:96446	Ighg1	immunoglobulin heavy constant gamma 1 (G1m marker)	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:96443	Ighg2a	immunoglobulin heavy constant gamma 2A	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:96443	Ighg2a	immunoglobulin heavy constant gamma 2A	12		positive regulation of B cell activation			IDA		J:88531 	
+MGI:96445	Ighg2b	immunoglobulin heavy constant gamma 2B	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:2686979	Ighg2c	immunoglobulin heavy constant gamma 2C	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:2144790	Ighg3	Immunoglobulin heavy constant gamma 3	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:96448	Ighm	immunoglobulin heavy constant mu	12		B cell affinity maturation			IMP	MGI:2447178 	J:49405 	
+MGI:96448	Ighm	immunoglobulin heavy constant mu	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:96448	Ighm	immunoglobulin heavy constant mu	12		positive regulation of B cell activation			IDA		J:60916 J:88531 	
+MGI:96448	Ighm	immunoglobulin heavy constant mu	12		positive regulation of B cell activation	regulates a function/process that happens in B cell		IDA		J:30239 	
+MGI:96448	Ighm	immunoglobulin heavy constant mu	12		positive regulation of B cell proliferation			IDA		J:31133 J:60916 	
+MGI:96448	Ighm	immunoglobulin heavy constant mu	12		positive regulation of B cell proliferation	regulates the proliferation of B cell		IDA		J:33466 J:42368 J:64603 J:91914 	
+MGI:96448	Ighm	immunoglobulin heavy constant mu	12		positive regulation of B cell proliferation	regulates the proliferation of mature B cell		IDA		J:106733 	
+MGI:4439618	Ighv1-4	immunoglobulin heavy variable 1-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3704121	Ighv1-5	immunoglobulin heavy variable V1-5	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3704122	Ighv1-7	immunoglobulin heavy variable V1-7	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439621	Ighv1-9	immunoglobulin heavy variable V1-9	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:5009835	Ighv1-11	immunoglobulin heavy variable V1-11	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3646284	Ighv1-12	immunoglobulin heavy variable V1-12	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439782	Ighv1-15	immunoglobulin heavy variable 1-15	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3647704	Ighv1-16	immunoglobulin heavy variable 1-16	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439780	Ighv1-18	immunoglobulin heavy variable V1-18	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439779	Ighv1-19	immunoglobulin heavy variable V1-19	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3644607	Ighv1-20	immunoglobulin heavy variable V1-20	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439784	Ighv1-22	immunoglobulin heavy variable 1-22	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3815050	Ighv1-23	immunoglobulin heavy variable V1-23	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3815052	Ighv1-24	immunoglobulin heavy variable V1-24	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439641	Ighv1-26	immunoglobulin heavy variable 1-26	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439889	Ighv1-31	immunoglobulin heavy variable 1-31	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439659	Ighv1-34	immunoglobulin heavy variable 1-34	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439639	Ighv1-36	immunoglobulin heavy variable 1-36	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439640	Ighv1-37	immunoglobulin heavy variable 1-37	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439888	Ighv1-39	immunoglobulin heavy variable 1-39	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3704123	Ighv1-42	immunoglobulin heavy variable V1-42	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3704124	Ighv1-43	immunoglobulin heavy variable V1-43	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439890	Ighv1-47	immunoglobulin heavy variable 1-47	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439754	Ighv1-49	immunoglobulin heavy variable 1-49	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439753	Ighv1-50	immunoglobulin heavy variable 1-50	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439752	Ighv1-52	immunoglobulin heavy variable 1-52	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3576502	Ighv1-53	immunoglobulin heavy variable 1-53	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3647133	Ighv1-54	immunoglobulin heavy variable V1-54	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439716	Ighv1-55	immunoglobulin heavy variable 1-55	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439715	Ighv1-56	immunoglobulin heavy variable 1-56	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439557	Ighv1-58	immunoglobulin heavy variable 1-58	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3644474	Ighv1-59	immunoglobulin heavy variable V1-59	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439824	Ighv1-61	immunoglobulin heavy variable 1-61	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3704125	Ighv1-62-1	immunoglobulin heavy variable 1-62-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3644968	Ighv1-62-2	immunoglobulin heavy variable 1-62-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3648544	Ighv1-62-3	immunoglobulin heavy variable 1-62-3	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3642755	Ighv1-63	immunoglobulin heavy variable V1-63	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439789	Ighv1-64	immunoglobulin heavy variable 1-64	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439825	Ighv1-66	immunoglobulin heavy variable 1-66	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3645228	Ighv1-67	immunoglobulin heavy variable V1-67	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439632	Ighv1-69	immunoglobulin heavy variable 1-69	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439633	Ighv1-72	immunoglobulin heavy variable 1-72	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439634	Ighv1-74	immunoglobulin heavy variable V1-74	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439735	Ighv1-75	immunoglobulin heavy variable 1-75	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439737	Ighv1-76	immunoglobulin heavy variable 1-76	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439670	Ighv1-77	immunoglobulin heavy variable 1-77	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439736	Ighv1-78	immunoglobulin heavy variable 1-78	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439738	Ighv1-80	immunoglobulin heavy variable 1-80	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439635	Ighv1-81	immunoglobulin heavy variable 1-81	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439671	Ighv1-82	immunoglobulin heavy variable 1-82	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3644235	Ighv1-84	immunoglobulin heavy variable 1-84	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3645723	Ighv1-85	immunoglobulin heavy variable 1-85	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439894	Ighv2-2	immunoglobulin heavy variable 2-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439872	Ighv2-3	immunoglobulin heavy variable 2-3	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3643263	Ighv2-4	immunoglobulin heavy variable V2-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439517	Ighv2-5	immunoglobulin heavy variable 2-5	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439518	Ighv2-6	immunoglobulin heavy variable 2-6	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439811	Ighv2-6-8	immunoglobulin heavy variable 2-6-8	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439521	Ighv2-7	immunoglobulin heavy variable 2-7	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439624	Ighv2-9	immunoglobulin heavy variable 2-9	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439519	Ighv2-9-1	immunoglobulin heavy variable 2-9-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439534	Ighv3-1	immunoglobulin heavy variable 3-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3643949	Ighv3-3	immunoglobulin heavy variable V3-3	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3644034	Ighv3-4	immunoglobulin heavy variable V3-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3648045	Ighv3-5	immunoglobulin heavy variable 3-5	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439856	Ighv3-6	immunoglobulin heavy variable 3-6	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3645298	Ighv3-8	immunoglobulin heavy variable V3-8	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439536	Ighv4-1	immunoglobulin heavy variable 4-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439893	Ighv5-2	immunoglobulin heavy variable 5-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439895	Ighv5-4	immunoglobulin heavy variable 5-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439815	Ighv5-6	immunoglobulin heavy variable 5-6	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439873	Ighv5-9	immunoglobulin heavy variable 5-9	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439810	Ighv5-9-1	immunoglobulin heavy variable 5-9-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439516	Ighv5-12	immunoglobulin heavy variable 5-12	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3645977	Ighv5-12-4	immunoglobulin heavy variable 5-12-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439812	Ighv5-15	immunoglobulin heavy variable 5-15	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439556	Ighv5-16	immunoglobulin heavy variable 5-16	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439533	Ighv5-17	immunoglobulin heavy variable 5-17	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439854	Ighv6-3	immunoglobulin heavy variable 6-3	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3704120	Ighv6-4	immunoglobulin heavy variable V6-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3647134	Ighv6-5	immunoglobulin heavy variable V6-5	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439619	Ighv6-6	immunoglobulin heavy variable 6-6	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3644477	Ighv6-7	immunoglobulin heavy variable V6-7	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439623	Ighv7-2	immunoglobulin heavy variable 7-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439763	Ighv7-4	immunoglobulin heavy variable 7-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3647474	Ighv8-2	immunoglobulin heavy variable V8-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3646040	Ighv8-4	immunoglobulin heavy variable V8-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3645478	Ighv8-5	immunoglobulin heavy variable V8-5	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3645823	Ighv8-6	immunoglobulin heavy variable V8-6	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3815333	Ighv8-8	immunoglobulin heavy variable 8-8	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3644475	Ighv8-9	immunoglobulin heavy variable V8-9	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3644925	Ighv8-11	immunoglobulin heavy variable V8-11	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3642873	Ighv8-12	immunoglobulin heavy variable V8-12	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439734	Ighv8-13	immunoglobulin heavy variable 8-13	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439911	Ighv9-1	immunoglobulin heavy variable 9-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3643816	Ighv9-2	immunoglobulin heavy variable V9-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3642720	Ighv9-3	immunoglobulin heavy variable V9-3	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3646379	Ighv9-4	immunoglobulin heavy variable 9-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439620	Ighv10-1	immunoglobulin heavy variable 10-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3648785	Ighv10-3	immunoglobulin heavy variable V10-3	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439535	Ighv11-1	immunoglobulin heavy variable 11-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4947968	Ighv11-2	immunoglobulin heavy variable V11-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3646760	Ighv12-3	immunoglobulin heavy variable V12-3	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3705861	Ighv13-2	immunoglobulin heavy variable 13-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439920	Ighv14-1	immunoglobulin heavy variable 14-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439607	Ighv14-2	immunoglobulin heavy variable 14-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439764	Ighv14-3	immunoglobulin heavy variable V14-3	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4439765	Ighv14-4	immunoglobulin heavy variable 14-4	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4947963	Ighv15-2	immunoglobulin heavy variable V15-2	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:3643819	Ighv16-1	immunoglobulin heavy variable 16-1	12		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:96495	Igkc	immunoglobulin kappa constant	6		B cell differentiation			IMP	MGI:3624131 	J:108003 	
+MGI:96495	Igkc	immunoglobulin kappa constant	6		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:99546	Iglc1	immunoglobulin lambda constant 1	16		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:99547	Iglc2	immunoglobulin lambda constant 2	16		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:99886	Iglc3	immunoglobulin lambda constant 3	16		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:96529	Igll1	immunoglobulin lambda-like polypeptide 1	16		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:1342540	Ikzf1	IKAROS family zinc finger 1	11		B cell differentiation			IMP		J:190693 	
+MGI:1342540	Ikzf1	IKAROS family zinc finger 1	11		B cell differentiation			IMP	MGI:2158738 	J:20671 	
+MGI:1342542	Ikzf3	IKAROS family zinc finger 3	11		B cell activation			IEA	KW-0075 	J:60000 	
+MGI:1342542	Ikzf3	IKAROS family zinc finger 3	11		regulation of B cell differentiation			IMP		J:50626 	
+MGI:1342542	Ikzf3	IKAROS family zinc finger 3	11		regulation of B cell proliferation			IMP		J:50626 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of B cell proliferation			ISO	P60568 	J:40789 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of isotype switching to IgG isotypes			IMP	MGI:1857191 	J:39989 	
+MGI:96551	Il2rg	interleukin 2 receptor, gamma chain	X		positive regulation of B cell differentiation	happens in spleen,regulates the differentiation of B cell		IMP	MGI:2429736 	J:42537 	
+MGI:96556	Il4	interleukin 4	11		B cell activation			IEA	KW-0075 	J:60000 	
+MGI:96556	Il4	interleukin 4	11		B cell costimulation			IDA		J:141184 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of B cell activation			IDA		J:62630 J:100706 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of B cell activation	regulates a function/process that happens in B cell		IDA		J:30239 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of B cell proliferation	regulates the proliferation of B cell		IDA		J:64603 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of B cell proliferation	regulates the proliferation of mature B cell		IDA		J:106733 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of isotype switching to IgE isotypes	regulates a function/process that happens in B cell		IDA		J:88910 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of isotype switching to IgG isotypes			IDA		J:84929 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of isotype switching to IgG isotypes	regulates a function/process that happens in B cell		IDA		J:88910 	
+MGI:96557	Il5	interleukin 5	11		positive regulation of B cell proliferation			ISO	RGD:2900 	J:155856 	
+MGI:96559	Il6	interleukin 6	5		positive regulation of B cell activation			ISO	P05231 	J:164563 	
+MGI:96561	Il7	interleukin 7	3		positive regulation of B cell differentiation			IDA		J:111910 	
+MGI:96561	Il7	interleukin 7	3		positive regulation of B cell proliferation			IDA		J:85809 	
+MGI:96561	Il7	interleukin 7	3		positive regulation of B cell proliferation	happens in bone marrow,regulates the proliferation of precursor B cell		IGI	MGI:87859 	J:28795 	
+MGI:96562	Il7r	interleukin 7 receptor	15		B cell proliferation			IGI	MGI:98936 MGI:98937 	J:99189 	
+MGI:96562	Il7r	interleukin 7 receptor	15		B cell proliferation			IMP	MGI:1857198 	J:99189 	
+MGI:96537	Il10	interleukin 10	1		negative regulation of B cell proliferation			ISO	P22301 	J:40789 	
+MGI:96541	Il13	interleukin 13	11		positive regulation of B cell proliferation			ISO	RGD:68949 	J:155856 	
+MGI:1890474	Il21	interleukin 21	3		positive regulation of B cell differentiation			NAS		J:93740 	
+MGI:1890474	Il21	interleukin 21	3		positive regulation of B cell proliferation			ISO	Q9HBE4 	J:73065 	
+MGI:1355318	Il27ra	interleukin 27 receptor, alpha	8		regulation of isotype switching to IgG isotypes			IMP	MGI:3525439 	J:65439 	
+MGI:107357	Inpp5d	inositol polyphosphate-5-phosphatase D	1		negative regulation of B cell activation			IMP	MGI:2386884 	J:60916 	
+MGI:107357	Inpp5d	inositol polyphosphate-5-phosphatase D	1		negative regulation of B cell proliferation			IMP	MGI:2386884 	J:60916 	
+MGI:107357	Inpp5d	inositol polyphosphate-5-phosphatase D	1		positive regulation of B cell differentiation			IMP	MGI:2386884 	J:48193 J:60916 	
+MGI:2443921	Irf2bp2	interferon regulatory factor 2 binding protein 2	8		immature B cell differentiation			ISO	Q7Z5L9 	J:164563 	
+MGI:109334	Irs2	insulin receptor substrate 2	8		positive regulation of B cell proliferation			IDA		J:161023 	
+MGI:1915450	Itfg2	integrin alpha FG-GAP repeat containing 2	6		germinal center B cell differentiation			IMP	MGI:4235940 	J:205951 	
+MGI:107706	Itm2a	integral membrane protein 2A	X		plasma cell differentiation	happens near spleen		IMP	MGI:5645968 	J:217351 	
+MGI:99928	Jak3	Janus kinase 3	8		B cell differentiation			IBA	PTN000700628 	J:265628 	
+MGI:99928	Jak3	Janus kinase 3	8		B cell differentiation			IMP		J:112031 	
+MGI:96677	Kit	KIT proto-oncogene receptor tyrosine kinase	5		B cell differentiation			IBA	PTN002814378 	J:265628 	
+MGI:96677	Kit	KIT proto-oncogene receptor tyrosine kinase	5		immature B cell differentiation			IMP		J:89602 	
+MGI:2444557	Kmt5b	lysine methyltransferase 5B	19		positive regulation of isotype switching			IMP		J:280470 	
+MGI:2385262	Kmt5c	lysine methyltransferase 5C	7		positive regulation of isotype switching			IMP		J:280470 	
+MGI:1926479	Lat2	linker for activation of T cells family, member 2	5		B cell activation			ISO	Q9GZY6 	J:164563 	
+MGI:1926479	Lat2	linker for activation of T cells family, member 2	5		B cell activation			ISS	Q9GZY6 	J:121605 	
+MGI:2443362	Lax1	lymphocyte transmembrane adaptor 1	1		B cell activation			ISO	Q8IWV1 	J:164563 	
+MGI:96770	Lef1	lymphoid enhancer binding factor 1	3		B cell proliferation			IBA	PTN000042972 	J:265628 	
+MGI:96770	Lef1	lymphoid enhancer binding factor 1	3		B cell proliferation	affects a population of pro-B cell		IMP	MGI:1926601 	J:63678 	
+MGI:1095413	Lfng	LFNG O-fucosylpeptide 3-beta-N-acetylglucosaminyltransferase	5		marginal zone B cell differentiation			IMP		J:146621 	
+MGI:96777	Lgals1	lectin, galactose binding, soluble 1	15		plasma cell differentiation	happens in spleen,results in the differentiation of B cell		IDA		J:179160 	
+MGI:1928481	Lgals8	lectin, galactose binding, soluble 8	13		plasma cell differentiation	happens in spleen,results in the differentiation of B cell		IDA		J:179160 	
+MGI:1335098	Lig4	ligase IV, DNA, ATP-dependent	8		isotype switching	happens in mature B cell		IMP	MGI:1857732 	J:126758 	
+MGI:96891	Lyl1	lymphoblastomic leukemia 1	8		B cell differentiation			IMP		J:116300 	
+MGI:96892	Lyn	LYN proto-oncogene, Src family tyrosine kinase	4		negative regulation of B cell proliferation			IBA	PTN000701011 	J:265628 	
+MGI:96892	Lyn	LYN proto-oncogene, Src family tyrosine kinase	4		negative regulation of B cell proliferation			IMP		J:42037 	
+MGI:1919140	Mad2l2	MAD2 mitotic arrest deficient-like 2	4		positive regulation of isotype switching			ISO	Q9UI95 	J:164563 	
+MGI:2445027	Malt1	MALT1 paracaspase	18		B cell activation			IBA	PTN000501872 	J:265628 	
+MGI:2445027	Malt1	MALT1 paracaspase	18		B cell activation			IMP	MGI:2684761 	J:86770 	
+MGI:2445027	Malt1	MALT1 paracaspase	18		B-1 B cell differentiation			IMP	MGI:3639305 	J:109545 	
+MGI:99458	Mef2c	myocyte enhancer factor 2C	13		B cell proliferation			IMP		J:136292 	
+MGI:99458	Mef2c	myocyte enhancer factor 2C	13		positive regulation of B cell proliferation			IMP		J:144071 	
+MGI:1095404	Mfng	MFNG O-fucosylpeptide 3-beta-N-acetylglucosaminyltransferase	15		marginal zone B cell differentiation			IMP		J:146621 	
+MGI:96982	Mif	macrophage migration inhibitory factor (glycosylation-inhibiting factor)	10		positive regulation of B cell proliferation			ISO	P14174 	J:164563 	
+MGI:3619065	Mir17	microRNA 17	14		pre-B cell differentiation	results in the differentiation of precursor B cell		IGI	MGI:2676844 MGI:2676872 MGI:3618743 MGI:3629917 MGI:3629918 	J:134861 	
+MGI:2676844	Mir18	microRNA 18	14		pre-B cell differentiation	results in the differentiation of precursor B cell		IGI	MGI:2676872 MGI:3618743 MGI:3619065 MGI:3629917 MGI:3629918 	J:134861 	
+MGI:3618743	Mir19a	microRNA 19a	14		pre-B cell differentiation	results in the differentiation of precursor B cell		IGI	MGI:2676844 MGI:2676872 MGI:3619065 MGI:3629917 MGI:3629918 	J:134861 	
+MGI:3629917	Mir19b-1	microRNA 19b-1	14		pre-B cell differentiation			IGI	MGI:2676844 MGI:2676872 MGI:3618743 MGI:3619065 MGI:3629918 	J:134861 	
+MGI:2676872	Mir20a	microRNA 20a	14		pre-B cell differentiation	results in the differentiation of precursor B cell		IGI	MGI:2676844 MGI:3618743 MGI:3619065 MGI:3629917 MGI:3629918 	J:134861 	
+MGI:3629918	Mir92-1	microRNA 92-1	14		pre-B cell differentiation	results in the differentiation of precursor B cell		IGI	MGI:2676844 MGI:2676872 MGI:3618743 MGI:3619065 MGI:3629917 	J:134861 	
+MGI:2676835	Mir150	microRNA 150	7		regulation of B cell differentiation			IMP	MGI:3763431 	J:127324 	
+MGI:3618735	Mir181b-1	microRNA 181b-1	1		regulation of isotype switching			IDA		J:141184 	
+MGI:3618736	Mir181b-2	microRNA 181b-2	2		regulation of isotype switching			IDA		J:141184 	
+MGI:101938	Mlh1	mutL homolog 1	9		isotype switching			IMP	MGI:1857946 	J:83489 	
+MGI:101938	Mlh1	mutL homolog 1	9		positive regulation of isotype switching to IgA isotypes	happens in spleen,happens in B cell		IMP		J:56764 	
+MGI:101938	Mlh1	mutL homolog 1	9		positive regulation of isotype switching to IgG isotypes	happens in spleen,happens in B cell		IMP		J:56764 	
+MGI:101900	Mmp14	matrix metallopeptidase 14 (membrane-inserted)	14		positive regulation of B cell differentiation			IMP		J:173235 	
+MGI:88321	Ms4a1	membrane-spanning 4-domains, subfamily A, member 1	19		B cell activation			ISO	P11836 	J:164563 	
+MGI:88321	Ms4a1	membrane-spanning 4-domains, subfamily A, member 1	19		B cell differentiation			ISO	P11836 	J:164563 	
+MGI:101816	Msh2	mutS homolog 2	17		B cell differentiation			IMP	MGI:1858055 	J:48834 	
+MGI:101816	Msh2	mutS homolog 2	17		isotype switching			IMP	MGI:1857940 	J:83489 	
+MGI:101816	Msh2	mutS homolog 2	17		isotype switching			IMP	MGI:2151801 	J:56764 	
+MGI:101816	Msh2	mutS homolog 2	17		positive regulation of isotype switching to IgA isotypes	happens in spleen,happens in B cell		IMP		J:56764 	
+MGI:101816	Msh2	mutS homolog 2	17		positive regulation of isotype switching to IgG isotypes	happens in spleen,happens in B cell		IMP		J:56764 	
+MGI:1343961	Msh6	mutS homolog 6	17		isotype switching			IGI	MGI:109352 	J:125031 	
+MGI:1343961	Msh6	mutS homolog 6	17		isotype switching	happens in lymphocyte		IMP	MGI:3653701 	J:110906 	
+MGI:97249	Myb	myeloblastosis oncogene	10		B cell differentiation			IMP	MGI:3047076 	J:127324 	
+MGI:1917066	Mzb1	marginal zone B and B1 cell-specific protein 1	18		regulation of B cell proliferation			IBA	PTN001040490 	J:265628 	
+MGI:1917066	Mzb1	marginal zone B and B1 cell-specific protein 1	18		regulation of B cell proliferation			IMP		J:167004 	
+MGI:1351625	Nbn	nibrin	4		isotype switching			IDA		J:96104 	
+MGI:1926063	Nckap1l	NCK associated protein 1 like	15		positive regulation of B cell differentiation			IMP		J:141377 	
+MGI:1926063	Nckap1l	NCK associated protein 1 like	15		positive regulation of B cell proliferation			ISO	P55160 	J:164563 	
+MGI:1929601	Ndfip1	Nedd4 family interacting protein 1	18		negative regulation of isotype switching to IgE isotypes			IMP	MGI:3695433 	J:116617 	
+MGI:1929601	Ndfip1	Nedd4 family interacting protein 1	18		regulation of isotype switching to IgG isotypes			IMP	MGI:3695433 	J:116617 	
+MGI:1921289	Nfam1	Nfat activating molecule with ITAM motif 1	15		B cell differentiation			IMP		J:90684 	
+MGI:1921289	Nfam1	Nfat activating molecule with ITAM motif 1	15		regulation of B cell differentiation	regulates the differentiation of B cell		IDA		J:90684 	
+MGI:102469	Nfatc1	nuclear factor of activated T cells, cytoplasmic, calcineurin dependent 1	18		B-1a B cell differentiation			IMP	MGI:2181762 	J:86543 	
+MGI:102463	Nfatc2	nuclear factor of activated T cells, cytoplasmic, calcineurin dependent 2	2		positive regulation of B cell proliferation			ISO	Q13469 	J:164563 	
+MGI:1922820	Nhej1	non-homologous end joining factor 1	1		B cell differentiation			ISO	Q9H9Q4 	J:164563 	
+MGI:1922820	Nhej1	non-homologous end joining factor 1	1		B cell differentiation			ISS	Q9H9Q4 	J:116419 	
+MGI:97348	Nkx2-3	NK2 homeobox 3	19		B cell differentiation			IMP	MGI:2448069 	J:82729 	
+MGI:97348	Nkx2-3	NK2 homeobox 3	19		plasma cell differentiation			IMP	MGI:2448069 	J:64018 	
+MGI:2429397	Nod2	nucleotide-binding oligomerization domain containing 2	8		positive regulation of B cell activation			ISO	Q9HC29 	J:164563 	
+MGI:97364	Notch2	notch 2	3		marginal zone B cell differentiation			IMP		J:146621 	
+MGI:1276574	Nsd2	nuclear receptor binding SET domain protein 2	5		positive regulation of isotype switching to IgA isotypes			IMP		J:191725 	
+MGI:97383	Ntrk1	neurotrophic tyrosine kinase, receptor, type 1	3		B cell differentiation	results in the differentiation of B cell		IMP	MGI:3505767 	J:93578 	
+MGI:1196423	Onecut1	one cut domain, family member 1	9		B cell differentiation	happens in liver		IMP	MGI:2179340 	J:120667 	
+MGI:1914528	Pagr1a	PAXIP1 associated glutamate rich protein 1A	7		positive regulation of isotype switching to IgG isotypes			IMP		J:229465 	
+MGI:1891258	Parp3	poly (ADP-ribose) polymerase family, member 3	9		negative regulation of isotype switching			IMP		J:274078 	
+MGI:2149961	Pawr	PRKC, apoptosis, WT1, regulator	10		negative regulation of B cell proliferation			IMP	MGI:2678021 	J:85495 	
+MGI:1890430	Paxip1	PAX interacting (with transcription-activation domain) protein 1	5		positive regulation of isotype switching			IMP		J:163258 	
+MGI:1890430	Paxip1	PAX interacting (with transcription-activation domain) protein 1	5		positive regulation of isotype switching to IgG isotypes			IMP		J:229465 	
+MGI:2443003	Pcid2	PCI domain containing 2	8		positive regulation of B cell differentiation			IMP		J:166080 	
+MGI:1914495	Peli1	pellino 1	11		positive regulation of B cell activation			IMP	MGI:4361448 	J:152781 	
+MGI:1914495	Peli1	pellino 1	11		positive regulation of B cell proliferation			IMP	MGI:4361448 	J:152781 	
+MGI:1914449	Pfdn1	prefoldin 1	18		B cell activation	has the participant B cell		IMP	MGI:3800373 	J:137415 	
+MGI:1098211	Pik3cd	phosphatidylinositol-4,5-bisphosphate 3-kinase catalytic subunit delta	4		B cell activation			IMP	MGI:2388047 	J:79133 	
+MGI:97583	Pik3r1	phosphoinositide-3-kinase regulatory subunit 1	13		B cell differentiation			IMP	MGI:2149414 	J:52576 	
+MGI:108022	Pkn1	protein kinase N1	8		negative regulation of B cell proliferation			IMP	MGI:5475202 	J:193187 	
+MGI:97616	Plcg2	phospholipase C, gamma 2	8		B cell differentiation			IMP		J:63744 	
+MGI:97616	Plcg2	phospholipase C, gamma 2	8		follicular B cell differentiation	results in the differentiation of follicular B cell		IMP	MGI:2386100 	J:86373 	
+MGI:1352756	Plcl2	phospholipase C-like 2	17		B cell proliferation involved in immune response			IMP	MGI:2679632 	J:85960 	
+MGI:1352756	Plcl2	phospholipase C-like 2	17		B-1a B cell differentiation			IMP	MGI:2679632 	J:85960 	
+MGI:104288	Pms2	PMS1 homolog2, mismatch repair system component	5		positive regulation of isotype switching to IgA isotypes	happens in spleen,happens in B cell		IGI	Q9JK91 	J:56764 	
+MGI:104288	Pms2	PMS1 homolog2, mismatch repair system component	5		positive regulation of isotype switching to IgA isotypes	happens in spleen,happens in B cell		IMP		J:56764 	
+MGI:104288	Pms2	PMS1 homolog2, mismatch repair system component	5		positive regulation of isotype switching to IgG isotypes	happens in spleen,happens in B cell		IGI	Q9JK91 	J:56764 	
+MGI:104288	Pms2	PMS1 homolog2, mismatch repair system component	5		positive regulation of isotype switching to IgG isotypes	happens in spleen,happens in B cell		IMP		J:56764 	
+MGI:97365	Pnp	purine-nucleoside phosphorylase	14		positive regulation of B cell differentiation	regulates the differentiation of B cell		IMP	MGI:2386195 	J:62870 	
+MGI:1860191	Polm	polymerase (DNA directed), mu	11		B cell differentiation			IMP	MGI:2179233 	J:97782 	
+MGI:97588	Pou1f1	POU domain, class 1, transcription factor 1	16		B cell differentiation	happens in bone marrow,results in the differentiation of B cell		IMP	MGI:1856024 	J:110683 	
+MGI:101897	Pou2f2	POU domain, class 2, transcription factor 2	7		mature B cell differentiation	happens in spleen,results in the differentiation of mature B cell		IMP	MGI:3028896 	J:4555 	
+MGI:1930009	Ppp2r3c	protein phosphatase 2, regulatory subunit B'', gamma	12		positive regulation of B cell differentiation			IBA	PTN000949378 	J:265628 	
+MGI:1930009	Ppp2r3c	protein phosphatase 2, regulatory subunit B'', gamma	12		positive regulation of B cell differentiation			IMP	MGI:3759678 	J:100706 	
+MGI:1930009	Ppp2r3c	protein phosphatase 2, regulatory subunit B'', gamma	12		regulation of B cell activation			IMP	MGI:3759678 	J:100706 	
+MGI:99655	Prdm1	PR domain containing 1, with ZNF domain	10		negative regulation of B cell proliferation		PR:Q60636-1	IDA		J:143410 	
+MGI:99655	Prdm1	PR domain containing 1, with ZNF domain	10		negative regulation of B cell proliferation		PR:Q60636-2	IDA		J:143410 	
+MGI:99655	Prdm1	PR domain containing 1, with ZNF domain	10		positive regulation of B cell differentiation		PR:Q60636-1	IDA		J:143410 	
+MGI:99655	Prdm1	PR domain containing 1, with ZNF domain	10	NOT	positive regulation of B cell differentiation		PR:Q60636-2	IDA		J:143410 	
+MGI:97596	Prkcb	protein kinase C, beta	7		B cell activation			IMP		J:109151 	
+MGI:97598	Prkcd	protein kinase C, delta	14		B cell proliferation			IMP	MGI:2179710 	J:76135 	
+MGI:104779	Prkdc	protein kinase, DNA activated, catalytic polypeptide	16		B cell lineage commitment	happens in thymus,results in a cell's commitment to B cell|happens in bone marrow,results in a cell's commitment to B cell|happens in spleen,results in a cell's commitment to B cell		IMP	MGI:1857113 	J:31364 	
+MGI:104908	Ptk2b	PTK2 protein tyrosine kinase 2 beta	14		marginal zone B cell differentiation			IMP		J:63286 	
+MGI:97806	Ptpn2	protein tyrosine phosphatase, non-receptor type 2	18		B cell differentiation			IMP		J:42595 	
+MGI:96055	Ptpn6	protein tyrosine phosphatase, non-receptor type 6	6		regulation of B cell differentiation	regulates the differentiation of B cell		IMP	MGI:1856074 	J:42368 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		B cell differentiation	is upstream of B cell receptor signaling pathway		IMP		J:131736 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		B cell differentiation	happens in small intestine		IMP		J:94797 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		B cell differentiation			IMP	MGI:1857277 	J:33466 J:84808 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		B cell differentiation	results in the differentiation of B cell		IMP	MGI:2181288 	J:42368 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		B cell proliferation			IMP		J:13163 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive regulation of B cell proliferation	regulates the proliferation of B cell		IMP	MGI:1857277 	J:33466 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive regulation of B cell proliferation			IMP	MGI:2181288 	J:37640 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive regulation of B cell proliferation	regulates the proliferation of B cell		IMP	MGI:2181288 	J:30239 J:42368 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive regulation of B cell proliferation			ISO	P08575 	J:164563 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive regulation of isotype switching to IgG isotypes			IMP	MGI:2181288 	J:37640 	
+MGI:104574	Ptprj	protein tyrosine phosphatase, receptor type, J	2		B cell differentiation	is upstream of B cell receptor signaling pathway		IMP		J:131736 	
+MGI:97848	Rag1	recombination activating 1	2		B cell differentiation			IDA		J:76135 	
+MGI:97848	Rag1	recombination activating 1	2		B cell differentiation			IMP		J:1934 	
+MGI:97848	Rag1	recombination activating 1	2		pre-B cell allelic exclusion			IBA	PTN002610391 	J:265628 	
+MGI:97848	Rag1	recombination activating 1	2		pre-B cell allelic exclusion			IMP		J:149451 	
+MGI:97849	Rag2	recombination activating gene 2	2		B cell differentiation			IMP		J:1934 J:1935 	
+MGI:97849	Rag2	recombination activating gene 2	2		B cell differentiation			IMP	MGI:1858556 	J:121045 	
+MGI:97849	Rag2	recombination activating gene 2	2		B cell differentiation	results in the differentiation of B cell		IMP	MGI:1858556 	J:76489 	
+MGI:97849	Rag2	recombination activating gene 2	2		B cell homeostatic proliferation	happens in bone marrow|happens in spleen		IMP	MGI:1858556 	J:79297 	
+MGI:97849	Rag2	recombination activating gene 2	2		B cell lineage commitment	happens in thymus,results in a cell's commitment to B cell|happens in bone marrow,results in a cell's commitment to B cell|happens in spleen,results in a cell's commitment to B cell		IMP	MGI:1858556 	J:31364 	
+MGI:97849	Rag2	recombination activating gene 2	2		pre-B cell allelic exclusion			IMP		J:149451 	
+MGI:96522	Rbpj	recombination signal binding protein for immunoglobulin kappa J region	5		B cell differentiation			IMP	MGI:3583755 	J:76240 	
+MGI:2685397	Rc3h1	RING CCCH (C3H) domains 1	1		negative regulation of B cell proliferation			IMP		J:175161 	
+MGI:1098622	Rif1	replication timing regulatory factor 1	2		positive regulation of isotype switching			IMP		J:193246 J:195061 J:197099 	
+MGI:1929069	Rnf8	ring finger protein 8	17		isotype switching			IMP		J:156522 	
+MGI:1917488	Rnf168	ring finger protein 168	16		isotype switching			IMP		J:156522 	
+MGI:1914992	Samsn1	SAM domain, SH3 domain and nuclear localization signals, 1	16		negative regulation of B cell activation			IBA	PTN000266500 	J:265628 	
+MGI:1914992	Samsn1	SAM domain, SH3 domain and nuclear localization signals, 1	16		negative regulation of B cell activation			IMP		J:158032 	
+MGI:1921381	Sash3	SAM and SH3 domain containing 3	X		positive regulation of B cell proliferation			IBA	PTN000266475 	J:265628 	
+MGI:1921381	Sash3	SAM and SH3 domain containing 3	X		positive regulation of B cell proliferation	regulates the proliferation of T cell		IMP	MGI:3716944 	J:102171 	
+MGI:892014	Sfrp1	secreted frizzled-related protein 1	8		negative regulation of B cell differentiation			IMP		J:140742 	
+MGI:892014	Sfrp1	secreted frizzled-related protein 1	8		negative regulation of B cell differentiation			ISO	Q8N474 	J:164563 	
+MGI:1889583	Sh3kbp1	SH3-domain kinase binding protein 1	X		positive regulation of B cell activation			ISO	Q96B97 	J:164563 	
+MGI:98294	Shb	src homology 2 domain-containing transforming protein B	4		B cell proliferation			IDA		J:74310 	
+MGI:1920997	Shld1	shieldin complex subunit 1	2		positive regulation of isotype switching			ISO	Q8IYI0 	J:164563 	
+MGI:1922948	Shld2	shieldin complex subunit 2	14		positive regulation of isotype switching			ISO	Q86V20 	J:164563 	
+MGI:2443630	Siglecg	sialic acid binding Ig-like lectin G	7		regulation of B cell proliferation	happens in B-1 B cell,regulates a function/process that happens in B-1 B cell,happens in bone marrow|happens in B-1 B cell,regulates a function/process that happens in B-1 B cell,happens in spleen|happens in follicular B cell,regulates a function/process that happens in follicular B cell,happens in spleen|happens in marginal zone B cell,regulates a function/process that happens in marginal zone B cell,happens in spleen|happens in B-2 B cell,regulates a function/process that happens in B-2 B cell,happens in spleen|happens in B-1a B cell,regulates a function/process that happens in B-1a B cell,happens in peritoneal cavity		IGI	P35329 	J:160078 	
+MGI:2443630	Siglecg	sialic acid binding Ig-like lectin G	7		regulation of B cell proliferation	happens in B-1 B cell,regulates a function/process that happens in B-1 B cell,happens in spleen|happens in B-1a B cell,regulates a function/process that happens in B-1a B cell,happens in peritoneal cavity		IMP		J:160078 	
+MGI:1889206	Skap2	src family associated phosphoprotein 2	6		B cell activation			IEA	KW-0075 	J:60000 	
+MGI:1921998	Slamf8	SLAM family member 8	1		B-1 B cell lineage commitment			IDA		J:266143 	
+MGI:1921998	Slamf8	SLAM family member 8	1		regulation of B cell differentiation			IDA		J:266143 	
+MGI:1914515	Slc39a10	solute carrier family 39 (zinc transporter), member 10	1		positive regulation of B cell proliferation			IMP	MGI:5642299 	J:213932 	
+MGI:1277166	Sp3	trans-acting transcription factor 3	2		B cell differentiation			IMP	MGI:2182438 	J:84837 	
+MGI:103036	Stat5a	signal transducer and activator of transcription 5A	11		positive regulation of B cell differentiation	regulates the differentiation of B cell		IGI	MGI:103035 	J:64603 	
+MGI:103035	Stat5b	signal transducer and activator of transcription 5B	11		positive regulation of B cell differentiation	regulates the differentiation of B cell		IGI	MGI:103036 	J:64603 	
+MGI:103034	Stat6	signal transducer and activator of transcription 6	10		positive regulation of isotype switching to IgE isotypes	regulates a function/process that happens in B cell		IGI	MGI:107187 	J:57856 	
+MGI:107726	Supt6	SPT6, histone chaperone and transcription elongation factor	11		regulation of isotype switching			IMP		J:172192 	
+MGI:1298390	Swap70	SWA-70 protein	7		isotype switching			IDA		J:48490 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of B cell differentiation			IBA	PTN000700479 	J:265628 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of B cell differentiation	happens in bone marrow,regulates the differentiation of B cell|happens in spleen,regulates the differentiation of B cell|happens in peritoneal cavity,regulates the differentiation of B cell		IMP	MGI:1857421 	J:29797 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of B cell differentiation	happens in liver,regulates the differentiation of B cell		IMP	MGI:2384078 	J:29796 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of B cell differentiation			ISO	P43405 	J:164563 	
+MGI:1922072	Tbc1d10c	TBC1 domain family, member 10c	19		negative regulation of B cell activation	happens in B cell,regulates a function/process that happens in B cell		IGI	MGI:1932389 	J:211913 	
+MGI:1922072	Tbc1d10c	TBC1 domain family, member 10c	19		negative regulation of B cell activation			IMP	MGI:5578034 	J:211913 	
+MGI:1888984	Tbx21	T-box 21	11		positive regulation of isotype switching to IgG isotypes			IMP	MGI:2180194 	J:84929 	
+MGI:98510	Tcf3	transcription factor 3	10		B cell lineage commitment			ISO	P15923 	J:164563 	
+MGI:98510	Tcf3	transcription factor 3	10		positive regulation of B cell proliferation			ISO	P15923 	J:164563 	
+MGI:1350931	Tcirg1	T cell, immune regulator 1, ATPase, H+ transporting, lysosomal V0 protein A3	19		B cell differentiation			IMP	MGI:1856973 	J:93047 J:111910 	
+MGI:1350931	Tcirg1	T cell, immune regulator 1, ATPase, H+ transporting, lysosomal V0 protein A3	19		B cell differentiation			IMP	MGI:3054898 	J:92730 	
+MGI:98822	Tfrc	transferrin receptor	16		positive regulation of B cell proliferation			IDA		J:231935 	
+MGI:98822	Tfrc	transferrin receptor	16		positive regulation of B cell proliferation			ISO	P02786 	J:164563 	
+MGI:98822	Tfrc	transferrin receptor	16		positive regulation of isotype switching			ISO	P02786 	J:164563 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		positive regulation of isotype switching to IgA isotypes			ISO	P01137 	J:88910 	
+MGI:1919668	Thoc1	THO complex 1	18		negative regulation of isotype switching to IgA isotypes			IMP		J:202582 	
+MGI:2147032	Ticam1	toll-like receptor adaptor molecule 1	17		positive regulation of B cell activation	regulates a function/process that happens in B cell		IMP	MGI:3029019 	J:84679 	
+MGI:2147032	Ticam1	toll-like receptor adaptor molecule 1	17		positive regulation of B cell proliferation	regulates the proliferation of B cell		IMP	MGI:3029019 	J:84679 	
+MGI:2152213	Tirap	toll-interleukin 1 receptor (TIR) domain-containing adaptor protein	9		positive regulation of B cell proliferation			IMP		J:96773 	
+MGI:96824	Tlr4	toll-like receptor 4	4		B cell proliferation involved in immune response	affects a population of B cell		IMP		J:63145 	
+MGI:96824	Tlr4	toll-like receptor 4	4		positive regulation of B cell proliferation	regulates the proliferation of B cell		IMP	MGI:1860885 	J:76115 	
+MGI:1932389	Tlr9	toll-like receptor 9	9		positive regulation of B cell activation			ISO	Q9NR96 	J:164563 	
+MGI:1932389	Tlr9	toll-like receptor 9	9		positive regulation of B cell proliferation			ISO	Q9NR96 	J:164563 	
+MGI:1932389	Tlr9	toll-like receptor 9	9		regulation of B cell activation			IGI	MGI:5578034 	J:211913 	
+MGI:1932389	Tlr9	toll-like receptor 9	9		regulation of B cell differentiation			ISO	Q9NR96 	J:164563 	
+MGI:1196377	Tnfaip3	tumor necrosis factor, alpha-induced protein 3	10		marginal zone B cell differentiation			NAS		J:170265 	
+MGI:1196377	Tnfaip3	tumor necrosis factor, alpha-induced protein 3	10		negative regulation of B cell activation			IDA		J:170265 	
+MGI:104512	Tnfrsf4	tumor necrosis factor receptor superfamily, member 4	4		positive regulation of B cell proliferation			IMP		J:26926 	
+MGI:1889411	Tnfrsf13b	tumor necrosis factor receptor superfamily, member 13b	11		negative regulation of B cell proliferation			IBA	PTN001436071 	J:265628 	
+MGI:1889411	Tnfrsf13b	tumor necrosis factor receptor superfamily, member 13b	11		negative regulation of B cell proliferation			IMP	MGI:3052983 	J:91914 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		B cell costimulation			IBA	PTN001073134 	J:265628 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		B cell costimulation	has the participant B cell		IDA		J:91914 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		positive regulation of B cell proliferation			IBA	PTN001073134 	J:265628 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		positive regulation of B cell proliferation	regulates the proliferation of B cell		IDA		J:91914 	
+MGI:2151075	Tnfrsf21	tumor necrosis factor receptor superfamily, member 21	17		negative regulation of B cell proliferation			IBA	PTN002930692 	J:265628 	
+MGI:2151075	Tnfrsf21	tumor necrosis factor receptor superfamily, member 21	17		negative regulation of B cell proliferation			IMP		J:109341 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of B cell activation			IDA		J:169814 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of interleukin-4-dependent isotype switching to IgE isotypes			IMP		J:127284 	
+MGI:1916833	Tnfsf13	tumor necrosis factor (ligand) superfamily, member 13	11		positive regulation of isotype switching to IgA isotypes			IMP	MGI:3038886 	J:88910 	
+MGI:1916833	Tnfsf13	tumor necrosis factor (ligand) superfamily, member 13	11		positive regulation of isotype switching to IgA isotypes			ISO	O75888 	J:88910 	
+MGI:1344376	Tnfsf13b	tumor necrosis factor (ligand) superfamily, member 13b	8		B cell costimulation	has the participant B cell		IDA		J:91914 	
+MGI:1344376	Tnfsf13b	tumor necrosis factor (ligand) superfamily, member 13b	8		positive regulation of B cell proliferation	regulates the proliferation of B cell		IDA		J:91914 	
+MGI:1344376	Tnfsf13b	tumor necrosis factor (ligand) superfamily, member 13b	8		positive regulation of B cell proliferation			ISO	Q9Y275 	J:164563 	
+MGI:2386643	Tnip2	TNFAIP3 interacting protein 2	5		positive regulation of B cell activation			IMP		J:112395 	
+MGI:4439726	Trbc1	T cell receptor beta, constant region 1	6		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4835227	Trbc2	T cell receptor beta, constant 2	6		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:98612	Trdc	T cell receptor delta, constant region	14		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:4887419	Trdv4	T cell receptor delta variable 4	14		positive regulation of B cell activation			IBA	PTN001510949 	J:265628 	
+MGI:98834	Trp53	transformation related protein 53	11		B cell lineage commitment	happens in thymus,results in a cell's commitment to B cell|happens in bone marrow,results in a cell's commitment to B cell|happens in spleen,results in a cell's commitment to B cell		IMP	MGI:1857590 	J:31364 	
+MGI:1351320	Trp53bp1	transformation related protein 53 binding protein 1	2		positive regulation of isotype switching			IMP		J:89802 J:91130 	
+MGI:1351320	Trp53bp1	transformation related protein 53 binding protein 1	2		positive regulation of isotype switching			ISO	Q12888 	J:164563 	
+MGI:98849	Tshr	thyroid stimulating hormone receptor	12		B cell differentiation	happens in bone marrow,results in the differentiation of B cell		IMP	MGI:1856914 	J:110683 	
+MGI:105968	Txlna	taxilin alpha	4		B cell activation			IDA		J:62630 	
+MGI:1277211	Tyrobp	TYRO protein tyrosine kinase binding protein	7		negative regulation of B cell proliferation			IMP		J:177613 	
+MGI:1277211	Tyrobp	TYRO protein tyrosine kinase binding protein	7		negative regulation of B cell proliferation			ISO	O43914 	J:164563 	
+MGI:109352	Ung	uracil DNA glycosylase	5		isotype switching			IGI	MGI:1343961 	J:125031 	
+MGI:1888518	Vav3	vav 3 oncogene	3		positive regulation of B cell proliferation			ISO	Q9UKW4 	J:164563 	
+MGI:98936	Vpreb1	pre-B lymphocyte gene 1	16		B cell proliferation			IGI	MGI:96562 MGI:98937 	J:99189 	
+MGI:98936	Vpreb1	pre-B lymphocyte gene 1	16		B cell proliferation			IMP	MGI:1859923 	J:99189 	
+MGI:98937	Vpreb2	pre-B lymphocyte gene 2	16		B cell proliferation	happens in spleen,affects a population of B cell		IGI	MGI:96562 MGI:98936 	J:99189 	
+MGI:98956	Wnt3a	wingless-type MMTV integration site family, member 3A	11		positive regulation of B cell proliferation	regulates the proliferation of pro-B cell		IDA		J:63678 	
+MGI:98970	Xbp1	X-box binding protein 1	11		positive regulation of B cell differentiation			ISO	P17861 	J:164563 	
+MGI:98970	Xbp1	X-box binding protein 1	11		positive regulation of plasma cell differentiation			ISO	P17861 	J:164563 	
+MGI:1333799	Xrcc4	X-ray repair complementing defective repair in Chinese hamster cells 4	13		isotype switching	happens in mature B cell		IMP	MGI:1926771 MGI:3047571 MGI:3641440 	J:126758 	
+MGI:2442326	Zbtb1	zinc finger and BTB domain containing 1	12		B cell differentiation	happens in spleen,results in the differentiation of B cell		IMP	MGI:5300200 	J:178820 	
+MGI:1335091	Zbtb7a	zinc finger and BTB domain containing 7a	10		B cell differentiation			IMP		J:121576 	
+MGI:107946	Zfp36l1	zinc finger protein 36, C3H type-like 1	12		regulation of B cell differentiation			IMP		J:232475 	
+MGI:107945	Zfp36l2	zinc finger protein 36, C3H type-like 2	17		regulation of B cell differentiation			IMP		J:232475 	
+

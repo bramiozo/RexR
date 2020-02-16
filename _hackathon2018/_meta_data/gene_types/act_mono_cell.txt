@@ -1,0 +1,9 @@
+MGI Gene/Marker ID	Symbol	Name	Chr	Qualifier	Annotated Term	Context	Proteoform	Evidence	Inferred From	Reference(s)
+MGI:105376	Adam9	a disintegrin and metallopeptidase domain 9 (meltrin gamma)	8		monocyte activation			ISO	Q13443 	J:164563 	
+MGI:109548	Adam10	a disintegrin and metallopeptidase domain 10	9		monocyte activation			ISO	O14672 	J:164563 	
+MGI:1349385	Dysf	dysferlin	6		monocyte activation involved in immune response			IBA	PTN002648790 	J:265628 	
+MGI:1349385	Dysf	dysferlin	6		monocyte activation involved in immune response			IMP	MGI:1857883 	J:132272 	
+MGI:1349385	Dysf	dysferlin	6		monocyte activation involved in immune response			ISO	O75923 	J:132272 	
+MGI:1196334	Hyal2	hyaluronoglucosaminidase 2	9		monocyte activation			ISO	Q12891 	J:164563 	
+MGI:1196334	Hyal2	hyaluronoglucosaminidase 2	9		monocyte activation			ISS	Q12891 	J:148918 	
+

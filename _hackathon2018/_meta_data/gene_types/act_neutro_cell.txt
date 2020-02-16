@@ -1,0 +1,37 @@
+MGI Gene/Marker ID	Symbol	Name	Chr	Qualifier	Annotated Term	Context	Proteoform	Evidence	Inferred From	Reference(s)
+MGI:107771	Abr	active BCR-related gene	11		negative regulation of neutrophil degranulation	regulates a function/process that happens in neutrophil		IGI	MGI:88141 	J:153997 	
+MGI:1201378	Anxa3	annexin A3	5		neutrophil degranulation			ISO	P12429 	J:164563 	
+MGI:88141	Bcr	BCR activator of RhoGEF and GTPase	10		negative regulation of neutrophil degranulation	regulates a function/process that happens in neutrophil		IGI	MGI:107771 	J:153997 	
+MGI:98262	Ccl5	chemokine (C-C motif) ligand 5	11		neutrophil activation			ISO	P13501 	J:164563 	
+MGI:1916141	Cd177	CD177 antigen	7		positive regulation of neutrophil degranulation			ISO	Q8N6Q3 	J:164563 	
+MGI:2443411	Cd300a	CD300A molecule	11		negative regulation of neutrophil activation			ISO	Q9UGN4 	J:164563 	
+MGI:1096868	Cxcl5	chemokine (C-X-C motif) ligand 5	5		neutrophil activation			ISO	P80162 	J:164563 	
+MGI:105303	Cxcr2	chemokine (C-X-C motif) receptor 2	1		neutrophil activation			ISO	P25025 	J:164563 	
+MGI:103157	Dnase1	deoxyribonuclease I	16		neutrophil activation involved in immune response			IDA		J:252490 	
+MGI:1314633	Dnase1l3	deoxyribonuclease 1-like 3	14		neutrophil activation involved in immune response			IDA		J:252490 	
+MGI:101910	F2rl1	coagulation factor II (thrombin) receptor-like 1	13		neutrophil activation			ISO	P55085 	J:164563 	
+MGI:95496	Fcer1g	Fc receptor, IgE, high affinity I, gamma polypeptide	1		neutrophil activation involved in immune response			IBA	PTN000423688 	J:265628 	
+MGI:95496	Fcer1g	Fc receptor, IgE, high affinity I, gamma polypeptide	1		neutrophil activation involved in immune response			IMP		J:116120 	
+MGI:2179523	Fcgr4	Fc receptor, IgG, low affinity IV	1		neutrophil activation			IMP		J:130906 	
+MGI:95832	Grn	granulin	11		negative regulation of neutrophil activation			ISO	P28799 	J:164563 	
+MGI:103014	Il15	interleukin 15	8		neutrophil activation			ISO	P40933 	J:164563 	
+MGI:107936	Il18	interleukin 18	9		neutrophil activation			IDA		J:98417 	
+MGI:1338888	Il18rap	interleukin 18 receptor accessory protein	1		neutrophil activation	happens at the same time as cellular response to interleukin-18		IMP	MGI:3579137 	J:98417 	
+MGI:96607	Itgam	integrin alpha M	7		positive regulation of neutrophil degranulation			ISO	P11215 	J:164563 	
+MGI:96611	Itgb2	integrin beta 2	10		positive regulation of neutrophil degranulation			ISO	P05107 	J:164563 	
+MGI:1924825	Kmt2e	lysine (K)-specific methyltransferase 2E	5		neutrophil activation			IMP		J:145445 	
+MGI:107711	Myo1f	myosin IF	17		neutrophil degranulation	happens in neutrophil		IMP	MGI:3664779 	J:113020 	
+MGI:3576625	Pram1	PML-RAR alpha-regulated adaptor molecule 1	17		regulation of neutrophil degranulation			IMP	MGI:3579812 	J:95253 	
+MGI:1858200	Prg3	proteoglycan 3	2		neutrophil activation			ISO	Q9Y2Y8 	J:164563 	
+MGI:97598	Prkcd	protein kinase C, delta	14		neutrophil activation			ISO	Q05655 	J:164563 	
+MGI:106066	Ptafr	platelet-activating factor receptor	4		positive regulation of neutrophil degranulation			ISO	RGD:61897 	J:155856 	
+MGI:1921982	Stx11	syntaxin 11	10		neutrophil degranulation			IMP	MGI:5461477 	J:191103 	
+MGI:99515	Syk	spleen tyrosine kinase	13		neutrophil activation involved in immune response			IBA	PTN000700479 	J:265628 	
+MGI:99515	Syk	spleen tyrosine kinase	13		neutrophil activation involved in immune response			IMP		J:116120 	
+MGI:99515	Syk	spleen tyrosine kinase	13		regulation of neutrophil degranulation			IMP		J:155479 	
+MGI:104798	Tnf	tumor necrosis factor	17		positive regulation of neutrophil activation			ISO	RGD:3876 	J:155856 	
+MGI:1277211	Tyrobp	TYRO protein tyrosine kinase binding protein	7		neutrophil activation involved in immune response			IMP		J:116120 	
+MGI:1096399	Vamp7	vesicle-associated membrane protein 7	X		neutrophil degranulation			ISO	RGD:621558 	J:155856 	
+MGI:1096399	Vamp7	vesicle-associated membrane protein 7	X		neutrophil degranulation			ISO	P51809 	J:164563 	
+MGI:1096399	Vamp7	vesicle-associated membrane protein 7	X		neutrophil degranulation			ISS	Q9JHW5 	J:131470 	
+

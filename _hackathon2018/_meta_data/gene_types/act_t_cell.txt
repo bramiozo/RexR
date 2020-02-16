@@ -1,0 +1,1138 @@
+MGI Gene/Marker ID	Symbol	Name	Chr	Qualifier	Annotated Term	Context	Proteoform	Evidence	Inferred From	Reference(s)
+MGI:2443685	5830411N06Rik	RIKEN cDNA 5830411N06 gene	7		gamma-delta T cell lineage commitment	happens in thymus		IDA		J:137854 	
+MGI:87859	Abl1	c-abl oncogene 1, non-receptor tyrosine kinase	2		activated T cell proliferation			IMP	MGI:3525886 	J:154821 	
+MGI:87859	Abl1	c-abl oncogene 1, non-receptor tyrosine kinase	2		alpha-beta T cell differentiation	results in the differentiation of DN4 thymocyte		IGI	MGI:87860 	J:154821 	
+MGI:87859	Abl1	c-abl oncogene 1, non-receptor tyrosine kinase	2		regulation of T cell differentiation			IMP		J:175086 	
+MGI:87860	Abl2	v-abl Abelson murine leukemia viral oncogene 2 (arg, Abelson-related gene)	1		alpha-beta T cell differentiation	results in the differentiation of DN4 thymocyte		IGI	MGI:87859 	J:154821 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of alpha-beta T cell differentiation	regulates the differentiation of thymocyte		IMP		J:107216 J:115112 J:131709 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of alpha-beta T cell differentiation	regulates the differentiation of thymocyte		IMP	MGI:1857117 	J:115112 J:131709 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of T cell activation	regulates a function/process that happens in T cell		IMP	MGI:1857117 MGI:2683027 	J:63086 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of T cell activation	regulates a function/process that happens in CD4-positive, alpha-beta T cell|regulates a function/process that happens in CD8-positive, alpha-beta T cell		IMP	MGI:1857117 MGI:2683027 	J:110739 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of T cell differentiation	happens in liver,regulates the differentiation of T cell		IMP	MGI:1857117 	J:25085 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of T cell differentiation	happens in thymus,regulates the differentiation of T cell		IMP	MGI:1857117 MGI:2683027 	J:73418 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of T cell differentiation in thymus	regulates the differentiation of thymocyte		IMP		J:107216 J:115112 J:131709 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of T cell differentiation in thymus	regulates the differentiation of thymocyte		IMP	MGI:1857117 	J:115112 J:131709 	
+MGI:87916	Ada	adenosine deaminase	2		positive regulation of T cell differentiation in thymus	regulates the differentiation of thymocyte		IMP	MGI:1857117 MGI:2683027 	J:110739 	
+MGI:87916	Ada	adenosine deaminase	2		regulation of T cell differentiation	happens in thymus,regulates the differentiation of T cell		IMP	MGI:2155977 	J:26731 	
+MGI:87916	Ada	adenosine deaminase	2		T cell activation			IBA	PTN000150945 	J:265628 	
+MGI:87916	Ada	adenosine deaminase	2		T cell activation			ISO	P00813 	J:164563 	
+MGI:107825	Adam8	a disintegrin and metallopeptidase domain 8	7		positive regulation of T cell differentiation in thymus			IDA		J:165123 	
+MGI:1096335	Adam17	a disintegrin and metallopeptidase domain 17	12		T cell differentiation in thymus			IMP		J:143629 	
+MGI:87930	Adk	adenosine kinase	14		positive regulation of T cell proliferation			ISO	RGD:2046 	J:155856 	
+MGI:99402	Adora2a	adenosine A2a receptor	10		negative regulation of alpha-beta T cell activation			IDA		J:142710 	
+MGI:1929289	Adrm1	adhesion regulating molecule 1	2		regulation of T cell differentiation in thymus			IMP		J:166694 	
+MGI:893592	Ager	advanced glycosylation end product-specific receptor	17		positive regulation of activated T cell proliferation			ISO	Q15109 	J:164563 	
+MGI:893592	Ager	advanced glycosylation end product-specific receptor	17		regulation of CD4-positive, alpha-beta T cell activation			ISO	Q15109 	J:164563 	
+MGI:1343098	Aif1	allograft inflammatory factor 1	17		positive regulation of T cell proliferation			ISO	P55008 	J:164563 	
+MGI:1338803	Aire	autoimmune regulator (autoimmune polyendocrinopathy candidiasis ectodermal dystrophy)	10		negative thymic T cell selection			IBA	PTN002931439 	J:265628 	
+MGI:1338803	Aire	autoimmune regulator (autoimmune polyendocrinopathy candidiasis ectodermal dystrophy)	10		negative thymic T cell selection	happens in medullary thymic epithelial cell		IGI	MGI:1277186 	J:196474 	
+MGI:1918775	Ankle1	ankyrin repeat and LEM domain containing 1	8	NOT	regulation of alpha-beta T cell differentiation			IMP		J:235782 	
+MGI:1918775	Ankle1	ankyrin repeat and LEM domain containing 1	8	NOT	regulation of T cell differentiation in thymus			IMP		J:235782 	
+MGI:96819	Anxa1	annexin A1	19		alpha-beta T cell differentiation			IBA	PTN002574794 	J:265628 	
+MGI:96819	Anxa1	annexin A1	19		alpha-beta T cell differentiation			IMP		J:169943 	
+MGI:96819	Anxa1	annexin A1	19		negative regulation of T-helper 2 cell differentiation			IBA	PTN002574794 	J:265628 	
+MGI:96819	Anxa1	annexin A1	19		negative regulation of T-helper 2 cell differentiation			ISO	P04083 	J:164563 	
+MGI:96819	Anxa1	annexin A1	19		positive regulation of T cell proliferation			IBA	PTN002574794 	J:265628 	
+MGI:96819	Anxa1	annexin A1	19		positive regulation of T cell proliferation			ISO	P04083 	J:164563 	
+MGI:96819	Anxa1	annexin A1	19		positive regulation of T-helper 1 cell differentiation			IBA	PTN002574794 	J:265628 	
+MGI:96819	Anxa1	annexin A1	19		positive regulation of T-helper 1 cell differentiation			ISO	P04083 	J:164563 	
+MGI:1333879	Ap3b1	adaptor-related protein complex 3, beta 1 subunit	13		positive regulation of NK T cell differentiation			IMP	MGI:1856989 	J:86243 	
+MGI:107734	Ap3d1	adaptor-related protein complex 3, delta 1 subunit	10		positive regulation of NK T cell differentiation			IMP	MGI:1856083 	J:86243 	
+MGI:1861354	Apbb1ip	amyloid beta (A4) precursor protein-binding, family B, member 1 interacting protein	2		T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell			IDA		J:122332 	
+MGI:88039	Apc	APC, WNT signaling pathway regulator	18		T cell differentiation in thymus	happens in thymus		IMP	MGI:3589207 	J:100461 	
+MGI:88070	Arg1	arginase, liver	10		negative regulation of activated T cell proliferation			IMP		J:243399 	
+MGI:88070	Arg1	arginase, liver	10		negative regulation of T cell proliferation			ISO	P05089 	J:164563 	
+MGI:1330806	Arg2	arginase type II	12		negative regulation of CD4-positive, alpha-beta T cell proliferation			IMP		J:243479 	
+MGI:1277186	Atg5	autophagy related 5	10		negative thymic T cell selection	happens in medullary thymic epithelial cell		IGI	MGI:1338803 	J:196474 	
+MGI:1277186	Atg5	autophagy related 5	10		negative thymic T cell selection	happens in medullary thymic epithelial cell		IMP	MGI:3612279 	J:196474 	
+MGI:99400	Atp7a	ATPase, Cu++ transporting, alpha polypeptide	X		T-helper cell differentiation	results in the differentiation of CD4-positive helper T cell		IMP	MGI:1856466 	J:13154 	
+MGI:1351332	Azi2	5-azacytidine induced gene 2	9		T cell activation			IDA		J:204786 	
+MGI:1351332	Azi2	5-azacytidine induced gene 2	9		T cell activation			IMP	MGI:5544312 	J:204786 	
+MGI:88127	B2m	beta-2 microglobulin	2		T cell differentiation in thymus			IGI	MGI:95663 	J:141145 	
+MGI:1096330	Bad	BCL2-associated agonist of cell death	19		positive regulation of T cell differentiation			IMP	MGI:3029528 	J:88139 	
+MGI:1859147	Batf	basic leucine zipper transcription factor, ATF-like	12		T-helper 17 cell differentiation			IMP		J:160935 J:172119 	
+MGI:1859147	Batf	basic leucine zipper transcription factor, ATF-like	12		T-helper 17 cell lineage commitment			IMP		J:150643 J:190118 	
+MGI:1859147	Batf	basic leucine zipper transcription factor, ATF-like	12		T-helper 2 cell differentiation			IMP		J:160935 J:172119 	
+MGI:99702	Bax	BCL2-associated X protein	7		T cell homeostatic proliferation			IMP	MGI:1857429 	J:29253 	
+MGI:99702	Bax	BCL2-associated X protein	7		T cell homeostatic proliferation	affects a population of common lymphoid progenitor		IMP	MGI:1857429 	J:42051 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		CD8-positive, alpha-beta T cell lineage commitment	happens in bone marrow,results in a cell's commitment to CD8-positive, alpha-beta T cell|happens in thymus,results in a cell's commitment to CD8-positive, alpha-beta T cell|happens in spleen,results in a cell's commitment to CD8-positive, alpha-beta T cell|happens in lymph node,results in a cell's commitment to CD8-positive, alpha-beta T cell		IMP	MGI:2156165 	J:73660 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		T cell differentiation			IGI	MGI:96562 	J:41239 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		T cell differentiation	results in the differentiation of T cell		IMP	MGI:2156165 	J:73660 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		T cell differentiation in thymus			IMP	MGI:2156165 	J:38087 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		T cell differentiation in thymus	happens in thymus,results in the differentiation of T cell		IMP	MGI:2156165 	J:73660 	
+MGI:88138	Bcl2	B cell leukemia/lymphoma 2	1		T cell lineage commitment	happens in spleen,happens in T cell		IMP	MGI:2156165 	J:31364 	
+MGI:1278325	Bcl2a1d	B cell leukemia/lymphoma 2 related protein A1d	9		T cell differentiation			IMP		J:96628 	
+MGI:88140	Bcl3	B cell leukemia/lymphoma 3	7		T-helper 2 cell differentiation	results in the differentiation of T-helper 2 cell		IMP	MGI:2158443 	J:107516 	
+MGI:107187	Bcl6	B cell leukemia/lymphoma 6	16		negative regulation of T-helper 2 cell differentiation	regulates the differentiation of T-helper 2 cell		IGI	MGI:96559 	J:81987 	
+MGI:107187	Bcl6	B cell leukemia/lymphoma 6	16		positive regulation of regulatory T cell differentiation			ISO	P41182 	J:164563 	
+MGI:107187	Bcl6	B cell leukemia/lymphoma 6	16		regulation of memory T cell differentiation	regulates the differentiation of memory T cell		IMP	MGI:2158436 	J:91924 	
+MGI:1337994	Bcl10	B cell leukemia/lymphoma 10	3		positive regulation of T cell activation			IMP	MGI:2158304 	J:109545 	
+MGI:106190	Bcl11a	B cell CLL/lymphoma 11A (zinc finger protein)	11		T cell differentiation			IMP	MGI:2663941 	J:83646 	
+MGI:1929913	Bcl11b	B cell leukemia/lymphoma 11B	12		alpha-beta T cell differentiation	results in the differentiation of alpha-beta T cell		IMP	MGI:2663971 	J:83651 	
+MGI:1929913	Bcl11b	B cell leukemia/lymphoma 11B	12		positive T cell selection	has the participant double-positive, alpha-beta thymocyte		IMP	MGI:3767620 	J:128515 	
+MGI:1929913	Bcl11b	B cell leukemia/lymphoma 11B	12		T cell differentiation in thymus	results in the differentiation of thymocyte		IMP	MGI:2663971 	J:131680 	
+MGI:1929913	Bcl11b	B cell leukemia/lymphoma 11B	12		T cell receptor V(D)J recombination	happens in thymus,happens in T cell		IMP	MGI:2663971 	J:83651 	
+MGI:1328362	Blm	Bloom syndrome, RecQ like helicase	7		alpha-beta T cell differentiation	happens in thymus,results in the differentiation of DN4 thymocyte		IMP	MGI:3053044 MGI:3663359 	J:118992 	
+MGI:1328362	Blm	Bloom syndrome, RecQ like helicase	7		positive regulation of alpha-beta T cell proliferation	regulates a function/process that happens in thymus,regulates the proliferation of DN4 thymocyte|regulates a function/process that happens in thymus,regulates the proliferation of DN3 thymocyte		IMP	MGI:3053044 MGI:3663359 	J:118992 	
+MGI:88174	Bmi1	Bmi1 polycomb ring finger oncogene	2		positive regulation of immature T cell proliferation in thymus			IMP		J:105559 	
+MGI:88180	Bmp4	bone morphogenetic protein 4	14		negative regulation of immature T cell proliferation in thymus			ISO	P12644 	J:164563 	
+MGI:88180	Bmp4	bone morphogenetic protein 4	14		negative regulation of T cell differentiation in thymus			ISO	P12644 	J:164563 	
+MGI:88190	Braf	Braf transforming gene	6		alpha-beta T cell differentiation	results in the differentiation of double-positive, alpha-beta thymocyte		IMP	MGI:3711006 	J:194392 	
+MGI:88190	Braf	Braf transforming gene	6		CD4-positive or CD8-positive, alpha-beta T cell lineage commitment			IMP	MGI:1857579 	J:131579 	
+MGI:88190	Braf	Braf transforming gene	6		CD4-positive, alpha-beta T cell differentiation			IMP	MGI:3711006 	J:194392 	
+MGI:88190	Braf	Braf transforming gene	6		positive T cell selection			IMP	MGI:3711006 	J:194392 	
+MGI:88190	Braf	Braf transforming gene	6		regulation of T cell differentiation			IMP	MGI:1857579 	J:131579 	
+MGI:2658978	Btla	B and T lymphocyte associated	16		negative regulation of alpha-beta T cell proliferation			IMP	MGI:3027713 	J:94873 	
+MGI:2658978	Btla	B and T lymphocyte associated	16		negative regulation of T cell proliferation			IMP	MGI:3027713 	J:84084 	
+MGI:103118	Btn1a1	butyrophilin, subfamily 1, member A1	13		negative regulation of activated T cell proliferation			IDA		J:160063 	
+MGI:3606486	Btn2a2	butyrophilin, subfamily 2, member A2	13		negative regulation of activated T cell proliferation			IDA		J:160063 J:202549 	
+MGI:3606486	Btn2a2	butyrophilin, subfamily 2, member A2	13		positive regulation of regulatory T cell differentiation			IDA		J:202549 	
+MGI:1932027	Btnl1	butyrophilin-like 1	17		extrathymic T cell selection	happens in gut epithelium,generates gamma-delta intraepithelial T cell		IGI	MGI:1932038 	J:236526 	
+MGI:1932027	Btnl1	butyrophilin-like 1	17		extrathymic T cell selection	happens in gut epithelium,generates gamma-delta intraepithelial T cell		IMP		J:236526 	
+MGI:1859549	Btnl2	butyrophilin-like 2	17		positive regulation of T cell proliferation			IMP		J:132222 	
+MGI:1932038	Btnl6	butyrophilin-like 6	17		extrathymic T cell selection	happens in gut epithelium,generates gamma-delta intraepithelial T cell		IGI	MGI:1932027 	J:236526 	
+MGI:103301	Cacnb4	calcium channel, voltage-dependent, beta 4 subunit	2	NOT	T cell differentiation	happens in thymus,results in the differentiation of T cell		IMP	MGI:1856936 	J:115345 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		positive regulation of T cell activation	regulates a function/process that happens in CD4-positive, alpha-beta T cell		IMP	MGI:3039682 	J:89322 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		positive regulation of T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IMP	MGI:3039682 	J:89322 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		regulation of T cell differentiation			IMP	MGI:3039682 	J:89322 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		T cell activation			IMP	MGI:3045950 	J:84036 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		T cell costimulation			ISO	Q9BXL7 	J:164563 	
+MGI:1916978	Card11	caspase recruitment domain family, member 11	5		thymic T cell selection	has the participant CD4-positive, alpha-beta T cell		IMP	MGI:3039682 	J:89322 	
+MGI:2685431	Carmil2	capping protein regulator and myosin 1 linker 2	8		positive regulation of regulatory T cell differentiation			IMP	MGI:4462559 MGI:5547539 	J:205441 	
+MGI:2685431	Carmil2	capping protein regulator and myosin 1 linker 2	8		positive regulation of T cell proliferation			IMP	MGI:5547539 	J:205441 	
+MGI:107739	Casp3	caspase 3	8		negative regulation of activated T cell proliferation			IMP	MGI:2178778 	J:85809 	
+MGI:102709	Cav1	caveolin 1, caveolae protein	6		T cell costimulation			ISO	Q03135 	J:164563 	
+MGI:99851	Cbfb	core binding factor beta	8		negative regulation of CD4-positive, alpha-beta T cell differentiation			IMP		J:131081 	
+MGI:99851	Cbfb	core binding factor beta	8		positive regulation of CD8-positive, alpha-beta T cell differentiation			IMP		J:131081 	
+MGI:2146430	Cblb	Casitas B-lineage lymphoma b	16		negative regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IMP	MGI:2180572 	J:89097 	
+MGI:2146430	Cblb	Casitas B-lineage lymphoma b	16		T cell activation	has the participant T cell		IMP	MGI:2180570 	J:79550 	
+MGI:1925567	Ccdc88b	coiled-coil domain containing 88B	19		positive regulation of T cell activation			IMP		J:230618 	
+MGI:1925567	Ccdc88b	coiled-coil domain containing 88B	19		positive regulation of T cell proliferation			IMP		J:230618 	
+MGI:98259	Ccl2	chemokine (C-C motif) ligand 2	11		positive regulation of T cell activation			IMP		J:118487 	
+MGI:98262	Ccl5	chemokine (C-C motif) ligand 5	11		positive regulation of T cell proliferation			ISO	P13501 	J:164563 	
+MGI:98262	Ccl5	chemokine (C-C motif) ligand 5	11		regulation of T cell activation			ISO	P13501 	J:164563 	
+MGI:1346316	Ccl19	chemokine (C-C motif) ligand 19	4		establishment of T cell polarity			ISO	Q99731 	J:164563 	
+MGI:1346316	Ccl19	chemokine (C-C motif) ligand 19	4		positive regulation of T cell proliferation			IDA		J:97971 	
+MGI:1346316	Ccl19	chemokine (C-C motif) ligand 19	4		positive regulation of T-helper 1 cell differentiation			IDA		J:97971 	
+MGI:1346316	Ccl19	chemokine (C-C motif) ligand 19	4		T cell costimulation			IDA		J:97971 	
+MGI:1329031	Ccl20	chemokine (C-C motif) ligand 20	1	NOT	regulation of T-helper 17 cell differentiation			IDA		J:142071 	
+MGI:88315	Ccnd3	cyclin D3	17		T cell proliferation			IMP	MGI:2448172 	J:88120 	
+MGI:106185	Ccr2	chemokine (C-C motif) receptor 2	9		positive regulation of alpha-beta T cell proliferation			IMP		J:118487 	
+MGI:106185	Ccr2	chemokine (C-C motif) receptor 2	9		positive regulation of T cell activation			IMP		J:118487 	
+MGI:106185	Ccr2	chemokine (C-C motif) receptor 2	9		positive regulation of T-helper 1 cell differentiation			IC	GO:0032729 	J:118487 	
+MGI:106185	Ccr2	chemokine (C-C motif) receptor 2	9		regulation of T cell differentiation			IMP		J:247722 	
+MGI:1333797	Ccr6	chemokine (C-C motif) receptor 6	17		DN2 thymocyte differentiation			IMP		J:233563 	
+MGI:1333797	Ccr6	chemokine (C-C motif) receptor 6	17		DN3 thymocyte differentiation			IMP		J:233563 	
+MGI:1333797	Ccr6	chemokine (C-C motif) receptor 6	17	NOT	regulation of T-helper 17 cell differentiation			IMP		J:142071 	
+MGI:103011	Ccr7	chemokine (C-C motif) receptor 7	11		establishment of T cell polarity			TAS		J:175178 	
+MGI:103011	Ccr7	chemokine (C-C motif) receptor 7	11		negative thymic T cell selection			IMP		J:149099 	
+MGI:103011	Ccr7	chemokine (C-C motif) receptor 7	11		positive regulation of T cell costimulation			IMP		J:97971 	
+MGI:103011	Ccr7	chemokine (C-C motif) receptor 7	11		positive regulation of T cell proliferation			IC	GO:0016493 	J:97971 	
+MGI:103011	Ccr7	chemokine (C-C motif) receptor 7	11		positive regulation of T-helper 1 cell differentiation			IC	GO:0016493 	J:97971 	
+MGI:1341902	Ccr9	chemokine (C-C motif) receptor 9	9		CD8-positive, gamma-delta intraepithelial T cell differentiation			IMP	MGI:3654108 	J:219661 	
+MGI:107674	Cd1d1	CD1d1 antigen	3		NK T cell differentiation			IMP		J:39748 	
+MGI:107674	Cd1d1	CD1d1 antigen	3		positive regulation of NK T cell activation			IDA		J:25159 J:76976 J:89707 	
+MGI:107674	Cd1d1	CD1d1 antigen	3		positive regulation of NK T cell differentiation			IMP	MGI:2180713 	J:76976 	
+MGI:107674	Cd1d1	CD1d1 antigen	3		positive regulation of NK T cell differentiation			IMP	MGI:2180711 	J:39748 	
+MGI:107674	Cd1d1	CD1d1 antigen	3		positive regulation of T cell proliferation			ISO	P15813 	J:164563 	
+MGI:107674	Cd1d1	CD1d1 antigen	3		positive thymic T cell selection			IMP	MGI:2180711 	J:39748 	
+MGI:107674	Cd1d1	CD1d1 antigen	3		regulation of immature T cell proliferation in thymus			IMP		J:125679 	
+MGI:107675	Cd1d2	CD1d2 antigen	3		positive regulation of NK T cell activation			IDA		J:76976 	
+MGI:88320	Cd2	CD2 antigen	3		T cell activation			ISO	RGD:2297 	J:155856 	
+MGI:88331	Cd3d	CD3 antigen, delta polypeptide	9		positive thymic T cell selection			IBA	PTN000060280 	J:265628 	
+MGI:88331	Cd3d	CD3 antigen, delta polypeptide	9		positive thymic T cell selection			IMP		J:39925 	
+MGI:88331	Cd3d	CD3 antigen, delta polypeptide	9		T cell activation			NAS		J:113952 	
+MGI:88331	Cd3d	CD3 antigen, delta polypeptide	9		T cell differentiation			IBA	PTN000060280 	J:265628 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		negative thymic T cell selection	has the participant thymus,has the participant T cell		IDA		J:27768 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of T-helper 1 cell		IDA		J:89097 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IDA		J:17350 J:75401 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		positive regulation of T cell activation	regulates a function/process that happens in T cell		IDA		J:142709 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:53400 J:92334 J:98326 J:142709 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		positive regulation of T cell proliferation			ISO	RGD:1309222 	J:155856 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		positive regulation of T cell proliferation			ISO	P07766 	J:164563 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		positive thymic T cell selection			IBA	PTN000060280 	J:265628 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		T cell costimulation			IGI	MGI:88327 	J:205441 	
+MGI:88332	Cd3e	CD3 antigen, epsilon polypeptide	9		T cell differentiation			IBA	PTN000060280 	J:265628 	
+MGI:88333	Cd3g	CD3 antigen, gamma polypeptide	9		positive thymic T cell selection			IBA	PTN000060280 	J:265628 	
+MGI:88333	Cd3g	CD3 antigen, gamma polypeptide	9		T cell differentiation			IBA	PTN000060280 	J:265628 	
+MGI:88335	Cd4	CD4 antigen	6		positive regulation of T cell activation	regulates a function/process that happens in T cell		IDA		J:80063 	
+MGI:88335	Cd4	CD4 antigen	6		positive regulation of T cell proliferation			ISO	RGD:2306 	J:155856 	
+MGI:88335	Cd4	CD4 antigen	6		regulation of T cell activation			ISO	P01730 	J:164563 	
+MGI:88335	Cd4	CD4 antigen	6		T cell activation			IBA	PTN002605579 	J:265628 	
+MGI:88335	Cd4	CD4 antigen	6		T cell activation			ISO	RGD:2306 	J:155856 	
+MGI:88335	Cd4	CD4 antigen	6		T cell differentiation			ISO	P01730 	J:164563 	
+MGI:88335	Cd4	CD4 antigen	6		T cell differentiation			ISS	P01730 	J:113701 	
+MGI:88335	Cd4	CD4 antigen	6		T cell selection			ISO	P01730 	J:164563 	
+MGI:88335	Cd4	CD4 antigen	6		T cell selection			ISS	P01730 	J:45168 	
+MGI:88340	Cd5	CD5 antigen	19		T cell costimulation			IBA	PTN002499882 	J:265628 	
+MGI:88340	Cd5	CD5 antigen	19		T cell costimulation			IDA		J:56164 	
+MGI:103566	Cd6	CD6 antigen	19		positive regulation of T cell proliferation			ISO	P30203 	J:164563 	
+MGI:88346	Cd8a	CD8 antigen, alpha chain	6		cytotoxic T cell differentiation			IBA	PTN000047644 	J:265628 	
+MGI:88346	Cd8a	CD8 antigen, alpha chain	6		cytotoxic T cell differentiation			IMP	MGI:1857149 	J:68956 	
+MGI:88346	Cd8a	CD8 antigen, alpha chain	6		T cell activation			ISO	RGD:2316 	J:155856 	
+MGI:88323	Cd24a	CD24a antigen	10		negative regulation of T cell homeostatic proliferation			IMP	MGI:2179996 	J:124399 	
+MGI:88323	Cd24a	CD24a antigen	10		positive regulation of activated T cell proliferation			ISS	P25063 	J:125628 	
+MGI:88323	Cd24a	CD24a antigen	10		positive regulation of alpha-beta T cell proliferation			IDA		J:125135 J:125147 	
+MGI:88323	Cd24a	CD24a antigen	10		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IDA		J:17350 	
+MGI:88323	Cd24a	CD24a antigen	10		positive regulation of alpha-beta T cell proliferation			IMP		J:125143 J:125145 	
+MGI:88323	Cd24a	CD24a antigen	10		positive regulation of alpha-beta T cell proliferation			IMP	MGI:2179996 	J:125135 	
+MGI:88323	Cd24a	CD24a antigen	10		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IMP	MGI:2179996 	J:93933 	
+MGI:88323	Cd24a	CD24a antigen	10		positive regulation of T cell homeostatic proliferation	regulates the proliferation of T cell		IMP	MGI:2179996 	J:93953 	
+MGI:88323	Cd24a	CD24a antigen	10		T cell costimulation			ISS	P25063 	J:125628 	
+MGI:88326	Cd27	CD27 antigen	6		positive regulation of T cell differentiation			NAS		J:73129 	
+MGI:88327	Cd28	CD28 antigen	1		negative thymic T cell selection	has the participant thymus		IMP	MGI:1857150 	J:56164 	
+MGI:88327	Cd28	CD28 antigen	1		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of T-helper 1 cell		IDA		J:89097 	
+MGI:88327	Cd28	CD28 antigen	1		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IDA		J:17350 J:125135 	
+MGI:88327	Cd28	CD28 antigen	1		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IMP	MGI:1857150 	J:125135 	
+MGI:88327	Cd28	CD28 antigen	1		positive regulation of T cell proliferation			IBA	PTN000161013 	J:265628 	
+MGI:88327	Cd28	CD28 antigen	1		positive regulation of T cell proliferation			IDA		J:89322 	
+MGI:88327	Cd28	CD28 antigen	1		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:84973 J:91914 	
+MGI:88327	Cd28	CD28 antigen	1		positive regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:1857150 	J:14194 J:120498 	
+MGI:88327	Cd28	CD28 antigen	1		positive regulation of T cell proliferation			ISO	P10747 	J:164563 	
+MGI:88327	Cd28	CD28 antigen	1		regulation of regulatory T cell differentiation			IGI	MGI:96756 MGI:98725 	J:170513 	
+MGI:88327	Cd28	CD28 antigen	1		regulation of T cell proliferation			IEA	IPR040216 	J:72247 	
+MGI:88327	Cd28	CD28 antigen	1		regulatory T cell differentiation			ISO	P10747 	J:164563 	
+MGI:88327	Cd28	CD28 antigen	1		T cell activation			IBA	PTN000161013 	J:265628 	
+MGI:88327	Cd28	CD28 antigen	1		T cell activation			ISO	RGD:2299 	J:155856 	
+MGI:88327	Cd28	CD28 antigen	1		T cell activation			ISO	P10747 	J:164563 	
+MGI:88327	Cd28	CD28 antigen	1		T cell costimulation			IBA	PTN000161013 	J:265628 	
+MGI:88327	Cd28	CD28 antigen	1		T cell costimulation			IDA		J:56164 	
+MGI:88327	Cd28	CD28 antigen	1		T cell costimulation	has the participant T cell		IDA		J:84973 J:91914 	
+MGI:88327	Cd28	CD28 antigen	1		T cell costimulation	has the participant CD4-positive, alpha-beta T cell		IDA		J:17350 J:125135 	
+MGI:88327	Cd28	CD28 antigen	1		T cell costimulation			IGI	MGI:88332 	J:205441 	
+MGI:88327	Cd28	CD28 antigen	1		T cell costimulation	has the participant T cell		IMP	MGI:1857150 	J:14194 	
+MGI:88327	Cd28	CD28 antigen	1		T cell costimulation	has the participant CD4-positive, alpha-beta T cell		IMP	MGI:1857150 	J:125135 	
+MGI:88327	Cd28	CD28 antigen	1		T cell costimulation			ISO	RGD:2299 	J:155856 	
+MGI:88337	Cd40lg	CD40 ligand	X		positive regulation of T cell proliferation			ISO	P29965 	J:164563 	
+MGI:88338	Cd44	CD44 antigen	2		negative regulation of CD4-positive, alpha-beta T cell proliferation			IMP		J:224716 	
+MGI:88338	Cd44	CD44 antigen	2		negative regulation of regulatory T cell differentiation			IMP		J:224716 	
+MGI:88338	Cd44	CD44 antigen	2		T cell activation			ISO	P16070 	J:164563 	
+MGI:1203290	Cd46	CD46 antigen, complement regulatory protein	1		positive regulation of memory T cell differentiation			ISO	P15529 	J:164563 	
+MGI:1203290	Cd46	CD46 antigen, complement regulatory protein	1		positive regulation of regulatory T cell differentiation			ISO	P15529 	J:164563 	
+MGI:1203290	Cd46	CD46 antigen, complement regulatory protein	1		positive regulation of T cell proliferation			ISO	P15529 	J:164563 	
+MGI:96617	Cd47	CD47 antigen (Rh-related antigen, integrin-associated signal transducer)	16		positive regulation of T cell activation			ISO	Q08722 	J:164563 	
+MGI:88339	Cd48	CD48 antigen	1		T cell activation	has the participant T cell		IDA		J:2873 	
+MGI:1888996	Cd59b	CD59b antigen	2		positive regulation of T cell proliferation			ISO	RGD:2311 	J:155856 	
+MGI:96534	Cd74	CD74 antigen (invariant polypeptide of major histocompatibility complex, class II antigen-associated)	18		negative regulation of T cell differentiation			IMP	MGI:1927205 	J:4119 	
+MGI:96534	Cd74	CD74 antigen (invariant polypeptide of major histocompatibility complex, class II antigen-associated)	18		negative thymic T cell selection			IMP	MGI:1927205 	J:4119 	
+MGI:96534	Cd74	CD74 antigen (invariant polypeptide of major histocompatibility complex, class II antigen-associated)	18		positive regulation of T cell differentiation			IMP	MGI:1927205 	J:4119 J:31624 	
+MGI:96534	Cd74	CD74 antigen (invariant polypeptide of major histocompatibility complex, class II antigen-associated)	18		positive regulation of T cell differentiation			IMP	MGI:1927530 	J:88532 	
+MGI:96534	Cd74	CD74 antigen (invariant polypeptide of major histocompatibility complex, class II antigen-associated)	18		positive thymic T cell selection			IMP	MGI:1927205 	J:4119 J:31624 	
+MGI:96534	Cd74	CD74 antigen (invariant polypeptide of major histocompatibility complex, class II antigen-associated)	18		positive thymic T cell selection			IMP	MGI:1927530 	J:88532 	
+MGI:101775	Cd80	CD80 antigen	16		negative regulation of T cell proliferation			IBA	PTN002402215 	J:265628 	
+MGI:101775	Cd80	CD80 antigen	16		positive regulation of alpha-beta T cell proliferation			IDA		J:125145 	
+MGI:101775	Cd80	CD80 antigen	16		positive regulation of T cell proliferation			IBA	PTN002402215 	J:265628 	
+MGI:101775	Cd80	CD80 antigen	16		positive regulation of T cell proliferation			IGI	MGI:101773 	J:205441 	
+MGI:101775	Cd80	CD80 antigen	16		positive regulation of T cell proliferation			ISO	RGD:2314 	J:155856 	
+MGI:101775	Cd80	CD80 antigen	16		T cell costimulation			IBA	PTN002402215 	J:265628 	
+MGI:101775	Cd80	CD80 antigen	16		T cell costimulation			IDA		J:125145 	
+MGI:101775	Cd80	CD80 antigen	16		T cell costimulation	has the participant CD4-positive, alpha-beta T cell		IDA		J:94873 	
+MGI:1096398	Cd81	CD81 antigen	7		CD4-positive, alpha-beta T cell costimulation			ISO	P60033 	J:164563 	
+MGI:1096398	Cd81	CD81 antigen	7		positive regulation of CD4-positive, alpha-beta T cell proliferation			ISO	P60033 	J:164563 	
+MGI:1096398	Cd81	CD81 antigen	7		positive regulation of T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell			IMP		J:65423 	
+MGI:1096398	Cd81	CD81 antigen	7		positive regulation of T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell			ISO	P60033 	J:164563 	
+MGI:1328316	Cd83	CD83 antigen	13		positive regulation of CD4-positive, alpha-beta T cell differentiation	happens in spleen,regulates the differentiation of CD4-positive, alpha-beta T cell|happens in bone marrow,regulates the differentiation of CD4-positive, alpha-beta T cell|happens in blood,regulates the differentiation of CD4-positive, alpha-beta T cell		IMP	MGI:3055293 	J:92721 	
+MGI:101773	Cd86	CD86 antigen	16		negative regulation of T cell proliferation			IBA	PTN002402215 	J:265628 	
+MGI:101773	Cd86	CD86 antigen	16		positive regulation of activated T cell proliferation			ISO	RGD:628714 	J:155856 	
+MGI:101773	Cd86	CD86 antigen	16		positive regulation of T cell proliferation			IBA	PTN002402215 	J:265628 	
+MGI:101773	Cd86	CD86 antigen	16		positive regulation of T cell proliferation			IGI	MGI:101775 	J:205441 	
+MGI:101773	Cd86	CD86 antigen	16		positive regulation of T cell proliferation			ISO	RGD:628714 	J:155856 	
+MGI:101773	Cd86	CD86 antigen	16		T cell costimulation			IBA	PTN002402215 	J:265628 	
+MGI:1096360	Cd151	CD151 antigen	7		T cell proliferation			IMP	MGI:3050539 	J:91605 	
+MGI:1860383	Cd160	CD160 antigen	3		negative regulation of CD4-positive, alpha-beta T cell costimulation			ISO	O95971 	J:164563 	
+MGI:1860383	Cd160	CD160 antigen	3		T cell costimulation			ISO	O95971 	J:164563 	
+MGI:2157942	Cd209a	CD209a antigen	8		regulation of T cell proliferation			ISO	Q9NNX6 	J:73065 	
+MGI:2157948	Cd209e	CD209e antigen	8		positive regulation of T cell proliferation			ISO	Q9NNX6 	J:164563 	
+MGI:109294	Cd244a	CD244 molecule A	1		positive regulation of CD8-positive, alpha-beta T cell proliferation			IMP		J:227396 	
+MGI:1926446	Cd274	CD274 antigen	19		negative regulation of activated T cell proliferation			ISO	Q9NZQ7 	J:164563 	
+MGI:1926446	Cd274	CD274 antigen	19		negative regulation of CD4-positive, alpha-beta T cell proliferation			ISO	Q9NZQ7 	J:164563 	
+MGI:1926446	Cd274	CD274 antigen	19		negative regulation of CD8-positive, alpha-beta T cell activation			ISO	Q9NZQ7 	J:164563 	
+MGI:1926446	Cd274	CD274 antigen	19		negative regulation of T cell proliferation			IBA	PTN002402215 	J:265628 	
+MGI:1926446	Cd274	CD274 antigen	19		negative regulation of T cell proliferation			IDA		J:114496 	
+MGI:1926446	Cd274	CD274 antigen	19		positive regulation of T cell proliferation			IBA	PTN002402215 	J:265628 	
+MGI:1926446	Cd274	CD274 antigen	19		positive regulation of T cell proliferation			ISO	RGD:1566211 	J:155856 	
+MGI:1926446	Cd274	CD274 antigen	19		T cell costimulation			IBA	PTN002402215 	J:265628 	
+MGI:1926446	Cd274	CD274 antigen	19		T cell costimulation			ISO	Q9NZQ7 	J:164563 	
+MGI:2183926	Cd276	CD276 antigen	9		negative regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:84973 	
+MGI:2183926	Cd276	CD276 antigen	9		negative regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:3033707 	J:84973 	
+MGI:2183926	Cd276	CD276 antigen	9		positive regulation of T cell proliferation			IMP		J:132222 	
+MGI:2183926	Cd276	CD276 antigen	9		positive regulation of T cell proliferation			ISO	Q5ZPR3 	J:164563 	
+MGI:2183926	Cd276	CD276 antigen	9		T cell activation			ISO	Q5ZPR3 	J:164563 	
+MGI:2443411	Cd300a	CD300A molecule	11		negative regulation of NK T cell activation			ISO	Q9UGN4 	J:164563 	
+MGI:2685856	Cdh26	cadherin-like 26	2		CD4-positive, alpha-beta T cell activation			ISO	Q8IXH8 	J:164563 	
+MGI:1277162	Cdk6	cyclin-dependent kinase 6	5		T cell differentiation in thymus			IMP	MGI:3833563 MGI:5141514 	J:174697 	
+MGI:104738	Cdkn2a	cyclin dependent kinase inhibitor 2A	4		negative regulation of immature T cell proliferation in thymus			IMP		J:105559 	
+MGI:1347245	Ceacam1	carcinoembryonic antigen-related cell adhesion molecule 1	7		negative regulation of T cell proliferation	happens in T cell		IMP		J:116136 	
+MGI:1347245	Ceacam1	carcinoembryonic antigen-related cell adhesion molecule 1	7		negative regulation of T cell proliferation	happens in T cell	PR:P31809-1	IMP		J:116136 	
+MGI:1347245	Ceacam1	carcinoembryonic antigen-related cell adhesion molecule 1	7		negative regulation of T cell proliferation		PR:000044463	IMP	MGI:3695215 	J:116136 	
+MGI:1347245	Ceacam1	carcinoembryonic antigen-related cell adhesion molecule 1	7		negative regulation of T cell proliferation	happens in T cell,happens in spleen	PR:000044463	IMP	MGI:3695215 	J:190980 	
+MGI:1347245	Ceacam1	carcinoembryonic antigen-related cell adhesion molecule 1	7		positive regulation of CD4-positive, alpha-beta T cell activation	happens in naive T cell,regulates a function/process that uses effector memory CD4-positive, alpha-beta T cell,happens in spleen|happens in naive T cell,regulates a function/process that uses effector memory CD4-positive, alpha-beta T cell,happens in mesenteric lymph node|happens in naive T cell,regulates a function/process that uses effector memory CD4-positive, alpha-beta T cell,happens in Peyer's patch|happens in naive T cell,regulates a function/process that uses effector memory CD4-positive, alpha-beta T cell,happens in colon lamina propria	PR:000044465	IMP	MGI:5609428 MGI:5609428,MGI:3053071 	J:190980 	
+MGI:1347245	Ceacam1	carcinoembryonic antigen-related cell adhesion molecule 1	7		positive regulation of CD4-positive, alpha-beta T cell proliferation	happens in effector memory CD4-positive, alpha-beta T cell,happens in spleen	PR:000044465	IMP	MGI:3053071 MGI:5609428 	J:190980 	
+MGI:1347245	Ceacam1	carcinoembryonic antigen-related cell adhesion molecule 1	7		positive regulation of CD8-positive, alpha-beta T cell activation	happens in naive T cell,regulates a function/process that uses effector memory CD8-positive, alpha-beta T cell,happens in spleen|happens in naive T cell,regulates a function/process that uses effector memory CD8-positive, alpha-beta T cell,happens in mesenteric lymph node|happens in naive T cell,regulates a function/process that uses effector memory CD8-positive, alpha-beta T cell,happens in Peyer's patch|happens in naive T cell,regulates a function/process that uses effector memory CD8-positive, alpha-beta T cell,happens in colon lamina propria	PR:000044465	IMP	MGI:5609428 MGI:5609428,MGI:3053071 	J:190980 	
+MGI:1347245	Ceacam1	carcinoembryonic antigen-related cell adhesion molecule 1	7		positive regulation of T cell proliferation	happens in T cell,happens in spleen	PR:000044465	IMP	MGI:5609428 	J:190980 	
+MGI:88373	Cebpb	CCAAT/enhancer binding protein (C/EBP), beta	2		negative regulation of T cell proliferation			IDA		J:131157 	
+MGI:88373	Cebpb	CCAAT/enhancer binding protein (C/EBP), beta	2		T-helper 1 cell activation			IMP		J:153025 	
+MGI:2442261	Cgas	cyclic GMP-AMP synthase	9		regulation of T cell activation			IGI	MGI:1328317 	J:226998 	
+MGI:2444748	Chd7	chromodomain helicase DNA binding protein 7	4		T cell differentiation			ISO	Q9P2D1 	J:164563 	
+MGI:99779	Chrna7	cholinergic receptor, nicotinic, alpha polypeptide 7	7		T cell activation	has the participant thymus,has the participant T cell		IMP	MGI:1888407 	J:112766 	
+MGI:2136650	Clec2i	C-type lectin domain family 2, member i	6		regulation of T cell proliferation			IMP		J:107956 	
+MGI:1349412	Clec4a2	C-type lectin domain family 4, member a2	6		CD8-positive, alpha-beta T cell activation			ISO	Q9UMR7 	J:164563 	
+MGI:1298389	Clec4d	C-type lectin domain family 4, member d	6		T cell differentiation involved in immune response			IMP		J:203159 	
+MGI:1861232	Clec4e	C-type lectin domain family 4, member e	6		T cell differentiation involved in immune response			IMP	MGI:5013826 	J:203159 	
+MGI:1859834	Clec4f	C-type lectin domain family 4, member f	6		NK T cell activation	happens in liver		IMP	MGI:5529277 	J:203199 	
+MGI:1923113	Clec4g	C-type lectin domain family 4, member g	8		negative regulation of T cell proliferation			IDA		J:200968 	
+MGI:1923113	Clec4g	C-type lectin domain family 4, member g	8		negative regulation of T cell proliferation	regulates the proliferation of CD8-positive, alpha-beta thymocyte		IMP	MGI:5510586 	J:194891 	
+MGI:1927155	Clptm1	cleft lip and palate associated transmembrane protein 1	7		regulation of T cell differentiation in thymus			IMP		J:42199 	
+MGI:1345961	Coro1a	coronin, actin binding protein 1A	7		positive regulation of T cell activation	regulates a function/process that happens in T cell		IMP		J:131363 	
+MGI:1345961	Coro1a	coronin, actin binding protein 1A	7		positive regulation of T cell proliferation	regulates the proliferation of T cell		IMP		J:131363 	
+MGI:2152434	Crip3	cysteine-rich protein 3	17		T cell proliferation			IMP	MGI:2445952 	J:72942 	
+MGI:88537	Csk	c-src tyrosine kinase	9		regulation of T cell activation			TAS		J:113969 	
+MGI:88554	Ctla2a	cytotoxic T lymphocyte-associated protein 2 alpha	13		regulation of regulatory T cell differentiation			IMP		J:171531 	
+MGI:88556	Ctla4	cytotoxic T-lymphocyte-associated protein 4	1		negative regulation of regulatory T cell differentiation			IBA	PTN000160996 	J:265628 	
+MGI:88556	Ctla4	cytotoxic T-lymphocyte-associated protein 4	1		negative regulation of regulatory T cell differentiation			ISO	P16410 	J:164563 	
+MGI:88556	Ctla4	cytotoxic T-lymphocyte-associated protein 4	1		negative regulation of T cell proliferation			ISO	RGD:61975 	J:155856 	
+MGI:88556	Ctla4	cytotoxic T-lymphocyte-associated protein 4	1		regulation of T cell proliferation			IEA	IPR040216 	J:72247 	
+MGI:88276	Ctnnb1	catenin (cadherin associated protein), beta 1	9		regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:2148594 MGI:2448686 	J:86605 	
+MGI:88276	Ctnnb1	catenin (cadherin associated protein), beta 1	9		T cell differentiation	happens in spleen		IMP	MGI:2148594 MGI:2448686 	J:86605 	
+MGI:88276	Ctnnb1	catenin (cadherin associated protein), beta 1	9		T cell differentiation in thymus	happens in thymus		IMP	MGI:1858008 	J:100461 	
+MGI:1858304	Ctps	cytidine 5'-triphosphate synthase	4		T cell proliferation			ISO	P17812 	J:164563 	
+MGI:1201679	Cxadr	coxsackie virus and adenovirus receptor	16		gamma-delta T cell activation			IDA		J:163519 	
+MGI:103556	Cxcl12	chemokine (C-X-C motif) ligand 12	6		T cell proliferation	affects a population of T cell		IMP	MGI:1934384 	J:82996 	
+MGI:109563	Cxcr4	chemokine (C-X-C motif) receptor 4	1		T cell proliferation	affects a population of T cell		IMP	MGI:1934442 	J:82996 	
+MGI:1921506	Cyld	CYLD lysine 63 deubiquitinase	8		CD4-positive or CD8-positive, alpha-beta T cell lineage commitment			IMP	MGI:3664438 	J:112392 	
+MGI:1921506	Cyld	CYLD lysine 63 deubiquitinase	8		negative regulation of T cell differentiation	happens in thymus	PR:Q3TJI3	IDA		J:190708 	
+MGI:1921506	Cyld	CYLD lysine 63 deubiquitinase	8		positive regulation of T cell differentiation			IMP	MGI:3664438 	J:112392 	
+MGI:2176159	Cyp26b1	cytochrome P450, family 26, subfamily b, polypeptide 1	6		establishment of T cell polarity			IMP	MGI:3764691 	J:205957 	
+MGI:2176159	Cyp26b1	cytochrome P450, family 26, subfamily b, polypeptide 1	6		regulation of T cell differentiation			IMP	MGI:3764691 	J:205957 	
+MGI:1194508	Ddost	dolichyl-di-phosphooligosaccharide-protein glycotransferase	4		T cell activation			ISO	P39656 	J:164563 	
+MGI:2683592	Dhps	deoxyhypusine synthase	8		positive regulation of T cell proliferation			IMP		J:207229 	
+MGI:2177178	Dicer1	dicer 1, ribonuclease type III	12		regulation of regulatory T cell differentiation			IMP		J:138683 	
+MGI:107231	Dlg1	discs large MAGUK scaffold protein 1	16		negative regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:3699270 	J:129078 	
+MGI:107231	Dlg1	discs large MAGUK scaffold protein 1	16		T cell activation	has the participant T cell		IMP		J:96052 J:117798 	
+MGI:1918478	Dlg5	discs large MAGUK scaffold protein 5	14		negative regulation of T cell proliferation			ISO	Q8TDM6 	J:164563 	
+MGI:1859388	Dll4	delta like canonical Notch ligand 4	2		T cell differentiation			IDA		J:90630 	
+MGI:1933786	Dnaja3	DnaJ heat shock protein family (Hsp40) member A3	16		positive regulation of T cell proliferation			IMP	MGI:2448686 MGI:3040717 	J:98985 	
+MGI:1933786	Dnaja3	DnaJ heat shock protein family (Hsp40) member A3	16		T cell differentiation in thymus			IMP	MGI:2448686 MGI:3040717 	J:98985 	
+MGI:2149010	Dock2	dedicator of cyto-kinesis 2	11		alpha-beta T cell activation			IMP	MGI:2152031 	J:84581 	
+MGI:2149010	Dock2	dedicator of cyto-kinesis 2	11		alpha-beta T cell proliferation			IMP	MGI:2152031 	J:84581 	
+MGI:2149010	Dock2	dedicator of cyto-kinesis 2	11		establishment of T cell polarity			IMP	MGI:2152031 	J:84581 	
+MGI:2149010	Dock2	dedicator of cyto-kinesis 2	11		negative thymic T cell selection			IMP	MGI:2152031 	J:84581 	
+MGI:2149010	Dock2	dedicator of cyto-kinesis 2	11		positive thymic T cell selection			IMP	MGI:2152031 	J:84581 	
+MGI:2149010	Dock2	dedicator of cyto-kinesis 2	11		T cell activation			IMP	MGI:2152031 	J:84581 	
+MGI:2149010	Dock2	dedicator of cyto-kinesis 2	11		T cell proliferation			IMP	MGI:2152031 	J:84581 	
+MGI:1921396	Dock8	dedicator of cytokinesis 8	19		memory T cell proliferation			ISO	Q8NF50 	J:73065 	
+MGI:1921396	Dock8	dedicator of cytokinesis 8	19		positive regulation of establishment of T cell polarity			IMP		J:238772 	
+MGI:1921396	Dock8	dedicator of cytokinesis 8	19		positive regulation of establishment of T cell polarity			ISO	Q8NF50 	J:164563 	
+MGI:94919	Dpp4	dipeptidylpeptidase 4	2		T cell activation			ISO	P27487 	J:164563 	
+MGI:94919	Dpp4	dipeptidylpeptidase 4	2		T cell costimulation			ISO	P27487 	J:164563 	
+MGI:1261425	Drosha	drosha, ribonuclease type III	15		regulation of regulatory T cell differentiation			IMP		J:138683 	
+MGI:1352744	Dtx1	deltex 1, E3 ubiquitin ligase	5		negative regulation of T cell differentiation	happens in bone marrow,regulates the differentiation of T cell		IDA		J:83687 	
+MGI:1919599	Dusp3	dual specificity phosphatase 3 (vaccinia virus phosphatase VH1-related)	11		negative regulation of T cell activation			IBA	PTN000806783 	J:265628 	
+MGI:1919599	Dusp3	dual specificity phosphatase 3 (vaccinia virus phosphatase VH1-related)	11		negative regulation of T cell activation			ISO	P51452 	J:164563 	
+MGI:1927070	Dusp10	dual specificity phosphatase 10	1		positive regulation of regulatory T cell differentiation			ISO	Q9Y6W6 	J:164563 	
+MGI:1915926	Dusp22	dual specificity phosphatase 22	13		negative regulation of T cell activation			IMP		J:213253 	
+MGI:1916048	Duxbl1	double homeobox B-like 1	14		regulation of T cell differentiation			IDA		J:163805 	
+MGI:1354171	Ebi3	Epstein-Barr virus induced gene 3	17		T cell proliferation			IDA		J:77522 	
+MGI:102708	Efnb1	ephrin B1	X		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:95036 	
+MGI:102708	Efnb1	ephrin B1	X		T cell costimulation			IDA		J:94701 	
+MGI:105097	Efnb2	ephrin B2	8		T cell costimulation			IDA		J:94701 	
+MGI:109196	Efnb3	ephrin B3	11		T cell costimulation			IDA		J:94701 	
+MGI:95295	Egr1	early growth response 1	18		T cell differentiation			IMP	MGI:2384433 	J:78245 	
+MGI:1306780	Egr3	early growth response 3	14		positive regulation of T cell differentiation in thymus			IMP		J:174553 	
+MGI:1306780	Egr3	early growth response 3	14		regulation of gamma-delta T cell differentiation			IDA		J:174553 	
+MGI:1353427	Eif2ak4	eukaryotic translation initiation factor 2 alpha kinase 4	2		T cell activation involved in immune response			IMP		J:205264 	
+MGI:1928377	Elf4	E74-like factor 4 (ets domain transcription factor)	X		NK T cell proliferation			IDA		J:79568 	
+MGI:1201683	Eomes	eomesodermin	9		CD8-positive, alpha-beta T cell differentiation involved in immune response			IBA	PTN002601220 	J:265628 	
+MGI:1201683	Eomes	eomesodermin	9		CD8-positive, alpha-beta T cell differentiation involved in immune response			IDA		J:154842 	
+MGI:1201683	Eomes	eomesodermin	9		CD8-positive, alpha-beta T cell differentiation involved in immune response			ISO	O95936 	J:164563 	
+MGI:104757	Ephb4	Eph receptor B4	5		positive regulation of T cell costimulation			IGI	MGI:1096338 	J:94701 	
+MGI:1096338	Ephb6	Eph receptor B6	6		activated T cell proliferation	happens in spleen		IMP	MGI:3522020 	J:94701 	
+MGI:1096338	Ephb6	Eph receptor B6	6		positive regulation of T cell costimulation			IGI	MGI:104757 	J:94701 	
+MGI:95407	Epo	erythropoietin	5		positive regulation of activated T cell proliferation			ISO	RGD:2559 	J:155856 	
+MGI:95410	Erbb2	erb-b2 receptor tyrosine kinase 2	11		negative regulation of immature T cell proliferation in thymus	regulates a function/process that happens in thymus		IMP		J:116829 	
+MGI:101910	F2rl1	coagulation factor II (thrombin) receptor-like 1	13		T cell activation involved in immune response			IDA		J:166198 	
+MGI:109324	Fadd	Fas (TNFRSF6)-associated via death domain	7		positive regulation of activated T cell proliferation			IMP		J:176448 	
+MGI:109324	Fadd	Fas (TNFRSF6)-associated via death domain	7		T cell differentiation			TAS		J:180458 	
+MGI:109324	Fadd	Fas (TNFRSF6)-associated via death domain	7		T cell differentiation in thymus			IMP		J:176448 	
+MGI:1923520	Fam49b	family with sequence similarity 49, member B	15		positive regulation of memory T cell activation			IDA		J:186455 	
+MGI:1923520	Fam49b	family with sequence similarity 49, member B	15		positive regulation of T cell activation			IBA	PTN002646191 	J:265628 	
+MGI:1923520	Fam49b	family with sequence similarity 49, member B	15		positive regulation of T cell activation			IDA		J:186455 	
+MGI:1341823	Fanca	Fanconi anemia, complementation group A	8		regulation of regulatory T cell differentiation			IBA	PTN000248169 	J:265628 	
+MGI:1341823	Fanca	Fanconi anemia, complementation group A	8		regulation of regulatory T cell differentiation			IMP	MGI:2674094 	J:210175 	
+MGI:2448480	Fancd2	Fanconi anemia, complementation group D2	6		regulation of regulatory T cell differentiation			IMP	MGI:2673422 	J:210175 	
+MGI:95484	Fas	Fas (TNF receptor superfamily member 6)	19		negative thymic T cell selection			IMP	MGI:1856334 	J:56164 	
+MGI:95496	Fcer1g	Fc receptor, IgE, high affinity I, gamma polypeptide	1		T cell differentiation involved in immune response			IBA	PTN000423688 	J:265628 	
+MGI:95496	Fcer1g	Fc receptor, IgE, high affinity I, gamma polypeptide	1		T cell differentiation involved in immune response			IMP	MGI:2384004 	J:203159 	
+MGI:102795	Fgl1	fibrinogen-like protein 1	8		negative regulation of T cell activation			IDA		J:269578 	
+MGI:103266	Fgl2	fibrinogen-like protein 2	5		negative regulation of memory T cell differentiation			IMP	MGI:3582343 	J:265133 	
+MGI:103266	Fgl2	fibrinogen-like protein 2	5		T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell			IMP	MGI:3582343 	J:265133 	
+MGI:95541	Fkbp1a	FK506 binding protein 1a	2		T cell proliferation			IMP	MGI:2158807 	J:86699 	
+MGI:1336205	Fkbp1b	FK506 binding protein 1b	12		T cell proliferation			IMP	MGI:2182644 	J:86699 	
+MGI:103309	Flot2	flotillin 2	11		positive regulation of establishment of T cell polarity			ISO	Q14254 	J:164563 	
+MGI:95559	Flt3	FMS-like tyrosine kinase 3	5		pro-T cell differentiation			IMP	MGI:2384051 	J:27238 	
+MGI:1347474	Foxj1	forkhead box J1	11		negative regulation of T cell differentiation in thymus			IMP		J:122222 	
+MGI:1347474	Foxj1	forkhead box J1	11		negative regulation of T cell proliferation			IMP		J:90379 	
+MGI:102949	Foxn1	forkhead box N1	11		regulation of positive thymic T cell selection			IMP		J:207150 	
+MGI:102949	Foxn1	forkhead box N1	11		regulation of T cell differentiation in thymus			IMP	MGI:5297717 	J:177992 	
+MGI:102949	Foxn1	forkhead box N1	11		T cell lineage commitment			IMP		J:207150 	
+MGI:1914004	Foxp1	forkhead box P1	6		T follicular helper cell differentiation			IDA		J:215934 	
+MGI:1891436	Foxp3	forkhead box P3	X		CD4-positive, CD25-positive, alpha-beta regulatory T cell lineage commitment			TAS		J:136164 	
+MGI:1891436	Foxp3	forkhead box P3	X		negative regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:116306 	
+MGI:1891436	Foxp3	forkhead box P3	X		negative regulation of T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IDA		J:117627 	
+MGI:1891436	Foxp3	forkhead box P3	X		negative regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:1857034 	J:102496 	
+MGI:1891436	Foxp3	forkhead box P3	X		negative regulation of T cell proliferation	regulates the proliferation of mature alpha-beta T cell		IMP	MGI:1857034 	J:115967 	
+MGI:1891436	Foxp3	forkhead box P3	X		negative regulation of T cell proliferation			ISO	Q9BZS1 	J:164563 	
+MGI:1891436	Foxp3	forkhead box P3	X		negative regulation of T-helper 17 cell differentiation			ISO	Q9BZS1 	J:164563 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation	regulates the differentiation of CD4-positive, CD25-positive, alpha-beta regulatory T cell		IMP	MGI:1857034 	J:118845 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation	regulates the differentiation of induced T-regulatory cell		IMP	MGI:1857034 	J:137389 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation			IMP	MGI:2654936 	J:82560 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation	regulates the differentiation of CD4-positive, alpha-beta T cell		IMP	MGI:3696705 	J:117165 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation			TAS		J:136164 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of immature T cell proliferation in thymus	regulates a function/process that happens in thymus		IMP	MGI:1857034 	J:116829 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of regulatory T cell differentiation	regulates the differentiation of T cell		IDA		J:116306 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of regulatory T cell differentiation	regulates the differentiation of CD4-positive, alpha-beta T cell		IDA		J:117627 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of regulatory T cell differentiation			IDA		J:82045 J:89682 	
+MGI:1891436	Foxp3	forkhead box P3	X		positive regulation of regulatory T cell differentiation			IMP	MGI:2654936 	J:97029 	
+MGI:1891436	Foxp3	forkhead box P3	X		T cell activation			IMP	MGI:1857034 	J:53219 	
+MGI:1891436	Foxp3	forkhead box P3	X		T cell activation			ISO	Q9BZS1 	J:164563 	
+MGI:107692	Fut7	fucosyltransferase 7	2		CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation	results in the differentiation of induced T-regulatory cell		IMP	MGI:2387664 	J:137389 	
+MGI:95602	Fyn	Fyn proto-oncogene	10		activated T cell proliferation			IMP	MGI:2179145 	J:70886 	
+MGI:108571	Fzd5	frizzled class receptor 5	1		T cell differentiation in thymus			IMP		J:67003 	
+MGI:108570	Fzd7	frizzled class receptor 7	1		T cell differentiation in thymus			IMP		J:67003 	
+MGI:108460	Fzd8	frizzled class receptor 8	18		T cell differentiation in thymus			IMP		J:67003 	
+MGI:1346325	Gadd45g	growth arrest and DNA-damage-inducible 45 gamma	13		T-helper 1 cell differentiation			TAS		J:79231 	
+MGI:95663	Gata3	GATA binding protein 3	2		positive regulation of T cell differentiation			IDA		J:175335 	
+MGI:95663	Gata3	GATA binding protein 3	2		pro-T cell differentiation			IMP	MGI:2181200 MGI:3696958 MGI:4418042 	J:155686 	
+MGI:95663	Gata3	GATA binding protein 3	2		regulation of CD4-positive, alpha-beta T cell differentiation	regulates the differentiation of CD4-positive helper T cell		IMP	MGI:3487291 	J:141145 	
+MGI:95663	Gata3	GATA binding protein 3	2		T cell differentiation			IDA		J:20161 	
+MGI:95663	Gata3	GATA binding protein 3	2		T cell differentiation			ISO	P04234 	J:18816 	
+MGI:95663	Gata3	GATA binding protein 3	2		T cell differentiation in thymus			IGI	MGI:88127 	J:141145 	
+MGI:95663	Gata3	GATA binding protein 3	2		T cell differentiation in thymus			IMP	MGI:2153825 	J:37093 	
+MGI:95663	Gata3	GATA binding protein 3	2		T cell differentiation in thymus			IMP	MGI:2683927 	J:86996 	
+MGI:95663	Gata3	GATA binding protein 3	2		T cell differentiation in thymus			IMP	MGI:4418042 	J:155686 	
+MGI:95663	Gata3	GATA binding protein 3	2		T-helper 2 cell differentiation			IDA		J:165738 	
+MGI:95663	Gata3	GATA binding protein 3	2		thymic T cell selection			IMP	MGI:2683927 	J:86996 	
+MGI:109368	Gimap1	GTPase, IMAP family member 1	6		T cell differentiation	happens in spleen,results in the differentiation of CD4-positive, alpha-beta T cell|happens in spleen,results in the differentiation of CD8-positive, alpha-beta T cell|happens in lymph node,results in the differentiation of CD4-positive, alpha-beta T cell|happens in lymph node,results in the differentiation of CD8-positive, alpha-beta T cell		IMP	MGI:2449947 MGI:4459837 	J:160782 	
+MGI:95713	Gja1	gap junction protein, alpha 1	10		T cell activation			IDA		J:179248 	
+MGI:95713	Gja1	gap junction protein, alpha 1	10		T cell proliferation			IMP		J:269549 	
+MGI:95729	Gli3	GLI-Kruppel family member GLI3	13		negative regulation of alpha-beta T cell differentiation			IMP		J:151855 	
+MGI:95729	Gli3	GLI-Kruppel family member GLI3	13		negative thymic T cell selection			IMP		J:151855 	
+MGI:95729	Gli3	GLI-Kruppel family member GLI3	13		positive regulation of alpha-beta T cell differentiation			IMP		J:117284 	
+MGI:95729	Gli3	GLI-Kruppel family member GLI3	13		T cell differentiation in thymus	happens in thymus,results in the differentiation of double-positive, alpha-beta thymocyte		IMP	MGI:1856276 	J:117284 	
+MGI:2141180	Glmn	glomulin, FKBP associated protein	5		negative regulation of T cell proliferation			ISO	Q92990 	J:164563 	
+MGI:3701966	Gm13271	predicted gene 13271	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:3701968	Gm13272	predicted gene 13272	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:3701970	Gm13275	predicted gene 13275	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:3701972	Gm13276	predicted gene 13276	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:3701974	Gm13277	predicted gene 13277	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:3649573	Gm13283	predicted gene 13283	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:5825552	Gm45915	predicted gene, 45915	14		T cell activation			IMP		J:248810 	
+MGI:95789	Gnrh1	gonadotropin releasing hormone 1	14		negative regulation of immature T cell proliferation			ISO	RGD:2720 	J:155856 	
+MGI:109162	Gpam	glycerol-3-phosphate acyltransferase, mitochondrial	19		positive regulation of activated T cell proliferation	regulates a function/process that happens in spleen,regulates the proliferation of T cell		IMP	MGI:2669956 	J:143259 	
+MGI:1934765	Gpnmb	glycoprotein (transmembrane) nmb	6		negative regulation of T cell activation			ISO	Q14956 	J:164563 	
+MGI:1934765	Gpnmb	glycoprotein (transmembrane) nmb	6		negative regulation of T cell proliferation			ISO	Q14956 	J:164563 	
+MGI:107859	Gpr18	G protein-coupled receptor 18	14		CD8-positive, alpha-beta intraepithelial T cell differentiation			IDA		J:219661 	
+MGI:107859	Gpr18	G protein-coupled receptor 18	14		CD8-positive, alpha-beta intraepithelial T cell differentiation			IMP	MGI:5708707 	J:219661 	
+MGI:107859	Gpr18	G protein-coupled receptor 18	14		CD8-positive, gamma-delta intraepithelial T cell differentiation			IDA		J:219661 	
+MGI:107859	Gpr18	G protein-coupled receptor 18	14		CD8-positive, gamma-delta intraepithelial T cell differentiation			IMP	MGI:5708707 	J:219661 	
+MGI:2442034	Gpr183	G protein-coupled receptor 183	14		T follicular helper cell differentiation			IMP		J:233676 	
+MGI:95851	Gsn	gelsolin	2		regulation of establishment of T cell polarity			ISO	P06396 	J:164563 	
+MGI:95895	H2-Aa	histocompatibility 2, class II antigen A, alpha	17		negative regulation of T cell proliferation			ISO	RGD:1595867 	J:155856 	
+MGI:95895	H2-Aa	histocompatibility 2, class II antigen A, alpha	17		positive regulation of T cell differentiation			IDA		J:31625 	
+MGI:103070	H2-Ab1	histocompatibility 2, class II antigen A, beta 1	17		negative regulation of T cell proliferation			ISO	RGD:3469 	J:155856 	
+MGI:103070	H2-Ab1	histocompatibility 2, class II antigen A, beta 1	17		positive regulation of alpha-beta T cell activation			IDA		J:169793 	
+MGI:103070	H2-Ab1	histocompatibility 2, class II antigen A, beta 1	17		positive regulation of alpha-beta T cell activation			IMP		J:169994 	
+MGI:103070	H2-Ab1	histocompatibility 2, class II antigen A, beta 1	17		positive regulation of alpha-beta T cell activation			TAS		J:20420 	
+MGI:95921	H2-DMa	histocompatibility 2, class II, locus DMa	17		positive regulation of T cell differentiation			IMP	MGI:1861933 	J:31625 J:88532 	
+MGI:95921	H2-DMa	histocompatibility 2, class II, locus DMa	17		positive regulation of T cell differentiation			IMP	MGI:2652160 	J:31786 	
+MGI:95921	H2-DMa	histocompatibility 2, class II, locus DMa	17		positive regulation of T cell differentiation			IMP	MGI:2384509 	J:31624 	
+MGI:95921	H2-DMa	histocompatibility 2, class II, locus DMa	17		positive thymic T cell selection			IMP	MGI:1861933 	J:31625 J:88532 	
+MGI:95921	H2-DMa	histocompatibility 2, class II, locus DMa	17		positive thymic T cell selection			IMP	MGI:2384509 	J:31624 	
+MGI:95921	H2-DMa	histocompatibility 2, class II, locus DMa	17		positive thymic T cell selection			IMP	MGI:2652160 	J:31786 	
+MGI:95915	H2-M3	histocompatibility 2, M region locus 3	17		alpha-beta T cell activation involved in immune response			IMP	MGI:3701255 	J:118960 	
+MGI:95915	H2-M3	histocompatibility 2, M region locus 3	17		negative regulation of T cell proliferation			ISO	P17693 	J:164563 	
+MGI:95915	H2-M3	histocompatibility 2, M region locus 3	17		positive regulation of regulatory T cell differentiation			ISO	P17693 	J:164563 	
+MGI:95924	H2-Oa	histocompatibility 2, O region alpha locus	17		regulation of T cell differentiation			IMP	MGI:2386294 	J:65235 	
+MGI:95957	H2-T23	histocompatibility 2, T region locus 23	17		CD8-positive, alpha-beta T cell activation			ISO	P13747 	J:164563 	
+MGI:95957	H2-T23	histocompatibility 2, T region locus 23	17		positive regulation of CD8-positive, alpha-beta T cell activation			ISO	P13747 	J:164563 	
+MGI:95957	H2-T23	histocompatibility 2, T region locus 23	17		positive regulation of CD8-positive, alpha-beta T cell proliferation			ISO	P13747 	J:164563 	
+MGI:2159682	Havcr2	hepatitis A virus cellular receptor 2	11		negative regulation of T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell			ISO	Q8TDQ0 	J:164563 	
+MGI:2159682	Havcr2	hepatitis A virus cellular receptor 2	11		negative regulation of T cell proliferation			IMP		J:86226 	
+MGI:2159682	Havcr2	hepatitis A virus cellular receptor 2	11		positive regulation of T cell proliferation			IMP		J:209885 	
+MGI:2671382	hem1	haematopoietic 1	11		T cell activation			IMP	MGI:3818728 	J:141377 	
+MGI:2671382	hem1	haematopoietic 1	11		T cell differentiation			IMP	MGI:3818728 	J:141377 	
+MGI:104853	Hes1	hes family bHLH transcription factor 1	16		positive regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:2149672 	J:98892 	
+MGI:109191	Hfe	homeostatic iron regulator	13		negative regulation of CD8-positive, alpha-beta T cell activation			ISO	Q30201 	J:164563 	
+MGI:96109	Hlx	H2.0-like homeobox	1		negative regulation of T-helper 2 cell differentiation	regulates the differentiation of T-helper 2 cell		IGI	MGI:105367 	J:126429 	
+MGI:96109	Hlx	H2.0-like homeobox	1		negative regulation of T-helper 2 cell differentiation	regulates the differentiation of T-helper 2 cell		IMP	MGI:2182089 	J:126429 	
+MGI:96109	Hlx	H2.0-like homeobox	1		positive regulation of T-helper 1 cell differentiation	regulates the differentiation of T-helper 1 cell		IGI	MGI:105367 	J:126429 	
+MGI:96109	Hlx	H2.0-like homeobox	1		positive regulation of T-helper 1 cell differentiation	regulates the differentiation of T-helper 1 cell		IMP	MGI:2182089 	J:126429 	
+MGI:1913224	Hs1bp3	HCLS1 binding protein 3	12		T cell differentiation			TAS		J:64960 	
+MGI:2676364	Hsh2d	hematopoietic SH2 domain containing	8		T cell activation			IDA		J:85736 	
+MGI:96250	Hsp90aa1	heat shock protein 90, alpha (cytosolic), class A member 1	12		positive regulation of cytotoxic T cell differentiation			TAS		J:113936 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		positive regulation of T cell activation			IDA		J:120927 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		positive regulation of T cell activation			ISO	P10809 	J:164563 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		T cell activation			IBA	PTN000143515 	J:265628 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		T cell activation	has the participant T cell		IDA		J:94477 J:120927 J:131964 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		T cell activation	has the participant T cell		IGI	MGI:107658 	J:120927 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		T cell activation			ISO	P10809 	J:73065 	
+MGI:105053	Hsph1	heat shock 105kDa/110kDa protein 1	5		positive regulation of NK T cell activation			TAS		J:172886 	
+MGI:96392	Icam1	intercellular adhesion molecule 1	9		T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell			ISO	P05362 	J:164563 	
+MGI:1858745	Icos	inducible T cell co-stimulator	1		T cell costimulation			IBA	PTN000467461 	J:265628 	
+MGI:1858745	Icos	inducible T cell co-stimulator	1		T cell costimulation			ISO	RGD:620123 	J:155856 	
+MGI:1354701	Icosl	icos ligand	10		positive regulation of activated T cell proliferation			TAS		J:114030 	
+MGI:1354701	Icosl	icos ligand	10		T cell activation			NAS		J:87124 	
+MGI:96416	Ido1	indoleamine 2,3-dioxygenase 1	8		negative regulation of activated T cell proliferation			IMP	MGI:3505776 	J:132719 	
+MGI:96416	Ido1	indoleamine 2,3-dioxygenase 1	8		negative regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:3505776 	J:132719 	
+MGI:107668	Ifna1	interferon alpha 1	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:107668	Ifna1	interferon alpha 1	4		T cell activation involved in immune response			IDA		J:143727 	
+MGI:107666	Ifna2	interferon alpha 2	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:107664	Ifna4	interferon alpha 4	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:107663	Ifna5	interferon alpha 5	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:107662	Ifna6	interferon alpha 6	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:107661	Ifna7	interferon alpha 7	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:107659	Ifna9	interferon alpha 9	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:109210	Ifna11	interferon alpha 11	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:2676324	Ifna12	interferon alpha 12	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:2667155	Ifna13	interferon alpha 13	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:3641425	Ifna14	interferon alpha 14	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:3649418	Ifna15	interferon alpha 15	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:3649260	Ifna16	interferon alpha 16	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:1097683	Ifnab	interferon alpha B	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:107658	Ifnar1	interferon (alpha and beta) receptor 1	16		T cell activation	has the participant T cell		IGI	MGI:96242 	J:120927 	
+MGI:107657	Ifnb1	interferon beta 1, fibroblast	4		negative regulation of T cell differentiation			ISO	P01574 	J:164563 	
+MGI:107657	Ifnb1	interferon beta 1, fibroblast	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:2667156	Ifne	interferon epsilon	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:107656	Ifng	interferon gamma	10		CD8-positive, alpha-beta T cell differentiation involved in immune response			IDA		J:143981 	
+MGI:107656	Ifng	interferon gamma	10		positive regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation involved in immune response			ISO	P01579 	J:164563 	
+MGI:107656	Ifng	interferon gamma	10		positive regulation of T cell proliferation	regulates the proliferation of peritoneal macrophage		IDA		J:107465 	
+MGI:2683287	Ifnk	interferon kappa	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:2448469	Ifnz	interferon zeta	4		T cell activation involved in immune response			IBA	PTN000914537 	J:265628 	
+MGI:96432	Igf1	insulin-like growth factor 1	10		positive regulation of activated T cell proliferation			ISO	P05019 	J:164563 	
+MGI:96434	Igf2	insulin-like growth factor 2	7		positive regulation of activated T cell proliferation			ISO	P01344 	J:164563 	
+MGI:96437	Igfbp2	insulin-like growth factor binding protein 2	1		positive regulation of activated T cell proliferation			ISO	P18065 	J:164563 	
+MGI:96533	Ihh	Indian hedgehog	1		negative regulation of alpha-beta T cell differentiation			IMP		J:145997 	
+MGI:96533	Ihh	Indian hedgehog	1		negative regulation of immature T cell proliferation in thymus			IMP		J:145997 	
+MGI:96533	Ihh	Indian hedgehog	1		negative regulation of T cell differentiation in thymus			IMP		J:145997 	
+MGI:96533	Ihh	Indian hedgehog	1		positive regulation of alpha-beta T cell differentiation			IMP		J:145997 	
+MGI:96533	Ihh	Indian hedgehog	1		positive regulation of T cell differentiation in thymus			IMP		J:145997 	
+MGI:1342540	Ikzf1	IKAROS family zinc finger 1	11		positive regulation of NK T cell differentiation		PR:Q03267-1	IMP	MGI:2158690 MGI:2158738 	J:56206 	
+MGI:1342540	Ikzf1	IKAROS family zinc finger 1	11		T cell differentiation			IMP	MGI:2158738 	J:20671 	
+MGI:96543	Il1b	interleukin 1 beta	2		positive regulation of immature T cell proliferation in thymus			IBA	PTN000008680 	J:265628 	
+MGI:96543	Il1b	interleukin 1 beta	2		positive regulation of immature T cell proliferation in thymus			ISO	RGD:2891 	J:155856 	
+MGI:96543	Il1b	interleukin 1 beta	2		positive regulation of T cell proliferation			ISO	P01584 	J:164563 	
+MGI:1916927	Il1f8	interleukin 1 family, member 8	2		positive regulation of T cell differentiation			IBA	PTN000008588 	J:265628 	
+MGI:1916927	Il1f8	interleukin 1 family, member 8	2		positive regulation of T cell differentiation			IGI	MGI:96539 	J:191418 	
+MGI:1913107	Il1rl2	interleukin 1 receptor-like 2	1		positive regulation of T cell differentiation			IMP		J:191418 	
+MGI:96548	Il2	interleukin 2	3		negative regulation of T-helper 17 cell differentiation			IGI	URS000039ED8D_10090 	J:220376 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of activated T cell proliferation	regulates the proliferation of T cell		IDA		J:64279 J:98326 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of activated T cell proliferation	regulates the proliferation of T cell		IMP	MGI:1857191 	J:39989 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of activated T cell proliferation			ISO	P60568 	J:73065 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of regulatory T cell differentiation			ISO	RGD:620047 	J:155856 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of T cell differentiation			ISO	RGD:620047 	J:155856 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:1013 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of T cell proliferation			IMP	MGI:1857191 	J:191418 	
+MGI:96548	Il2	interleukin 2	3		positive regulation of T cell proliferation			ISO	RGD:620047 	J:155856 	
+MGI:96548	Il2	interleukin 2	3		regulation of T cell homeostatic proliferation	regulates the proliferation of CD4-positive, CD25-positive, alpha-beta regulatory T cell		IMP	MGI:1857191 	J:112602 	
+MGI:96549	Il2ra	interleukin 2 receptor, alpha chain	2		negative regulation of T cell proliferation			IMP	MGI:1857192 	J:84826 	
+MGI:96549	Il2ra	interleukin 2 receptor, alpha chain	2		positive regulation of activated T cell proliferation	regulates the proliferation of T cell		IMP	MGI:1857192 	J:64279 	
+MGI:96549	Il2ra	interleukin 2 receptor, alpha chain	2		positive regulation of T cell differentiation			ISO	RGD:2895 	J:155856 	
+MGI:96549	Il2ra	interleukin 2 receptor, alpha chain	2		positive regulation of T cell proliferation			ISO	RGD:2895 	J:155856 	
+MGI:96549	Il2ra	interleukin 2 receptor, alpha chain	2		regulation of T cell homeostatic proliferation	regulates the proliferation of CD4-positive, CD25-positive, alpha-beta regulatory T cell		IMP	MGI:1857192 	J:112602 	
+MGI:96551	Il2rg	interleukin 2 receptor, gamma chain	X		positive regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation	regulates the differentiation of T cell		IMP	MGI:1857455 	J:112602 	
+MGI:96551	Il2rg	interleukin 2 receptor, gamma chain	X		positive regulation of T cell differentiation in thymus	happens in thymus,regulates the differentiation of T cell		IMP	MGI:1857455 	J:52019 	
+MGI:96551	Il2rg	interleukin 2 receptor, gamma chain	X		positive regulation of T cell differentiation in thymus	happens in thymus,regulates the differentiation of T cell		IMP	MGI:2429736 	J:42537 	
+MGI:96556	Il4	interleukin 4	11		negative regulation of T cell activation			IDA		J:143168 	
+MGI:96556	Il4	interleukin 4	11		negative regulation of T-helper 17 cell differentiation			IDA		J:141227 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of activated T cell proliferation	regulates the proliferation of T cell		IDA		J:98326 J:112035 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of T cell differentiation			ISO	P05112 	J:164563 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of T cell proliferation			IDA		J:143168 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:1013 	
+MGI:96556	Il4	interleukin 4	11		T cell activation			ISO	P05112 	J:164563 	
+MGI:96556	Il4	interleukin 4	11		T-helper 1 cell lineage commitment			IGI	MGI:103034 	J:165738 	
+MGI:96556	Il4	interleukin 4	11		T-helper 2 cell differentiation			IDA		J:165738 	
+MGI:105367	Il4ra	interleukin 4 receptor, alpha	7		negative regulation of T-helper 1 cell differentiation	regulates the differentiation of T-helper 1 cell		IGI	MGI:96109 	J:126429 	
+MGI:105367	Il4ra	interleukin 4 receptor, alpha	7		positive regulation of T-helper 2 cell differentiation	regulates the differentiation of T-helper 2 cell		IGI	MGI:96109 	J:126429 	
+MGI:96559	Il6	interleukin 6	5		positive regulation of T cell proliferation			ISO	P05231 	J:164563 	
+MGI:96559	Il6	interleukin 6	5		positive regulation of T-helper 2 cell differentiation	regulates the differentiation of T-helper 2 cell		IDA		J:81987 	
+MGI:96559	Il6	interleukin 6	5		T cell activation			IGI	MGI:98725 	J:141227 	
+MGI:96559	Il6	interleukin 6	5		T-helper 17 cell lineage commitment			IMP		J:115922 	
+MGI:96560	Il6st	interleukin 6 signal transducer	13		positive regulation of T cell proliferation			ISO	P40189 	J:164563 	
+MGI:96561	Il7	interleukin 7	3		positive regulation of T cell differentiation			IDA		J:88139 	
+MGI:96561	Il7	interleukin 7	3		T cell lineage commitment	happens in thymus,happens in T cell		IMP	MGI:1857652 	J:42039 	
+MGI:96562	Il7r	interleukin 7 receptor	15		positive regulation of T cell differentiation in thymus	happens in thymus,regulates the differentiation of T cell		IMP	MGI:1857198 	J:41241 	
+MGI:96562	Il7r	interleukin 7 receptor	15		T cell differentiation			IGI	MGI:88138 	J:41239 	
+MGI:96562	Il7r	interleukin 7 receptor	15		T cell differentiation	happens in thymus,results in the differentiation of T cell|happens in spleen,results in the differentiation of T cell		IMP	MGI:1857198 	J:41239 	
+MGI:96539	Il12a	interleukin 12a	3		positive regulation of NK T cell activation			ISO	P29459 	J:164563 	
+MGI:96539	Il12a	interleukin 12a	3		positive regulation of T cell differentiation			IGI	MGI:1916927 	J:191418 	
+MGI:96539	Il12a	interleukin 12a	3		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:65439 	
+MGI:96539	Il12a	interleukin 12a	3		T-helper 1 cell activation			IDA		J:189858 	
+MGI:96540	Il12b	interleukin 12b	11		positive regulation of activated T cell proliferation			ISO	P29460 	J:164563 	
+MGI:96540	Il12b	interleukin 12b	11		positive regulation of NK T cell activation			ISO	P29460 	J:164563 	
+MGI:96540	Il12b	interleukin 12b	11		positive regulation of NK T cell proliferation			ISO	P29460 	J:164563 	
+MGI:96540	Il12b	interleukin 12b	11		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:65439 	
+MGI:96540	Il12b	interleukin 12b	11		positive regulation of T cell proliferation			ISO	P29460 	J:164563 	
+MGI:96540	Il12b	interleukin 12b	11		T-helper cell differentiation			ISO	P29460 	J:164563 	
+MGI:104579	Il12rb1	interleukin 12 receptor, beta 1	8		positive regulation of activated T cell proliferation			IBA	PTN002745680 	J:265628 	
+MGI:104579	Il12rb1	interleukin 12 receptor, beta 1	8		positive regulation of activated T cell proliferation			ISO	P42701 	J:164563 	
+MGI:103014	Il15	interleukin 15	8		extrathymic T cell selection			IMP	MGI:2136897 	J:60915 	
+MGI:103014	Il15	interleukin 15	8		NK T cell proliferation			IMP	MGI:2136897 	J:60915 	
+MGI:103014	Il15	interleukin 15	8		positive regulation of T cell proliferation			IMP	MGI:2136897 	J:60915 	
+MGI:103014	Il15	interleukin 15	8		regulation of T cell differentiation			IMP	MGI:2136897 	J:60915 	
+MGI:107936	Il18	interleukin 18	9		positive regulation of activated T cell proliferation			ISO	Q14116 	J:164563 	
+MGI:107936	Il18	interleukin 18	9		positive regulation of activated T cell proliferation			ISS	Q14116 	J:115169 	
+MGI:107936	Il18	interleukin 18	9		positive regulation of NK T cell proliferation			ISO	Q14116 	J:164563 	
+MGI:107936	Il18	interleukin 18	9		positive regulation of T-helper 2 cell differentiation			IMP		J:102800 	
+MGI:105383	Il18r1	interleukin 18 receptor 1	1		T-helper 1 cell differentiation	results in the differentiation of T-helper 1 cell		IMP	MGI:2136765 	J:70298 	
+MGI:2143266	Il20rb	interleukin 20 receptor beta	9		negative regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:3830304 	J:143497 	
+MGI:2143266	Il20rb	interleukin 20 receptor beta	9		regulation of T cell activation	regulates a function/process that has the participant T cell		IMP	MGI:3830304 	J:143497 	
+MGI:1890474	Il21	interleukin 21	3		positive regulation of T cell proliferation			ISO	Q9HBE4 	J:73065 	
+MGI:1932410	Il23a	interleukin 23, alpha subunit p19	10		positive regulation of activated T cell proliferation			ISO	Q9NPF7 	J:164563 	
+MGI:1932410	Il23a	interleukin 23, alpha subunit p19	10		positive regulation of memory T cell differentiation			IDA		J:87643 	
+MGI:1932410	Il23a	interleukin 23, alpha subunit p19	10		positive regulation of NK T cell activation			ISO	Q9NPF7 	J:164563 	
+MGI:1932410	Il23a	interleukin 23, alpha subunit p19	10		positive regulation of NK T cell proliferation			ISO	Q9NPF7 	J:164563 	
+MGI:1932410	Il23a	interleukin 23, alpha subunit p19	10		positive regulation of T cell proliferation			IBA	PTN000409283 	J:265628 	
+MGI:1932410	Il23a	interleukin 23, alpha subunit p19	10		positive regulation of T cell proliferation			ISO	Q9NPF7 	J:164563 	
+MGI:1932410	Il23a	interleukin 23, alpha subunit p19	10		positive regulation of T-helper 17 cell lineage commitment			IBA	PTN000409283 	J:265628 	
+MGI:1932410	Il23a	interleukin 23, alpha subunit p19	10		positive regulation of T-helper 17 cell lineage commitment			IDA		J:150655 	
+MGI:1932410	Il23a	interleukin 23, alpha subunit p19	10		T cell proliferation			IDA		J:124638 	
+MGI:2384409	Il27	interleukin 27	7		regulation of T cell proliferation			IBA	PTN000466839 	J:265628 	
+MGI:2384409	Il27	interleukin 27	7		regulation of T cell proliferation			IDA		J:77522 	
+MGI:2384409	Il27	interleukin 27	7		regulation of T-helper 1 cell differentiation			IBA	PTN000466839 	J:265628 	
+MGI:2384409	Il27	interleukin 27	7		regulation of T-helper 1 cell differentiation			ISO	Q8NEV9 	J:164563 	
+MGI:96573	Ins2	insulin II	7		alpha-beta T cell activation			ISO	P01308 	J:164563 	
+MGI:96590	Irf1	interferon regulatory factor 1	11		CD8-positive, alpha-beta T cell differentiation	happens in thymus|happens in spleen|happens in blood		IMP	MGI:1857205 	J:69487 	
+MGI:96590	Irf1	interferon regulatory factor 1	11		negative regulation of regulatory T cell differentiation			IMP		J:137875 	
+MGI:96590	Irf1	interferon regulatory factor 1	11		negative regulation of T-helper 2 cell differentiation			TAS		J:183979 	
+MGI:96590	Irf1	interferon regulatory factor 1	11		positive regulation of T-helper 1 cell differentiation			TAS		J:183979 	
+MGI:96590	Irf1	interferon regulatory factor 1	11		regulation of CD8-positive, alpha-beta T cell proliferation			IMP		J:183131 	
+MGI:1096873	Irf4	interferon regulatory factor 4	13		T-helper 17 cell lineage commitment			IMP		J:190118 	
+MGI:1202301	Itch	itchy, E3 ubiquitin protein ligase	2		negative regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IMP	MGI:1856404 	J:89097 	
+MGI:3578624	Itgad	integrin, alpha D	7		activated T cell proliferation			IMP	MGI:3579559 	J:90954 	
+MGI:96606	Itgal	integrin alpha L	7		activated T cell proliferation			IMP	MGI:2661083 	J:90954 	
+MGI:96606	Itgal	integrin alpha L	7		positive regulation of T cell proliferation			IMP		J:125147 	
+MGI:96606	Itgal	integrin alpha L	7		T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell			ISO	P20701 	J:164563 	
+MGI:96607	Itgam	integrin alpha M	7		activated T cell proliferation			IMP	MGI:2157556 	J:90954 	
+MGI:96608	Itgav	integrin alpha V	2		T cell activation			TAS		J:175211 	
+MGI:96609	Itgax	integrin alpha X	7	NOT	activated T cell proliferation			IMP	MGI:3579560 	J:90954 	
+MGI:96611	Itgb2	integrin beta 2	10		activated T cell proliferation			IMP	MGI:1861705 	J:90954 	
+MGI:96621	Itk	IL2 inducible T cell kinase	11		NK T cell differentiation			IBA	PTN001231477 	J:265628 	
+MGI:96621	Itk	IL2 inducible T cell kinase	11		NK T cell differentiation	happens in spleen|happens in thymus		IGI	MGI:102960 	J:131540 	
+MGI:96621	Itk	IL2 inducible T cell kinase	11		NK T cell differentiation	happens in spleen|happens in thymus		IMP	MGI:2178928 	J:131540 	
+MGI:109235	Itpkb	inositol 1,4,5-trisphosphate 3-kinase B	1		positive regulation of alpha-beta T cell differentiation			IMP	MGI:3039799 	J:89286 	
+MGI:109235	Itpkb	inositol 1,4,5-trisphosphate 3-kinase B	1		positive thymic T cell selection			IMP	MGI:3039799 	J:89286 	
+MGI:109235	Itpkb	inositol 1,4,5-trisphosphate 3-kinase B	1		T cell differentiation			IMP	MGI:2680720 	J:86257 	
+MGI:109235	Itpkb	inositol 1,4,5-trisphosphate 3-kinase B	1		thymic T cell selection			IMP	MGI:2680720 	J:86257 	
+MGI:1098270	Jag2	jagged 2	12		gamma-delta T cell differentiation			IMP		J:56675 	
+MGI:1098270	Jag2	jagged 2	12		T cell differentiation			ISO	Q9Y219 	J:164563 	
+MGI:1098270	Jag2	jagged 2	12		thymic T cell selection			ISO	Q9Y219 	J:164563 	
+MGI:1098270	Jag2	jagged 2	12		thymic T cell selection			ISS	Q9Y219 	J:56675 	
+MGI:99928	Jak3	Janus kinase 3	8		negative regulation of T cell activation			IMP		J:112031 	
+MGI:99928	Jak3	Janus kinase 3	8		negative regulation of T-helper 1 cell differentiation			IMP		J:123902 	
+MGI:99928	Jak3	Janus kinase 3	8		positive regulation of activated T cell proliferation			ISO	RGD:2940 	J:155856 	
+MGI:99928	Jak3	Janus kinase 3	8		positive regulation of T cell proliferation			IBA	PTN000700628 	J:265628 	
+MGI:99928	Jak3	Janus kinase 3	8		positive regulation of T cell proliferation			ISO	RGD:2940 	J:155856 	
+MGI:2685484	Jaml	junction adhesion molecule like	9		gamma-delta T cell activation			IDA		J:163519 	
+MGI:1858910	Jmjd6	jumonji domain containing 6	11		T cell differentiation in thymus	happens in thymus,results in the differentiation of T cell		IMP	MGI:3043930 	J:90288 	
+MGI:1343101	Kat2a	K(lysine) acetyltransferase 2A	11		regulation of regulatory T cell differentiation			IMP		J:247860 	
+MGI:1343101	Kat2a	K(lysine) acetyltransferase 2A	11		regulation of T cell activation			IMP		J:247860 	
+MGI:1915387	Kdelr1	KDEL (Lys-Asp-Glu-Leu) endoplasmic reticulum protein retention receptor 1	7		T cell differentiation			IMP	MGI:5689886 	J:224970 	
+MGI:96677	Kit	KIT proto-oncogene receptor tyrosine kinase	5		T cell differentiation			IMP		J:79128 	
+MGI:106588	Lag3	lymphocyte-activation gene 3	6		negative regulation of regulatory T cell differentiation			IMP		J:93930 	
+MGI:106588	Lag3	lymphocyte-activation gene 3	6		negative regulation of T cell activation			IDA		J:78576 J:269578 	
+MGI:106588	Lag3	lymphocyte-activation gene 3	6		negative regulation of T cell activation	regulates a function/process that happens in T cell		IDA		J:80063 	
+MGI:1342293	Lat	linker for activation of T cells	7		regulation of T cell activation			IBA	PTN000400392 	J:265628 	
+MGI:1342293	Lat	linker for activation of T cells	7		regulation of T cell activation			ISO	O43561 	J:164563 	
+MGI:2443362	Lax1	lymphocyte transmembrane adaptor 1	1		negative regulation of T cell activation			IBA	PTN000642351 	J:265628 	
+MGI:2443362	Lax1	lymphocyte transmembrane adaptor 1	1		negative regulation of T cell activation			ISO	Q8IWV1 	J:164563 	
+MGI:96756	Lck	lymphocyte protein tyrosine kinase	4		positive regulation of gamma-delta T cell differentiation	regulates the differentiation of immature gamma-delta T cell		IMP	MGI:1857211 	J:22470 	
+MGI:96756	Lck	lymphocyte protein tyrosine kinase	4		positive regulation of T cell activation			ISO	P06239 	J:164563 	
+MGI:96756	Lck	lymphocyte protein tyrosine kinase	4		regulation of regulatory T cell differentiation			IGI	MGI:88327 	J:170513 	
+MGI:96756	Lck	lymphocyte protein tyrosine kinase	4		T cell differentiation			IBA	PTN000700970 	J:265628 	
+MGI:96756	Lck	lymphocyte protein tyrosine kinase	4		T cell differentiation			ISO	P06239 	J:164563 	
+MGI:104808	Lcp1	lymphocyte cytosolic protein 1	14		T cell activation involved in immune response			ISO	P13796 	J:164563 	
+MGI:96770	Lef1	lymphoid enhancer binding factor 1	3		alpha-beta T cell differentiation			IBA	PTN000042972 	J:265628 	
+MGI:96770	Lef1	lymphoid enhancer binding factor 1	3		alpha-beta T cell differentiation	happens in thymus		IGI	MGI:98507 	J:110481 	
+MGI:96770	Lef1	lymphoid enhancer binding factor 1	3		T cell receptor V(D)J recombination			IGI	MGI:98507 	J:110481 	
+MGI:96770	Lef1	lymphoid enhancer binding factor 1	3		T-helper 1 cell differentiation			IDA		J:164710 	
+MGI:104663	Lep	leptin	6		positive regulation of T cell proliferation			ISO	P41159 	J:164563 	
+MGI:104663	Lep	leptin	6		T cell differentiation			IMP		J:49623 	
+MGI:104993	Lepr	leptin receptor	4		T cell differentiation			IMP		J:49623 	
+MGI:1095413	Lfng	LFNG O-fucosylpeptide 3-beta-N-acetylglucosaminyltransferase	5		T cell differentiation			IMP		J:146621 	
+MGI:96777	Lgals1	lectin, galactose binding, soluble 1	15		T cell costimulation			IDA		J:183108 	
+MGI:96778	Lgals3	lectin, galactose binding, soluble 3	14		negative regulation of T cell activation via T cell receptor contact with antigen bound to MHC molecule on antigen presenting cell			IMP		J:151990 	
+MGI:96778	Lgals3	lectin, galactose binding, soluble 3	14		regulation of T cell proliferation			ISO	P17931 	J:164563 	
+MGI:1928481	Lgals8	lectin, galactose binding, soluble 8	13		T cell costimulation			IDA		J:183108 	
+MGI:109496	Lgals9	lectin, galactose binding, soluble 9	11		negative regulation of CD4-positive, alpha-beta T cell proliferation			IBA	PTN002602624 	J:265628 	
+MGI:109496	Lgals9	lectin, galactose binding, soluble 9	11		negative regulation of CD4-positive, alpha-beta T cell proliferation	happens in spleen,happens in UBERON:0004780,happens in regulatory T cell,affects a population of effector CD4-positive, alpha-beta T cell		IMP		J:224716 	
+MGI:109496	Lgals9	lectin, galactose binding, soluble 9	11		positive regulation of regulatory T cell differentiation	happens in Peyer's patch,happens in UBERON:0000030,results in the differentiation of induced T-regulatory cell		IMP		J:224716 	
+MGI:109496	Lgals9	lectin, galactose binding, soluble 9	11	NOT	regulation of T cell differentiation in thymus			IMP		J:224716 	
+MGI:1335098	Lig4	ligase IV, DNA, ATP-dependent	8		T cell differentiation in thymus	results in the differentiation of DN2 thymocyte		IMP	MGI:1857732 	J:50865 J:63078 	
+MGI:1335098	Lig4	ligase IV, DNA, ATP-dependent	8		T cell receptor V(D)J recombination	happens in T cell		IMP	MGI:1857732 	J:63078 	
+MGI:102701	Lilrb4a	leukocyte immunoglobulin-like receptor, subfamily B, member 4A	10		CD4-positive, alpha-beta T cell proliferation			IMP	MGI:3818260 	J:141234 	
+MGI:102701	Lilrb4a	leukocyte immunoglobulin-like receptor, subfamily B, member 4A	10		CD8-positive, alpha-beta T cell proliferation			IMP	MGI:3818260 	J:141234 	
+MGI:1289247	Lmbr1l	limb region 1 like	15		T cell differentiation			IMP		J:274568 	
+MGI:1289247	Lmbr1l	limb region 1 like	15		T cell proliferation			IMP		J:274568 	
+MGI:102812	Lmo1	LIM domain only 1	7		regulation of T cell homeostatic proliferation			IDA		J:2066 	
+MGI:1337004	Loxl3	lysyl oxidase-like 3	6		negative regulation of T-helper 17 cell lineage commitment			IMP		J:239159 	
+MGI:93882	Lrrc32	leucine rich repeat containing 32	7		negative regulation of activated T cell proliferation			IDA		J:139262 	
+MGI:96885	Ly9	lymphocyte antigen 9	1		T-helper 17 cell lineage commitment			ISO	Q9HBG7 	J:164563 	
+MGI:1341857	Mad1l1	MAD1 mitotic arrest deficient 1-like 1	5		negative regulation of T cell proliferation			IDA		J:68141 	
+MGI:104555	Mafb	v-maf musculoaponeurotic fibrosarcoma oncogene family, protein B (avian)	2		T cell differentiation in thymus	happens in thymus primordium		IMP	MGI:3663168 	J:147173 	
+MGI:2445027	Malt1	MALT1 paracaspase	18		positive regulation of T cell activation			IMP	MGI:3639305 	J:109545 	
+MGI:2445027	Malt1	MALT1 paracaspase	18		positive regulation of T-helper 17 cell differentiation			IDA		J:259145 	
+MGI:2445027	Malt1	MALT1 paracaspase	18		T cell proliferation			IMP	MGI:2684761 	J:86770 	
+MGI:1309464	Mapk8ip1	mitogen-activated protein kinase 8 interacting protein 1	2		regulation of CD8-positive, alpha-beta T cell proliferation			IMP		J:205863 	
+MGI:1931053	Marchf7	membrane associated ring-CH-type finger 7	2		negative regulation of T cell proliferation			IMP	MGI:3530008 	J:96167 	
+MGI:96949	Mdk	midkine	2		negative regulation of regulatory T cell differentiation			ISO	P21741 	J:164563 	
+MGI:96949	Mdk	midkine	2		positive regulation of T cell differentiation			IMP		J:241140 	
+MGI:96949	Mdk	midkine	2		T cell activation involved in immune response			IMP		J:241140 	
+MGI:1927165	Mettl3	methyltransferase like 3	14		regulation of T cell differentiation			IMP		J:249262 	
+MGI:2179989	Mill2	MHC I like leukocyte 2	7		gamma-delta T cell activation			ISO	Q29980 	J:164563 	
+MGI:1355329	Mink1	misshapen-like kinase 1 (zebrafish)	11		negative thymic T cell selection	has the participant thymus,has the participant T cell		IMP		J:94869 	
+MGI:3619324	Mir301	microRNA 301	11		regulation of T-helper 17 cell differentiation			IMP		J:184679 	
+MGI:3619338	Mir326	microRNA 326	7		positive regulation of T-helper 17 cell differentiation			IDA		J:157744 	
+MGI:3619338	Mir326	microRNA 326	7		positive regulation of T-helper 17 cell differentiation			IMP		J:157744 	
+MGI:3718563	Mir873a	microRNA 873a	4		T-helper 17 cell differentiation			ISO	HGNC 	J:251356 	
+MGI:1289160	Mpzl2	myelin protein zero-like 2	9		T cell differentiation in thymus			IMP		J:154039 	
+MGI:97167	Msn	moesin	X		T cell proliferation			ISO	P26038 	J:164563 	
+MGI:1928394	Mtor	mechanistic target of rapamycin kinase	4		T-helper 1 cell lineage commitment			IMP		J:233777 	
+MGI:97249	Myb	myeloblastosis oncogene	10		positive regulation of T-helper cell differentiation			ISO	P10242 	J:164563 	
+MGI:107717	Myh9	myosin, heavy polypeptide 9, non-muscle	15		establishment of T cell polarity	happens in CD4-positive, alpha-beta T cell		IMP		J:89810 	
+MGI:1289164	Ncaph2	non-SMC condensin II complex, subunit H2	15		T cell differentiation in thymus	happens in thyroid gland,results in the differentiation of T cell		IMP	MGI:3710093 	J:123300 	
+MGI:109601	Nck1	non-catalytic region of tyrosine kinase adaptor protein 1	9		positive regulation of T cell proliferation			ISO	P16333 	J:164563 	
+MGI:109601	Nck1	non-catalytic region of tyrosine kinase adaptor protein 1	9		T cell activation			ISO	P16333 	J:164563 	
+MGI:1306821	Nck2	non-catalytic region of tyrosine kinase adaptor protein 2	1		positive regulation of T cell proliferation			ISO	O43639 	J:164563 	
+MGI:1926063	Nckap1l	NCK associated protein 1 like	15		positive regulation of CD4-positive, alpha-beta T cell differentiation			IMP		J:141377 	
+MGI:1926063	Nckap1l	NCK associated protein 1 like	15		positive regulation of CD8-positive, alpha-beta T cell differentiation			IMP		J:141377 	
+MGI:1926063	Nckap1l	NCK associated protein 1 like	15		positive regulation of gamma-delta T cell differentiation			IMP		J:141377 	
+MGI:1926063	Nckap1l	NCK associated protein 1 like	15		positive regulation of T cell proliferation			IMP		J:141377 	
+MGI:1349717	Ncor1	nuclear receptor co-repressor 1	11		CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation	results in the differentiation of double-positive, alpha-beta thymocyte		IMP	MGI:2677822 	J:65417 	
+MGI:1891700	Ncstn	nicastrin	1		T cell proliferation			IMP	MGI:2667524 	J:125592 	
+MGI:1929601	Ndfip1	Nedd4 family interacting protein 1	18		negative regulation of T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IMP	MGI:3695433 	J:116617 	
+MGI:97297	Nedd4	neural precursor cell expressed, developmentally down-regulated 4	9		T cell activation			IMP	MGI:3829272 	J:143560 	
+MGI:103296	Nfatc3	nuclear factor of activated T cells, cytoplasmic, calcineurin dependent 3	8		T cell differentiation			IMP	MGI:2182778 	J:50124 	
+MGI:3041243	Nfkbid	nuclear factor of kappa light polypeptide gene enhancer in B cells inhibitor, delta	7		negative regulation of T cell differentiation in thymus	regulates the differentiation of thymocyte		IDA		J:75807 	
+MGI:3041243	Nfkbid	nuclear factor of kappa light polypeptide gene enhancer in B cells inhibitor, delta	7		positive regulation of T-helper 17 cell differentiation			IMP		J:259145 	
+MGI:1931595	Nfkbiz	nuclear factor of kappa light polypeptide gene enhancer in B cells inhibitor, zeta	16		positive regulation of T-helper 17 cell differentiation			IMP		J:259145 	
+MGI:1922820	Nhej1	non-homologous end joining factor 1	1		T cell differentiation			ISO	Q9H9Q4 	J:164563 	
+MGI:1922820	Nhej1	non-homologous end joining factor 1	1		T cell differentiation			ISS	Q9H9Q4 	J:116419 	
+MGI:1914300	Nkap	NFKB activating protein	X		positive regulation of alpha-beta T cell differentiation			ISO	Q8N5F7 	J:164563 	
+MGI:1914300	Nkap	NFKB activating protein	X		T cell differentiation in thymus	happens in thymus		IMP	MGI:3765313 MGI:4839023 	J:165872 	
+MGI:97348	Nkx2-3	NK2 homeobox 3	19		CD4-positive, alpha-beta T cell differentiation	happens in small intestine		IMP	MGI:2448069 	J:64018 	
+MGI:2444070	Nlrc3	NLR family, CARD domain containing 3	16		T cell activation			ISS	Q7RTR2 	J:114713 	
+MGI:2653833	Nlrp3	NLR family, pyrin domain containing 3	11		positive regulation of T-helper 17 cell differentiation			IMP		J:224866 	
+MGI:2653833	Nlrp3	NLR family, pyrin domain containing 3	11		positive regulation of T-helper 2 cell differentiation			IMP		J:224866 	
+MGI:1914372	Nrarp	Notch-regulated ankyrin repeat protein	2		negative regulation of T cell differentiation	happens in bone marrow,regulates the differentiation of T cell		IDA		J:83687 	
+MGI:1859615	Otud5	OTU domain containing 5	X		CD8-positive, alpha-beta T cell differentiation			IMP	MGI:2386448 MGI:5752247 	J:219495 	
+MGI:1859615	Otud5	OTU domain containing 5	X		T-helper 17 cell lineage commitment			IMP	MGI:2386448 MGI:5752247 	J:219495 	
+MGI:1339957	P2rx7	purinergic receptor P2X, ligand-gated ion channel, 7	5		T cell proliferation	happens in spleen,affects a population of T cell		IMP	MGI:2386080 	J:118862 	
+MGI:2443160	Pag1	phosphoprotein associated with glycosphingolipid microdomains 1	3		negative regulation of T cell activation			IBA	PTN000419053 	J:265628 	
+MGI:2443160	Pag1	phosphoprotein associated with glycosphingolipid microdomains 1	3		negative regulation of T cell activation			IDA		J:113969 	
+MGI:2443160	Pag1	phosphoprotein associated with glycosphingolipid microdomains 1	3		regulation of T cell activation			ISO	Q9NWQ8 	J:164563 	
+MGI:2443160	Pag1	phosphoprotein associated with glycosphingolipid microdomains 1	3		regulation of T cell activation			TAS		J:113969 	
+MGI:1891832	Patz1	POZ (BTB) and AT hook containing zinc finger 1	11		T cell differentiation	results in the differentiation of T cell		IDA		J:112614 	
+MGI:2149961	Pawr	PRKC, apoptosis, WT1, regulator	10		negative regulation of T cell proliferation			IMP	MGI:2678021 	J:85495 	
+MGI:97485	Pax1	paired box 1	2		CD4-positive, alpha-beta T cell differentiation	happens in thymus,results in the differentiation of CD4-positive, alpha-beta T cell		IMP	MGI:3603176 	J:100951 	
+MGI:97485	Pax1	paired box 1	2		CD8-positive, alpha-beta T cell differentiation	happens in thymus,results in the differentiation of CD8-positive, alpha-beta T cell		IMP	MGI:3603176 	J:100951 	
+MGI:1930125	Pdcd1lg2	programmed cell death 1 ligand 2	19		negative regulation of activated T cell proliferation			ISO	Q9BQ51 	J:164563 	
+MGI:1930125	Pdcd1lg2	programmed cell death 1 ligand 2	19		negative regulation of T cell proliferation			IBA	PTN002402215 	J:265628 	
+MGI:1930125	Pdcd1lg2	programmed cell death 1 ligand 2	19		negative regulation of T cell proliferation			IDA		J:67842 J:114496 	
+MGI:1930125	Pdcd1lg2	programmed cell death 1 ligand 2	19		positive regulation of T cell proliferation			IBA	PTN002402215 	J:265628 	
+MGI:1930125	Pdcd1lg2	programmed cell death 1 ligand 2	19		positive regulation of T cell proliferation			IDA		J:68616 	
+MGI:1930125	Pdcd1lg2	programmed cell death 1 ligand 2	19		T cell costimulation			IBA	PTN002402215 	J:265628 	
+MGI:2651499	Pde5a	phosphodiesterase 5A, cGMP-specific	3		negative regulation of T cell proliferation	regulates the proliferation of T cell		IMP		J:124590 	
+MGI:1914495	Peli1	pellino 1	11		negative regulation of T cell activation	regulates a function/process that happens in T cell		IMP	MGI:4361448 	J:176455 	
+MGI:1914495	Peli1	pellino 1	11		negative regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:4361448 	J:176455 	
+MGI:2144613	Pik3r6	phosphoinositide-3-kinase regulatory subunit 5	11		positive regulation of T cell differentiation			IMP		J:110820 	
+MGI:1201409	Pknox1	Pbx/knotted 1 homeobox	17		T cell differentiation	happens in thymus,results in the differentiation of T cell		IMP	MGI:3530910 	J:103769 	
+MGI:104642	Pla2g2a	phospholipase A2, group IIA (platelets, synovial fluid)	4	NOT	negative regulation of T cell proliferation			IDA		J:150812 	
+MGI:1341796	Pla2g2d	phospholipase A2, group IID	4		CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation			IDA		J:150812 	
+MGI:1341796	Pla2g2d	phospholipase A2, group IID	4		negative regulation of T cell activation			IDA		J:150812 	
+MGI:1341796	Pla2g2d	phospholipase A2, group IID	4		negative regulation of T cell proliferation			IBA	PTN000196980 	J:265628 	
+MGI:1341796	Pla2g2d	phospholipase A2, group IID	4		negative regulation of T cell proliferation			IDA		J:150812 	
+MGI:1349660	Pla2g2e	phospholipase A2, group IIE	4		negative regulation of T cell proliferation			IBA	PTN000196980 	J:265628 	
+MGI:1349661	Pla2g2f	phospholipase A2, group IIF	4		negative regulation of T cell proliferation			IBA	PTN000196980 	J:265628 	
+MGI:1349661	Pla2g2f	phospholipase A2, group IIF	4		negative regulation of T cell proliferation			IDA		J:117280 	
+MGI:97365	Pnp	purine-nucleoside phosphorylase	14		positive regulation of alpha-beta T cell differentiation	regulates the differentiation of immature alpha-beta T cell		IMP	MGI:2386195 	J:62870 J:114541 	
+MGI:97365	Pnp	purine-nucleoside phosphorylase	14		positive regulation of alpha-beta T cell differentiation	happens in thymus,regulates the differentiation of immature alpha-beta T cell		IMP	MGI:3777967 MGI:3777968 MGI:3777975 	J:39328 	
+MGI:97365	Pnp	purine-nucleoside phosphorylase	14		positive regulation of alpha-beta T cell differentiation			ISO	P00491 	J:73065 	
+MGI:97365	Pnp	purine-nucleoside phosphorylase	14		positive regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:2386195 	J:114541 	
+MGI:97365	Pnp	purine-nucleoside phosphorylase	14		positive regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:3777967 MGI:3777968 MGI:3777975 	J:39328 	
+MGI:97365	Pnp	purine-nucleoside phosphorylase	14		positive regulation of T cell proliferation			ISO	P00491 	J:73065 	
+MGI:107163	Ppp3cb	protein phosphatase 3, catalytic subunit, beta isoform	14		T cell differentiation			IMP	MGI:2181294 	J:77729 	
+MGI:99655	Prdm1	PR domain containing 1, with ZNF domain	10		regulation of extrathymic T cell differentiation			IMP		J:232474 	
+MGI:99655	Prdm1	PR domain containing 1, with ZNF domain	10		regulation of NK T cell differentiation			IMP		J:232474 	
+MGI:109486	Prdx2	peroxiredoxin 2	8		negative regulation of T cell differentiation			IMP	MGI:2668456 	J:136791 	
+MGI:109486	Prdx2	peroxiredoxin 2	8		T cell proliferation	happens in thymus,affects a population of T cell		IMP	MGI:2668456 	J:91748 	
+MGI:1913744	Prelid1	PRELI domain containing 1	13		regulation of T cell differentiation			ISO	Q9Y255 	J:164563 	
+MGI:3040696	Prex1	phosphatidylinositol-3,4,5-trisphosphate-dependent Rac exchange factor 1	2		T cell differentiation			IGI	MGI:98923 	J:168922 	
+MGI:104878	Prkar1a	protein kinase, cAMP dependent regulatory, type I, alpha	11		negative regulation of activated T cell proliferation			ISO	P10644 	J:164563 	
+MGI:97601	Prkcq	protein kinase C, theta	2		positive regulation of T cell activation			IMP		J:83733 	
+MGI:97601	Prkcq	protein kinase C, theta	2		positive regulation of T cell activation	regulates a function/process that happens in CD4-positive, alpha-beta T cell		IMP	MGI:2664379 	J:89322 	
+MGI:97601	Prkcq	protein kinase C, theta	2		positive regulation of T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IMP	MGI:2664379 	J:89322 	
+MGI:97601	Prkcq	protein kinase C, theta	2		positive regulation of T-helper 2 cell activation			IMP		J:100165 	
+MGI:97602	Prkcz	protein kinase C, zeta	4		positive regulation of T-helper 2 cell differentiation			IMP		J:99860 	
+MGI:104779	Prkdc	protein kinase, DNA activated, catalytic polypeptide	16		T cell differentiation in thymus	results in the differentiation of T cell		IMP	MGI:2383951 	J:50222 	
+MGI:104779	Prkdc	protein kinase, DNA activated, catalytic polypeptide	16		T cell lineage commitment	happens in thymus,happens in T cell|happens in bone marrow,happens in T cell|happens in spleen,happens in T cell		IMP	MGI:1857113 	J:31364 	
+MGI:104779	Prkdc	protein kinase, DNA activated, catalytic polypeptide	16		T cell receptor V(D)J recombination	happens in thymus		IMP	MGI:2383951 	J:50222 	
+MGI:97769	Prnp	prion protein	2		negative regulation of activated T cell proliferation			IMP		J:169942 	
+MGI:3487246	Prr7	proline rich 7 (synaptic)	13		alpha-beta T cell differentiation	happens in thymus,results in the differentiation of CD4-positive, alpha-beta thymocyte		IMP	MGI:4399196 	J:237776 	
+MGI:3487246	Prr7	proline rich 7 (synaptic)	13		T cell differentiation in thymus	happens in thymus,results in the differentiation of CD4-positive, alpha-beta thymocyte		IMP	MGI:4399196 	J:237776 	
+MGI:97783	Psap	prosaposin	10		NK T cell differentiation			IMP	MGI:1888378 	J:90443 	
+MGI:1202717	Psen1	presenilin 1	12		T cell activation involved in immune response			IGI	MGI:109284 	J:126088 	
+MGI:109284	Psen2	presenilin 2	1		T cell activation involved in immune response			IGI	MGI:1202717 	J:126088 	
+MGI:1096380	Psmb10	proteasome (prosome, macropain) subunit, beta type 10	8		T cell proliferation			IMP	MGI:3723600 	J:91605 	
+MGI:1921152	Psmb11	proteasome (prosome, macropain) subunit, beta type, 11	14		CD8-positive, alpha-beta T cell differentiation	happens near thymus		IMP	MGI:3716870 	J:121869 	
+MGI:104311	Ptger4	prostaglandin E receptor 4 (subtype EP4)	15		T-helper cell differentiation			IDA		J:151236 	
+MGI:97806	Ptpn2	protein tyrosine phosphatase, non-receptor type 2	18		negative regulation of positive thymic T cell selection			IMP		J:184426 	
+MGI:97806	Ptpn2	protein tyrosine phosphatase, non-receptor type 2	18		T cell differentiation			IMP		J:42595 	
+MGI:96055	Ptpn6	protein tyrosine phosphatase, non-receptor type 6	6		negative regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:1856073 MGI:1856074 	J:35279 	
+MGI:107170	Ptpn22	protein tyrosine phosphatase, non-receptor type 22 (lymphoid)	3		negative regulation of T cell activation			IBA	PTN000440270 	J:265628 	
+MGI:107170	Ptpn22	protein tyrosine phosphatase, non-receptor type 22 (lymphoid)	3		negative regulation of T cell activation			IMP		J:170289 	
+MGI:107170	Ptpn22	protein tyrosine phosphatase, non-receptor type 22 (lymphoid)	3		negative regulation of T cell activation			ISO	Q9Y2R2 	J:164563 	
+MGI:107170	Ptpn22	protein tyrosine phosphatase, non-receptor type 22 (lymphoid)	3		positive regulation of CD8-positive, alpha-beta T cell proliferation			IBA	PTN000440270 	J:265628 	
+MGI:107170	Ptpn22	protein tyrosine phosphatase, non-receptor type 22 (lymphoid)	3		positive regulation of CD8-positive, alpha-beta T cell proliferation	happens at the same time as positive regulation of defense response to virus by host		IMP		J:208241 	
+MGI:107170	Ptpn22	protein tyrosine phosphatase, non-receptor type 22 (lymphoid)	3		T cell differentiation			IBA	PTN000440270 	J:265628 	
+MGI:107170	Ptpn22	protein tyrosine phosphatase, non-receptor type 22 (lymphoid)	3		T cell differentiation			IMP	MGI:3043469 	J:90029 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		negative thymic T cell selection	has the participant double-positive, alpha-beta thymocyte		IMP	MGI:1857277 	J:33466 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of mature alpha-beta T cell		IMP	MGI:2181288 	J:25537 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive regulation of gamma-delta T cell differentiation	regulates the differentiation of immature gamma-delta T cell		IMP	MGI:2181288 	J:22470 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive regulation of T cell differentiation			IMP	MGI:1857277 	J:33466 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive regulation of T cell proliferation			IMP		J:13163 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		positive thymic T cell selection	has the participant double-positive, alpha-beta thymocyte		IMP	MGI:1857277 	J:33466 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		T cell differentiation			IMP		J:13163 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		T cell differentiation	happens in small intestine|happens in large intestine		IMP		J:94797 	
+MGI:97810	Ptprc	protein tyrosine phosphatase, receptor type, C	1		T cell proliferation			IMP	MGI:1857277 	J:84808 	
+MGI:1931465	Pycard	PYD and CARD domain containing	7		positive regulation of activated T cell proliferation			IMP		J:176441 	
+MGI:1931465	Pycard	PYD and CARD domain containing	7		positive regulation of T cell activation			ISO	Q9ULZ3 	J:164563 	
+MGI:1861441	Rab27a	RAB27A, member RAS oncogene family	9		cytotoxic T cell degranulation			IMP	MGI:1856656 	J:111253 	
+MGI:2385107	Rab29	RAB29, member RAS oncogene family	1		T cell activation			ISO	O14966 	J:164563 	
+MGI:97846	Rac2	Rac family small GTPase 2	15		regulation of T cell proliferation			IMP		J:119437 	
+MGI:97848	Rag1	recombination activating 1	2		positive regulation of T cell differentiation			IMP		J:1934 	
+MGI:97848	Rag1	recombination activating 1	2		regulation of T cell differentiation			IGI	MGI:1353616 	J:140121 	
+MGI:97848	Rag1	recombination activating 1	2		T cell differentiation in thymus			IMP		J:1934 	
+MGI:97848	Rag1	recombination activating 1	2		T cell differentiation in thymus	happens in thymus		IMP	MGI:2448994 	J:41239 	
+MGI:97849	Rag2	recombination activating gene 2	2		T cell differentiation			IMP	MGI:1858556 	J:121045 	
+MGI:97849	Rag2	recombination activating gene 2	2		T cell differentiation	results in the differentiation of T cell		IMP	MGI:1858556 	J:76489 	
+MGI:97849	Rag2	recombination activating gene 2	2		T cell differentiation in thymus			IMP		J:1934 	
+MGI:97849	Rag2	recombination activating gene 2	2		T cell differentiation in thymus	results in the differentiation of DN2 thymocyte		IMP	MGI:1858556 	J:65218 	
+MGI:97849	Rag2	recombination activating gene 2	2		T cell lineage commitment	happens in thymus,happens in T cell|happens in bone marrow,happens in T cell|happens in spleen,happens in T cell		IMP	MGI:1858556 	J:31364 	
+MGI:97856	Rara	retinoic acid receptor, alpha	11		positive regulation of T-helper 2 cell differentiation			ISO	P10276 	J:164563 	
+MGI:2444128	Rasal3	RAS protein activator like 3	17		positive regulation of NK T cell proliferation			ISO	Q86YV0 	J:164563 	
+MGI:1314635	Rasgrp1	RAS guanyl releasing protein 1	2		positive regulation of T cell differentiation in thymus			IMP		J:65115 	
+MGI:2685397	Rc3h1	RING CCCH (C3H) domains 1	1		negative regulation of activated T cell proliferation			IMP		J:175161 	
+MGI:2685397	Rc3h1	RING CCCH (C3H) domains 1	1		negative regulation of T-helper 17 cell differentiation			IMP		J:259145 	
+MGI:2685397	Rc3h1	RING CCCH (C3H) domains 1	1		negative regulation of T-helper cell differentiation			IMP	MGI:3581675 	J:98938 	
+MGI:2685397	Rc3h1	RING CCCH (C3H) domains 1	1		regulation of T cell activation			IEA	IPR032671 	J:72247 	
+MGI:2685397	Rc3h1	RING CCCH (C3H) domains 1	1		regulation of T cell proliferation			IEA	IPR032671 	J:72247 	
+MGI:2685397	Rc3h1	RING CCCH (C3H) domains 1	1		T cell proliferation			IGI	MGI:2442789 	J:196136 	
+MGI:2685397	Rc3h1	RING CCCH (C3H) domains 1	1		T follicular helper cell differentiation			IGI	MGI:2442789 	J:196136 	
+MGI:2442789	Rc3h2	ring finger and CCCH-type zinc finger domains 2	2		negative regulation of T-helper 17 cell differentiation			IMP		J:259145 	
+MGI:2442789	Rc3h2	ring finger and CCCH-type zinc finger domains 2	2		T cell proliferation			IGI	MGI:2685397 	J:196136 	
+MGI:2442789	Rc3h2	ring finger and CCCH-type zinc finger domains 2	2		T follicular helper cell differentiation			IGI	MGI:2685397 	J:196136 	
+MGI:103289	Relb	avian reticuloendotheliosis viral (v-rel) oncogene related B	7		T-helper 1 cell differentiation	results in the differentiation of T-helper 1 cell		IMP	MGI:2179545 	J:107516 	
+MGI:1096342	Rhoa	ras homolog family member A	9		alpha-beta T cell lineage commitment			IMP		J:221513 	
+MGI:1096342	Rhoa	ras homolog family member A	9		beta selection			IMP		J:221513 	
+MGI:1096342	Rhoa	ras homolog family member A	9		positive regulation of alpha-beta T cell differentiation			IMP		J:221513 	
+MGI:1921984	Rhoh	ras homolog family member H	5		positive regulation of T cell differentiation			ISO	Q15669 	J:164563 	
+MGI:1921984	Rhoh	ras homolog family member H	5		T cell differentiation			IDA		J:113565 J:143161 	
+MGI:1891456	Ripk2	receptor (TNFRSF)-interacting serine-threonine kinase 2	4		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IMP	MGI:2446070 	J:75401 	
+MGI:1891456	Ripk2	receptor (TNFRSF)-interacting serine-threonine kinase 2	4		positive regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IMP	MGI:2660793 	J:75400 	
+MGI:1891456	Ripk2	receptor (TNFRSF)-interacting serine-threonine kinase 2	4		positive regulation of immature T cell proliferation	regulates the proliferation of thymocyte		IMP	MGI:2660793 	J:75400 	
+MGI:1891456	Ripk2	receptor (TNFRSF)-interacting serine-threonine kinase 2	4		positive regulation of T-helper 1 cell differentiation			IMP	MGI:2446070 	J:75401 	
+MGI:1891456	Ripk2	receptor (TNFRSF)-interacting serine-threonine kinase 2	4		T cell proliferation			IMP	MGI:2446070 	J:87716 	
+MGI:2154952	Ripk3	receptor-interacting serine-threonine kinase 3	14		regulation of activated T cell proliferation			IGI	Q61160 	J:176448 	
+MGI:2154952	Ripk3	receptor-interacting serine-threonine kinase 3	14		T cell differentiation in thymus			IGI	Q61160 	J:176448 	
+MGI:2444879	Ripor2	RHO family interacting cell polarization regulator 2	13		negative regulation of establishment of T cell polarity			ISO	Q9Y4F9 	J:164563 	
+MGI:2444879	Ripor2	RHO family interacting cell polarization regulator 2	13		negative regulation of T cell proliferation			ISO	Q9Y4F9 	J:164563 	
+MGI:104661	Rora	RAR-related orphan receptor alpha	9		T-helper 17 cell differentiation			IMP		J:131020 	
+MGI:104856	Rorc	RAR-related orphan receptor gamma	3		alpha-beta T cell differentiation	happens in small intestine,results in the differentiation of mature alpha-beta T cell		IMP	MGI:3026635 	J:91566 	
+MGI:104856	Rorc	RAR-related orphan receptor gamma	3		regulation of gamma-delta T cell differentiation			IDA		J:174553 	
+MGI:104856	Rorc	RAR-related orphan receptor gamma	3		T cell differentiation in thymus	happens in thymus,results in the differentiation of double-positive, alpha-beta thymocyte		IMP	MGI:3026635 	J:91566 	
+MGI:104856	Rorc	RAR-related orphan receptor gamma	3		T-helper 17 cell differentiation			IDA		J:141227 	
+MGI:104856	Rorc	RAR-related orphan receptor gamma	3		T-helper 17 cell differentiation			IMP		J:115922 J:131020 	
+MGI:104856	Rorc	RAR-related orphan receptor gamma	3		T-helper cell differentiation			IMP		J:87395 	
+MGI:99262	Rpl22	ribosomal protein L22	4		alpha-beta T cell differentiation			IMP	MGI:3804429 	J:123569 	
+MGI:1350917	Rps3	ribosomal protein S3	7		positive regulation of activated T cell proliferation			ISO	P23396 	J:164563 	
+MGI:98159	Rps6	ribosomal protein S6	4		T cell differentiation in thymus			IGI	MGI:98834 	J:103921 	
+MGI:98159	Rps6	ribosomal protein S6	4		T cell differentiation in thymus			IMP	MGI:2387471 	J:103921 	
+MGI:98159	Rps6	ribosomal protein S6	4		T cell proliferation involved in immune response			IGI	MGI:98834 	J:103921 	
+MGI:98159	Rps6	ribosomal protein S6	4		T cell proliferation involved in immune response			IMP	MGI:2387471 	J:103921 	
+MGI:1929628	Rsad2	radical S-adenosyl methionine domain containing 2	12		CD4-positive, alpha-beta T cell activation			IMP		J:148305 	
+MGI:1929628	Rsad2	radical S-adenosyl methionine domain containing 2	12		CD4-positive, alpha-beta T cell differentiation			IMP		J:148305 	
+MGI:99852	Runx1	runt related transcription factor 1	16		negative regulation of CD4-positive, alpha-beta T cell differentiation			IDA		J:131081 	
+MGI:99852	Runx1	runt related transcription factor 1	16		positive regulation of CD8-positive, alpha-beta T cell differentiation			IDA		J:131081 	
+MGI:99829	Runx2	runt related transcription factor 2	17		T cell differentiation			IDA		J:22982 	
+MGI:102672	Runx3	runt related transcription factor 3	4		negative regulation of CD4-positive, alpha-beta T cell differentiation			IMP		J:131081 	
+MGI:102672	Runx3	runt related transcription factor 3	4		positive regulation of CD8-positive, alpha-beta T cell differentiation			IMP		J:131081 	
+MGI:1309453	Sart1	squamous cell carcinoma antigen recognized by T cells 1	19		positive regulation of cytotoxic T cell differentiation			ISO	O43290 	J:164563 	
+MGI:1921381	Sash3	SAM and SH3 domain containing 3	X		positive regulation of CD4-positive, alpha-beta T cell differentiation	regulates the differentiation of CD4-positive, alpha-beta T cell		IMP	MGI:3716944 	J:102171 	
+MGI:1921381	Sash3	SAM and SH3 domain containing 3	X		positive regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:3716944 	J:102171 	
+MGI:105084	Satb1	special AT-rich sequence binding protein 1	17		activated T cell proliferation	affects a population of T cell		IMP	MGI:2386676 	J:98155 	
+MGI:105084	Satb1	special AT-rich sequence binding protein 1	17		CD4-positive, alpha-beta T cell differentiation	happens in thymus,results in the differentiation of CD4-positive, alpha-beta T cell		IMP	MGI:2386676 	J:61085 	
+MGI:105084	Satb1	special AT-rich sequence binding protein 1	17		CD8-positive, alpha-beta T cell differentiation	happens in thymus,results in the differentiation of CD8-positive, alpha-beta T cell|happens in spleen,results in the differentiation of CD8-positive, alpha-beta T cell		IMP	MGI:2386676 	J:98155 	
+MGI:105084	Satb1	special AT-rich sequence binding protein 1	17		CD8-positive, alpha-beta T cell differentiation	happens in thymus,results in the differentiation of CD8-positive, alpha-beta T cell		IMP	MGI:2386676 	J:61085 	
+MGI:105084	Satb1	special AT-rich sequence binding protein 1	17		T cell activation	has the participant thymus,has the participant CD4-positive, alpha-beta T cell		IMP	MGI:2386676 	J:61085 	
+MGI:98919	Scgb1a1	secretoglobin, family 1A, member 1 (uteroglobin)	19		negative regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:105523 	
+MGI:1349164	Sdc4	syndecan 4	2		negative regulation of T cell proliferation			ISO	P31431 	J:164563 	
+MGI:1931466	Selenok	selenoprotein K	14		positive regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:4941878 	J:169169 	
+MGI:107560	Sema4a	sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4A	3		T cell differentiation involved in immune response			IMP		J:97027 	
+MGI:107560	Sema4a	sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4A	3		T-helper 1 cell differentiation			IMP		J:97027 	
+MGI:109515	Sftpd	surfactant associated protein D	14		negative regulation of T cell proliferation			ISO	RGD:3667 	J:155856 	
+MGI:1913066	Sh3rf1	SH3 domain containing ring finger 1	8		regulation of CD4-positive, alpha-beta T cell differentiation			IMP		J:261832 	
+MGI:1913066	Sh3rf1	SH3 domain containing ring finger 1	8		regulation of CD8-positive, alpha-beta T cell proliferation			IMP		J:205863 	
+MGI:98294	Shb	src homology 2 domain-containing transforming protein B	4		positive regulation of T-helper cell differentiation			IMP	MGI:3721903 	J:218575 	
+MGI:98297	Shh	sonic hedgehog	5		CD4-positive or CD8-positive, alpha-beta T cell lineage commitment			IMP		J:145323 	
+MGI:98297	Shh	sonic hedgehog	5		CD4-positive or CD8-positive, alpha-beta T cell lineage commitment			ISO	Q15465 	J:164563 	
+MGI:98297	Shh	sonic hedgehog	5		negative regulation of alpha-beta T cell differentiation	happens in thymus primordium,regulates the differentiation of double-positive, alpha-beta thymocyte		IMP		J:64180 	
+MGI:98297	Shh	sonic hedgehog	5		negative regulation of T cell proliferation	regulates a function/process that happens in thymus primordium,regulates the proliferation of pro-T cell		IMP		J:64180 	
+MGI:98297	Shh	sonic hedgehog	5		negative thymic T cell selection			IMP		J:145323 	
+MGI:98297	Shh	sonic hedgehog	5		positive regulation of alpha-beta T cell differentiation			IMP		J:88047 	
+MGI:98297	Shh	sonic hedgehog	5		positive regulation of immature T cell proliferation in thymus			IMP		J:88047 J:148952 	
+MGI:98297	Shh	sonic hedgehog	5		positive regulation of T cell differentiation in thymus			IMP		J:145997 	
+MGI:98297	Shh	sonic hedgehog	5		positive thymic T cell selection			IMP		J:145323 	
+MGI:98297	Shh	sonic hedgehog	5		T cell differentiation in thymus			IMP		J:148952 	
+MGI:108563	Sirpa	signal-regulatory protein alpha	2		positive regulation of T cell activation			IBA	PTN000463164 	J:265628 	
+MGI:2444824	Sirpb1a	signal-regulatory protein beta 1A	3		positive regulation of T cell activation			IBA	PTN000463164 	J:265628 	
+MGI:3779828	Sirpb1b	signal-regulatory protein beta 1B	3		positive regulation of T cell activation			IBA	PTN000463164 	J:265628 	
+MGI:3807521	Sirpb1c	signal-regulatory protein beta 1C	3		positive regulation of T cell activation			IBA	PTN000463164 	J:265628 	
+MGI:1889342	Sit1	suppression inducing transmembrane adaptor 1	4		regulation of T cell activation			IBA	PTN000401073 	J:265628 	
+MGI:1889342	Sit1	suppression inducing transmembrane adaptor 1	4		regulation of T cell activation			ISO	Q9Y3P8 	J:164563 	
+MGI:3649627	Skint1	selection and upkeep of intraepithelial T cells 1	4		positive regulation of T cell differentiation	happens in thymus,regulates the differentiation of gamma-delta T cell|happens in thymus,regulates the differentiation of epithelial cell		IDA		J:169303 	
+MGI:3649627	Skint1	selection and upkeep of intraepithelial T cells 1	4		positive regulation of T cell differentiation in thymus			IMP		J:174553 	
+MGI:3649627	Skint1	selection and upkeep of intraepithelial T cells 1	4		positive thymic T cell selection	has the participant gamma-delta T cell|has the participant epithelial cell		IDA		J:169303 	
+MGI:3649627	Skint1	selection and upkeep of intraepithelial T cells 1	4		positive thymic T cell selection	has the participant thymus,has the participant epithelial cell|has the participant thymus,has the participant gamma-delta T cell		IMP		J:139711 	
+MGI:3649629	Skint2	selection and upkeep of intraepithelial T cells 2	4		negative regulation of T cell activation	regulates a function/process that uses effector CD4-positive, alpha-beta T cell|regulates a function/process that uses effector CD8-positive, alpha-beta T cell	PR:A7XUX6	IDA		J:144282 	
+MGI:1925049	Sla2	Src-like-adaptor 2	2		T cell activation			IDA		J:76785 J:76854 	
+MGI:1351314	Slamf1	signaling lymphocytic activation molecule family member 1	1		positive regulation of activated T cell proliferation			IDA		J:227465 	
+MGI:1353620	Slamf6	SLAM family member 6	1		T-helper 17 cell lineage commitment			ISO	Q96DU3 	J:164563 	
+MGI:109393	Slc4a1	solute carrier family 4 (anion exchanger), member 1	11		positive regulation of T cell proliferation			ISO	RGD:3710 	J:155856 	
+MGI:1345275	Slc11a1	solute carrier family 11 (proton-coupled divalent metal ion transporters), member 1	1		T cell proliferation involved in immune response			IMP	MGI:1857755 	J:39456 	
+MGI:1353616	Slc46a2	solute carrier family 46, member 2	4		regulation of T cell differentiation			IGI	MGI:97848 	J:140121 	
+MGI:1313259	Slfn1	schlafen 1	11		negative regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:138087 	
+MGI:1201674	Smad3	SMAD family member 3	9		T cell activation			IMP		J:53510 	
+MGI:1100518	Smad7	SMAD family member 7	18		negative regulation of T-helper 17 cell differentiation	happens in CD4-positive helper T cell		IMP		J:220376 	
+MGI:1354910	Socs1	suppressor of cytokine signaling 1	16		negative regulation of CD8-positive, alpha-beta T cell differentiation			IMP		J:258710 	
+MGI:1354910	Socs1	suppressor of cytokine signaling 1	16		positive regulation of CD4-positive, alpha-beta T cell differentiation			IMP		J:258710 	
+MGI:1354910	Socs1	suppressor of cytokine signaling 1	16		positive regulation of regulatory T cell differentiation			ISO	O15524 	J:164563 	
+MGI:2385459	Socs5	suppressor of cytokine signaling 5	17		negative regulation of T-helper 2 cell differentiation			IDA		J:113957 	
+MGI:2385459	Socs5	suppressor of cytokine signaling 5	17		positive regulation of T-helper 1 cell differentiation			IDA		J:113957 	
+MGI:1924885	Socs6	suppressor of cytokine signaling 6	18		negative regulation of T cell activation			IDA		J:165958 	
+MGI:98354	Sos1	SOS Ras/Rac guanine nucleotide exchange factor 1	17		regulation of T cell differentiation in thymus			IGI	MGI:98355 	J:206090 	
+MGI:98354	Sos1	SOS Ras/Rac guanine nucleotide exchange factor 1	17		regulation of T cell proliferation			IGI	MGI:98355 	J:206090 	
+MGI:98355	Sos2	SOS Ras/Rho guanine nucleotide exchange factor 2	12		regulation of T cell differentiation in thymus			IGI	MGI:98354 	J:206090 	
+MGI:98355	Sos2	SOS Ras/Rho guanine nucleotide exchange factor 2	12		regulation of T cell proliferation			IGI	MGI:98354 	J:206090 	
+MGI:98366	Sox4	SRY (sex determining region Y)-box 4	13		T cell differentiation			IMP		J:140312 	
+MGI:98361	Sox13	SRY (sex determining region Y)-box 13	1		gamma-delta T cell differentiation			IMP		J:117301 	
+MGI:98361	Sox13	SRY (sex determining region Y)-box 13	1		regulation of gamma-delta T cell differentiation			IDA		J:174553 	
+MGI:1277166	Sp3	trans-acting transcription factor 3	2		T cell differentiation			IMP	MGI:2182438 	J:84837 	
+MGI:98384	Spn	sialophorin	7		negative regulation of T cell activation			IMP	MGI:1857246 	J:88252 	
+MGI:98384	Spn	sialophorin	7		negative regulation of T cell proliferation			IMP		J:149128 	
+MGI:98384	Spn	sialophorin	7		negative regulation of T cell proliferation			IMP	MGI:1857246 	J:29272 J:88252 J:94033 	
+MGI:98384	Spn	sialophorin	7		negative thymic T cell selection			IMP	MGI:1857246 	J:56164 	
+MGI:98384	Spn	sialophorin	7		positive regulation of T cell proliferation			IDA		J:26220 	
+MGI:98384	Spn	sialophorin	7		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:88251 	
+MGI:98384	Spn	sialophorin	7		regulation of T cell activation			IEA	IPR038829 	J:72247 	
+MGI:98384	Spn	sialophorin	7		T cell costimulation			IDA		J:26220 J:56164 	
+MGI:98384	Spn	sialophorin	7		T cell costimulation	has the participant T cell		IDA		J:88251 	
+MGI:98384	Spn	sialophorin	7		T-helper 1 cell lineage commitment			ISO	P16150 	J:164563 	
+MGI:98385	Spta1	spectrin alpha, erythrocytic 1	1		positive regulation of T cell proliferation			IMP	MGI:1856181 	J:4748 	
+MGI:106658	Srf	serum response factor	17		positive thymic T cell selection			IMP	MGI:2449947 MGI:3046779 	J:169423 	
+MGI:103038	Stat3	signal transducer and activator of transcription 3	11		T-helper 17 cell lineage commitment			IMP		J:239159 	
+MGI:103036	Stat5a	signal transducer and activator of transcription 5A	11		positive regulation of activated T cell proliferation	regulates the proliferation of T cell		IDA		J:53400 	
+MGI:103036	Stat5a	signal transducer and activator of transcription 5A	11		positive regulation of activated T cell proliferation	regulates the proliferation of T cell		IGI	MGI:103035 	J:53400 J:98326 	
+MGI:103036	Stat5a	signal transducer and activator of transcription 5A	11		positive regulation of gamma-delta T cell differentiation	regulates the differentiation of gamma-delta T cell		IGI	MGI:103035 	J:92679 	
+MGI:103036	Stat5a	signal transducer and activator of transcription 5A	11		T cell differentiation in thymus	happens in thymus,results in the differentiation of T cell		IGI	MGI:103035 	J:92679 	
+MGI:103035	Stat5b	signal transducer and activator of transcription 5B	11		positive regulation of activated T cell proliferation	regulates the proliferation of T cell		IGI	MGI:103036 	J:53400 J:98326 	
+MGI:103035	Stat5b	signal transducer and activator of transcription 5B	11		positive regulation of activated T cell proliferation	regulates the proliferation of T cell		IMP	MGI:2181592 	J:112035 	
+MGI:103035	Stat5b	signal transducer and activator of transcription 5B	11		positive regulation of gamma-delta T cell differentiation	regulates the differentiation of gamma-delta T cell		IGI	MGI:103036 	J:92679 	
+MGI:103035	Stat5b	signal transducer and activator of transcription 5B	11		T cell differentiation in thymus	happens in thymus,results in the differentiation of T cell		IGI	MGI:103036 	J:92679 	
+MGI:103034	Stat6	signal transducer and activator of transcription 6	10		T-helper 1 cell lineage commitment			IGI	MGI:96556 	J:165738 	
+MGI:1341870	Stk11	serine/threonine kinase 11	10		positive thymic T cell selection	has the participant double-positive, alpha-beta thymocyte		IMP	MGI:2386448 MGI:2387402 	J:172064 	
+MGI:1341870	Stk11	serine/threonine kinase 11	10		positive thymic T cell selection	has the participant double-positive, alpha-beta thymocyte		IMP	MGI:2387402 MGI:3054844 	J:172064 	
+MGI:1913842	Stoml2	stomatin (Epb7.2)-like 2	4		CD4-positive, alpha-beta T cell activation			IMP		J:187877 	
+MGI:1921982	Stx11	syntaxin 11	10		cytotoxic T cell degranulation	happens in cytotoxic T cell		IMP	MGI:5461477 	J:191103 J:194197 	
+MGI:99515	Syk	spleen tyrosine kinase	13		beta selection	has the participant T cell		IGI	MGI:99613 	J:42818 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of alpha-beta T cell differentiation			IGI	MGI:99613 	J:42818 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of alpha-beta T cell proliferation			IBA	PTN000700479 	J:265628 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of alpha-beta T cell proliferation			IGI	MGI:99613 	J:42818 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of gamma-delta T cell differentiation	happens in intestine,regulates the differentiation of T cell		IMP	MGI:1857421 	J:36147 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of gamma-delta T cell differentiation	happens in thymus,regulates the differentiation of T cell		IMP	MGI:2384078 	J:29796 	
+MGI:2442280	Tarm1	T cell-interacting, activating receptor on myeloid cells 1	7		negative regulation of CD4-positive, alpha-beta T cell activation			ISO	B6A8C7 	J:164563 	
+MGI:2442280	Tarm1	T cell-interacting, activating receptor on myeloid cells 1	7		negative regulation of CD4-positive, alpha-beta T cell proliferation			IDA		J:243472 	
+MGI:1888984	Tbx21	T-box 21	11		negative regulation of T-helper 17 cell differentiation			IDA		J:167439 	
+MGI:1888984	Tbx21	T-box 21	11		negative regulation of T-helper 17 cell lineage commitment			IMP		J:167439 	
+MGI:1888984	Tbx21	T-box 21	11		regulation of T cell differentiation			IMP		J:175086 	
+MGI:1888984	Tbx21	T-box 21	11		T cell differentiation			IMP	MGI:2180194 	J:160369 	
+MGI:98510	Tcf3	transcription factor 3	10		T cell differentiation in thymus	results in the differentiation of thymocyte		IMP	MGI:2178112 	J:144049 	
+MGI:98507	Tcf7	transcription factor 7, T cell specific	11		alpha-beta T cell differentiation	happens in thymus		IGI	MGI:96770 	J:110481 	
+MGI:98507	Tcf7	transcription factor 7, T cell specific	11		T cell receptor V(D)J recombination			IGI	MGI:96770 	J:110481 	
+MGI:1350931	Tcirg1	T cell, immune regulator 1, ATPase, H+ transporting, lysosomal V0 protein A3	19		memory T cell activation			IMP		J:108136 	
+MGI:1350931	Tcirg1	T cell, immune regulator 1, ATPase, H+ transporting, lysosomal V0 protein A3	19		T cell differentiation			IMP	MGI:3054898 	J:92730 	
+MGI:1350931	Tcirg1	T cell, immune regulator 1, ATPase, H+ transporting, lysosomal V0 protein A3	19		T-helper 1 cell activation			IMP	MGI:1856973 	J:93047 	
+MGI:98553	Tcra	T cell receptor alpha chain	14		T cell lineage commitment	happens in thymus,happens in T cell		IMP	MGI:1857255 	J:66168 	
+MGI:99743	Tcra-V3.1	T cell receptor alpha, variable 3.1	14		T cell selection			IMP		J:127083 	
+MGI:98578	Tcrb	T cell receptor beta chain	6		positive regulation of T cell activation			IDA		J:25159 	
+MGI:892967	Tcrbe	T cell receptor beta chain enhancer	6		regulation of T cell differentiation	regulates the differentiation of T cell		IMP	MGI:3590151 	J:34311 	
+MGI:1914846	Tespa1	thymocyte expressed, positive selection associated 1	10		positive regulation of T cell differentiation in thymus			IMP		J:186446 	
+MGI:98822	Tfrc	transferrin receptor	16		positive regulation of T cell proliferation			IDA		J:231935 	
+MGI:98822	Tfrc	transferrin receptor	16		positive regulation of T cell proliferation			ISO	P02786 	J:164563 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		CD4-positive, CD25-positive, alpha-beta regulatory T cell lineage commitment			TAS		J:136164 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		negative regulation of T cell activation	regulates a function/process that happens in thymocyte		IMP	MGI:1857258 	J:110914 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		negative regulation of T cell proliferation	regulates a function/process that happens in lymph node		IMP	MGI:3719583 	J:123547 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		positive regulation of regulatory T cell differentiation	happens in induced T-regulatory cell		IMP		J:224716 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		regulation of CD4-positive, CD25-positive, alpha-beta regulatory T cell differentiation			TAS		J:136164 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		regulation of regulatory T cell differentiation			IGI	MGI:88327 	J:170513 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		regulatory T cell differentiation			IDA		J:89682 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		regulatory T cell differentiation	happens in thymus,results in the differentiation of T cell		IMP	MGI:3576270 MGI:3719583 	J:123547 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		T cell activation			IDA		J:143168 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		T cell activation	has the participant lymph node		IMP	MGI:3719583 	J:123547 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		T cell differentiation	happens in lymph node		IMP	MGI:3719583 	J:123547 	
+MGI:98725	Tgfb1	transforming growth factor, beta 1	7		T-helper 17 cell lineage commitment			TAS		J:136164 	
+MGI:98729	Tgfbr2	transforming growth factor, beta receptor II	9		positive regulation of CD4-positive, alpha-beta T cell proliferation			ISO	P37173 	J:164563 	
+MGI:98729	Tgfbr2	transforming growth factor, beta receptor II	9		positive regulation of NK T cell differentiation			IMP	MGI:2183502 MGI:2386448 	J:113553 	
+MGI:2443552	Themis	thymocyte selection associated	10		negative T cell selection			IMP		J:151074 J:151075 	
+MGI:2443552	Themis	thymocyte selection associated	10		positive T cell selection			IMP		J:151074 J:151075 J:151076 J:153235 	
+MGI:98747	Thy1	thymus cell antigen 1, theta	9		positive regulation of T cell activation			IBA	PTN000442448 	J:265628 	
+MGI:98747	Thy1	thymus cell antigen 1, theta	9		positive regulation of T cell activation			ISO	RGD:3860 	J:155856 	
+MGI:3642260	Tigit	T cell immunoreceptor with Ig and ITIM domains	16		negative regulation of T cell activation			IBA	PTN000589119 	J:265628 	
+MGI:3642260	Tigit	T cell immunoreceptor with Ig and ITIM domains	16		negative regulation of T cell activation			IMP	MGI:4939784 	J:168902 	
+MGI:3642260	Tigit	T cell immunoreceptor with Ig and ITIM domains	16		negative regulation of T cell activation			ISO	Q495A1 	J:73065 	
+MGI:3642260	Tigit	T cell immunoreceptor with Ig and ITIM domains	16		negative regulation of T cell activation			ISS	Q495A1 	J:150317 	
+MGI:1923457	Tmem98	transmembrane protein 98	11		T-helper 1 cell differentiation			IDA		J:273519 	
+MGI:2443399	Tmem131l	transmembrane 131 like	3		negative regulation of immature T cell proliferation in thymus			ISO	A2VDJ0 	J:164563 	
+MGI:1917019	Tnfaip8l2	tumor necrosis factor, alpha-induced protein 8-like 2	3		negative regulation of T cell activation			IBA	PTN000298385 	J:265628 	
+MGI:1917019	Tnfaip8l2	tumor necrosis factor, alpha-induced protein 8-like 2	3		negative regulation of T cell activation	regulates a function/process that happens in regulatory T cell		IMP		J:177456 	
+MGI:1314883	Tnfrsf1b	tumor necrosis factor receptor superfamily, member 1b	4		regulation of T cell proliferation	happens in microglial cell,happens in macrophage,regulates a function/process that happens in spleen		IMP		J:240627 	
+MGI:104512	Tnfrsf4	tumor necrosis factor receptor superfamily, member 4	4		T cell proliferation			ISO	RGD:3920 	J:155856 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		positive regulation of T cell proliferation			IBA	PTN001073134 	J:265628 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:91914 J:92334 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		positive regulation of T cell proliferation	regulates the proliferation of T cell		IMP	MGI:2389403 	J:91914 J:92334 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		T cell costimulation			IBA	PTN001073134 	J:265628 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		T cell costimulation	has the participant T cell		IDA		J:91914 J:92334 	
+MGI:1919299	Tnfrsf13c	tumor necrosis factor receptor superfamily, member 13c	15		T cell costimulation	has the participant T cell		IMP	MGI:2389403 	J:91914 J:92334 	
+MGI:2675303	Tnfrsf14	tumor necrosis factor receptor superfamily, member 14 (herpesvirus entry mediator)	4		negative regulation of alpha-beta T cell proliferation			IBA	PTN002929911 	J:265628 	
+MGI:2675303	Tnfrsf14	tumor necrosis factor receptor superfamily, member 14 (herpesvirus entry mediator)	4		negative regulation of alpha-beta T cell proliferation	regulates the proliferation of CD4-positive, alpha-beta T cell		IDA		J:94873 	
+MGI:2675303	Tnfrsf14	tumor necrosis factor receptor superfamily, member 14 (herpesvirus entry mediator)	4		T cell costimulation			ISO	Q92956 	J:164563 	
+MGI:2151075	Tnfrsf21	tumor necrosis factor receptor superfamily, member 21	17		negative regulation of T cell proliferation			IBA	PTN002930692 	J:265628 	
+MGI:2151075	Tnfrsf21	tumor necrosis factor receptor superfamily, member 21	17		negative regulation of T cell proliferation			IMP		J:70594 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		CD4-positive, alpha-beta T cell costimulation			IDA		J:162543 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		memory T cell activation			IMP		J:127284 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		negative regulation of regulatory T cell differentiation			IMP		J:138954 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		negative regulation of T-helper 1 cell differentiation			IDA		J:169814 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of activated T cell proliferation			ISO	RGD:619816 	J:155856 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of alpha-beta T cell proliferation			IMP		J:131079 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of CD4-positive, alpha-beta T cell costimulation			IDA		J:162543 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of CD4-positive, alpha-beta T cell differentiation			IDA		J:162543 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of memory T cell activation			IMP		J:127284 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of memory T cell differentiation			IDA		J:138954 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of T cell costimulation			IDA		J:162543 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of T cell proliferation			IBA	PTN000426254 	J:265628 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of T-helper 2 cell activation			IMP		J:127284 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		positive regulation of T-helper 2 cell differentiation			IDA		J:169884 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		T cell proliferation			ISO	RGD:619816 	J:155856 	
+MGI:104511	Tnfsf4	tumor necrosis factor (ligand) superfamily, member 4	1		T-helper 2 cell activation			IMP		J:127284 	
+MGI:88328	Tnfsf8	tumor necrosis factor (ligand) superfamily, member 8	4		CD8-positive, alpha-beta T cell differentiation			IBA	PTN000426273 	J:265628 	
+MGI:88328	Tnfsf8	tumor necrosis factor (ligand) superfamily, member 8	4		CD8-positive, alpha-beta T cell differentiation			IMP	MGI:3054968 	J:118947 	
+MGI:1101058	Tnfsf9	tumor necrosis factor (ligand) superfamily, member 9	17		positive regulation of activated T cell proliferation			IBA	PTN000389106 	J:265628 	
+MGI:1101058	Tnfsf9	tumor necrosis factor (ligand) superfamily, member 9	17		positive regulation of activated T cell proliferation			ISO	RGD:727974 	J:155856 	
+MGI:1101058	Tnfsf9	tumor necrosis factor (ligand) superfamily, member 9	17		positive regulation of cytotoxic T cell differentiation			IBA	PTN000389106 	J:265628 	
+MGI:1101058	Tnfsf9	tumor necrosis factor (ligand) superfamily, member 9	17		positive regulation of cytotoxic T cell differentiation			ISO	RGD:727974 	J:155856 	
+MGI:1100089	Tnfsf11	tumor necrosis factor (ligand) superfamily, member 11	14		positive regulation of T cell activation			ISO	O14788 	J:164563 	
+MGI:1344376	Tnfsf13b	tumor necrosis factor (ligand) superfamily, member 13b	8		positive regulation of T cell proliferation	regulates the proliferation of T cell		IDA		J:91914 J:92334 	
+MGI:1344376	Tnfsf13b	tumor necrosis factor (ligand) superfamily, member 13b	8		T cell costimulation	has the participant T cell		IDA		J:91914 J:92334 	
+MGI:1355317	Tnfsf14	tumor necrosis factor (ligand) superfamily, member 14	17		T cell costimulation			IDA		J:94873 	
+MGI:1355317	Tnfsf14	tumor necrosis factor (ligand) superfamily, member 14	17		T cell costimulation			ISO	O43557 	J:164563 	
+MGI:2673064	Tnfsf18	tumor necrosis factor (ligand) superfamily, member 18	1	NOT	activated CD4-positive, alpha-beta T cell proliferation			IMP		J:206613 	
+MGI:2673064	Tnfsf18	tumor necrosis factor (ligand) superfamily, member 18	1		negative regulation of T-helper 17 cell lineage commitment	happens in mesenteric lymph node,happens at the same time as inflammatory response		IMP		J:206613 	
+MGI:2673064	Tnfsf18	tumor necrosis factor (ligand) superfamily, member 18	1		regulation of T cell proliferation			IBA	PTN000392086 	J:265628 	
+MGI:2673064	Tnfsf18	tumor necrosis factor (ligand) superfamily, member 18	1		regulation of T cell proliferation			IDA		J:86980 	
+MGI:2673064	Tnfsf18	tumor necrosis factor (ligand) superfamily, member 18	1		T cell proliferation involved in immune response			IBA	PTN000392086 	J:265628 	
+MGI:2673064	Tnfsf18	tumor necrosis factor (ligand) superfamily, member 18	1		T cell proliferation involved in immune response			IDA		J:86980 	
+MGI:2181659	Tox	thymocyte selection-associated high mobility group box	4		CD4-positive, alpha-beta T cell lineage commitment			IMP		J:131287 	
+MGI:2181659	Tox	thymocyte selection-associated high mobility group box	4		CD4-positive, CD25-positive, alpha-beta regulatory T cell lineage commitment			IMP		J:131287 	
+MGI:2181659	Tox	thymocyte selection-associated high mobility group box	4		CD8-positive, alpha-beta T cell lineage commitment			IMP		J:74993 J:91035 	
+MGI:2181659	Tox	thymocyte selection-associated high mobility group box	4		NK T cell lineage commitment			IMP		J:131287 	
+MGI:2181659	Tox	thymocyte selection-associated high mobility group box	4		regulation of positive thymic T cell selection			IMP		J:131287 	
+MGI:108072	Traf6	TNF receptor-associated factor 6	2		positive regulation of T cell proliferation			IMP		J:77453 	
+MGI:4440521	Traj18	T cell receptor alpha joining 18	14		NK T cell differentiation			IMP		J:225861 	
+MGI:2147038	Treml2	triggering receptor expressed on myeloid cells-like 2	17		T cell activation			IBA	PTN000419275 	J:265628 	
+MGI:2147038	Treml2	triggering receptor expressed on myeloid cells-like 2	17		T cell activation			ISO	Q5T2D2 	J:164563 	
+MGI:1328317	Trex1	three prime repair exonuclease 1	9		regulation of T cell activation			IGI	MGI:2442261 	J:226998 	
+MGI:98834	Trp53	transformation related protein 53	11		T cell differentiation in thymus			IGI	MGI:98159 	J:103921 	
+MGI:98834	Trp53	transformation related protein 53	11		T cell lineage commitment	happens in thymus,happens in T cell|happens in bone marrow,happens in T cell|happens in spleen,happens in T cell		IMP	MGI:1857590 	J:31364 	
+MGI:98834	Trp53	transformation related protein 53	11		T cell proliferation involved in immune response			IGI	MGI:98159 	J:103921 	
+MGI:1929183	Tsc1	TSC complex subunit 1	2		memory T cell differentiation			IMP	MGI:2656240 	J:216437 	
+MGI:2137520	Twsg1	twisted gastrulation BMP signaling modulator 1	17		negative regulation of CD4-positive, alpha-beta T cell activation			ISO	Q9GZX9 	J:164563 	
+MGI:2137520	Twsg1	twisted gastrulation BMP signaling modulator 1	17		negative regulation of CD4-positive, alpha-beta T cell proliferation			ISO	Q9GZX9 	J:164563 	
+MGI:102960	Txk	TXK tyrosine kinase	5		NK T cell differentiation	happens in thymus		IGI	MGI:96621 	J:131540 	
+MGI:98923	Vav1	vav 1 oncogene	17		T cell activation	has the participant T cell		IMP	MGI:2387838 	J:79550 	
+MGI:98923	Vav1	vav 1 oncogene	17		T cell differentiation			IGI	MGI:3040696 	J:168922 	
+MGI:98923	Vav1	vav 1 oncogene	17		T cell differentiation			TAS		J:79550 	
+MGI:98926	Vcam1	vascular cell adhesion molecule 1	3		positive regulation of T cell proliferation			ISO	P19320 	J:164563 	
+MGI:108395	Vnn1	vanin 1	10		positive regulation of T cell differentiation in thymus			IDA		J:37066 	
+MGI:2679720	Vsig4	V-set and immunoglobulin domain containing 4	X		negative regulation of T cell proliferation			IBA	PTN001810319 	J:265628 	
+MGI:2679720	Vsig4	V-set and immunoglobulin domain containing 4	X		negative regulation of T cell proliferation			IDA		J:114496 	
+MGI:1921298	Vsir	V-set immunoregulatory receptor	10		negative regulation of CD4-positive, alpha-beta T cell proliferation			IDA		J:176836 	
+MGI:1921298	Vsir	V-set immunoregulatory receptor	10		negative regulation of CD4-positive, alpha-beta T cell proliferation			ISO	Q9H7M9 	J:164563 	
+MGI:1921298	Vsir	V-set immunoregulatory receptor	10		negative regulation of CD8-positive, alpha-beta T cell proliferation			ISO	Q9H7M9 	J:164563 	
+MGI:1921298	Vsir	V-set immunoregulatory receptor	10		positive regulation of regulatory T cell differentiation			ISO	Q9H7M9 	J:164563 	
+MGI:3039619	Vtcn1	V-set domain containing T cell activation inhibitor 1	3		negative regulation of T cell activation			IDA		J:94867 	
+MGI:3039619	Vtcn1	V-set domain containing T cell activation inhibitor 1	3		negative regulation of T cell activation			ISO	Q7Z7D3 	J:164563 	
+MGI:3039619	Vtcn1	V-set domain containing T cell activation inhibitor 1	3		negative regulation of T cell proliferation			ISO	Q7Z7D3 	J:164563 	
+MGI:3039619	Vtcn1	V-set domain containing T cell activation inhibitor 1	3		positive regulation of T cell proliferation			IMP		J:132222 	
+MGI:105059	Was	Wiskott-Aldrich syndrome	X		T cell activation	has the participant T cell		IMP	MGI:1861707 	J:79550 	
+MGI:1916017	Washc1	WASH complex subunit 1	17		T cell proliferation			IMP		J:217269 	
+MGI:3584510	Wdfy4	WD repeat and FYVE domain containing 4	14		CD8-positive, alpha-beta T cell activation			IMP		J:266805 	
+MGI:98953	Wnt1	wingless-type MMTV integration site family, member 1	15		T cell differentiation in thymus			IDA		J:67003 	
+MGI:98957	Wnt4	wingless-type MMTV integration site family, member 4	4		immature T cell proliferation in thymus	happens in thymus		IMP	MGI:1857453 	J:137842 	
+MGI:98957	Wnt4	wingless-type MMTV integration site family, member 4	4		T cell differentiation in thymus			IDA		J:67003 	
+MGI:1861728	Wwp1	WW domain containing E3 ubiquitin protein ligase 1	4		T cell differentiation			TAS		J:114067 	
+MGI:98970	Xbp1	X-box binding protein 1	11		positive regulation of T cell differentiation			ISO	P17861 	J:164563 	
+MGI:104593	Xcl1	chemokine (C motif) ligand 1	1		negative regulation of CD4-positive, alpha-beta T cell proliferation			ISO	P47992 	J:164563 	
+MGI:104593	Xcl1	chemokine (C motif) ligand 1	1		negative regulation of T-helper 1 cell activation			ISO	P47992 	J:164563 	
+MGI:104593	Xcl1	chemokine (C motif) ligand 1	1		positive regulation of CD4-positive, alpha-beta T cell proliferation			IDA		J:172916 	
+MGI:104593	Xcl1	chemokine (C motif) ligand 1	1		positive regulation of CD8-positive, alpha-beta T cell proliferation			ISO	P47992 	J:164563 	
+MGI:1333799	Xrcc4	X-ray repair complementing defective repair in Chinese hamster cells 4	13		T cell differentiation in thymus	results in the differentiation of DN2 thymocyte		IMP	MGI:1926771 	J:65218 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		beta selection	has the participant T cell		IGI	MGI:99515 	J:42818 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		negative thymic T cell selection	has the participant thymus,has the participant T cell		IMP	MGI:2677447 	J:27768 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		positive regulation of alpha-beta T cell differentiation	regulates the differentiation of T cell		IGI	MGI:99515 	J:42818 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		positive regulation of alpha-beta T cell differentiation	regulates the differentiation of T cell		IMP	MGI:3526403 	J:41170 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		positive regulation of alpha-beta T cell differentiation	happens in thymus,regulates the differentiation of T cell|happens in spleen,regulates the differentiation of T cell		IMP	MGI:2677447 	J:27768 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		positive regulation of alpha-beta T cell proliferation			IGI	MGI:99515 	J:42818 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		positive regulation of T cell differentiation	regulates the differentiation of T cell		IMP	MGI:2677447 MGI:3526403 	J:41170 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		positive regulation of T cell differentiation			ISO	P43403 	J:73065 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		positive thymic T cell selection	has the participant thymus,has the participant T cell|has the participant spleen,has the participant T cell		IMP	MGI:2677447 	J:27768 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		positive thymic T cell selection			ISO	P43403 	J:73065 	
+MGI:99613	Zap70	zeta-chain (TCR) associated protein kinase	1		thymic T cell selection	has the participant T cell		IMP	MGI:2677447 MGI:3526403 	J:41170 	
+MGI:2442326	Zbtb1	zinc finger and BTB domain containing 1	12		positive regulation of pro-T cell differentiation			IMP		J:189773 	
+MGI:2442326	Zbtb1	zinc finger and BTB domain containing 1	12		positive regulation of T cell differentiation			IMP		J:178820 	
+MGI:2442326	Zbtb1	zinc finger and BTB domain containing 1	12		T cell differentiation in thymus			IMP	MGI:5300200 	J:178820 	
+MGI:102755	Zbtb7b	zinc finger and BTB domain containing 7B	3		negative regulation of CD8-positive, alpha-beta T cell differentiation			IMP		J:189792 J:258710 	
+MGI:102755	Zbtb7b	zinc finger and BTB domain containing 7B	3		negative regulation of NK T cell proliferation			IMP		J:190672 	
+MGI:102755	Zbtb7b	zinc finger and BTB domain containing 7B	3		negative regulation of T-helper 17 cell differentiation			IMP	MGI:3530739 	J:190936 	
+MGI:102755	Zbtb7b	zinc finger and BTB domain containing 7B	3		NK T cell differentiation			IMP		J:190672 	
+MGI:102755	Zbtb7b	zinc finger and BTB domain containing 7B	3		positive regulation of CD4-positive, alpha-beta T cell differentiation			IMP		J:258710 	
+MGI:102755	Zbtb7b	zinc finger and BTB domain containing 7B	3		regulation of CD4-positive, alpha-beta T cell differentiation	regulates the differentiation of CD4-positive helper T cell		IMP	MGI:3817628 	J:141145 	
+MGI:102755	Zbtb7b	zinc finger and BTB domain containing 7B	3		regulation of CD8-positive, alpha-beta T cell differentiation	regulates the differentiation of CD8-positive, alpha-beta T cell		IMP	MGI:3817628 	J:141145 	
+MGI:103222	Zbtb16	zinc finger and BTB domain containing 16	9		positive regulation of NK T cell differentiation			IMP		J:139299 	
+MGI:1891838	Zbtb32	zinc finger and BTB domain containing 32	7		T cell proliferation			IMP	MGI:3527274 	J:95119 	
+MGI:1930128	Zc3h8	zinc finger CCCH type containing 8	2		negative regulation of T cell differentiation in thymus			ISO	Q8N5P1 	J:164563 	
+MGI:2385891	Zc3h12a	zinc finger CCCH type containing 12A	4		negative regulation of T-helper 17 cell differentiation			IMP		J:259145 	
+MGI:3045313	Zc3h12d	zinc finger CCCH type containing 12D	10		negative regulation of T cell proliferation	regulates a function/process that happens in spleen		IMP	MGI:5588370 	J:209383 	
+MGI:1344313	Zeb1	zinc finger E-box binding homeobox 1	18		regulation of T cell differentiation in thymus	happens in thymus,regulates the differentiation of T cell		IMP	MGI:1857799 	J:45575 	
+MGI:1344313	Zeb1	zinc finger E-box binding homeobox 1	18		regulation of T cell differentiation in thymus	happens in thymus,regulates the differentiation of T cell		IMP	MGI:1857515 	J:39865 	
+MGI:99179	Zfp35	zinc finger protein 35	18		negative regulation of T-helper 2 cell differentiation			IMP	MGI:4398896 	J:153828 	
+MGI:107946	Zfp36l1	zinc finger protein 36, C3H type-like 1	12		T cell differentiation in thymus			IGI	P23949 	J:162388 	
+MGI:107946	Zfp36l1	zinc finger protein 36, C3H type-like 1	12		T cell differentiation in thymus			IMP		J:162388 	
+MGI:107945	Zfp36l2	zinc finger protein 36, C3H type-like 2	17		T cell differentiation in thymus			IGI	P23950 	J:162388 	
+MGI:107945	Zfp36l2	zinc finger protein 36, C3H type-like 2	17		T cell differentiation in thymus			IMP		J:162388 	
+MGI:2442338	Zfp608	zinc finger protein 608	18		negative regulation of T cell differentiation in thymus			TAS		J:243389 	
+MGI:2674092	Zfp609	zinc finger protein 609	9		positive regulation of T cell differentiation in thymus			TAS		J:243389 	
+MGI:3650254	Zfp683	zinc finger protein 683	4		regulation of extrathymic T cell differentiation			IMP		J:232474 	
+MGI:3650254	Zfp683	zinc finger protein 683	4		regulation of NK T cell differentiation			IMP		J:232474 	
+MGI:3040693	Zmiz1	zinc finger, MIZ-type containing 1	14		positive regulation of T cell differentiation			IMP		J:234445 	
+MGI:1917353	Znhit1	zinc finger, HIT domain containing 1	5		regulation of T cell proliferation			IDA		J:150656 	
+MGI:99215	Zp3	zona pellucida glycoprotein 3	5		positive regulation of T cell proliferation			IDA		J:169908 	
+

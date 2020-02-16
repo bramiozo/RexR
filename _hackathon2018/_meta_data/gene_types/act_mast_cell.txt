@@ -1,0 +1,104 @@
+MGI Gene/Marker ID	Symbol	Name	Chr	Qualifier	Annotated Term	Context	Proteoform	Evidence	Inferred From	Reference(s)
+MGI:99403	Adora2b	adenosine A2b receptor	11		positive regulation of mast cell degranulation	regulates a function/process that happens in mast cell		IMP		J:132588 	
+MGI:104847	Adora3	adenosine A3 receptor	3		histamine secretion by mast cell	happens in mast cell		IDA		J:84007 	
+MGI:104847	Adora3	adenosine A3 receptor	3		histamine secretion by mast cell	happens in mast cell		IMP	MGI:2155986 	J:84007 	
+MGI:104847	Adora3	adenosine A3 receptor	3		positive regulation of mast cell degranulation	regulates a function/process that happens in mast cell		IDA		J:84007 	
+MGI:104847	Adora3	adenosine A3 receptor	3		positive regulation of mast cell degranulation	regulates a function/process that happens in mast cell		IMP	MGI:2155986 	J:84007 	
+MGI:1337994	Bcl10	B cell leukemia/lymphoma 10	3		mast cell activation			NAS		J:116420 	
+MGI:88216	Btk	Bruton agammaglobulinemia tyrosine kinase	X		histamine secretion by mast cell			ISO	RGD:1359683 	J:155856 	
+MGI:88339	Cd48	CD48 antigen	1		mast cell activation			ISO	RGD:620620 	J:155856 	
+MGI:1336885	Cd84	CD84 antigen	1		negative regulation of mast cell activation			ISO	Q9UIB8 	J:164563 	
+MGI:1336885	Cd84	CD84 antigen	1		negative regulation of mast cell degranulation			ISO	Q9UIB8 	J:164563 	
+MGI:3039602	Cd226	CD226 antigen	18		positive regulation of mast cell activation			IBA	PTN002931336 	J:265628 	
+MGI:3039602	Cd226	CD226 antigen	18		positive regulation of mast cell activation			ISO	Q15762 	J:164563 	
+MGI:2443411	Cd300a	CD300A molecule	11		negative regulation of mast cell activation involved in immune response			ISO	Q9UGN4 	J:164563 	
+MGI:2443411	Cd300a	CD300A molecule	11		negative regulation of mast cell degranulation	regulates a function/process that happens in mast cell		IDA		J:124243 	
+MGI:2443411	Cd300a	CD300A molecule	11		negative regulation of mast cell degranulation			ISO	Q9UGN4 	J:164563 	
+MGI:2443411	Cd300a	CD300A molecule	11		serotonin secretion by mast cell	happens in mast cell		IDA		J:124243 	
+MGI:2685099	Cd300lb	CD300 molecule like family member B	11		positive regulation of mast cell activation	regulates a function/process that has the participant mast cell		IDA		J:163402 	
+MGI:2442359	Cd300lf	CD300 molecule like family member F	11		negative regulation of mast cell activation			IMP		J:190979 	
+MGI:2442359	Cd300lf	CD300 molecule like family member F	11		negative regulation of mast cell activation			ISO	Q8TDQ1 	J:164563 	
+MGI:88388	Cftr	cystic fibrosis transmembrane conductance regulator	6		positive regulation of mast cell activation			ISO	RGD:2332 	J:155856 	
+MGI:88394	Chga	chromogranin A	12		mast cell activation			ISO	P10645 	J:164563 	
+MGI:88394	Chga	chromogranin A	12		mast cell degranulation			ISO	P10645 	J:164563 	
+MGI:104615	Cnr1	cannabinoid receptor 1 (brain)	4		negative regulation of mast cell activation			ISO	RGD:2369 	J:155856 	
+MGI:104650	Cnr2	cannabinoid receptor 2 (macrophage)	4		negative regulation of mast cell activation			ISO	RGD:619713 	J:155856 	
+MGI:104726	Cplx2	complexin 2	13		mast cell degranulation			IEA	KW-0467 	J:60000 	
+MGI:88498	Crhr1	corticotropin releasing hormone receptor 1	11		positive regulation of mast cell degranulation			ISO	RGD:61276 	J:155856 	
+MGI:1889506	Crlf2	cytokine receptor-like factor 2	5		positive regulation of mast cell activation			ISO	Q9HC73 	J:164563 	
+MGI:107893	D6Wsu163e	DNA segment, Chr 6, Wayne State University 163, expressed	6		regulation of mast cell degranulation			ISO	RGD:1311164 	J:155856 	
+MGI:2143702	Enpp3	ectonucleotide pyrophosphatase/phosphodiesterase 3	10		negative regulation of mast cell activation involved in immune response			IMP		J:223825 	
+MGI:95494	Fcer1a	Fc receptor, IgE, high affinity I, alpha polypeptide	1		positive regulation of mast cell degranulation	regulates a function/process that happens in mast cell		IDA		J:37676 	
+MGI:95496	Fcer1g	Fc receptor, IgE, high affinity I, gamma polypeptide	1		mast cell activation	has the participant mast cell		IDA		J:88051 	
+MGI:95496	Fcer1g	Fc receptor, IgE, high affinity I, gamma polypeptide	1		mast cell activation	has the participant mast cell		IMP	MGI:2384004 	J:88051 	
+MGI:95496	Fcer1g	Fc receptor, IgE, high affinity I, gamma polypeptide	1		positive regulation of mast cell degranulation	regulates a function/process that happens in mast cell		IDA		J:88051 	
+MGI:95496	Fcer1g	Fc receptor, IgE, high affinity I, gamma polypeptide	1		positive regulation of mast cell degranulation	regulates a function/process that happens in mast cell		IMP	MGI:2384004 	J:88051 	
+MGI:95499	Fcgr2b	Fc receptor, IgG, low affinity IIb	1	NOT	mast cell activation			IDA		J:35057 	
+MGI:95500	Fcgr3	Fc receptor, IgG, low affinity III	1		mast cell activation			IDA		J:31133 	
+MGI:95500	Fcgr3	Fc receptor, IgG, low affinity III	1		mast cell activation			IMP	MGI:1861924 	J:35057 	
+MGI:105917	Fer	fer (fms/fps related) protein kinase	17		negative regulation of mast cell activation involved in immune response			IMP		J:116450 	
+MGI:105917	Fer	fer (fms/fps related) protein kinase	17		regulation of mast cell degranulation			IBA	PTN000700775 	J:265628 	
+MGI:95514	Fes	feline sarcoma oncogene	7		regulation of mast cell degranulation			IBA	PTN000700775 	J:265628 	
+MGI:95514	Fes	feline sarcoma oncogene	7		regulation of mast cell degranulation			ISO	P07332 	J:164563 	
+MGI:95527	Fgr	FGR proto-oncogene, Src family tyrosine kinase	4		positive regulation of mast cell degranulation			IDA		J:177211 	
+MGI:1347470	Foxf1	forkhead box F1	8		negative regulation of mast cell degranulation			IMP	MGI:2179135 	J:154288 	
+MGI:1346327	Fyb	FYN binding protein	15	NOT	mast cell activation			IMP		J:90531 	
+MGI:1333854	Gab2	growth factor receptor bound protein 2-associated protein 2	7		positive regulation of mast cell degranulation			IMP		J:70424 	
+MGI:95662	Gata2	GATA binding protein 2	6		positive regulation of mast cell degranulation			ISO	RGD:2664 	J:155856 	
+MGI:2159680	Havcr1	hepatitis A virus cellular receptor 1	11		positive regulation of mast cell activation	regulates a function/process that has the participant mast cell		IDA		J:163402 	
+MGI:96163	Hmox1	heme oxygenase 1	8		negative regulation of mast cell degranulation			ISO	RGD:2806 	J:155856 	
+MGI:96449	Igh-7	immunoglobulin heavy chain 7 (heavy chain of IgE)	12		histamine secretion by mast cell	happens in mast cell		IDA		J:84007 	
+MGI:96449	Igh-7	immunoglobulin heavy chain 7 (heavy chain of IgE)	12		mast cell activation			IDA		J:31133 J:35057 	
+MGI:96449	Igh-7	immunoglobulin heavy chain 7 (heavy chain of IgE)	12		positive regulation of mast cell degranulation	regulates a function/process that happens in mast cell		IDA		J:37676 J:84007 J:88051 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of mast cell degranulation			IGI	MGI:96541 	J:100883 	
+MGI:96556	Il4	interleukin 4	11		positive regulation of mast cell degranulation			IMP	MGI:1857195 	J:100883 	
+MGI:105367	Il4ra	interleukin 4 receptor, alpha	7		positive regulation of mast cell degranulation			IMP	MGI:1861951 	J:100883 	
+MGI:96541	Il13	interleukin 13	11		positive regulation of mast cell degranulation			IGI	MGI:96556 	J:100883 	
+MGI:96541	Il13	interleukin 13	11		positive regulation of mast cell degranulation			IMP	MGI:1931804 	J:100883 	
+MGI:1277954	Il13ra2	interleukin 13 receptor, alpha 2	X		negative regulation of mast cell degranulation			IMP	MGI:2653910 	J:100883 	
+MGI:96677	Kit	KIT proto-oncogene receptor tyrosine kinase	5		mast cell degranulation			ISO	P10721 	J:164563 	
+MGI:1342293	Lat	linker for activation of T cells	7		mast cell degranulation			IEA	KW-0467 	J:60000 	
+MGI:1926479	Lat2	linker for activation of T cells family, member 2	5		mast cell degranulation			IEA	KW-0467 	J:60000 	
+MGI:1321402	Lcp2	lymphocyte cytosolic protein 2	11		mast cell activation			IMP	MGI:2180002 	J:90531 	
+MGI:96892	Lyn	LYN proto-oncogene, Src family tyrosine kinase	4		histamine secretion by mast cell			ISO	RGD:621017 	J:155856 	
+MGI:96892	Lyn	LYN proto-oncogene, Src family tyrosine kinase	4		regulation of mast cell activation			IMP		J:119693 	
+MGI:96892	Lyn	LYN proto-oncogene, Src family tyrosine kinase	4		regulation of mast cell degranulation			IBA	PTN000701011 	J:265628 	
+MGI:96892	Lyn	LYN proto-oncogene, Src family tyrosine kinase	4		regulation of mast cell degranulation			IMP		J:119693 	
+MGI:2685731	Milr1	mast cell immunoglobulin like receptor 1	11		mast cell degranulation			IMP		J:161854 	
+MGI:2685731	Milr1	mast cell immunoglobulin like receptor 1	11		negative regulation of mast cell activation			IMP		J:161854 	
+MGI:3588270	Mrgprx2	MAS-related GPR, member X2	7		mast cell activation			IDA		J:219209 	
+MGI:95495	Ms4a2	membrane-spanning 4-domains, subfamily A, member 2	19		positive regulation of mast cell degranulation			ISO	RGD:2598 	J:155856 	
+MGI:1341799	Ndrg1	N-myc downstream regulated gene 1	15		mast cell activation			IDA		J:84018 	
+MGI:97822	Nectin2	nectin cell adhesion molecule 2	7		positive regulation of mast cell activation			ISO	Q92692 	J:164563 	
+MGI:97367	Nppa	natriuretic peptide type A	4		positive regulation of histamine secretion by mast cell			ISO	RGD:3193 	J:155856 	
+MGI:97369	Nppc	natriuretic peptide type C	1		positive regulation of mast cell degranulation			ISO	RGD:620850 	J:155856 	
+MGI:1352457	Nr4a3	nuclear receptor subfamily 4, group A, member 3	4		mast cell degranulation			IMP		J:213833 	
+MGI:1352457	Nr4a3	nuclear receptor subfamily 4, group A, member 3	4		positive regulation of mast cell activation by Fc-epsilon receptor signaling pathway			IMP		J:213833 	
+MGI:1338068	Pdpk1	3-phosphoinositide dependent protein kinase 1	17		regulation of mast cell degranulation			IMP		J:178435 	
+MGI:2444945	Pla2g3	phospholipase A2, group III	11		mast cell degranulation			IMP	MGI:4461174 	J:197334 	
+MGI:892877	Pld2	phospholipase D2	11		positive regulation of mast cell degranulation			ISO	RGD:3350 	J:155856 	
+MGI:893575	Plscr1	phospholipid scramblase 1	9		regulation of mast cell activation			ISO	RGD:620521 	J:155856 	
+MGI:97813	Ptpre	protein tyrosine phosphatase, receptor type, E	7		regulation of mast cell activation			IMP		J:155066 	
+MGI:1929459	Rabgef1	RAB guanine nucleotide exchange factor (GEF) 1	5		negative regulation of mast cell activation			IMP	MGI:3051384 	J:91790 	
+MGI:1929459	Rabgef1	RAB guanine nucleotide exchange factor (GEF) 1	5		negative regulation of mast cell degranulation	regulates a function/process that happens in skin		IMP	MGI:3051384 	J:91790 	
+MGI:97846	Rac2	Rac family small GTPase 2	15		regulation of mast cell degranulation			IMP		J:111999 	
+MGI:1314635	Rasgrp1	RAS guanyl releasing protein 1	2		mast cell degranulation	happens in bone marrow,has the participant mast cell		IMP	MGI:2386261 	J:125310 	
+MGI:1921984	Rhoh	ras homolog family member H	5		mast cell activation			IDA		J:143491 	
+MGI:109356	Snap23	synaptosomal-associated protein 23	2		histamine secretion by mast cell			ISO	O00161 	J:164563 	
+MGI:1916400	Snx4	sorting nexin 4	16		positive regulation of histamine secretion by mast cell			ISO	O95219 	J:164563 	
+MGI:1861380	Sphk2	sphingosine kinase 2	7		positive regulation of mast cell activation involved in immune response			IMP		J:120074 	
+MGI:1861380	Sphk2	sphingosine kinase 2	7		positive regulation of mast cell degranulation			IMP		J:120074 	
+MGI:107363	Stxbp1	syntaxin binding protein 1	2		positive regulation of mast cell degranulation			ISO	RGD:3785 	J:155856 	
+MGI:107370	Stxbp2	syntaxin binding protein 2	8		positive regulation of mast cell degranulation			ISO	RGD:619967 	J:155856 	
+MGI:107370	Stxbp2	syntaxin binding protein 2	8		regulation of mast cell degranulation			ISO	RGD:619967 	J:155856 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of mast cell degranulation			IBA	PTN000700479 	J:265628 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of mast cell degranulation	regulates a function/process that happens in mast cell		IMP	MGI:2384078 	J:37676 	
+MGI:99515	Syk	spleen tyrosine kinase	13		positive regulation of mast cell degranulation			ISO	RGD:3796 	J:155856 	
+MGI:1931130	Tac4	tachykinin 4	11		mast cell degranulation			IEA	KW-0467 	J:60000 	
+MGI:96824	Tlr4	toll-like receptor 4	4		mast cell activation			NAS		J:114018 J:114045 	
+MGI:1855696	Tslp	thymic stromal lymphopoietin	18		positive regulation of mast cell activation			ISO	Q969D9 	J:164563 	
+MGI:1917700	Unc13d	unc-13 homolog D	11		regulation of mast cell degranulation			ISO	Q70J99 	J:164563 	
+MGI:1096399	Vamp7	vesicle-associated membrane protein 7	X		positive regulation of histamine secretion by mast cell			ISO	P51809 	J:164563 	
+MGI:1336882	Vamp8	vesicle-associated membrane protein 8	6		positive regulation of histamine secretion by mast cell			ISO	Q9BV40 	J:164563 	
+MGI:109484	Ywhaz	tyrosine 3-monooxygenase/tryptophan 5-monooxygenase activation protein, zeta polypeptide	15		histamine secretion by mast cell			ISO	RGD:3980 	J:155856 	
+

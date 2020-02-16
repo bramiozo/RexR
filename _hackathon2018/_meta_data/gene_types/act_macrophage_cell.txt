@@ -1,0 +1,148 @@
+MGI Gene/Marker ID	Symbol	Name	Chr	Qualifier	Annotated Term	Context	Proteoform	Evidence	Inferred From	Reference(s)
+MGI:2182928	Adgrf5	adhesion G protein-coupled receptor F5	17		negative regulation of macrophage activation	regulates a function/process that uses lung macrophage		IMP	MGI:5547987 	J:222167 	
+MGI:893592	Ager	advanced glycosylation end product-specific receptor	17		microglial cell activation			IGI	P05067 	J:184555 	
+MGI:893592	Ager	advanced glycosylation end product-specific receptor	17		microglial cell activation			ISO	Q15109 	J:164563 	
+MGI:1343098	Aif1	allograft inflammatory factor 1	17		microglial cell activation			NAS		J:182386 	
+MGI:88059	App	amyloid beta (A4) precursor protein	16		microglial cell activation			ISO	P05067 	J:164563 	
+MGI:107202	Atm	ataxia telangiectasia mutated	9		regulation of microglial cell activation			ISO	RGD:1593265 	J:155856 	
+MGI:3045315	Bpi	bactericidal permeablility increasing protein	2		negative regulation of macrophage activation			IBA	PTN000053237 	J:265628 	
+MGI:3045315	Bpi	bactericidal permeablility increasing protein	2		negative regulation of macrophage activation			ISO	P17213 	J:164563 	
+MGI:88223	C1qa	complement component 1, q subcomponent, alpha polypeptide	4		microglial cell activation	is a part of aging,happens near amyloid-beta complex,happens in hippocampal formation		IGI	P05067 P05067,UniProtKB 	J:102186 	
+MGI:88232	C5ar1	complement component 5a receptor 1	7		microglial cell activation	happens in brain,happens in UBERON:0001851		IGI	P05067 	J:151661 	
+MGI:96544	Casp1	caspase 1	9		microglial cell activation			ISO	RGD:2274 	J:155856 	
+MGI:107674	Cd1d1	CD1d1 antigen	3		positive regulation of macrophage activation			IDA		J:172134 	
+MGI:1336885	Cd84	CD84 antigen	1		regulation of macrophage activation			IDA		J:227381 	
+MGI:1196990	Cd200	CD200 antigen	16		negative regulation of macrophage activation			IMP		J:65982 	
+MGI:99480	Cebpa	CCAAT/enhancer binding protein (C/EBP), alpha	7		positive regulation of macrophage activation	happens in bone marrow macrophage		IMP		J:263417 	
+MGI:88423	Clu	clusterin	14		microglial cell activation			ISO	P10909 	J:164563 	
+MGI:1917711	Crtc3	CREB regulated transcription coactivator 3	7		macrophage activation			ISO	Q6UUV7 	J:164563 	
+MGI:1339752	Csf2	colony stimulating factor 2 (granulocyte-macrophage)	11		macrophage activation			IBA	PTN000006643 	J:265628 	
+MGI:1339752	Csf2	colony stimulating factor 2 (granulocyte-macrophage)	11		macrophage activation			ISO	RGD:621065 	J:155856 	
+MGI:1298217	Cst7	cystatin F (leukocystatin)	2		negative regulation of microglial cell activation			IMP	MGI:5910746 	J:242069 	
+MGI:109553	Ctsc	cathepsin C	7		positive regulation of microglial cell activation			IDA		J:242069 	
+MGI:1097153	Cx3cl1	chemokine (C-X3-C motif) ligand 1	8		microglial cell activation			ISO	RGD:620458 	J:155856 	
+MGI:1097153	Cx3cl1	chemokine (C-X3-C motif) ligand 1	8		negative regulation of microglial cell activation			ISO	RGD:620458 	J:155856 	
+MGI:1333815	Cx3cr1	chemokine (C-X3-C motif) receptor 1	9		microglial cell activation			ISO	RGD:620137 	J:155856 	
+MGI:1333815	Cx3cr1	chemokine (C-X3-C motif) receptor 1	9		microglial cell activation involved in immune response		PR:Q9Z0D9-1	IMP	MGI:2670351 	J:110266 	
+MGI:1349385	Dysf	dysferlin	6		macrophage activation involved in immune response			IBA	PTN002648790 	J:265628 	
+MGI:1349385	Dysf	dysferlin	6		macrophage activation involved in immune response			IMP	MGI:1857883 	J:132272 	
+MGI:1349385	Dysf	dysferlin	6		macrophage activation involved in immune response			ISO	O75923 	J:132272 	
+MGI:95284	Edn2	endothelin 2	4		macrophage activation			ISO	P20800 	J:164563 	
+MGI:1278319	Fpr2	formyl peptide receptor 2	17		microglial cell activation			ISO	RGD:1584013 	J:155856 	
+MGI:1891463	Gpr137b	G protein-coupled receptor 137B	13		regulation of macrophage activation			IMP		J:281215 	
+MGI:95832	Grn	granulin	11		microglial cell activation involved in immune response			IMP		J:156824 	
+MGI:95832	Grn	granulin	11		negative regulation of microglial cell activation			IMP		J:188324 	
+MGI:1306817	H60a	histocompatibility 60a	10		positive regulation of macrophage activation			IDA		J:82077 	
+MGI:1933533	Hamp	hepcidin antimicrobial peptide	7		positive regulation of macrophage activation	regulates a function/process that happens in artery		IMP		J:196933 	
+MGI:2159682	Havcr2	hepatitis A virus cellular receptor 2	11		macrophage activation involved in immune response			IMP		J:187594 	
+MGI:2159682	Havcr2	hepatitis A virus cellular receptor 2	11		positive regulation of macrophage activation	happens in lung,happens in spleen,happens in macrophage,happens at the same time as positive regulation of interleukin-1 production,uses UniProtKB:P29452,uses UniProtKB:P13504,happens in alveolar macrophage,happens in peritoneal macrophage		IMP	O08573 	J:166066 	
+MGI:96113	Hmgb1	high mobility group box 1	5		macrophage activation involved in immune response			IMP		J:154027 	
+MGI:96242	Hspd1	heat shock protein 1 (chaperonin)	1		positive regulation of macrophage activation			ISO	P10809 	J:164563 	
+MGI:107657	Ifnb1	interferon beta 1, fibroblast	4		macrophage activation involved in immune response			ISO	RGD:2865 	J:155856 	
+MGI:107656	Ifng	interferon gamma	10		microglial cell activation	happens in microglial cell,positively regulates neuron death,happens in cerebral cortex		IGI	CPX-1062 	J:274855 	
+MGI:107656	Ifng	interferon gamma	10		microglial cell activation	happens in hippocampal formation		IGI	P05067 	J:160440 	
+MGI:107656	Ifng	interferon gamma	10		microglial cell activation	happens in microglial cell		IGI	P05067 P49768 	J:232260 	
+MGI:107656	Ifng	interferon gamma	10		microglial cell activation			ISO	RGD:2866 	J:155856 	
+MGI:107656	Ifng	interferon gamma	10		microglial cell activation			ISO	P01579 	J:164563 	
+MGI:107655	Ifngr1	interferon gamma receptor 1	10		microglial cell activation	happens in hippocampal formation|happens in cerebral cortex		IGI	P05067 	J:117817 	
+MGI:107655	Ifngr1	interferon gamma receptor 1	10		microglial cell activation			ISO	RGD:620570 	J:155856 	
+MGI:107654	Ifngr2	interferon gamma receptor 2	16		microglial cell activation			ISO	RGD:1307532 	J:155856 	
+MGI:98427	Il1rl1	interleukin 1 receptor-like 1	1		positive regulation of macrophage activation			IMP		J:157197 	
+MGI:96556	Il4	interleukin 4	11		microglial cell activation			ISO	RGD:2898 	J:155856 	
+MGI:96556	Il4	interleukin 4	11		negative regulation of macrophage activation			ISO	RGD:2898 	J:155856 	
+MGI:105367	Il4ra	interleukin 4 receptor, alpha	7		positive regulation of macrophage activation			IMP		J:157197 	
+MGI:96537	Il10	interleukin 10	1		positive regulation of macrophage activation			ISO	RGD:2886 	J:155856 	
+MGI:96541	Il13	interleukin 13	11		microglial cell activation			ISO	RGD:68949 	J:155856 	
+MGI:96541	Il13	interleukin 13	11		positive regulation of macrophage activation			IMP		J:157197 	
+MGI:1924375	Il33	interleukin 33	19		macrophage activation involved in immune response			IDA		J:229370 	
+MGI:1924375	Il33	interleukin 33	19		microglial cell activation involved in immune response			IDA		J:172530 	
+MGI:1924375	Il33	interleukin 33	19		positive regulation of macrophage activation			IDA		J:157197 	
+MGI:1924375	Il33	interleukin 33	19		positive regulation of macrophage activation			ISO	O95760 	J:164563 	
+MGI:96607	Itgam	integrin alpha M	7		microglial cell activation	happens in midbrain,is a part of cellular response to stress		IMP		J:140934 	
+MGI:96607	Itgam	integrin alpha M	7		microglial cell activation	is a part of cellular response to stress		IMP		J:140934 	
+MGI:96629	Jak2	Janus kinase 2	19		microglial cell activation	happens in microglial cell		IGI	P01580 	J:232260 	
+MGI:1858910	Jmjd6	jumonji domain containing 6	11		macrophage activation	has the participant macrophage		IMP	MGI:3580706 	J:98905 	
+MGI:96646	Jun	jun proto-oncogene	4		microglial cell activation	happens in facial nerve		IMP	MGI:2445420 	J:130619 	
+MGI:1934754	Kars	lysyl-tRNA synthetase	8		positive regulation of macrophage activation			IBA	PTN002873036 	J:265628 	
+MGI:1934754	Kars	lysyl-tRNA synthetase	8		positive regulation of macrophage activation			ISO	Q15046 	J:164563 	
+MGI:1098776	Lbp	lipopolysaccharide binding protein	2		macrophage activation involved in immune response			IBA	PTN000053220 	J:265628 	
+MGI:1098776	Lbp	lipopolysaccharide binding protein	2		macrophage activation involved in immune response			IDA		J:139341 	
+MGI:1098776	Lbp	lipopolysaccharide binding protein	2		macrophage activation involved in immune response			ISO	P18428 	J:164563 	
+MGI:1098776	Lbp	lipopolysaccharide binding protein	2		positive regulation of macrophage activation			IBA	PTN000053220 	J:265628 	
+MGI:1098776	Lbp	lipopolysaccharide binding protein	2		positive regulation of macrophage activation			ISO	RGD:61865 	J:155856 	
+MGI:1098776	Lbp	lipopolysaccharide binding protein	2		positive regulation of macrophage activation			ISO	P18428 	J:164563 	
+MGI:96765	Ldlr	low density lipoprotein receptor	9		negative regulation of microglial cell activation	regulates a function/process that happens in cerebral cortex|regulates a function/process that happens in hippocampal formation		IGI	P05067 P49768 	J:155809 	
+MGI:109496	Lgals9	lectin, galactose binding, soluble 9	11		positive regulation of macrophage activation	happens in lung,happens in spleen,happens in macrophage,happens at the same time as positive regulation of interleukin-1 production,uses UniProtKB:P29452,uses UniProtKB:P13504,happens in alveolar macrophage,happens in peritoneal macrophage		IMP	Q8VIM0 	J:166066 	
+MGI:2144814	Lrfn5	leucine rich repeat and fibronectin type III domain containing 5	12		negative regulation of macrophage activation	regulates a function/process that happens in UBERON:0001017		IMP		J:258189 	
+MGI:1913975	Lrrk2	leucine-rich repeat kinase 2	15		positive regulation of microglial cell activation			ISO	RGD:1561168 	J:155856 	
+MGI:1098644	Mfhas1	malignant fibrous histiocytoma amplified sequence 1	8		regulation of macrophage activation			ISO	Q9Y4C4 	J:164563 	
+MGI:1202395	Mmp8	matrix metallopeptidase 8	9		positive regulation of microglial cell activation	is a part of cellular response to lipopolysaccharide,is a part of positive regulation of neuroinflammatory response		IMP		J:265613 	
+MGI:1921430	Muc5b	mucin 5, subtype B, tracheobronchial	7		regulation of macrophage activation	regulates a function/process that happens in lung,happens in lung		IMP	MGI:5576290 	J:207159 	
+MGI:2667185	Myo18a	myosin XVIIIA	11		regulation of macrophage activation			IMP		J:236949 	
+MGI:2667185	Myo18a	myosin XVIIIA	11		regulation of macrophage activation			ISO	Q92614 	J:164563 	
+MGI:1929865	Nampt	nicotinamide phosphoribosyltransferase	12		microglial cell activation			ISO	RGD:631365 	J:155856 	
+MGI:2444210	Nr1d1	nuclear receptor subfamily 1, group D, member 1	11		negative regulation of microglial cell activation			IMP		J:273176 	
+MGI:1352462	Nr1h3	nuclear receptor subfamily 1, group H, member 3	2		negative regulation of macrophage activation			IDA		J:173138 	
+MGI:2159342	Pja2	praja ring finger ubiquitin ligase 2	17		regulation of macrophage activation			ISO	O43164 	J:164563 	
+MGI:101899	Pla2g5	phospholipase A2, group V	4		regulation of macrophage activation			IMP	MGI:3042209 	J:215319 	
+MGI:1347522	Pla2g10	phospholipase A2, group X	16		regulation of macrophage activation			ISO	O15496 	J:164563 	
+MGI:97747	Pparg	peroxisome proliferator activated receptor gamma	6		negative regulation of microglial cell activation			IGI	URS000024A59E_10090 	J:268006 	
+MGI:97599	Prkce	protein kinase C, epsilon	17		macrophage activation involved in immune response			IMP	MGI:3609215 	J:103337 	
+MGI:109432	Raet1b	retinoic acid early transcript beta	10		positive regulation of macrophage activation			IDA		J:82077 	
+MGI:104661	Rora	RAR-related orphan receptor alpha	9		regulation of macrophage activation	regulates a function/process that happens in macrophage		IMP	MGI:1857035 	J:2228 	
+MGI:2448490	Sbno2	strawberry notch 2	10		macrophage activation involved in immune response			IBA	PTN000976766 	J:265628 	
+MGI:2448490	Sbno2	strawberry notch 2	10		macrophage activation involved in immune response			IMP		J:133009 	
+MGI:2448490	Sbno2	strawberry notch 2	10		macrophage activation involved in immune response			ISO	Q9Y2G9 	J:164563 	
+MGI:1921887	Shpk	sedoheptulokinase	11		regulation of macrophage activation			IDA		J:185274 	
+MGI:99828	Slc7a2	solute carrier family 7 (cationic amino acid transporter, y+ system), member 2	8		macrophage activation	happens in bone marrow,has the participant macrophage		IMP	MGI:2150359 	J:115060 	
+MGI:99828	Slc7a2	solute carrier family 7 (cationic amino acid transporter, y+ system), member 2	8		regulation of macrophage activation			IMP		J:131710 	
+MGI:1345275	Slc11a1	solute carrier family 11 (proton-coupled divalent metal ion transporters), member 1	1		macrophage activation			IDA		J:25894 	
+MGI:1345275	Slc11a1	solute carrier family 11 (proton-coupled divalent metal ion transporters), member 1	1		macrophage activation			IMP	MGI:1857755 	J:146917 	
+MGI:1277151	Snca	synuclein, alpha	6		microglial cell activation			IMP	MGI:2389489 	J:113229 	
+MGI:1277151	Snca	synuclein, alpha	6		regulation of macrophage activation	regulates a function/process that happens in brain,regulates a function/process that happens in microglial cell		IMP	MGI:2389489 	J:113229 	
+MGI:1316649	Sphk1	sphingosine kinase 1	11		regulation of microglial cell activation			IMP		J:261928 	
+MGI:1926193	Stap1	signal transducing adaptor family member 1	5		positive regulation of microglial cell activation			IMP		J:144524 	
+MGI:1934135	Sucnr1	succinate receptor 1	3		macrophage activation involved in immune response			IMP	MGI:3828087 	J:236624 	
+MGI:99515	Syk	spleen tyrosine kinase	13		macrophage activation involved in immune response			IBA	PTN000700479 	J:265628 	
+MGI:99515	Syk	spleen tyrosine kinase	13		macrophage activation involved in immune response			IMP		J:116120 	
+MGI:1859547	Syt11	synaptotagmin XI	3		negative regulation of microglial cell activation			IDA		J:244524 	
+MGI:3046463	Tafa3	TAFA chemokine like family member 3	3		negative regulation of microglial cell activation			IBA	PTN001273110 	J:265628 	
+MGI:3046463	Tafa3	TAFA chemokine like family member 3	3		negative regulation of microglial cell activation	happens in inflammatory macrophage		IDA		J:219578 	
+MGI:3046463	Tafa3	TAFA chemokine like family member 3	3		positive regulation of microglial cell activation			IBA	PTN001273110 	J:265628 	
+MGI:3046463	Tafa3	TAFA chemokine like family member 3	3		positive regulation of microglial cell activation	happens in alternatively activated macrophage		IDA		J:219578 	
+MGI:1306805	Tff2	trefoil factor 2 (spasmolytic protein 1)	17		negative regulation of macrophage activation	regulates a function/process that happens in peritoneal cavity		IMP	MGI:2179101 	J:116628 	
+MGI:98737	Thbs1	thrombospondin 1	2		positive regulation of macrophage activation			ISO	P07996 	J:164563 	
+MGI:2147032	Ticam1	toll-like receptor adaptor molecule 1	17		macrophage activation involved in immune response	has the participant macrophage		IMP	MGI:2679794 	J:84896 	
+MGI:1341295	Tlr1	toll-like receptor 1	5		macrophage activation			NAS		J:82453 	
+MGI:1341295	Tlr1	toll-like receptor 1	5		microglial cell activation			ISO	RGD:1309975 	J:155856 	
+MGI:1346060	Tlr2	toll-like receptor 2	3		microglial cell activation			ISO	RGD:735138 	J:155856 	
+MGI:2156367	Tlr3	toll-like receptor 3	8		microglial cell activation			ISO	RGD:735171 	J:155856 	
+MGI:96824	Tlr4	toll-like receptor 4	4		macrophage activation			ISO	O00206 	J:164563 	
+MGI:96824	Tlr4	toll-like receptor 4	4		macrophage activation			ISS	O00206 	J:113899 	
+MGI:96824	Tlr4	toll-like receptor 4	4		microglial cell activation			ISO	RGD:3870 	J:155856 	
+MGI:96824	Tlr4	toll-like receptor 4	4		positive regulation of macrophage activation	is a part of positive regulation of inflammatory response		IGI	Q9Y2C9 	J:158401 	
+MGI:1341296	Tlr6	toll-like receptor 6	5		microglial cell activation			ISO	RGD:1303030 	J:155856 	
+MGI:1341296	Tlr6	toll-like receptor 6	5		positive regulation of macrophage activation	is a part of positive regulation of inflammatory response		IGI	O00206 	J:158401 	
+MGI:2176882	Tlr7	toll-like receptor 7	X		microglial cell activation			ISO	RGD:1563357 	J:155856 	
+MGI:2176887	Tlr8	toll-like receptor 8	X		microglial cell activation			ISO	RGD:1590327 	J:155856 	
+MGI:1932389	Tlr9	toll-like receptor 9	9		microglial cell activation			ISO	RGD:631352 	J:155856 	
+MGI:1922056	Tmem106a	transmembrane protein 106A	11		macrophage activation			IDA		J:281250 	
+MGI:104798	Tnf	tumor necrosis factor	17		microglial cell activation			IDA		J:269552 	
+MGI:2386643	Tnip2	TNFAIP3 interacting protein 2	5		positive regulation of macrophage activation			IMP		J:112395 	
+MGI:1913150	Trem2	triggering receptor expressed on myeloid cells 2	17		microglial cell activation	happens in microglial cell,happens in hippocampal formation,is a part of cellular response to amyloid-beta		IGI	CPX-1120 	J:260524 	
+MGI:1913150	Trem2	triggering receptor expressed on myeloid cells 2	17		microglial cell activation	happens in piriform cortex|happens in hippocampal formation		IGI	P10636 	J:256924 	
+MGI:1913150	Trem2	triggering receptor expressed on myeloid cells 2	17		microglial cell activation			IMP		J:273509 	
+MGI:1913150	Trem2	triggering receptor expressed on myeloid cells 2	17		microglial cell activation	is a part of regulation of amyloid-beta clearance		IMP		J:242830 	
+MGI:1913150	Trem2	triggering receptor expressed on myeloid cells 2	17		microglial cell activation involved in immune response			IMP		J:266671 	
+MGI:1913150	Trem2	triggering receptor expressed on myeloid cells 2	17		positive regulation of microglial cell activation			IC	GO:2001171 	J:242830 	
+MGI:1913150	Trem2	triggering receptor expressed on myeloid cells 2	17		positive regulation of microglial cell activation			IMP		J:215678 J:274782 	
+MGI:1913150	Trem2	triggering receptor expressed on myeloid cells 2	17		positive regulation of microglial cell activation			ISO	Q9NZC2 	J:164563 	
+MGI:1328317	Trex1	three prime repair exonuclease 1	9		macrophage activation involved in immune response			IMP	MGI:3052754 	J:207137 	
+MGI:1341787	Trpv1	transient receptor potential cation channel, subfamily V, member 1	11		microglial cell activation			ISO	RGD:628841 	J:155856 	
+MGI:2147036	Ttbk1	tau tubulin kinase 1	17		positive regulation of microglial cell activation			ISO	Q5TCY1 	J:164563 	
+MGI:1277211	Tyrobp	TYRO protein tyrosine kinase binding protein	7		macrophage activation involved in immune response			IMP		J:116120 	
+MGI:1277211	Tyrobp	TYRO protein tyrosine kinase binding protein	7		microglial cell activation involved in immune response			IMP		J:221150 	
+MGI:1277211	Tyrobp	TYRO protein tyrosine kinase binding protein	7		microglial cell activation involved in immune response	is a part of response to axon injury,happens in microglial cell		IMP		J:221150 	
+MGI:1925027	Ulbp1	UL16 binding protein 1	10		positive regulation of macrophage activation			IDA		J:82077 	
+MGI:98958	Wnt5a	wingless-type MMTV integration site family, member 5A	14		positive regulation of macrophage activation			ISO	P41221 	J:164563 	
+
