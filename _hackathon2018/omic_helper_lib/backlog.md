@@ -1,0 +1,2 @@
+- add unpaired 2 class tests: MW-U, FDR, KS
+- add unpaired multi-class tests: KW
