@@ -25,6 +25,7 @@ from scipy.stats import ks_2samp as ks, wasserstein_distance as wass, spearmanr,
 from scipy.stats import chisquare, epps_singleton_2samp as epps
 
 from sklearn.decomposition import PCA, FastICA as ICA, FactorAnalysis as FA
+from sklearn.decomposition import MiniBatchDictionaryLearning as DictLearn, NMF
 from sklearn.feature_selection import mutual_info_classif as Minfo, f_classif as Fval, chi2
 
 
@@ -42,6 +43,8 @@ class multi_omic_evaluator
     feature_expander
 
 
+1. first main functions, then put in classes
+
 
 '''
 
@@ -51,13 +54,24 @@ def get_statdist_dataframe_binomial(X,Y, features):
     assert len(features)== X.shape[1], 'The number of feature names given is not equal to the number of columns'
     assert len(Y) == X.shape[0], 'The number of rows in the matrix X is not the equal to the length of the target vector Y'
 
+    if features is None:
+        features = ['feat_' + i for i in range(0, X.shape[1])]
+
+    num_features = len(features)
+    nanvector = np.empty((num_features,))
+    nanvector[:] = np.nan
+
     stat_dist = dict()
+    print("Processing diffentropy, variance scores, pca/fa/ica/nmf/dl importances...")
     stat_dist['diffentropy'] = diff_entropy_scores(X, eps=1e-6, bins=30)
     stat_dist['variance'] = variance_scores(X)
-    stat_dist['pca_imp'] = get_reducer_weights(X, PCA(n_components=50), cols=None, ncomp=50)
-    stat_dist['fa_imp'] = get_reducer_weights(X, FA(n_components=50), cols=None, ncomp=50)
-    stat_dist['ica_imp'] = get_reducer_weights(X, ICA(n_components=50), cols=None, ncomp=50)
+    stat_dist['pca_imp'] = get_reducer_weights(X, PCA(n_components=50), cols=None, ncomp=50, weighted='expl_variance')
+    stat_dist['fa_imp'] = get_reducer_weights(X, FA(n_components=50), cols=None, ncomp=50, weighted='noise_variance')
+    stat_dist['ica_imp'] = get_reducer_weights(X, ICA(n_components=50), cols=None, ncomp=50, weighted=None)
+    stat_dist['nmf_imp'] = get_reducer_weights(X, NMF(n_components=50), cols=None, ncomp=50, weighted='linear')
+    stat_dist['dl_imp'] = get_reducer_weights(X, DictLearn(n_components=50), cols=None, ncomp=50, weighted=None)
 
+    print("Processing minf/fscore/wass1/wass2...")
     stat_dist['minf'] = Minfo(X, Y)
     stat_dist['fscore'] = Fval(X, Y)
     stat_dist['Wass1'] = wass1_scores(X, Y)
@@ -65,35 +79,77 @@ def get_statdist_dataframe_binomial(X,Y, features):
     fswass2 = fs_ws2()
     stat_dist['Wass2'] = fswass2.fit(X, Y).scores_
 
+    print("Processing spearman and ks...")
     stat_dist['spearman'] = spearman_scores(X, Y)
     stat_dist['ks'] = ks_scores(X, Y)
 
-    stat_dist['seqentropy'] = seq_entropy_scores(X, Y)
-    stat_dist['qseqentropy_prod'] = qseq_entropy_scores(X, Y, q_type='prod', bins=10)
-    stat_dist['qseqentropy_sum'] = qseq_entropy_scores(X, Y, q_type='sum', bins=10)
-    stat_dist['seqentropyX'] = seqX_entropy_scores(X, Y, seqrange=(5, 25))
+    print("Processing seq entropies...")
+    try:
+        stat_dist['seqentropy'] = seq_entropy_scores(X, Y)
+        stat_dist['qseqentropy_prod'] = qseq_entropy_scores(X, Y, q_type='prod', bins=10)
+        stat_dist['qseqentropy_sum'] = qseq_entropy_scores(X, Y, q_type='sum', bins=10)
+        stat_dist['seqentropyX'] = seq_entropyX_scores(X, Y)
+    except Exception as e:
+        print("Sequential entropy scores failed: {}".format(e))
+        stat_dist['seqentropy'] = np.empty((num_features,)).fill(np.nan)
+        stat_dist['qseqentropy_prod'] = np.empty((num_features,)).fill(np.nan)
+        stat_dist['qseqentropy_sum'] = np.empty((num_features,)).fill(np.nan)
+        stat_dist['seqentropyX'] = np.empty((num_features,)).fill(np.nan)
 
-    stat_dist['cdf_1'] = cdf_scoresB(X,Y, dist_type='mink_rao')
-    stat_dist['cdf_2'] = cdf_scoresB(X,Y, dist_type='mink_rao2')
-    stat_dist['cdf_3'] = cdf_scoresB(X,Y, dist_type='rao')
-    stat_dist['cdf_4'] = cdf_scoresG(X,Y, dist_type='emd')
-    stat_dist['cdf_5'] = cdf_scoresG(X,Y, dist_type='cvm')
-    stat_dist['cdf_6'] = cdf_scoresG(X,Y, dist_type='cust')
+    print("Processing CDF scores...")
+    try:
+        stat_dist['cdf_1'] = cdf_scoresB(X,Y, dist_type='mink_rao')
+        stat_dist['cdf_2'] = cdf_scoresB(X,Y, dist_type='mink_rao2')
+        stat_dist['cdf_3'] = cdf_scoresB(X,Y, dist_type='rao')
+        stat_dist['cdf_4'] = cdf_scoresG(X,Y, dist_type='emd')
+        stat_dist['cdf_5'] = cdf_scoresG(X,Y, dist_type='cvm')
+        stat_dist['cdf_6'] = cdf_scoresG(X,Y, dist_type='cust')
+    except Exception as e:
+        print("CDF scores failed: {}".format(e))
+        stat_dist['cdf_1'] = nanvector
+        stat_dist['cdf_2'] = nanvector
+        stat_dist['cdf_3'] = nanvector
+        stat_dist['cdf_4'] = nanvector
+        stat_dist['cdf_5'] = nanvector
+        stat_dist['cdf_6'] = nanvector
 
-    stat_dist['med_dist'] = q_dists(X,Y, q=0.5)
-    stat_dist['q25_dist'] = q_dists(X,Y, q=0.25) 
-    stat_dist['q75_dist'] = q_dists(X,Y, q=0.75)
-    stat_dist['var_dist'] = var_dists(X,Y)
-    stat_dist['q5_acc'] = q_acc_scores(X,Y, q=0.5)
-    stat_dist['q75_acc'] = q_acc_scores(X,Y, q=0.75)
+    print("Processing q distances...")
+    try:
+        stat_dist['med_dist'] = q_dists(X, Y, q=0.5)
+        stat_dist['q25_dist'] = q_dists(X, Y, q=0.25)
+        stat_dist['q75_dist'] = q_dists(X, Y, q=0.75)
+        stat_dist['var_dist'] = var_dists(X, Y)
+        stat_dist['q5_acc'] = q_acc_scores(X, Y, q=0.5)
+        stat_dist['q75_acc'] = q_acc_scores(X, Y, q=0.75)
+    except Exception as e:
+        print("Q distance scores failed: {}".format(e))
+        stat_dist['med_dist'] = nanvector
+        stat_dist['q25_dist'] = nanvector
+        stat_dist['q75_dist'] = nanvector
+        stat_dist['var_dist'] = nanvector
+        stat_dist['q5_acc'] = nanvector
+        stat_dist['q75_acc'] = nanvector
 
-    stat_dist['KL'] = ec_scores(X,Y, num_bins=7, ent_type='kl')
-    stat_dist['Shan'] = ec_scores(X,Y, num_bins=7, ent_type='shannon')
-    stat_dist['Cross'] = ec_scores(X,Y, num_bins=7, ent_type='cross')
+    print("Processing cross entropies...")
+    try:
+        stat_dist['KL'] = ec_scores(X,Y, num_bins=7, ent_type='kl')
+        stat_dist['Shan'] = ec_scores(X,Y, num_bins=7, ent_type='shannon')
+        stat_dist['Cross'] = ec_scores(X,Y, num_bins=7, ent_type='cross')
+    except Exception as e:
+        print("Cross entropies failed: {}".format(e))
+        stat_dist['KL'] = nanvector
+        stat_dist['Shan'] = nanvector
+        stat_dist['Cross'] = nanvector
 
-    fsepps = fs_epps(pvalue=0.01)
-    stat_dist['Chi2'] = chi2_scores(X, Y, bins=7)
-    stat_dist['epps'] = fsepps.fit(X, Y).scores_
+    print("Processing Chi2 and Epps...")
+    try:
+        fsepps = fs_epps(pvalue=0.01)
+        stat_dist['Chi2'] = chi2_scores(X, Y, bins=7)
+        stat_dist['epps'] = fsepps.fit(X, Y).scores_
+    except Exception as e:
+        print("Cross Chi2/Epps failed: {}".format(e))
+        stat_dist['Chi2'] = nanvector
+        stat_dist['epps'] = nanvector
 
 
     # Combine in dataframe
@@ -102,6 +158,8 @@ def get_statdist_dataframe_binomial(X,Y, features):
                                                 stat_dist['pca_imp'],
                                                 stat_dist['fa_imp'],
                                                 stat_dist['ica_imp'],
+                                                stat_dist['nmf_imp'],
+                                                stat_dist['dl_imp'],
                                                 stat_dist['minf'], 
                                                 stat_dist['fscore'], 
                                                 stat_dist['Wass1'],
@@ -130,9 +188,9 @@ def get_statdist_dataframe_binomial(X,Y, features):
                                                 stat_dist['Chi2'],
                                                 stat_dist['epps']]).T,
                                columns=['diffentropy', 'variance',
-                                        'pca_imp', 'fa_imp', 'ica_imp',
+                                        'pca_imp', 'fa_imp', 'ica_imp', 'nmf_imp', 'dl_imp',
                                         'Minf', 
-                                        'Fscore', 'FPval', 
+                                        'Fscore', 'FPval',
                                         'Wass1', 'Wass2', 'KL',
                                         'SpearmanScore', 'SpearmanPval',
                                         'KSScore', 'KSPval', 'Shannon', 'Cross',
@@ -143,19 +201,50 @@ def get_statdist_dataframe_binomial(X,Y, features):
                                index=features)
     return stat_dist_df    
 
-
-   
-def get_reducer_weights(X, reducer=None, cols=None, ncomp=10):
+def _feature_selector(dists_df, topN=100, overlap='intersect'):
     '''
-     reducer: e.g PCA, FA, ICA
+    :param dists_df: dataframe with features and univariate scores
+    :param topN: top N rank of features
+    :param overlap: take the 'intersect' of the top N features,  or the 'union'
+    :return:
+    '''
+    _features = dists_df.index.tolist()
+    ignore = 'Pval'
+    cols = [_col for _col in dists_df.columns if ignore not in _col]
+    dists_df = dists_df.loc[:, cols].abs()
+
+    totset = set()
+    for _col in dists_df.columns:
+        add = set(dists_df.sort_values(by=_col, ascending=False)[:topN].index)
+        if overlap=='union':
+            totset = totset.union(add)
+        else:
+            totset = totset.intersection(add)
+    return list(totset)
+   
+def get_reducer_weights(X, reducer=None, cols=None, ncomp=10, weighted=None):
+    '''
+     reducer: e.g PCA, FA, ICA, DL, NMF
     '''
     reducer.fit(X)    
     pcweights = np.zeros((X.shape[1],))
     wt = 0
     for pc in range(0, ncomp):
-        w = ncomp-pc
-        wt = wt + w
-        pcweights = w*np.abs(reducer.components_[pc]) + pcweights
+        if weighted=='linear':
+            w = ncomp-pc
+            wt = wt + w
+            pcweights = w*np.abs(reducer.components_[pc]) + pcweights
+        elif weighted=='expl_variance':
+            w = reducer.explained_variance_ratio_[pc]
+            wt = wt + w
+            pcweights = w*np.abs(reducer.components_[pc]) + pcweights
+        elif weighted=='noise_variance':
+            w = reducer.noise_variance_[pc]
+            wt = wt + w
+            pcweights = w*np.abs(reducer.components_[pc]) + pcweights
+        else:
+            wt = wt + 1
+            pcweights = np.abs(reducer.components_[pc]) + pcweights
     pcweights = pcweights/wt    
     if cols is not None:
         pcw = pcweights[np.argsort(pcweights)]
@@ -228,7 +317,7 @@ def q_acc_scores(X,y, q=0.5):
         splitvalmin = np.nanquantile(xa, qm)
         yl = y[np.where(X[:, jdx] > splitvalplus)]
         ys = y[np.where(X[:, jdx] <= splitvalmin)]
-        scores[jdx] = np.max([np.mean(yl)-cr, np.mean(ys)-cr])/cr
+        scores[jdx] = np.max([np.nanmean(yl)-cr, np.nanmean(ys)-cr])/cr
     return scores
 
 @jit
@@ -351,7 +440,7 @@ def _cdf_distanceB(x1, x2, bin_size=5, minkowski=1, dist_type='mink_rao'):
         return sc.spatial.distance.russellrao(l1bump, l2bump)
 
 
-def _cdf_distanceG(x1, x2, bin_size=15, dist_type='emd'):
+def _cdf_distanceG(x1, x2, bin_size=25, dist_type='emd'):
     # also see PhD-thesis Gabriel Martos Venturini, Statistical distance and probability metrics for multivariate data..etc., June 2015 Uni. Carlos III de Madrid
     # https://core.ac.uk/download/pdf/30276753.pdf
     '''
@@ -366,11 +455,11 @@ def _cdf_distanceG(x1, x2, bin_size=15, dist_type='emd'):
     c = np.max([l1.max(), l2.max()]) - np.min([l1.min(), l2.min()])
 
     if dist_type == 'emd':
-        return np.sum(lt1[:, 0] * (np.abs(l2 - l1))) / c  # qEMD
+        return np.nansum(lt1[:, 0] * (np.abs(l2 - l1))) / c  # qEMD
     elif dist_type == 'cvm':
-        return np.sqrt(np.sum(lt1[:, 0] * np.power((l2 - l1), 2))) / c  # qCvM
+        return np.sqrt(np.nansum(lt1[:, 0] * np.power((l2 - l1), 2))) / c  # qCvM
     elif dist_type == 'cust':
-        return np.sum(lt1[:, 0] * (l2 - l1)) / c
+        return np.nansum(lt1[:, 0] * (l2 - l1)) / c
 
 """
 Ansatz for sequence entropy
@@ -431,6 +520,7 @@ def qseq_entropy(x, bins=20, q_type='sum'):
             prod += (np.abs(np.mean(subseq)-cr))/bins/dcm
     return prod
 
+###################################################################################################
 
 @jit
 def seq_prob(n, k, p):
@@ -438,7 +528,7 @@ def seq_prob(n, k, p):
     probs = np.power(p, k) * np.power(1 - p, n - k)
     return div * probs * k
 
-
+'''
 @jit
 def get_seq_entropyX(x, seqnums, factors):
     t1 = (x == 1).astype(int)
@@ -462,7 +552,7 @@ def get_seq_entropyX(x, seqnums, factors):
     return np.nanmax([res0, res1])
 
 @jit
-def seqX_entropy_scores(X, y, seqrange=(2, 20)):
+def seq_entropyX_scores(X, y, seqrange=(2, 20)):
     if "DataFrame" in str(type(X)):
         X = X.values
     scores = np.zeros((X.shape[1],))
@@ -479,6 +569,34 @@ def seqX_entropy_scores(X, y, seqrange=(2, 20)):
         xa = X[:, jdx]
         scores[jdx] = get_seq_entropyX(y[np.argsort(xa)], seqnums, factors)
     return scores
+'''
+# alternative with find_runs
+
+#@jit
+def _seq_prob(k, p):
+    n = k
+    div = sc.special.factorial(n) / sc.special.factorial(k) / sc.special.factorial(n - k)
+    probs = np.power(p, k) * np.power(1 - p, n - k)
+    return div * probs * k
+
+#@jit
+def seq_entropyX_scores(X, y):
+    if "DataFrame" in str(type(X)):
+        X = X.values
+    scores = np.zeros((X.shape[1],))
+    numsamples = len(y)
+    cprob = np.max(np.bincount(y)/numsamples)
+
+    for jdx in range(0, scores.shape[0]):
+        xa = X[:, jdx]
+        res = find_runs(y[np.argsort(xa)])[2]
+        counts = np.bincount(res)
+        seqlen = np.arange(len(counts))
+        probs = cprob * np.ones(len(counts)-1,)
+        factors = 1/np.apply_along_axis(_seq_prob, 0, seqlen[1:], probs)
+        scores[jdx] = np.log10(sum(factors*counts[1:])/numsamples)
+    return scores
+
 
 """
 Variance distances
@@ -508,17 +626,18 @@ def q_dists(X, y, q=0.5):
         X = X.values
     scores = np.zeros((X.shape[1],))
     for jdx in range(0, scores.shape[0]):
-        scores[jdx] = q_dist(X[np.argwhere(y==0)[:,0], jdx],
-                           X[np.argwhere(y==1)[:,0], jdx], q=q)
+        scores[jdx] = q_dist(X[np.argwhere(y==0)[:, 0], jdx],
+                             X[np.argwhere(y==1)[:, 0], jdx],
+                             q=q)
     return scores
 
 @jit
 def q_dist(x1, x2, q=0.5, weighted=True):
-    q1 = np.quantile(x1, q)
-    q2 = np.quantile(x2, q)
+    q1 = np.nanquantile(x1, q)
+    q2 = np.nanquantile(x2, q)
     if weighted:
-        q1std = np.std(x1)
-        q2std = np.std(x1)
+        q1std = np.nanstd(x1)
+        q2std = np.nanstd(x2)
         return (q2 - q1)/np.min([q1std, q2std])
     else:
         return q2 - q1
@@ -1076,3 +1195,34 @@ def search_sequence_numpy(arr, seq):
         return np.where(np.convolve(M, np.ones((Nseq), dtype=int), mode='valid') > 0)[0]
     else:
         return []
+
+#@jit
+def find_runs(x):
+    """Find runs of consecutive items in an array.
+
+    SOURCE/CREDITS : https://gist.github.com/alimanfoo/c5977e87111abe8127453b21204c1065
+    """
+
+    # ensure array
+    x = np.asanyarray(x)
+    if x.ndim != 1:
+        raise ValueError('only 1D array supported')
+    n = x.shape[0]
+
+    # handle empty array
+    if n == 0:
+        return np.array([]), np.array([]), np.array([])
+    else:
+        # find run starts
+        loc_run_start = np.empty(n, dtype=bool)
+        loc_run_start[0] = True
+        np.not_equal(x[:-1], x[1:], out=loc_run_start[1:])
+        run_starts = np.nonzero(loc_run_start)[0]
+
+        # find run values
+        run_values = x[loc_run_start]
+
+        # find run lengths
+        run_lengths = np.diff(np.append(run_starts, n))
+
+        return run_values, run_starts, run_lengths
