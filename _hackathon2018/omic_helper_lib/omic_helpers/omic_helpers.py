@@ -355,6 +355,13 @@ def _cdf(x, bin_size=5):
     return res
 
 
+@jit
+def ecdf(x):
+    n = len(x)
+    x = np.sort(x)
+    y = np.arange(1, n+1)/n
+    return x, y
+
 # np.asarray([[i/c, np.median(x[(i-bin_size):i])] for i in range(bin_size, c) if i%bin_size==0])
 
 @jit
