@@ -28,24 +28,34 @@ from sklearn.decomposition import PCA, FastICA as ICA, FactorAnalysis as FA
 from sklearn.decomposition import MiniBatchDictionaryLearning as DictLearn, NMF
 from sklearn.feature_selection import mutual_info_classif as Minfo, f_classif as Fval, chi2
 
+import logging
 
 '''
-class binomial_feature_evaluator
 
+TO-DO's :
+
+class binomial_feature_evaluator
 
 class multinomial_feature_evaluator
 
-
 class regression_feature_evaluator
 
+class ts_feature_evaluator 
 
 class multi_omic_evaluator
     feature_expander
 
+separate functions:
+recursive_feature_splitter
+information_gain
+association_rule_miner
+distance correlation/covariance
+..
+..
 
-1. first main functions, then put in classes
-
-
+Specifically:
+    Add types to @jit decorators
+    Remove if-statements from @jit functions
 '''
 
 
@@ -130,16 +140,34 @@ def get_statdist_dataframe_binomial(X,Y, features):
         stat_dist['q5_acc'] = nanvector
         stat_dist['q75_acc'] = nanvector
 
-    print("Processing cross entropies...")
+    print("Getting conditional probability of exceedence")
     try:
-        stat_dist['KL'] = ec_scores(X,Y, num_bins=7, ent_type='kl')
-        stat_dist['Shan'] = ec_scores(X,Y, num_bins=7, ent_type='shannon')
-        stat_dist['Cross'] = ec_scores(X,Y, num_bins=7, ent_type='cross')
+        stat_dist['prob_exc'] = prob_exceed_scores(X, Y)
+    except Exception as e:
+        print("Getting exceedence proba failed...{}".format(e))
+        stat_dist['prob_exc'] = nanvector
+
+    print("Processing cross entropies over class-seperated features...")
+    try:
+        stat_dist['KL'] = ec_scores2(X, Y, num_bins=11, ent_type='kl')
+        stat_dist['Shan'] = ec_scores2(X, Y, num_bins=11, ent_type='shannon')
+        stat_dist['Cross'] = ec_scores2(X, Y, num_bins=11, ent_type='cross')
     except Exception as e:
         print("Cross entropies failed: {}".format(e))
         stat_dist['KL'] = nanvector
         stat_dist['Shan'] = nanvector
         stat_dist['Cross'] = nanvector
+
+    print("Processing cross entropies over random selects of feature-sorted and non-feature-sorted target vectors")
+    try:
+        stat_dist['KL_sort'] = ecs_scores(X, Y, num_bins=21, ent_type='kl')
+        stat_dist['Shan_sort'] = ecs_scores(X, Y, num_bins=21, ent_type='shannon')
+        stat_dist['Cross_sort'] = ecs_scores(X, Y, num_bins=21, ent_type='cross')
+    except Exception as e:
+        print("Cross entropies failed: {}".format(e))
+        stat_dist['KL_sort'] = nanvector
+        stat_dist['Shan_sort'] = nanvector
+        stat_dist['Cross_sort'] = nanvector
 
     print("Processing Chi2 and Epps...")
     try:
@@ -164,11 +192,14 @@ def get_statdist_dataframe_binomial(X,Y, features):
                                                 stat_dist['fscore'], 
                                                 stat_dist['Wass1'],
                                                 stat_dist['Wass2'],
-                                                stat_dist['KL'],
                                                 stat_dist['spearman'].T, 
                                                 stat_dist['ks'].T,
+                                                stat_dist['KL'],
                                                 stat_dist['Shan'],
                                                 stat_dist['Cross'],
+                                                stat_dist['KL_sort'],
+                                                stat_dist['Shan_sort'],
+                                                stat_dist['Cross_sort'],
                                                 stat_dist['seqentropy']*stat_dist['Wass1'],
                                                 stat_dist['qseqentropy_prod']*stat_dist['Wass1'],
                                                 stat_dist['qseqentropy_sum']*stat_dist['Wass1'],
@@ -185,32 +216,38 @@ def get_statdist_dataframe_binomial(X,Y, features):
                                                 stat_dist['var_dist'],
                                                 stat_dist['q5_acc'], 
                                                 stat_dist['q75_acc'],
+                                                stat_dist['prob_exc'],
+                                                stat_dist['prob_exc']*stat_dist['Wass1'],
                                                 stat_dist['Chi2'],
                                                 stat_dist['epps']]).T,
                                columns=['diffentropy', 'variance',
                                         'pca_imp', 'fa_imp', 'ica_imp', 'nmf_imp', 'dl_imp',
                                         'Minf', 
                                         'Fscore', 'FPval',
-                                        'Wass1', 'Wass2', 'KL',
+                                        'Wass1', 'Wass2',
                                         'SpearmanScore', 'SpearmanPval',
-                                        'KSScore', 'KSPval', 'Shannon', 'Cross',
+                                        'KSScore', 'KSPval', 'KL', 'Shannon', 'Cross', 'KL_sort', 'Shannon_sort', 'Cross_sort',
                                         'seqentropy_wass1', 'qseqentropy_prod_wass1', 'qseqentropy_sum_wass1', 'seqentropyX_wass1',
                                         'CDF1', 'CDF2', 'CDF3', 'CDF4', 'CDF5', 'CDF6',
-                                        'q5delta', 'q25delta', 'q75delta', 'var_dist', 'q5_acc', 'q75_acc', 
-                                        'Chi2', 'Epps'],
+                                        'q5delta', 'q25delta', 'q75delta', 'var_dist', 'q5_acc', 'q75_acc', 'prob_exc',
+                                        'prob_exc_wass1', 'Chi2', 'Epps'],
                                index=features)
     return stat_dist_df    
 
-def _feature_selector(dists_df, topN=100, overlap='intersect'):
+def _feature_selector(dists_df, topN=100, overlap='intersect',
+                      score_list=['qseqentropy_sum_wass1', 'pca_imp', 'Chi2',
+                                  'q5delta', 'Wass1', 'Minf', 'CDF6', 'prob_exc_wass1']):
     '''
     :param dists_df: dataframe with features and univariate scores
     :param topN: top N rank of features
     :param overlap: take the 'intersect' of the top N features,  or the 'union'
     :return:
     '''
+    if score_list == None:
+        score_list = dists_df.columns.tolist()
     _features = dists_df.index.tolist()
     ignore = 'Pval'
-    cols = [_col for _col in dists_df.columns if ignore not in _col]
+    cols = [_col for _col in score_list if ignore not in _col]
     dists_df = dists_df.loc[:, cols].abs()
 
     totset = set()
@@ -255,7 +292,6 @@ def get_reducer_weights(X, reducer=None, cols=None, ncomp=10, weighted=None):
 
 
 
-@jit
 def featurewise_outlier_replacer(X, q=(0.01, 0.99)):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -275,7 +311,6 @@ def _featurewise_outlier_replacer(x, q=(0.01, 0.99), how='quantile'):
         t[t < lv] = lv
         return t
 
-@jit
 def diff_entropy_scores(X, eps=1e-6, bins=20):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -293,7 +328,6 @@ def _diff_entropy(x, eps=1e-6, bins=20):
     Hr = H/np.sum(xdiff)
     return Hr
 
-@jit
 def variance_scores(X):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -303,7 +337,6 @@ def variance_scores(X):
         scores[jdx] = np.var(xa)
     return scores
 
-@jit
 def q_acc_scores(X,y, q=0.5):
     qp = np.max([0.5-q, q])
     qm = np.min([1-q, q])
@@ -320,7 +353,6 @@ def q_acc_scores(X,y, q=0.5):
         scores[jdx] = np.max([np.nanmean(yl)-cr, np.nanmean(ys)-cr])/cr
     return scores
 
-@jit
 def chi2_scores(X,y, bins=10):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -355,7 +387,10 @@ def _cdf(x, bin_size=5):
     return res
 
 
-@jit
+from numba.types import UniTuple, Tuple
+from numba import float32 as nbfloat32, float64 as nbfloat64, int32 as nbint32
+from numba import typeof
+@jit(nopython=True) # , cache=True  # Tuple(nbfloat32[:], nbfloat64[:])(nbfloat32[:])
 def ecdf(x):
     n = len(x)
     x = np.sort(x)
@@ -391,7 +426,6 @@ def _interp(xinter, yinter, xextra):
 """
 custom CDF scoring functions
 """
-@jit
 def cdf_scoresB(X, y, dist_type="mink_rao"):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -404,7 +438,6 @@ def cdf_scoresB(X, y, dist_type="mink_rao"):
                                      dist_type=dist_type)
     return scores
 
-@jit
 def cdf_scoresG(X, y, dist_type="emd"):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -472,7 +505,6 @@ def _cdf_distanceG(x1, x2, bin_size=25, dist_type='emd'):
 Ansatz for sequence entropy
 """
 
-@jit
 def seq_entropy_scores(X, y):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -497,7 +529,6 @@ def seq_entropy(x, C):
     return S / F
 
 
-@jit
 def qseq_entropy_scores(X, y, q_type='sum', bins=20):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -510,7 +541,6 @@ def qseq_entropy_scores(X, y, q_type='sum', bins=20):
     return scores
 
 
-@jit
 def qseq_entropy(x, bins=20, q_type='sum'):
     di = int(len(x)/bins)
     split_arr = iter(np.split(x, np.arange(0, len(x), di)))
@@ -608,7 +638,6 @@ def seq_entropyX_scores(X, y):
 """
 Variance distances
 """
-@jit
 def var_dists(X, y):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -627,7 +656,6 @@ def var_dist(x1, x2):
 Quantile distances
 """
 
-@jit
 def q_dists(X, y, q=0.5):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -638,7 +666,6 @@ def q_dists(X, y, q=0.5):
                              q=q)
     return scores
 
-@jit
 def q_dist(x1, x2, q=0.5, weighted=True):
     q1 = np.nanquantile(x1, q)
     q2 = np.nanquantile(x2, q)
@@ -649,11 +676,43 @@ def q_dist(x1, x2, q=0.5, weighted=True):
     else:
         return q2 - q1
 
+
+"""
+Probability of exceedence
+"""
+
+def _exceed_score(xl, xr, xa):
+    ecdf1 = ecdf(xl)
+    ecdf2 = ecdf(xr)
+    ecdfT = ecdf(xa)
+    _prob = (np.dot(ecdf2[0], ecdf2[1]) - np.dot(ecdf1[0], ecdf1[1])) / \
+            np.dot(ecdfT[0], ecdfT[1])*2+0.5
+    prob_one_is_larger = np.min([1, np.max([_prob, 1 - _prob])])
+    return 2*(prob_one_is_larger-0.5)
+
+def _raw_exceed_score(xl, xr, n_samples=500):
+    xls = np.random.choice(xl, n_samples)
+    xrs = np.random.choice(xr, n_samples)
+    _prob = sum(xls > xrs)/n_samples
+    prob_one_is_larger = np.min([1, np.max([_prob, 1 - _prob])])
+    return 2*(prob_one_is_larger-0.5)
+
+def prob_exceed_scores(X, y):
+    if "DataFrame" in str(type(X)):
+        X = X.values
+    scores = np.zeros((X.shape[1],))
+    np.random.seed(1234)
+    for jdx in range(0, scores.shape[0]):
+        xa = X[:, jdx]
+        xl = X[np.argwhere(y == 0)[:, 0], jdx]
+        xr = X[np.argwhere(y == 1)[:, 0], jdx]
+        scores[jdx] = _exceed_score(xl, xr, xa)
+    return scores
+
 """
 Spearman applied to array
 """
 
-@jit
 def spearman_scores(X, y):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -672,7 +731,6 @@ def spearman_scores(X, y):
 Kolmogorov-Smirnov applied to array
 """
 
-@jit
 def ks_scores(X,y):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -687,7 +745,6 @@ def ks_scores(X,y):
 """
 Wasserstein 1 distance applied to array
 """
-@jit
 def wass1_scores(X,y):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -699,9 +756,8 @@ def wass1_scores(X,y):
 
 
 """
-KL divergence applied to array
+entropy divergence applied to array
 """
-@jit
 def ec_scores(X,y, num_bins=25, ent_type='kl'):
     if "DataFrame" in str(type(X)):
         X = X.values
@@ -718,7 +774,6 @@ def ec_scores(X,y, num_bins=25, ent_type='kl'):
         * cross-entropy
         * Shannon entropy change
 """
-@jit
 def _information_change(v1, v2, ent_type = 'kl', bin_type='fixed', num_bins=10):
     '''
     v1: vector one
@@ -755,6 +810,106 @@ def _information_change(v1, v2, ent_type = 'kl', bin_type='fixed', num_bins=10):
         return 0.5*(np.abs(np.sum(v1bins[0]*(log2v1-log2v))) + np.abs(np.sum(v2bins[0]*(log2v2-log2v))))/(np.abs(ent1)+np.abs(ent2))
 
 
+'''
+UPDATE: Cross-entropy/KL-divergence/Jensen-Shannon
+'''
+
+"""
+entropy divergence applied to array
+"""
+def ec_scores2(X,y, num_bins=25, ent_type='kl'):
+    '''
+    :param X: ..
+    :param y: ..
+    :param num_bins:
+    :param ent_type: kl, js, cross
+    :return:
+    '''
+    eps = 1e-6
+
+    if "DataFrame" in str(type(X)):
+        X = X.values
+    scores = np.zeros((X.shape[1],))
+    for jdx in range(0, scores.shape[0]):
+        xa = X[:, jdx]
+        xl = xa[np.argwhere(y == 0)]
+        xr = xa[np.argwhere(y == 1)]
+
+        hist_ranges = np.histogram(xa, num_bins, density=True)[1]
+        xlp = np.histogram(xl, bins=hist_ranges, density=True)[0] + eps
+        xrp = np.histogram(xr, bins=hist_ranges, density=True)[0] + eps
+        if ent_type=='kl':
+            scores[jdx] = _kl_divergence(xlp, xrp)
+        elif ent_type=='js':
+            scores[jdx] = _js_divergence(xlp, xrp)
+        elif ent_type=='cross':
+            scores[jdx] = _cross_entropy(xlp, xrp)
+    return scores
+
+def _kl_divergence(x1p, x2p):
+    return np.nansum(sc.special.kl_div(x1p, x2p))
+
+def _js_divergence(x1p, x2p):
+    return sc.spatial.distance.jensenshannon(x1p, x2p)
+
+def _cross_entropy(x1p,x2p):
+    return sc.stats.entropy(x1p, x2p)
+
+################################################################################
+
+def ecs_scores(X,y, num_bins=21, ent_type='kl', num_sample_rounds=31):
+    '''
+    :param X: ..
+    :param y: ..
+    :param num_bins:
+    :param ent_type: kl, js, cross
+    :return:
+    '''
+    eps = 1e-6
+    num_class = 2 # np.bincount(y).shape[0]
+    ###### HACK #######################
+    ##### REPLACE Y==2 by random select of classes 1 and 0
+    y = np.where(y == 2, np.random.randint(0, 2, len(y)), y)
+    ###################################
+    ##### CODE HELL AWAITS.. ##########
+
+    if "DataFrame" in str(type(X)):
+        X = X.values
+    scores = np.zeros((X.shape[1],))
+    for jdx in range(0, scores.shape[0]):
+        xa = X[:, jdx]
+        ys = y[np.argsort(xa)]
+
+        probs = np.zeros((num_sample_rounds * num_class, 3))
+        adx = 0
+        bdx = num_class
+        for m in range(0, num_sample_rounds):
+            np.random.shuffle(y)
+            yr = np.random.choice(y, num_bins)
+            yref = np.random.choice(y, num_bins)
+
+            ysortrand = np.random.choice(ys, num_bins)
+
+            yrprobs = np.bincount(yr) / num_bins + eps
+            yrfprobs = np.bincount(ysortrand) / num_bins + eps
+            yrefprobs = np.bincount(yref) / num_bins + eps
+
+            probs[adx:bdx, 0] = yrprobs
+            probs[adx:bdx, 1] = yrfprobs
+            probs[adx:bdx, 2] = yrefprobs
+            adx += num_class
+            bdx += num_class
+
+        if ent_type=='kl':
+            scores[jdx] = _kl_divergence(probs[:, 0], probs[:, 1])/_kl_divergence(probs[:, 0], probs[:, 2])
+        elif ent_type=='js':
+            scores[jdx] = _js_divergence(probs[:, 0], probs[:, 1])/_js_divergence(probs[:, 0], probs[:, 2])
+        elif ent_type=='cross':
+            scores[jdx] = _cross_entropy(probs[:, 0], probs[:, 1])/_cross_entropy(probs[:, 0], probs[:, 2])
+    return scores
+
+###############################################################################################################
+###############################################################################################################
 
 class fs_ws1():
     scores_ = None
@@ -890,6 +1045,9 @@ class fs_epps():
         to_delete = [idx for idx, item in enumerate(not_signif) if item == False]
         return np.delete(x, to_delete, axis=1), to_delete
 
+#######################################################################################################################
+#######################################################################################################################
+
 
 
 #######################################################################################################################
@@ -919,7 +1077,8 @@ def _cov(x, lib='numpy', method='exact', inverse=False):
         elif lib=='sklearn':
             cm = EmpiricalCovariance().fit(x)
             cov = cm.covariance_
-            invconv = cm.precision_
+            if inverse:
+                invcov = cm.precision_
     else:
         if method=='shrunk':
             # return LedoitWolf().fit(x).covariance_
@@ -938,8 +1097,7 @@ def _cov(x, lib='numpy', method='exact', inverse=False):
 
 @jit
 def _Mahalanobis(v1, v2, inv_cov):
-    return
-
+    return sc.spatial.distance.mahalanobis(v1, v2, inv_cov)
 
 
 @jit
@@ -1233,3 +1391,225 @@ def find_runs(x):
         run_lengths = np.diff(np.append(run_starts, n))
 
         return run_values, run_starts, run_lengths
+
+#######################################################################################################################
+#recursive feature splitter
+#######################################################################################################################
+
+def _entropy(x):
+    return True
+
+def _information_gain(x, xs):
+    return True
+
+class univariate_feature_splitter():
+    '''
+    Finds a list of feature-ranges with entropy < threshold and of a minimum length
+    '''
+    def __init__(self, max_depth=2, min_bin_size=10):
+        self.max_depth = max_depth
+        self.min_bin_size = min_bin_size
+
+    def fit(self, x, y):
+        # find split in x with maximum information gain
+
+        self.splits, self.entropy
+        return True
+
+    def predict(self, x):
+        return y_pred
+
+    def _score(self):
+        return True
+
+#######################################################################################################################
+# association rule miner
+#######################################################################################################################
+
+def association_rule_miner():
+    return True
+
+
+
+#######################################################################################################################
+# distance correlation: https://stats.stackexchange.com/questions/183572/understanding-distance-correlation-computations
+#######################################################################################################################
+
+
+
+#######################################################################################################################
+# maximal correlation
+#######################################################################################################################
+
+
+
+#######################################################################################################################
+#######################################################################################################################
+
+
+
+def get_accuracy_plots(y_test, y_pred, figax=None, make_plot=True):
+    #
+    threshold = np.arange(0., 1, 0.025)
+    _metrics = []
+    for _thresh in threshold:
+        bal_acc = balanced_accuracy(y_test, y_pred, thresh=_thresh)
+        f1_score = fb_score(y_test, y_pred, beta=1, thresh=_thresh)
+        _npv = npv(y_test, y_pred, thresh=_thresh)
+        _fpr = fpr(y_test, y_pred, thresh=_thresh)
+        rec, true_rec = recall(y_test, y_pred, thresh=_thresh)
+        _metrics.append({'BAL_ACC': bal_acc,
+                         'F1_SCORE': f1_score,
+                         'NPV': _npv,
+                         'REC': rec,
+                         'TRUE_REC': true_rec,
+                         'FPR': _fpr,
+                         'AUC': metrics.roc_auc_score(y_test, y_pred),
+                         'THRESHOLD': _thresh})
+    _metrics = pd.DataFrame(_metrics)
+
+    if make_plot:
+        if figax is None:
+            fig, ax = plt.subplots(ncols=4, figsize=(28, 8))
+        else:
+            fig, ax = figax
+        pd.DataFrame(y_pred).hist(bins=20, ax=ax[1], histtype='step')
+        pd.DataFrame(y_test).hist(bins=2, ax=ax[1], color='black', histtype='step')
+        ax[1].set_title('Proba histo')
+
+        # sns.lineplot(data=_metrics, x='THRESHOLD', y='F1_SCORE', label='F1', ax=ax[1])
+        sns.lineplot(data=_metrics, x='NPV', y='REC', color='green', ax=ax[0], ci=None)
+        sns.lineplot(data=_metrics, x='NPV', y='TRUE_REC', color='red', ax=ax[0], ci=None)
+        # sns.lineplot(data=_metrics, x='THRESHOLD', y='TRUE_REC', label='TRUE_REC', ax=ax[1])
+        # sns.lineplot(data=_metrics, x='THRESHOLD', y='BAL_ACC', label='BAL_ACC', ax=ax[1])
+        ax[0].set_title('NPV versus recall')
+        ax[0].set_ylabel("recall")
+
+        # TPR / FPR -> sensitivity / 1-specifity
+        roc_curve = pd.DataFrame(metrics.roc_curve(y_test, y_pred)[:2]).transpose()
+        roc_curve.columns = ['FPR', 'TPR']
+        sns.lineplot(data=roc_curve, x='FPR', y='TPR', ax=ax[2], ci=None)
+        # sns.scatterplot(data=roc_curve, x='FPR', y='TPR', ax=ax[2],s=100)
+        # ax[2].plot(np.arange(0,1,0.05),np.arange(0,1,0.05), color='black', )
+        ax[2].plot(np.array([0, 1]), np.array([0, 1]), ls="--", c="black")
+        ax[2].set_title("ROC")
+
+        prec_recall = pd.DataFrame(metrics.precision_recall_curve(y_test, y_pred)[:2]).transpose()
+        prec_recall.columns = ['precision', 'recall']
+        sns.lineplot(data=prec_recall, x='precision', y='recall', ax=ax[3], ci=None)
+        ax[3].set_title("precision - recall")
+    else:
+        fig, ax = None, None
+
+    return _metrics, (fig, ax)
+
+
+def mcc(y_true, y_prob, thresh=0.5, greedy='symmetric'):
+    if greedy == 'symmetric':
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        TN = np.sum((y_prob < (1 - thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+        FN = np.sum((y_prob < (1 - thresh)) & (y_true == 1))
+    elif greedy == 'negative':
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        TN = np.sum((y_prob < (thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+        FN = np.sum((y_prob < (thresh)) & (y_true == 1))
+    mcc = (TP * TN - FP * FN) / np.sqrt((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)) if (TP + FP) * (TP + FN) * (
+                TN + FP) * (TN + FN) > 0 else np.nan
+    return mcc
+
+
+def balanced_accuracy(y_true, y_prob, thresh=0.5, greedy='symmetric'):
+    if greedy == 'symmetric':
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        TN = np.sum((y_prob < (1 - thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+        FN = np.sum((y_prob < (1 - thresh)) & (y_true == 1))
+    elif greedy == 'negative':
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        TN = np.sum((y_prob < (thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+        FN = np.sum((y_prob < (thresh)) & (y_true == 1))
+
+    recall = TP / (FN + TP) if (FN + TP) > 0 else np.nan
+    specificity = TN / (FP + TN) if (FP + TN) > 0 else np.nan
+    return 0.5 * (recall + specificity)
+
+
+def fb_score(y_true, y_prob, beta=1, thresh=0.5, greedy='symmetric'):
+    if greedy == 'symmetric':
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        TN = np.sum((y_prob < (1 - thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+        FN = np.sum((y_prob < (1 - thresh)) & (y_true == 1))
+    elif greedy == 'negative':
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        TN = np.sum((y_prob < (thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+        FN = np.sum((y_prob < (thresh)) & (y_true == 1))
+    prec = TP / (TP + FP) if (TP + FP) > 0 else np.nan
+    rec = TP / (TP + FN) if (TP + FN) > 0 else np.nan
+    return (1 + beta ** 2) * prec * rec / (beta ** 2 * prec + rec)
+
+
+def npv(y_true, y_prob, thresh=0.5, greedy='symmetric'):
+    if greedy == 'symmetric':
+        TN = np.sum((y_prob < (1 - thresh)) & (y_true == 0))
+        FN = np.sum((y_prob < (1 - thresh)) & (y_true == 1))
+    elif greedy == 'negative':
+        TN = np.sum((y_prob < (thresh)) & (y_true == 0))
+        FN = np.sum((y_prob < (thresh)) & (y_true == 1))
+    NPV = TN / (TN + FN) if (TN + FN) > 0 else np.nan
+    return NPV
+
+
+def recall(y_true, y_prob, thresh=0.5, greedy='symmetric'):
+    if greedy == 'symmetric':
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        FN = np.sum((y_prob < (1 - thresh)) & (y_true == 1))
+    elif greedy == 'negative':
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        FN = np.sum((y_prob < (thresh)) & (y_true == 1))
+    AP = np.sum(y_true)
+    recall = TP / (TP + FN) if (TP + FN) > 0 else np.nan
+    return recall, TP / AP
+
+
+def prec(y_true, y_prob, thresh=0.5, greedy='symmetric'):
+    TP = np.sum((y_prob > thresh) & (y_true == 1))
+    FP = np.sum((y_prob > thresh) & (y_true == 0))
+    prec = TP / (TP + FP) if (TP + FP) > 0 else np.nan
+    return prec
+
+
+def spec(y_true, y_prob, thresh=0.5, greedy='symmetric'):
+    TN = np.sum((y_prob < (1 - thresh)) & (y_true == 0))
+    FP = np.sum((y_prob > thresh) & (y_true == 0))
+    spec = TN / (TN + FP) if (TN + FP) > 0 else np.nan
+    return spec
+
+
+def fpr(y_true, y_prob, thresh=0.5, greedy='symmetric'):
+    if greedy == 'symmetric':
+        TN = np.sum((y_prob < (1 - thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+    elif greedy == 'negative':
+        TN = np.sum((y_prob < (thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+    FPR = FP / (FP + TN) if (FP + TN) > 0 else np.nan
+    return FPR
+
+
+def roc(y_true, y_prob, thresh):
+    roc_arr = []
+    for _thresh in thresh:
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        TN = np.sum((y_prob < (1 - thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+        FN = np.sum((y_prob < (1 - thresh)) & (y_true == 1))
+
+        TPR = TP / (TP + FN) if (TP + FN) > 0 else np.nan
+        FPR = FP / (FP + TN) if (FP + TN) > 0 else np.nan
+        roc_arr.append((TPR, FPR))
+    return roc_arr
