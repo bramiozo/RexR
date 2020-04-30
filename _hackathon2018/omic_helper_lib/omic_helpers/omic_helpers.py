@@ -24,7 +24,7 @@ from sklearn.covariance import EmpiricalCovariance
 from scipy.stats import ks_2samp as ks, wasserstein_distance as wass, spearmanr, energy_distance
 from scipy.stats import chisquare, epps_singleton_2samp as epps
 
-from sklearn.decomposition import PCA, FastICA as ICA, FactorAnalysis as FA
+from sklearn.decomposition import PCA, FastICA as ICA, FactorAnalysis as FA, MiniBatchSparsePCA as SparsePCA
 from sklearn.decomposition import MiniBatchDictionaryLearning as DictLearn, NMF
 from sklearn.feature_selection import mutual_info_classif as Minfo, f_classif as Fval, chi2
 
@@ -43,7 +43,8 @@ class regression_feature_evaluator
 class ts_feature_evaluator 
 
 class multi_omic_evaluator
-    feature_expander
+    bulk_feature_expander
+    iterative_feature_expander
 
 separate functions:
 recursive_feature_splitter
@@ -72,47 +73,76 @@ def get_statdist_dataframe_binomial(X,Y, features):
     nanvector[:] = np.nan
 
     stat_dist = dict()
-    print("Processing diffentropy, variance scores, pca/fa/ica/nmf/dl importances...")
+    logging.info("Processing diffentropy, variance scores, spca/pca/fa/ica/nmf/dl importances...")
+    logging.info("diff entropy..")
     stat_dist['diffentropy'] = diff_entropy_scores(X, eps=1e-6, bins=30)
+    logging.info("variance..")
     stat_dist['variance'] = variance_scores(X)
+    logging.info("pca_imp..")
     stat_dist['pca_imp'] = get_reducer_weights(X, PCA(n_components=50), cols=None, ncomp=50, weighted='expl_variance')
+    logging.info("spca_imp..")
+    stat_dist['spca_imp'] = get_reducer_weights(X, SparsePCA(n_components=50, batch_size=5, method='lars'), cols=None, ncomp=50, weighted='linear')
+    logging.info("fa_imp..")
     stat_dist['fa_imp'] = get_reducer_weights(X, FA(n_components=50), cols=None, ncomp=50, weighted='noise_variance')
+    logging.info("ica_imp..")
     stat_dist['ica_imp'] = get_reducer_weights(X, ICA(n_components=50), cols=None, ncomp=50, weighted=None)
+    logging.info("nmf_imp..")
     stat_dist['nmf_imp'] = get_reducer_weights(X, NMF(n_components=50), cols=None, ncomp=50, weighted='linear')
+    logging.info("dl_imp..")
     stat_dist['dl_imp'] = get_reducer_weights(X, DictLearn(n_components=50), cols=None, ncomp=50, weighted=None)
 
     print("Processing minf/fscore/wass1/wass2...")
+    logging.info("minf..")
     stat_dist['minf'] = Minfo(X, Y)
+    logging.info("fscore..")
     stat_dist['fscore'] = Fval(X, Y)
+    logging.info("Wass1..")
     stat_dist['Wass1'] = wass1_scores(X, Y)
 
     fswass2 = fs_ws2()
+    logging.info("Wass2..")
     stat_dist['Wass2'] = fswass2.fit(X, Y).scores_
 
     print("Processing spearman and ks...")
+    logging.info("spearman..")
     stat_dist['spearman'] = spearman_scores(X, Y)
+    logging.info("ks..")
     stat_dist['ks'] = ks_scores(X, Y)
 
     print("Processing seq entropies...")
     try:
+        logging.info("seqentropy..")
         stat_dist['seqentropy'] = seq_entropy_scores(X, Y)
+        logging.info("qseqentropy_prod..")
         stat_dist['qseqentropy_prod'] = qseq_entropy_scores(X, Y, q_type='prod', bins=10)
+        logging.info("qseqentropy_sum..")
         stat_dist['qseqentropy_sum'] = qseq_entropy_scores(X, Y, q_type='sum', bins=10)
+        logging.info("seqentropyX..")
         stat_dist['seqentropyX'] = seq_entropyX_scores(X, Y)
     except Exception as e:
         print("Sequential entropy scores failed: {}".format(e))
+        logging.info("seqentropy..")
         stat_dist['seqentropy'] = np.empty((num_features,)).fill(np.nan)
+        logging.info("qseqentropy_prod..")
         stat_dist['qseqentropy_prod'] = np.empty((num_features,)).fill(np.nan)
+        logging.info("qseqentropy_sum..")
         stat_dist['qseqentropy_sum'] = np.empty((num_features,)).fill(np.nan)
+        logging.info("seqentropyX..")
         stat_dist['seqentropyX'] = np.empty((num_features,)).fill(np.nan)
 
     print("Processing CDF scores...")
     try:
+        logging.info("cdf_1..")
         stat_dist['cdf_1'] = cdf_scoresB(X,Y, dist_type='mink_rao')
+        logging.info("cdf_2..")
         stat_dist['cdf_2'] = cdf_scoresB(X,Y, dist_type='mink_rao2')
+        logging.info("cdf_3..")
         stat_dist['cdf_3'] = cdf_scoresB(X,Y, dist_type='rao')
+        logging.info("cdf_4..")
         stat_dist['cdf_4'] = cdf_scoresG(X,Y, dist_type='emd')
+        logging.info("cdf_5..")
         stat_dist['cdf_5'] = cdf_scoresG(X,Y, dist_type='cvm')
+        logging.info("cdf_6..")
         stat_dist['cdf_6'] = cdf_scoresG(X,Y, dist_type='cust')
     except Exception as e:
         print("CDF scores failed: {}".format(e))
@@ -125,11 +155,17 @@ def get_statdist_dataframe_binomial(X,Y, features):
 
     print("Processing q distances...")
     try:
+        logging.info("med_dist..")
         stat_dist['med_dist'] = q_dists(X, Y, q=0.5)
+        logging.info("q25_dist..")
         stat_dist['q25_dist'] = q_dists(X, Y, q=0.25)
+        logging.info("q75_dist..")
         stat_dist['q75_dist'] = q_dists(X, Y, q=0.75)
+        logging.info("var_dist..")
         stat_dist['var_dist'] = var_dists(X, Y)
+        logging.info("q5_acc..")
         stat_dist['q5_acc'] = q_acc_scores(X, Y, q=0.5)
+        logging.info("q75_acc..")
         stat_dist['q75_acc'] = q_acc_scores(X, Y, q=0.75)
     except Exception as e:
         print("Q distance scores failed: {}".format(e))
@@ -142,6 +178,7 @@ def get_statdist_dataframe_binomial(X,Y, features):
 
     print("Getting conditional probability of exceedence")
     try:
+        logging.info("prob_exc..")
         stat_dist['prob_exc'] = prob_exceed_scores(X, Y)
     except Exception as e:
         print("Getting exceedence proba failed...{}".format(e))
@@ -149,8 +186,11 @@ def get_statdist_dataframe_binomial(X,Y, features):
 
     print("Processing cross entropies over class-seperated features...")
     try:
+        logging.info("KL..")
         stat_dist['KL'] = ec_scores2(X, Y, num_bins=11, ent_type='kl')
+        logging.info("Shan..")
         stat_dist['Shan'] = ec_scores2(X, Y, num_bins=11, ent_type='shannon')
+        logging.info("Cross..")
         stat_dist['Cross'] = ec_scores2(X, Y, num_bins=11, ent_type='cross')
     except Exception as e:
         print("Cross entropies failed: {}".format(e))
@@ -160,8 +200,11 @@ def get_statdist_dataframe_binomial(X,Y, features):
 
     print("Processing cross entropies over random selects of feature-sorted and non-feature-sorted target vectors")
     try:
+        logging.info("KL_sort..")
         stat_dist['KL_sort'] = ecs_scores(X, Y, num_bins=21, ent_type='kl')
+        logging.info("Shan_sort..")
         stat_dist['Shan_sort'] = ecs_scores(X, Y, num_bins=21, ent_type='shannon')
+        logging.info("Cross_sort..")
         stat_dist['Cross_sort'] = ecs_scores(X, Y, num_bins=21, ent_type='cross')
     except Exception as e:
         print("Cross entropies failed: {}".format(e))
@@ -172,7 +215,9 @@ def get_statdist_dataframe_binomial(X,Y, features):
     print("Processing Chi2 and Epps...")
     try:
         fsepps = fs_epps(pvalue=0.01)
+        logging.info("Chi2..")
         stat_dist['Chi2'] = chi2_scores(X, Y, bins=7)
+        logging.info("epps..")
         stat_dist['epps'] = fsepps.fit(X, Y).scores_
     except Exception as e:
         print("Cross Chi2/Epps failed: {}".format(e))
@@ -184,6 +229,7 @@ def get_statdist_dataframe_binomial(X,Y, features):
     stat_dist_df = pd.DataFrame(data=np.vstack([stat_dist['diffentropy'],
                                                 stat_dist['variance'],
                                                 stat_dist['pca_imp'],
+                                                stat_dist['spca_imp'],
                                                 stat_dist['fa_imp'],
                                                 stat_dist['ica_imp'],
                                                 stat_dist['nmf_imp'],
@@ -221,7 +267,7 @@ def get_statdist_dataframe_binomial(X,Y, features):
                                                 stat_dist['Chi2'],
                                                 stat_dist['epps']]).T,
                                columns=['diffentropy', 'variance',
-                                        'pca_imp', 'fa_imp', 'ica_imp', 'nmf_imp', 'dl_imp',
+                                        'pca_imp', 'spca_imp', 'fa_imp', 'ica_imp', 'nmf_imp', 'dl_imp',
                                         'Minf', 
                                         'Fscore', 'FPval',
                                         'Wass1', 'Wass2',
@@ -235,7 +281,7 @@ def get_statdist_dataframe_binomial(X,Y, features):
     return stat_dist_df    
 
 def _feature_selector(dists_df, topN=100, overlap='intersect',
-                      score_list=['qseqentropy_sum_wass1', 'pca_imp', 'Chi2',
+                      score_list=['qseqentropy_sum_wass1', 'spca_imp', 'Chi2',
                                   'q5delta', 'Wass1', 'Minf', 'CDF6', 'prob_exc_wass1']):
     '''
     :param dists_df: dataframe with features and univariate scores
@@ -320,7 +366,6 @@ def diff_entropy_scores(X, eps=1e-6, bins=20):
         scores[jdx] = _diff_entropy(xa, eps=eps, bins=bins)
     return scores
 
-@jit
 def _diff_entropy(x, eps=1e-6, bins=20):
     rhos, xs = np.histogram(x, density=True, bins=bins)
     xdiff = xs[1:] - xs[:-1]
@@ -516,7 +561,6 @@ def seq_entropy_scores(X, y):
         scores[jdx] = seq_entropy(y_sorted, C)
     return scores
 
-@jit
 def seq_entropy(x, C):
     xr = x[1:]
     xl = x[:-1]
@@ -559,7 +603,6 @@ def qseq_entropy(x, bins=20, q_type='sum'):
 
 ###################################################################################################
 
-@jit
 def seq_prob(n, k, p):
     div = sc.special.factorial(n) / sc.special.factorial(k) / sc.special.factorial(n - k)
     probs = np.power(p, k) * np.power(1 - p, n - k)
@@ -1444,8 +1487,14 @@ def association_rule_miner():
 
 
 #######################################################################################################################
+# maximal information coefficient: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3325791/
 #######################################################################################################################
 
+
+
+
+#######################################################################################################################
+#######################################################################################################################
 
 
 def get_accuracy_plots(y_test, y_pred, figax=None, make_plot=True):
