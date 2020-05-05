@@ -51,6 +51,7 @@ recursive_feature_splitter
 information_gain
 association_rule_miner
 distance correlation/covariance
+maximal correlation
 ..
 ..
 
