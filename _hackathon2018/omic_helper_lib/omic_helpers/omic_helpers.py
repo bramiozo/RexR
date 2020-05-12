@@ -1484,9 +1484,10 @@ class association_ruler():
     Based on the A-priori algorithm
     '''
 
-    def __init__(self, num_bins=5, debug=False):
+    def __init__(self, num_bins=5, plot=False, debug=False):
         self.num_bins = num_bins
-        self.debug=False
+        self.debug= False
+        self.plot = False
 
 
     def pre_assoc_array(self, X, num_bins=None):
@@ -1533,8 +1534,11 @@ class association_ruler():
         new_X['val'] = indexed_dataSet_item
         new_X.set_index(indexed_dataSet_sample, inplace=True)
 
-        self.map_item_tuple = (lookupTable_item, indexed_dataSet_item)
-        self.map_sample_tuple =  (lookupTable_sample, indexed_dataSet_sample)
+        map_item_tuple = (lookupTable_item, indexed_dataSet_item)
+        map_sample_tuple =  (lookupTable_sample, indexed_dataSet_sample)
+
+        self.map_item_dict = dict(zip(map_item_tuple[1], map_item_tuple[0]))
+        self.map_sample_dict = dict(zip(map_sample_tuple[1], map_sample_tuple[0]))
 
         if self.debug:
             self.new_X = new_X
@@ -1584,7 +1588,7 @@ class association_ruler():
 
 
 
-    def association_rules(self, order_item, min_support, pre_ordered=False, sample_column=None, debug=False):
+    def association_rules(self, order_item, min_support=10, pre_ordered=False, sample_column=None, debug=False):
         '''
         If pre_ordered we assume that order_item has the form pd.Dataframe([[index, item], [index, item2]...]]),
         where e.g. in the case of expression data the index would be the sample_id, and the item would be the feature bin's for that sample.
@@ -1690,6 +1694,20 @@ class association_ruler():
        
 
         # Return association rules sorted by lift in descending order
+
+        if self.plot:
+            fig, ax = plt.subplots(figsize=(16,12), ncols=2, nrows=2)
+            sns.scatterplot(data=assoc_pairs.sample(50000), x='lift', y='confidenceAtoB', 
+                            alpha=0.1, hue='confidenceBtoA', ax=ax[0,0])
+
+            sns.scatterplot(data=assoc_pairs.sample(50000), x='lift', y='supportAB', 
+                            alpha=0.1, hue='confidenceBtoA', ax=ax[0,1])
+
+            assoc_pairs.sort_values(by='lift', ascending=False)[:5000].lift.plot.hist(bins=30, ax=ax[1,0])
+
+            assoc_pairs.sort_values(by='supportAB', ascending=False)[:5000].supportAB.plot.hist(bins=30, ax=ax[1,1])
+
+
         return item_pairs.sort_values('lift', ascending=False)
 
 
