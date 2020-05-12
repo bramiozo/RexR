@@ -52,6 +52,8 @@ information_gain
 association_rule_miner
 distance correlation/covariance
 maximal correlation
+Bayes factor
+Random Matrix Theoretical signal
 ..
 ..
 
@@ -1470,8 +1472,226 @@ class univariate_feature_splitter():
 # association rule miner
 #######################################################################################################################
 
-def association_rule_miner():
-    return True
+from itertools import combinations, groupby
+from collections import Counter
+
+class association_ruler():
+    '''
+    Credits go to Grace Tenorio for 99% of the code: https://www.datatheque.com/posts/association-analysis/
+
+    also: https://stackoverflow.com/questions/36676576/map-a-numpy-array-of-strings-to-integers
+
+    Based on the A-priori algorithm
+    '''
+
+    def __init__(self, num_bins=5, debug=False):
+        self.num_bins = num_bins
+        self.debug=False
+
+
+    def pre_assoc_array(self, X, num_bins=None):
+        '''
+        This function turns the array with expression values in 'baskets' that can be easily plugged in 
+        association-rule mining algorithms.
+
+        X: data
+        num_bins: number of quantile bins to categorize the expression data
+
+        returns: np.array([[sample_1, feature_1_bin_0], [sample_1, feature_2_bin_2],...])
+
+        -> out.shape = (M*N, 2)
+        ''' 
+
+        assert "DataFrame" in str(type(X)), "For now we only allow dataframes"
+        assert X.shape[1] == len(set(X.columns)), "There are duplicate column names"
+
+        if num_bins is None:
+            num_bins = self.num_bins
+                                  
+        old_columns = X.columns
+        new_X = X.copy()
+        for idx, _col in enumerate(X.columns):
+            new_col = _col+str(idx)
+            new_X[new_col] = pd.qcut(X[_col], q=num_bins, labels=False, duplicates='drop')
+        new_X = new_X.drop(old_columns, axis=1)
+
+
+        new_X['id']= new_X.index
+        new_X=pd.melt(new_X, id_vars='id')
+        new_X.set_index('id', inplace=True)
+        new_X.dropna(subset=['value'], axis=0, inplace=True)
+        new_X['value'] = new_X.value.astype(int)
+        new_X['val']= new_X.apply(lambda x: str(x[0])+"_"+str(x[1]), axis=1)
+        new_X.drop(new_X.columns[[0,1]], axis=1, inplace=True)
+
+
+        # mappings
+        new_X.sort_index(inplace=True)
+        lookupTable_item, indexed_dataSet_item = np.unique(new_X.val, return_inverse=True)
+        lookupTable_sample, indexed_dataSet_sample = np.unique(new_X.index, return_inverse=True)
+
+        new_X['val'] = indexed_dataSet_item
+        new_X.set_index(indexed_dataSet_sample, inplace=True)
+
+        self.map_item_tuple = (lookupTable_item, indexed_dataSet_item)
+        self.map_sample_tuple =  (lookupTable_sample, indexed_dataSet_sample)
+
+        if self.debug:
+            self.new_X = new_X
+
+        return new_X['val']
+
+    # Returns frequency counts for items and item pairs
+    def freq(self, iterable):
+        if type(iterable) == pd.core.series.Series:
+            return iterable.value_counts().rename("freq")
+        else: 
+            return pd.Series(Counter(iterable)).rename("freq")
+
+        
+    # Returns number of unique orders
+    def order_count(self, order_item):
+        return len(set(order_item.index))
+
+
+    # Returns generator that yields item pairs, one at a time
+    def get_item_pairs(self, order_item):
+        order_item = order_item.reset_index().values
+        if self.debug:
+            self.debug_order_item4 = order_item
+        for order_id, order_object in groupby(order_item, lambda x: x[0]):
+            item_list = [item[1] for item in order_object]
+                  
+            for item_pair in combinations(item_list, 2):
+                yield item_pair
+                
+
+    # Returns frequency and support associated with item
+    def merge_item_stats(self, item_pairs, item_stats):
+        return (item_pairs
+                    .merge(item_stats.rename(columns={'freq': 'freqA', 'support': 'supportA'}), left_on='item_A', right_index=True)
+                    .merge(item_stats.rename(columns={'freq': 'freqB', 'support': 'supportB'}), left_on='item_B', right_index=True))
+
+
+    # Returns name associated with item
+    def merge_item_name(self, rules, item_name):
+        columns = ['itemA','itemB','freqAB','supportAB','freqA','supportA','freqB','supportB', 
+                   'confidenceAtoB','confidenceBtoA','lift']
+        rules = (rules
+                    .merge(item_name.rename(columns={'item_name': 'itemA'}), left_on='item_A', right_on='item_id')
+                    .merge(item_name.rename(columns={'item_name': 'itemB'}), left_on='item_B', right_on='item_id'))
+        return rules[columns]               
+
+
+
+    def association_rules(self, order_item, min_support, pre_ordered=False, sample_column=None, debug=False):
+        '''
+        If pre_ordered we assume that order_item has the form pd.Dataframe([[index, item], [index, item2]...]]),
+        where e.g. in the case of expression data the index would be the sample_id, and the item would be the feature bin's for that sample.
+        '''
+        if pre_ordered:
+            assert("Series" in str(type(order_item)), "For now we only allow Series for the pre_ordered data")
+        else:
+            assert("DataFrame" in str(type(order_item)), "For now we only allow Dataframes for the non-ordered data")
+        if pre_ordered:
+            assert(order_item.shape[1]==1, "Your pre-ordered dataframe should only contain 1 column, \
+                the index column represents the sample_id or the order_id, the 1 column represents the \
+                feature bin or the product id")
+        else:
+            if sample_column is not None:
+                assert(sample_column in order_item.columns.tolist(), "You explicitly set the sample_column \
+                    but it is not present in the dataframe")
+                order_item.set_index(sample_column, inplace=True)
+
+        if debug:
+            self.debug=True
+
+        if ~pre_ordered:
+            print("Creating item/order array")
+            order_item = self.pre_assoc_array(order_item)
+
+        print("Starting order_item: {:22d}".format(len(order_item)))
+
+
+        # Calculate item frequency and support
+        item_stats             = self.freq(order_item).to_frame("freq")
+        order_count           = self.order_count(order_item)
+        item_stats['support']  = item_stats['freq'] / order_count * 100
+
+        if debug:
+            self.debug_item_stats1 = item_stats
+            self.debug_order_count = order_count
+            self.debug_order_item1 = order_item
+
+        # Filter from order_item items below min support 
+        qualifying_items       = item_stats[item_stats['support'] >= min_support].index
+        order_item             = order_item[order_item.isin(qualifying_items)]
+
+        if debug:
+            self.debug_qualifying_items = qualifying_items
+            self.debug_order_item2 = order_item
+
+        print("Items with support >= {}: {:15d}".format(min_support, len(qualifying_items)))
+        print("Remaining order_item: {:21d}".format(len(order_item)))
+
+        # Filter from order_item orders with less than 2 items
+        order_size             = self.freq(order_item.index)
+        qualifying_orders      = order_size[order_size >= 2].index
+        order_item             = order_item[order_item.index.isin(qualifying_orders)]
+
+        if debug:
+            self.debug_qualifying_orders = qualifying_orders
+            self.debug_order_item3 = order_item
+
+        print("Remaining orders with 2+ items: {:11d}".format(len(qualifying_orders)))
+        print("Remaining order_item: {:21d}".format(len(order_item)))
+
+
+        # Recalculate item frequency and support
+        item_stats             = self.freq(order_item).to_frame("freq")
+        item_stats['support']  = item_stats['freq'] / self.order_count(order_item) * 100
+
+
+        # Get item pairs generator
+        item_pair_gen          = self.get_item_pairs(order_item)
+
+        if debug:
+            self.debug_item_stats2 = item_stats
+
+
+        # Calculate item pair frequency and support
+        item_pairs              = self.freq(item_pair_gen).to_frame("freqAB")
+        item_pairs['supportAB'] = item_pairs['freqAB'] / len(qualifying_orders) * 100
+
+        print("Item pairs: {:31d}".format(len(item_pairs)))
+
+        if debug:
+            self.debug_item_pairs1 = item_pairs
+
+        # Filter from item_pairs those below min support
+        item_pairs              = item_pairs[item_pairs['supportAB'] >= min_support]
+
+        if debug:
+            self.debug_item_pairs2 = item_pairs
+
+        print("Item pairs with support >= {}: {:10d}\n".format(min_support, len(item_pairs)))
+
+
+        # Create table of association rules and compute relevant metrics
+        item_pairs = item_pairs.reset_index().rename(columns={'level_0': 'item_A', 'level_1': 'item_B'})
+        if debug:
+            self.debug_item_pairs3 = item_pairs
+
+        item_pairs = self.merge_item_stats(item_pairs, item_stats)
+        
+        item_pairs['confidenceAtoB'] = item_pairs['supportAB'] / item_pairs['supportA']
+        item_pairs['confidenceBtoA'] = item_pairs['supportAB'] / item_pairs['supportB']
+        item_pairs['lift']           = item_pairs['supportAB'] / (item_pairs['supportA'] * item_pairs['supportB'])
+       
+
+        # Return association rules sorted by lift in descending order
+        return item_pairs.sort_values('lift', ascending=False)
+
 
 
 
@@ -1496,6 +1716,11 @@ def association_rule_miner():
 # Bayes Factor
 #######################################################################################################################
 
+
+
+#######################################################################################################################
+# Random Matrix Theory
+#######################################################################################################################
 
 
 #######################################################################################################################
