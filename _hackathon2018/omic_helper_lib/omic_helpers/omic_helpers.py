@@ -42,7 +42,7 @@ class regression_feature_evaluator
 
 class ts_feature_evaluator 
 
-class multi_omic_evaluator
+class feature_expansion
     bulk_feature_expander
     iterative_feature_expander
 
@@ -400,6 +400,8 @@ def q_acc_scores(X,y, q=0.5):
         ys = y[np.where(X[:, jdx] <= splitvalmin)]
         scores[jdx] = np.max([np.nanmean(yl)-cr, np.nanmean(ys)-cr])/cr
     return scores
+
+
 
 def chi2_scores(X,y, bins=10):
     if "DataFrame" in str(type(X)):
@@ -1696,16 +1698,20 @@ class association_ruler():
         # Return association rules sorted by lift in descending order
 
         if self.plot:
+            sample_size = 50000 if assoc_pairs.shape[0]>50000 else assoc_pairs.shape[0]
+            sort_size = 5000 if sample_size==50000 else int(assoc_pairs.shape[0]/10)
+
             fig, ax = plt.subplots(figsize=(16,12), ncols=2, nrows=2)
-            sns.scatterplot(data=assoc_pairs.sample(50000), x='lift', y='confidenceAtoB', 
+
+            sns.scatterplot(data=assoc_pairs.sample(sample_size), x='lift', y='confidenceAtoB', 
                             alpha=0.1, hue='confidenceBtoA', ax=ax[0,0])
 
-            sns.scatterplot(data=assoc_pairs.sample(50000), x='lift', y='supportAB', 
+            sns.scatterplot(data=assoc_pairs.sample(sample_size), x='lift', y='supportAB', 
                             alpha=0.1, hue='confidenceBtoA', ax=ax[0,1])
 
-            assoc_pairs.sort_values(by='lift', ascending=False)[:5000].lift.plot.hist(bins=30, ax=ax[1,0])
+            assoc_pairs.sort_values(by='lift', ascending=False)[:sort_size].lift.plot.hist(bins=30, ax=ax[1,0])
 
-            assoc_pairs.sort_values(by='supportAB', ascending=False)[:5000].supportAB.plot.hist(bins=30, ax=ax[1,1])
+            assoc_pairs.sort_values(by='supportAB', ascending=False)[:sort_size].supportAB.plot.hist(bins=30, ax=ax[1,1])
 
 
         return item_pairs.sort_values('lift', ascending=False)
@@ -1714,20 +1720,76 @@ class association_ruler():
 
 
 #######################################################################################################################
-# distance correlation: https://stats.stackexchange.com/questions/183572/understanding-distance-correlation-computations
+# Distance Correlation: https://stats.stackexchange.com/questions/183572/understanding-distance-correlation-computations,
+# https://gist.github.com/satra/aa3d19a12b74e9ab7941
+# https://github.com/vnmabus/dcor
+#
+# Purpose: to compare different features for non-linear similarity
+#######################################################################################################################
+
+from scipy.spatial.distance import pdist, squareform
+from numba import jit, float32
+
+def distcorr(X, Y):
+    """ Compute the distance correlation function
+    
+    >>> a = [1,2,3,4,5]
+    >>> b = np.array([1,2,9,4,4])
+    >>> distcorr(a, b)
+    0.762676242417
+    """
+    X = np.atleast_1d(X)
+    Y = np.atleast_1d(Y)
+    if np.prod(X.shape) == len(X):
+        X = X[:, None]
+    if np.prod(Y.shape) == len(Y):
+        Y = Y[:, None]
+    X = np.atleast_2d(X)
+    Y = np.atleast_2d(Y)
+    n = X.shape[0]
+    if Y.shape[0] != X.shape[0]:
+        raise ValueError('Number of samples must match')
+    a = squareform(pdist(X))
+    b = squareform(pdist(Y))
+    A = a - a.mean(axis=0)[None, :] - a.mean(axis=1)[:, None] + a.mean()
+    B = b - b.mean(axis=0)[None, :] - b.mean(axis=1)[:, None] + b.mean()
+    
+    dcov2_xy = (A * B).sum()/float(n * n)
+    dcov2_xx = (A * A).sum()/float(n * n)
+    dcov2_yy = (B * B).sum()/float(n * n)
+    dcor = np.sqrt(dcov2_xy)/np.sqrt(np.sqrt(dcov2_xx) * np.sqrt(dcov2_yy))
+    return dcor
+
+
+#######################################################################################################################
+# Maximal Correlation Analysis
+# http://data.bit.uni-bonn.de/publications/ICML2014.pdf
 #######################################################################################################################
 
 
 
 #######################################################################################################################
-# maximal correlation
+# Maximal Information Coefficient: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3325791/
+#
+# Purpose: to compare different feature for non-linear similarity
 #######################################################################################################################
 
+from minepy import MINE
+from minepy import cstats as MI_cstats, pstats as MI_pstats
 
+def mic_scores(X,Y=None, bins=10, alpha=0.6, c=16, est='mic_e'):
+    mic_miner = MINE(alpha=alpha, c=c, est=est)
 
-#######################################################################################################################
-# maximal information coefficient: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3325791/
-#######################################################################################################################
+    if (X.shape[1]>0) and ((Y.shape[1] is None) or (Y.shape[1]>0)):
+        if Y is None:
+            mic_p, tic_p = MI_pstats(X, alpha=alpha, c=c, est=est)
+        else:
+            mic_p, tic_p = MI_cstats(X, Y, alpha=alpha, c=c, est=est)
+    
+    else:
+        raise ValueError("X,Y should be arrays with at least one column, Y can be None")
+
+    return mic_p, tic_p
 
 
 #######################################################################################################################
@@ -1740,6 +1802,55 @@ class association_ruler():
 # Random Matrix Theory
 #######################################################################################################################
 
+
+
+
+#######################################################################################################################
+# Odds ratio
+#######################################################################################################################
+
+
+
+
+#######################################################################################################################
+# Likelihood ratio test
+#######################################################################################################################
+
+from scipy.stats import power_divergence as pdiv
+
+
+def powerdiv_scores(X,y, bins=10, pdivtype='llr'):
+    if pdivtype=='llr':
+        _lambda = 0
+    elif pdivtype=='mllr':
+        _lambda = -1
+    elif pdivtype=='neyman':
+        _lambda = -2
+    elif pdivtype=='pearson':
+        _lambda = 1
+    elif pdivtype=='cressie-read':
+        _lambda = 2/3
+
+
+    if "DataFrame" in str(type(X)):
+        X = X.values
+    scores = np.zeros((X.shape[1],))
+    for jdx in range(0, scores.shape[0]):
+        xa = X[:, jdx]
+        x1 = xa[np.argwhere(y == 0)]
+        x2 = xa[np.argwhere(y == 1)]
+        qranges = np.quantile(xa, np.arange(0, 1, 1/bins))
+        scores[jdx] = powerdiv_score(x1, x2, qranges, bins, _lambda)
+    return scores
+
+def powerdiv_score(x1, x2, qranges, bins, _lambda):
+    freq1, freq2 = np.zeros((bins,), dtype=int), np.zeros((bins,), dtype=int)
+    for i in range(0, bins-1):
+        freq1[i] = np.where((x1 >= qranges[i]) & (x1 < qranges[i+1]))[0].shape[0]
+        freq2[i] = np.where((x2 >= qranges[i]) & (x2 < qranges[i+1]))[0].shape[0]
+    freq1[i+1] = np.where(x1 >= qranges[i+1])[0].shape[0]
+    freq2[i+1] = np.where(x2 >= qranges[i+1])[0].shape[0]
+    return pdiv(freq1, freq2, lambda_ = _lambda)[0]
 
 #######################################################################################################################
 #######################################################################################################################
@@ -1910,3 +2021,27 @@ def roc(y_true, y_prob, thresh):
         FPR = FP / (FP + TN) if (FP + TN) > 0 else np.nan
         roc_arr.append((TPR, FPR))
     return roc_arr
+
+def precr(y_true, y_prob, thresh):
+    precr_arr = []
+    for _thresh in thresh:
+        TP = np.sum((y_prob > thresh) & (y_true == 1))
+        TN = np.sum((y_prob < (1 - thresh)) & (y_true == 0))
+        FP = np.sum((y_prob > thresh) & (y_true == 0))
+        FN = np.sum((y_prob < (1 - thresh)) & (y_true == 1))
+
+        REC = TP / (FN + TP) if (FN + TP) > 0 else np.nan
+        PREC = TP / (TP + FP) if (TP + FP) > 0 else np.nan
+        precr_arr.append((PREC, REC))
+    return prec_arr
+
+
+
+class feature_expansion():
+    def __init__():
+
+    def bulk_feature_expander():
+        return True
+
+    def iterative_feature_expander():
+        return True
