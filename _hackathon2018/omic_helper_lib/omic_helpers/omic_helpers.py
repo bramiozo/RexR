@@ -1762,13 +1762,57 @@ def distcorr(X, Y):
 
 
 #######################################################################################################################
-# Maximal Correlation Analysis
+# Maximal Correlation Analysis (MAC)
 # http://data.bit.uni-bonn.de/publications/ICML2014.pdf
+# Use MAC to find non-linearly related features, similar to distcorr and mic.
 #######################################################################################################################
 
 
 
 #######################################################################################################################
+# Hausdorff distance 
+#######################################################################################################################
+
+def hausdorff(X,Y):
+    '''
+    Use Hausdorff to determine the set distance between e.g. the sample-set for the different targets, 
+    or to find the maximally different samples between sets.    
+    '''
+    if "DataFrame" in str(type(X)):
+        X = X.values
+    if "DataFrame" in str(type(Y)):
+        Y = Y.values
+# returns H distance, index of sample in X and index of sample in Y that contribute the most to the H distance 
+return  sc.spatial.distance.directed_hausdorff(X, Y)
+
+
+#######################################################################################################################
+# Procrustes distance 
+#######################################################################################################################
+
+def procrustes(X,Y):
+    if "DataFrame" in str(type(X)):
+        X = X.values
+    if "DataFrame" in str(type(Y)):
+        Y = Y.values
+
+    assert X.shape[0] == Y.shape[0], "X and Y have the have the same number of rows"
+
+    if X.shape[1] != Y.shape[1]:
+        # need to add zero-columns to the matrix with less columns
+        if X.shape[1] < Y.shape[1]:
+            num_to_add = Y.shape[1] - X.shape[1]
+            zero_cols = np.zeros((X.shape[0], num_to_add))
+            X = np.hstack(X,zero_cols)
+        else:
+            num_to_add = X.shape[1] - Y.shape[1]
+            zero_cols = np.zeros((Y.shape[0], num_to_add))
+            Y = np.hstack(Y,zero_cols)
+    # returns standardized version of X, orientiation of Y that best fits X and the disparity
+    return sc.spatial.procrustes(X, Y)        
+
+
+######################################################################################################################
 # Maximal Information Coefficient: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3325791/
 #
 # Purpose: to compare different feature for non-linear similarity
@@ -1794,6 +1838,7 @@ def mic_scores(X,Y=None, bins=10, alpha=0.6, c=16, est='mic_e'):
 
 #######################################################################################################################
 # Bayes Factor
+# the sampling-brother of the likelihood ratio test
 #######################################################################################################################
 
 
