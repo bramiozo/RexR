@@ -2090,3 +2090,85 @@ class feature_expansion():
 
     def iterative_feature_expander():
         return True
+
+        
+
+class clusterizer():
+    '''
+        transformer ->  filter -> reducer -> clustering -> cluster separation
+    '''
+    def __init__():
+
+
+        return True
+
+    def _transformer():
+
+
+        return True
+
+
+    def _filter():
+
+
+        return True
+
+    def _reducer():
+
+
+        return True
+
+
+    def _cluster():
+
+
+        return True
+
+
+    def cluster_separation():
+
+        return True 
+
+
+
+
+
+class classifier():
+    '''
+        transformer -> filter -> reducer -> simple classifier
+    '''
+
+    '''
+        transformer ->  filter -> reducer -> clustering -> cluster separation
+    '''
+    def __init__():
+
+
+        return True
+
+    def _transformer():
+
+
+        return True
+
+
+    def _filter():
+
+
+        return True
+
+    def _reducer():
+
+
+        return True
+        
+
+    def _classifier():
+
+
+        return True
+
+    def classifier_scoring():
+
+
+        return True
