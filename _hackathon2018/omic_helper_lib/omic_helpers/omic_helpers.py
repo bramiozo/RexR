@@ -1596,17 +1596,17 @@ class association_ruler():
         where e.g. in the case of expression data the index would be the sample_id, and the item would be the feature bin's for that sample.
         '''
         if pre_ordered:
-            assert("Series" in str(type(order_item)), "For now we only allow Series for the pre_ordered data")
+            assert "Series" in str(type(order_item)), "For now we only allow Series for the pre_ordered data"
         else:
-            assert("DataFrame" in str(type(order_item)), "For now we only allow Dataframes for the non-ordered data")
+            assert "DataFrame" in str(type(order_item)), "For now we only allow Dataframes for the non-ordered data"
         if pre_ordered:
-            assert(order_item.shape[1]==1, "Your pre-ordered dataframe should only contain 1 column, \
+            assert order_item.shape[1]==1, "Your pre-ordered dataframe should only contain 1 column, \
                 the index column represents the sample_id or the order_id, the 1 column represents the \
-                feature bin or the product id")
+                feature bin or the product id"
         else:
             if sample_column is not None:
-                assert(sample_column in order_item.columns.tolist(), "You explicitly set the sample_column \
-                    but it is not present in the dataframe")
+                assert sample_column in order_item.columns.tolist(), "You explicitly set the sample_column \
+                    but it is not present in the dataframe"
                 order_item.set_index(sample_column, inplace=True)
 
         if debug:
@@ -1782,8 +1782,8 @@ def hausdorff(X,Y):
         X = X.values
     if "DataFrame" in str(type(Y)):
         Y = Y.values
-# returns H distance, index of sample in X and index of sample in Y that contribute the most to the H distance 
-return  sc.spatial.distance.directed_hausdorff(X, Y)
+    # returns H distance, index of sample in X and index of sample in Y that contribute the most to the H distance 
+    return  sc.spatial.distance.directed_hausdorff(X, Y)
 
 
 #######################################################################################################################
@@ -2079,96 +2079,47 @@ def precr(y_true, y_prob, thresh):
         PREC = TP / (TP + FP) if (TP + FP) > 0 else np.nan
         precr_arr.append((PREC, REC))
     return prec_arr
-
-
-
+'''
 class feature_expansion():
     def __init__():
-
+        return True
     def bulk_feature_expander():
         return True
-
     def iterative_feature_expander():
         return True
-
-        
-
 class clusterizer():
-    '''
-        transformer ->  filter -> reducer -> clustering -> cluster separation
-    '''
     def __init__():
-
-
         return True
-
     def _transformer():
-
-
         return True
-
-
     def _filter():
-
-
         return True
-
     def _reducer():
-
-
         return True
-
-
     def _cluster():
-
-
         return True
 
 
     def cluster_separation():
-
         return True 
-
-
-
-
-
 class classifier():
-    '''
-        transformer -> filter -> reducer -> simple classifier
-    '''
-
-    '''
-        transformer ->  filter -> reducer -> clustering -> cluster separation
-    '''
     def __init__():
-
-
         return True
 
     def _transformer():
-
-
         return True
 
 
     def _filter():
-
-
         return True
 
     def _reducer():
-
-
         return True
         
 
     def _classifier():
-
-
         return True
 
     def classifier_scoring():
-
-
         return True
+'''
