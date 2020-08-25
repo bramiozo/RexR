@@ -21,7 +21,7 @@ from sklearn.covariance import GraphicalLassoCV
 from sklearn.covariance import LedoitWolf
 from sklearn.covariance import EmpiricalCovariance
 
-from scipy.stats import ks_2samp as ks, wasserstein_distance as wass, spearmanr, energy_distance
+from scipy.stats import ks_2samp as ks, wasserstein_distance as wass, spearmanr, energy_distance, pearsonr
 from scipy.stats import chisquare, epps_singleton_2samp as epps
 
 from sklearn.decomposition import PCA, FastICA as ICA, FactorAnalysis as FA, MiniBatchSparsePCA as SparsePCA
@@ -757,22 +757,77 @@ def prob_exceed_scores(X, y):
         scores[jdx] = _exceed_score(xl, xr, xa)
     return scores
 
+
+"""
+Monotonic alignment
+"""
+def monotonic_alignment(X, y, return_df=False):
+    if "DataFrame" in str(type(X)):
+        inds = X.columns
+        X = X.values
+    else:
+        inds = np.arange(0, X.shape[1])
+    cols = ['mono_align']
+
+    ydiff = np.diff(y, axis=0)
+    Xdiff = np.diff(X, axis=0)
+
+    scores = np.zeros((X.shape[1]))
+    for jdx in range(0, X.shape[1]):
+        _x = np.sign(Xdiff[:, jdx])
+        _y = np.sign(ydiff[:])
+        scores[jdx] = np.dot(_x, _y)/(len(y)-1)
+    if return_df:
+        return pd.DataFrame(data=scores, index=inds, columns=cols)
+    else:
+        return scores
+
+
+"""
+Pearson applied to array
+"""
+def pearson_scores(X, y, return_df=False):
+    if "DataFrame" in str(type(X)):
+        inds = X.columns
+        X = X.values
+    else:
+        inds = np.arange(0, X.shape[1])
+    cols = ['pearson_score', 'pearson_pval']
+
+    #C = np.unique(y).shape[0]
+    scores = np.zeros((X.shape[1], 2))
+    for jdx in range(0, X.shape[1]):
+        _x = X[:, jdx]
+        _y = y[:]
+        scores[jdx, :] = pearsonr(_x, _y)
+    if return_df:
+        return pd.DataFrame(data=scores, index=inds, columns=cols)
+    else:
+        return scores
+
 """
 Spearman applied to array
 """
 
-def spearman_scores(X, y):
+def spearman_scores(X, y, return_df=False):
     if "DataFrame" in str(type(X)):
+        inds = X.columns
         X = X.values
-    C = np.unique(y).shape[0]
+    else:
+        inds = np.arange(0, X.shape[1])
+    cols = ['spearman_score', 'spearman_pval']
 
+    #C = np.unique(y).shape[0]
     scores = np.zeros((X.shape[1], 2))
     for jdx in range(0, X.shape[1]):
         sorted_ind = np.argsort(X[:, jdx])
         x_sorted = X[sorted_ind, jdx]
         y_sorted = y[sorted_ind]
         scores[jdx, :] = spearmanr(x_sorted, y_sorted)
-    return scores
+    if return_df:
+        return pd.DataFrame(data=scores, index=inds, columns=cols)
+    else:
+        return scores
 
 
 """
@@ -1102,7 +1157,7 @@ class fs_epps():
 #######################################################################################################################
 
 
-def _cov(x, lib='numpy', method='exact', inverse=False):
+def _cov(x, lib='numpy', method='empirical', inverse=False):
     # lib: numpy, scipy, sklearn
     # normalised: True/false  np.corrcoef if true
     # method: exact/shrunk/sparse/empirical
@@ -1147,7 +1202,9 @@ def _cov(x, lib='numpy', method='exact', inverse=False):
 def _Mahalanobis(v1, v2, inv_cov):
     return sc.spatial.distance.mahalanobis(v1, v2, inv_cov)
 
-
+def Mahalanobis(X):
+    cov, icov = _cov(X)
+    
 @jit
 def _skewness(x, logscale=False, bound=False, scale=1000, sample=False, bias=True):
     '''
@@ -1287,12 +1344,15 @@ def _qq2(x1, x2, qbins=15, plot=False, minkowski=2):
     return dist_euc/mm0/mm1*sm**2
 
 @jit
-def _wcorr(x1, x2, w):
+def wcorr(x1, x2, w):
     '''
     x1, x2 : array of size (N samples,) or (N, m)
     weights : weight of each sample/feature
     returns the weighted Pearson correlation
-    '''     
+    '''
+    if w is None:
+        w = np.ones(len(x1))
+
     mu1=np.mean(x1)
     mu2=np.mean(x2)
     xdv = x1-mu1
@@ -1326,7 +1386,7 @@ def _continuous_sim(x1, x2, fun=None, centered=False, w=None, minkowski=2):
         else:
             return fun(x1,x2, w=w)
 
-def _boolean_sim(x1, x2, fun=None, w=None):
+def boolean_sim(x1, x2, fun=None, w=None):
     '''
     x1, x2 : array of size (N samples,) or (N, m)
     fun : is function object that takes x1,x2,weights as input, e.g. hamming, jaccard, russellrao, kulsinski, sokalmichener, sokalsneath
@@ -1730,14 +1790,7 @@ class association_ruler():
 from scipy.spatial.distance import pdist, squareform
 from numba import jit, float32
 
-def distcorr(X, Y):
-    """ Compute the distance correlation function
-    
-    >>> a = [1,2,3,4,5]
-    >>> b = np.array([1,2,9,4,4])
-    >>> distcorr(a, b)
-    0.762676242417
-    """
+def _distcorr(X,Y):
     X = np.atleast_1d(X)
     Y = np.atleast_1d(Y)
     if np.prod(X.shape) == len(X):
@@ -1753,12 +1806,39 @@ def distcorr(X, Y):
     b = squareform(pdist(Y))
     A = a - a.mean(axis=0)[None, :] - a.mean(axis=1)[:, None] + a.mean()
     B = b - b.mean(axis=0)[None, :] - b.mean(axis=1)[:, None] + b.mean()
-    
-    dcov2_xy = (A * B).sum()/float(n * n)
-    dcov2_xx = (A * A).sum()/float(n * n)
-    dcov2_yy = (B * B).sum()/float(n * n)
-    dcor = np.sqrt(dcov2_xy)/np.sqrt(np.sqrt(dcov2_xx) * np.sqrt(dcov2_yy))
+
+    dcov2_xy = (A * B).sum() / float(n * n)
+    dcov2_xx = (A * A).sum() / float(n * n)
+    dcov2_yy = (B * B).sum() / float(n * n)
+    dcor = np.sqrt(dcov2_xy) / np.sqrt(np.sqrt(dcov2_xx) * np.sqrt(dcov2_yy))
     return dcor
+
+def distcorr(Xin, Yin, per_column=True, return_df=False):
+    """ Compute the distance correlation function
+    
+    >>> a = [1,2,3,4,5]
+    >>> b = np.array([1,2,9,4,4])
+    >>> distcorr(a, b)
+    0.762676242417
+    """
+    if per_column:
+        if return_df:
+            cols = Xin.columns
+            Xin = Xin.values
+        else:
+            cols = np.arange(0,Xin.shape[1])
+            if "DataFrame" in str(type(X)):
+                Xin = Xin.values
+        dcor = np.zeros(Xin.shape[1])
+        for j in range(0, Xin.shape[1]):
+            dcor[j] = _distcorr(Xin[:,j], Yin)
+
+        if return_df:
+            return pd.DataFrame(data=dcor, index=cols, columns=['dist_cor'])
+        else:
+            return dcor
+    else:
+        return _distcorr(Xin, Yin)
 
 
 #######################################################################################################################
@@ -1821,19 +1901,23 @@ def procrustes(X,Y):
 from minepy import MINE
 from minepy import cstats as MI_cstats, pstats as MI_pstats
 
-def mic_scores(X,Y=None, bins=10, alpha=0.6, c=16, est='mic_e'):
+def mic_scores(X, Y=None, alpha=0.6, c=16, est='mic_e', return_df=False):
     mic_miner = MINE(alpha=alpha, c=c, est=est)
 
-    if (X.shape[1]>0) and ((Y.shape[1] is None) or (Y.shape[1]>0)):
-        if Y is None:
-            mic_p, tic_p = MI_pstats(X, alpha=alpha, c=c, est=est)
-        else:
-            mic_p, tic_p = MI_cstats(X, Y, alpha=alpha, c=c, est=est)
-    
-    else:
-        raise ValueError("X,Y should be arrays with at least one column, Y can be None")
+    if "DataFrame" in str(type(X)):
+        cols = X.columns
+        X=X.values
 
-    return mic_p, tic_p
+    mic_results = np.zeros((X.shape[1], 3))
+    for j in range(0, X.shape[1]):
+        mic_miner.compute_score(X[:, j], Y)
+        mic_results[j,:] = mic_miner.mic(), mic_miner.tic(norm=True), mic_miner.mas()
+
+    if return_df:
+        return pd.DataFrame(data=mic_results, index=cols, columns=['MIC', 'TIC', 'MAS'])
+    else:
+        return mic_results
+
 
 
 #######################################################################################################################
@@ -1900,6 +1984,71 @@ def powerdiv_score(x1, x2, qranges, bins, _lambda):
 #######################################################################################################################
 #######################################################################################################################
 
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.impute import IterativeImputer, SimpleImputer
+
+class ReduceVIF(BaseEstimator, TransformerMixin):
+    # https://www.kaggle.com/ffisegydd/sklearn-multicollinearity-class
+    def __init__(self, thresh=5.0, impute=True, impute_strategy='median'):
+        # From looking at documentation, values between 5 and 10 are "okay".
+        # Above 10 is too high and so should be removed.
+        self.thresh = thresh
+
+        # The statsmodel function will fail with NaN values, as such we have to impute them.
+        # By default we impute using the median value.
+        # This imputation could be taken out and added as part of an sklearn Pipeline.
+        if impute:
+            if impute_strategy in ['median', 'mean', 'most_frequent']:
+                self.imputer = SimpleImputer(strategy=impute_strategy)
+            elif impute_strategy=='iterative':
+                self.imputer = IterativeImputer()
+            else:
+                raise(ValueError, f"imputance: {impute_strategy} is not supported at this moment")
+
+    def fit(self, X, y=None):
+        print('ReduceVIF fit')
+        if hasattr(self, 'imputer'):
+            self.imputer.fit(X)
+        return self
+
+    def transform(self, X, y=None):
+        print('ReduceVIF transform')
+        columns = X.columns.tolist()
+        if hasattr(self, 'imputer'):
+            X = pd.DataFrame(self.imputer.transform(X), columns=columns)
+        return ReduceVIF.calculate_vif(X, self.thresh)
+
+    @staticmethod
+    def calculate_vif(X, thresh=5.0):
+        # Taken from https://stats.stackexchange.com/a/253620/53565 and modified
+        dropped = True
+        while dropped:
+            variables = X.columns
+            dropped = False
+            vif = [variance_inflation_factor(X[variables].values, X.columns.get_loc(var)) for var in X.columns]
+
+            max_vif = max(vif)
+            if max_vif > thresh:
+                maxloc = vif.index(max_vif)
+                print(f'Dropping {X.columns[maxloc]} with vif={max_vif}')
+                X = X.drop([X.columns.tolist()[maxloc]], axis=1)
+                dropped = True
+        return X
+
+
+
+
+
+
+
+
+
+
+
+
+#######################################################################################################################
+#######################################################################################################################
 
 def get_accuracy_plots(y_test, y_pred, figax=None, make_plot=True):
     #
