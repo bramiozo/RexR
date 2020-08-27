@@ -813,6 +813,7 @@ def spearman_scores(X, y, return_df=False):
     if "DataFrame" in str(type(X)):
         inds = X.columns
         X = X.values
+        y = y.values
     else:
         inds = np.arange(0, X.shape[1])
     cols = ['spearman_score', 'spearman_pval']
@@ -1204,7 +1205,7 @@ def _Mahalanobis(v1, v2, inv_cov):
 
 def Mahalanobis(X):
     cov, icov = _cov(X)
-    
+
 @jit
 def _skewness(x, logscale=False, bound=False, scale=1000, sample=False, bias=True):
     '''
