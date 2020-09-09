@@ -1987,6 +1987,7 @@ def powerdiv_score(x1, x2, qranges, bins, _lambda):
 
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer, SimpleImputer
 
 class ReduceVIF(BaseEstimator, TransformerMixin):
