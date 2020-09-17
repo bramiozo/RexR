@@ -786,7 +786,7 @@ def monotonic_alignment(X, y, return_df=False):
 """
 Pearson applied to array
 """
-def pearson_scores(X, y, return_df=False):
+def pearson_scores(X, y, return_df=False, correction=None):
     if "DataFrame" in str(type(X)):
         inds = X.columns
         X = X.values
@@ -800,6 +800,9 @@ def pearson_scores(X, y, return_df=False):
         _x = X[:, jdx]
         _y = y[:]
         scores[jdx, :] = pearsonr(_x, _y)
+    if correction=='bonferroni':
+        dim = X.shape[1]
+        scores[:, 1] =  scores[:, 1]*dim # 1-np.power(1-scores[:, 1], dim)
     if return_df:
         return pd.DataFrame(data=scores, index=inds, columns=cols)
     else:
@@ -809,7 +812,7 @@ def pearson_scores(X, y, return_df=False):
 Spearman applied to array
 """
 
-def spearman_scores(X, y, return_df=False):
+def spearman_scores(X, y, return_df=False, correction=None):
     if "DataFrame" in str(type(X)):
         inds = X.columns
         X = X.values
@@ -825,6 +828,9 @@ def spearman_scores(X, y, return_df=False):
         x_sorted = X[sorted_ind, jdx]
         y_sorted = y[sorted_ind]
         scores[jdx, :] = spearmanr(x_sorted, y_sorted)
+    if correction=='bonferroni':
+        dim = X.shape[1]
+        scores[:, 1] =  scores[:, 1]*dim #1-np.power(1-scores[:, 1], dim)
     if return_df:
         return pd.DataFrame(data=scores, index=inds, columns=cols)
     else:
@@ -1814,7 +1820,7 @@ def _distcorr(X,Y):
     dcor = np.sqrt(dcov2_xy) / np.sqrt(np.sqrt(dcov2_xx) * np.sqrt(dcov2_yy))
     return dcor
 
-def distcorr(Xin, Yin, per_column=True, return_df=False):
+def distcorr(Xin, Yin, per_column=True, return_df=False, columns=[]):
     """ Compute the distance correlation function
     
     >>> a = [1,2,3,4,5]
@@ -1825,17 +1831,31 @@ def distcorr(Xin, Yin, per_column=True, return_df=False):
     if per_column:
         if return_df:
             cols = Xin.columns
+            if len(Yin.shape)==1:
+                cols_y = 'dist_cor'
+            else:
+                cols_y = Yin.columns
+            if len(columns)==len(cols_y):
+                cols_y = columns
+
             Xin = Xin.values
+            Yin = Yin.values
         else:
             cols = np.arange(0,Xin.shape[1])
             if "DataFrame" in str(type(X)):
                 Xin = Xin.values
-        dcor = np.zeros(Xin.shape[1])
-        for j in range(0, Xin.shape[1]):
-            dcor[j] = _distcorr(Xin[:,j], Yin)
+            if "DataFrame" in str(type(Y)):
+                Yin = Yin.values
+
+        dcor = np.zeros((Xin.shape[1], Yin.shape[1]))
+        for i in range(0, Xin.shape[1]):
+            for j in range(0, Yin.shape[1]):
+                dcor[i, j] = _distcorr(Xin[:,i], Yin[:,j])
+        if Yin.shape[1]==1:
+            dcor = dcor.reshape((-1,1))
 
         if return_df:
-            return pd.DataFrame(data=dcor, index=cols, columns=['dist_cor'])
+            return pd.DataFrame(data=dcor, index=cols, columns=cols_y)
         else:
             return dcor
     else:
