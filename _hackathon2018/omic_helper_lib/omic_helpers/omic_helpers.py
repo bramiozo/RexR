@@ -786,19 +786,31 @@ def monotonic_alignment(X, y, return_df=False):
 """
 Pearson applied to array
 """
-def pearson_scores(X, y, return_df=False, correction=None):
+def pearson_scores(X, y, return_df=False, correction=None, loglog=False):
     if "DataFrame" in str(type(X)):
         inds = X.columns
         X = X.values
     else:
         inds = np.arange(0, X.shape[1])
-    cols = ['pearson_score', 'pearson_pval']
+    if loglog:
+        cols = ['pearson_loglog_score', 'pearson_loglog_pval']
+    else:
+        cols = ['pearson_score', 'pearson_pval']
 
     #C = np.unique(y).shape[0]
     scores = np.zeros((X.shape[1], 2))
+    eps = 1
+    yv = y + np.abs(np.min(y)) * (1 - np.sign(np.min(y)))*0.5 + eps
+
     for jdx in range(0, X.shape[1]):
-        _x = X[:, jdx]
-        _y = y[:]
+        if loglog:
+            xv = X[:, jdx]
+            xv = xv + np.abs(np.min(xv))*(1 - np.sign(np.min(xv)))*0.5 + eps
+            _x = np.log(xv)
+            _y = np.log(yv)
+        else:
+            _x = X[:, jdx]
+            _y = y[:]
         scores[jdx, :] = pearsonr(_x, _y)
     if correction=='bonferroni':
         dim = X.shape[1]
