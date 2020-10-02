@@ -67,6 +67,7 @@ def get_statdist_dataframe_binomial(X,Y, features):
     assert features is not None, 'You are required to provide the feature list,\n\r\t\t otherwise the dataframe cannot be indexed'
     assert len(features)== X.shape[1], 'The number of feature names given is not equal to the number of columns'
     assert len(Y) == X.shape[0], 'The number of rows in the matrix X is not the equal to the length of the target vector Y'
+    assert X.isna().sum().sum()==0, 'There are NaN\'s present in this dataset, please remove them' 
 
     if features is None:
         features = ['feat_' + i for i in range(0, X.shape[1])]
@@ -82,29 +83,31 @@ def get_statdist_dataframe_binomial(X,Y, features):
     logging.info("variance..")
     stat_dist['variance'] = variance_scores(X)
     logging.info("pca_imp..")
-    stat_dist['pca_imp'] = get_reducer_weights(X, PCA(n_components=50), cols=None, ncomp=50, weighted='expl_variance')
+    stat_dist['pca_imp'] = get_reducer_weights(X, PCA(n_components=num_features), cols=None, ncomp=num_features, weighted='expl_variance')
     logging.info("spca_imp..")
-    stat_dist['spca_imp'] = get_reducer_weights(X, SparsePCA(n_components=50, batch_size=5, method='lars'), cols=None, ncomp=50, weighted='linear')
+    stat_dist['spca_imp'] = get_reducer_weights(X, SparsePCA(n_components=num_features, batch_size=5, method='lars'), cols=None, ncomp=num_features, weighted='linear')
     logging.info("fa_imp..")
-    stat_dist['fa_imp'] = get_reducer_weights(X, FA(n_components=50), cols=None, ncomp=50, weighted='noise_variance')
+    stat_dist['fa_imp'] = get_reducer_weights(X, FA(n_components=num_features), cols=None, ncomp=num_features, weighted='noise_variance')
     logging.info("ica_imp..")
-    stat_dist['ica_imp'] = get_reducer_weights(X, ICA(n_components=50), cols=None, ncomp=50, weighted=None)
+    stat_dist['ica_imp'] = get_reducer_weights(X, ICA(n_components=num_features), cols=None, ncomp=num_features, weighted=None)
     logging.info("nmf_imp..")
-    stat_dist['nmf_imp'] = get_reducer_weights(X, NMF(n_components=50), cols=None, ncomp=50, weighted='linear')
+    stat_dist['nmf_imp'] = get_reducer_weights(X, NMF(n_components=num_features), cols=None, ncomp=num_features, weighted='linear')
     logging.info("dl_imp..")
-    stat_dist['dl_imp'] = get_reducer_weights(X, DictLearn(n_components=50), cols=None, ncomp=50, weighted=None)
+    stat_dist['dl_imp'] = get_reducer_weights(X, DictLearn(n_components=num_features), cols=None, ncomp=num_features, weighted=None)
 
     print("Processing minf/fscore/wass1/wass2...")
     logging.info("minf..")
     stat_dist['minf'] = Minfo(X, Y)
     logging.info("fscore..")
     stat_dist['fscore'] = Fval(X, Y)
+
     logging.info("Wass1..")
-    stat_dist['Wass1'] = wass1_scores(X, Y)
+    fswass1 = fs_ws1()
+    stat_dist['Wass1'] = fswass1.fit(X.values, Y).scores_
 
     fswass2 = fs_ws2()
     logging.info("Wass2..")
-    stat_dist['Wass2'] = fswass2.fit(X, Y).scores_
+    stat_dist['Wass2'] = fswass2.fit(X.values, Y).scores_
 
     print("Processing spearman and ks...")
     logging.info("spearman..")
@@ -219,9 +222,9 @@ def get_statdist_dataframe_binomial(X,Y, features):
     try:
         fsepps = fs_epps(pvalue=0.01)
         logging.info("Chi2..")
-        stat_dist['Chi2'] = chi2_scores(X, Y, bins=7)
+        stat_dist['Chi2'] = chi2_scores(X.values, Y, bins=7)
         logging.info("epps..")
-        stat_dist['epps'] = fsepps.fit(X, Y).scores_
+        stat_dist['epps'] = fsepps.fit(X.values, Y).scores_
     except Exception as e:
         print("Cross Chi2/Epps failed: {}".format(e))
         stat_dist['Chi2'] = nanvector
@@ -409,8 +412,8 @@ def chi2_scores(X,y, bins=10):
     scores = np.zeros((X.shape[1],))
     for jdx in range(0, scores.shape[0]):
         xa = X[:, jdx]
-        x1 = xa[np.argwhere(y == 0)]
-        x2 = xa[np.argwhere(y == 1)]
+        x1 = xa[y == 0]
+        x2 = xa[y == 1]
         qranges = np.quantile(xa, np.arange(0, 1, 1/bins))
         scores[jdx] = chi2_score(x1, x2, qranges, bins)
     return scores
@@ -480,23 +483,38 @@ def cdf_scoresB(X, y, dist_type="mink_rao"):
     if "DataFrame" in str(type(X)):
         X = X.values
     scores = np.zeros((X.shape[1],))
-    for jdx in range(0, scores.shape[0]):
-        scores[jdx] = _cdf_distanceB(X[np.argwhere(y==0)[:,0], jdx],
-                                     X[np.argwhere(y==1)[:,0], jdx],
-                                     bin_size=5,
-                                     minkowski=1,
-                                     dist_type=dist_type)
+    if len(y.shape)>1:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx] = _cdf_distanceB(X[np.argwhere(y==0)[:,0], jdx],
+                                         X[np.argwhere(y==1)[:,0], jdx],
+                                         bin_size=5,
+                                         minkowski=1,
+                                         dist_type=dist_type)
+    else:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx] = _cdf_distanceB(X[y==0, jdx],
+                                         X[y==1, jdx],
+                                         bin_size=5,
+                                         minkowski=1,
+                                         dist_type=dist_type)        
     return scores
 
 def cdf_scoresG(X, y, dist_type="emd"):
     if "DataFrame" in str(type(X)):
         X = X.values
     scores = np.zeros((X.shape[1],))
-    for jdx in range(0, scores.shape[0]):
-        scores[jdx] = _cdf_distanceG(X[np.argwhere(y==0)[:,0], jdx],
-                                     X[np.argwhere(y==1)[:,0], jdx],
-                                     bin_size=5,
-                                     dist_type=dist_type)
+    if len(y.shape)>1:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx] = _cdf_distanceG(X[np.argwhere(y==0)[:,0], jdx],
+                                         X[np.argwhere(y==1)[:,0], jdx],
+                                         bin_size=5,
+                                         dist_type=dist_type)
+    else:
+         for jdx in range(0, scores.shape[0]):
+            scores[jdx] = _cdf_distanceG(X[y==0, jdx],
+                                         X[y==1, jdx],
+                                         bin_size=5,
+                                         dist_type=dist_type)       
     return scores
 
 def _cdf_distanceB(x1, x2, bin_size=5, minkowski=1, dist_type='mink_rao'):
@@ -690,10 +708,16 @@ def var_dists(X, y):
     if "DataFrame" in str(type(X)):
         X = X.values
     scores = np.zeros((X.shape[1],))
-    for jdx in range(0, scores.shape[0]):
-        #gvar = np.var(X[:, jdx])
-        scores[jdx] = var_dist(X[np.argwhere(y==0)[:, 0], jdx],
-                           X[np.argwhere(y==1)[:, 0], jdx])
+    if len(y.shape)>1:
+        for jdx in range(0, scores.shape[0]):
+            #gvar = np.var(X[:, jdx])
+            scores[jdx] = var_dist(X[np.argwhere(y==0)[:, 0], jdx],
+                               X[np.argwhere(y==1)[:, 0], jdx])
+    else:
+         for jdx in range(0, scores.shape[0]):
+            #gvar = np.var(X[:, jdx])
+            scores[jdx] = var_dist(X[y==0, jdx],
+                                   X[y==1, jdx])       
     return scores
 
 @jit
@@ -708,10 +732,16 @@ def q_dists(X, y, q=0.5):
     if "DataFrame" in str(type(X)):
         X = X.values
     scores = np.zeros((X.shape[1],))
-    for jdx in range(0, scores.shape[0]):
-        scores[jdx] = q_dist(X[np.argwhere(y==0)[:, 0], jdx],
-                             X[np.argwhere(y==1)[:, 0], jdx],
-                             q=q)
+    if len(y.shape)>1:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx] = q_dist(X[np.argwhere(y==0)[:, 0], jdx],
+                                 X[np.argwhere(y==1)[:, 0], jdx],
+                                 q=q)
+    else:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx] = q_dist(X[y==0, jdx],
+                                 X[y==1, jdx],
+                                 q=q)        
     return scores
 
 def q_dist(x1, x2, q=0.5, weighted=True):
@@ -750,11 +780,18 @@ def prob_exceed_scores(X, y):
         X = X.values
     scores = np.zeros((X.shape[1],))
     np.random.seed(1234)
-    for jdx in range(0, scores.shape[0]):
-        xa = X[:, jdx]
-        xl = X[np.argwhere(y == 0)[:, 0], jdx]
-        xr = X[np.argwhere(y == 1)[:, 0], jdx]
-        scores[jdx] = _exceed_score(xl, xr, xa)
+    if len(y.shape)>1:
+        for jdx in range(0, scores.shape[0]):
+            xa = X[:, jdx]
+            xl = X[np.argwhere(y == 0)[:, 0], jdx]
+            xr = X[np.argwhere(y == 1)[:, 0], jdx]
+            scores[jdx] = _exceed_score(xl, xr, xa)
+    else:
+        for jdx in range(0, scores.shape[0]):
+            xa = X[:, jdx]
+            xl = X[y == 0, jdx]
+            xr = X[y == 1, jdx]
+            scores[jdx] = _exceed_score(xl, xr, xa)        
     return scores
 
 
@@ -828,7 +865,10 @@ def spearman_scores(X, y, return_df=False, correction=None):
     if "DataFrame" in str(type(X)):
         inds = X.columns
         X = X.values
-        y = y.values
+        try:
+            y = y.values
+        except:
+            pass
     else:
         inds = np.arange(0, X.shape[1])
     cols = ['spearman_score', 'spearman_pval']
@@ -857,9 +897,15 @@ def ks_scores(X,y):
     if "DataFrame" in str(type(X)):
         X = X.values
     scores = np.zeros((X.shape[1], 2))
-    for jdx in range(0, scores.shape[0]):
-        scores[jdx,:] = ks(X[np.argwhere(y==0)[:,0], jdx], 
-                           X[np.argwhere(y==1)[:,0], jdx])
+    if len(y.shape)>1:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx,:] = ks(X[np.argwhere(y==0)[:,0], jdx], 
+                               X[np.argwhere(y==1)[:,0], jdx])
+    else:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx,:] = ks(X[y==0, jdx], 
+                               X[y==1, jdx])        
+
     return scores
 
 
@@ -871,9 +917,14 @@ def wass1_scores(X,y):
     if "DataFrame" in str(type(X)):
         X = X.values
     scores = np.zeros((X.shape[1],))
-    for jdx in range(0, scores.shape[0]):
-        scores[jdx] = wass(X[np.argwhere(y==0)[:,0], jdx], 
-                           X[np.argwhere(y==1)[:,0], jdx])
+    if len(y.shape)>1:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx] = wass(X[np.argwhere(y==0)[:,0], jdx], 
+                               X[np.argwhere(y==1)[:,0], jdx])
+    else:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx] = wass(X[y==0, jdx], 
+                               X[y==1, jdx])        
     return scores
 
 
@@ -884,9 +935,15 @@ def ec_scores(X,y, num_bins=25, ent_type='kl'):
     if "DataFrame" in str(type(X)):
         X = X.values
     scores = np.zeros((X.shape[1],))
-    for jdx in range(0, scores.shape[0]):
-        scores[jdx] = _information_change(X[np.argwhere(y==0)[:,0], jdx], 
-                           		  X[np.argwhere(y==1)[:,0], jdx], num_bins=num_bins, ent_type='kl')
+
+    if len(y.shape)>1:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx] = _information_change(X[np.argwhere(y==0)[:,0], jdx], 
+                               		          X[np.argwhere(y==1)[:,0], jdx], num_bins=num_bins, ent_type='kl')
+    else:
+        for jdx in range(0, scores.shape[0]):
+            scores[jdx] = _information_change(X[y==0, jdx], 
+                                              X[y==1, jdx], num_bins=num_bins, ent_type='kl')
     return scores   
 
 
@@ -1067,8 +1124,8 @@ class fs_ws2():
     def fit(self, x, y):
         zero_idx = np.where(y == 0)[0]
         one_idx = np.where(y == 1)[0]
-        pos_samples = x[one_idx]
-        neg_samples = x[zero_idx]
+        pos_samples = x[y == 0]
+        neg_samples = x[y == 1]
         results_ = np.array(list(map(lambda c:
                                      self.apply_test(pos_samples, neg_samples, c), range(0, x.shape[1]))))
         self.scores_ = results_
