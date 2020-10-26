@@ -823,29 +823,56 @@ def monotonic_alignment(X, y, return_df=False):
 """
 Pearson applied to array
 """
-def pearson_scores(X, y, return_df=False, correction=None, loglog=False):
+def _psqueeze(x, eps=1e-1):
+    if len(x.shape)==1:
+        xr = np.abs(np.min(x))
+        xv = x + np.abs(np.min(x)) * (1 - np.sign(np.min(x)))*0.5 + eps
+        if np.sign(np.min(x))==-1:
+            xv *= 1/xr 
+    else:
+        xm = np.min(x, axis=0)
+        xr = np.abs(xm)
+        xv = x + xr * (1 - np.sign(xm))*0.5 + eps
+        idxNeg = np.where(np.sign(xm)==-1)
+        idxPos = np.where(np.sign(xm)==1) 
+        xv[:, idxNeg] = xv[:, idxNeg]/xr[idxNeg]
+    return xv   
+
+def pearson_scores(X, y, return_df=False, correction=None, loglog=False,
+                        transform=None, transform_param=None, cols=[]):
+    #TODO: generalise to other correlators, any correlator that gives a score and a p-value
+    assert (len(cols)==0) or (len(cols)==2), "Cols should contain 0 or 2 elements"
+    assert (loglog==False) | (transform==None), "If loglog is flagged, there cannot be a double log transform"
+    assert callable(transform) | (transform==None), "transform should be a None or a callable"
+
     if "DataFrame" in str(type(X)):
         inds = X.columns
         X = X.values
     else:
         inds = np.arange(0, X.shape[1])
-    if loglog:
-        cols = ['pearson_loglog_score', 'pearson_loglog_pval']
-    else:
+
+    if len(cols)==0:
         cols = ['pearson_score', 'pearson_pval']
 
-    #C = np.unique(y).shape[0]
-    scores = np.zeros((X.shape[1], 2))
-    eps = 1
-    yv = y + np.abs(np.min(y)) * (1 - np.sign(np.min(y)))*0.5 + eps
+    if transform is not None:
+        if 'log' in str(transform):
+            X = _psqueeze(X)
+        assert np.isnan(X).sum()==0, "X contains NaN's"
 
+        X = transform(X) if transform_param is None else transform(X, transform_param)
+
+    scores = np.zeros((X.shape[1], 2))
+
+    
     for jdx in range(0, X.shape[1]):
         if loglog:
+            yv = _psqueeze(y)
             xv = X[:, jdx]
-            xv = xv + np.abs(np.min(xv))*(1 - np.sign(np.min(xv)))*0.5 + eps
+            xv = _psqueeze(xv)
             _x = np.log(xv)
             _y = np.log(yv)
         else:
+            yv = y
             _x = X[:, jdx]
             _y = y[:]
         scores[jdx, :] = pearsonr(_x, _y)
