@@ -2154,16 +2154,29 @@ class ReduceVIF(BaseEstimator, TransformerMixin):
                 dropped = True
         return X
 
+#######################################################################################################################
+#######################################################################################################################
+from gensim.models import Word2Vec
 
+def graph_embedder(X, y=None, how='Corr2Vec'):
+    '''
+    :param X: data matrix, without target variables
+    :param y: target variable
+    :param how: DeepWalk, Word2Vec, Sense2Vec, (Corr2Vec, HOPE, Node2Vec, Graph Factorisation, LLE)
+    :return: x_embedded
 
+    source: https://github.com/palash1992/GEM
+    '''
 
+    emb_dimension = 3
+    assert np.isnan(X).sum()>0, "Sorry, X should be squeeky clean!"
 
-
-
-
-
-
-
+    Xg = np.corrcoef(X,X)
+    if how == 'Word2Vec':
+        model = Word2Vec(Xg, size=emb_dimension, window=10, min_count=0, sg=1, hs=1, workers=8)
+    else:
+        raise(ValueError, "Sorry we only support Word2Vec for now..stay tuned!")
+    return x_embedded
 
 #######################################################################################################################
 #######################################################################################################################
@@ -2346,6 +2359,8 @@ def precr(y_true, y_prob, thresh):
         PREC = TP / (TP + FP) if (TP + FP) > 0 else np.nan
         precr_arr.append((PREC, REC))
     return prec_arr
+
+
 '''
 class feature_expansion():
     def __init__():
