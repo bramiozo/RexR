@@ -2159,6 +2159,7 @@ class ReduceVIF(BaseEstimator, TransformerMixin):
 from gensim.models import Word2Vec
 
 def graph_embedder(X, y=None, how='Corr2Vec'):
+    # TODO: FINISH!
     '''
     :param X: data matrix, without target variables
     :param y: target variable
@@ -2360,6 +2361,31 @@ def precr(y_true, y_prob, thresh):
         precr_arr.append((PREC, REC))
     return prec_arr
 
+from sklearn.base import BaseEstimator, TransformerMixin
+
+
+########################################################################
+class clusterizer(BaseEstimator, TransformerMixin):
+    # https://towardsdatascience.com/custom-transformers-and-ml-data-pipelines-with-python-20ea2a7adb65
+
+    def __init__(self, optimisation="silhouette", reducer="PCA", max_iter=50):
+        self.optimisation = optimisation
+        self.max_iter = max_iter
+        self.reducer = reducer
+
+    def _cluster(self):
+        return True
+
+    def _optimizer(self):
+        return True
+
+    def fit(self, X, y=None):
+        return True
+
+    def transform(self, X, y=None):
+        return True
+
+
 
 '''
 class feature_expansion():
@@ -2369,21 +2395,7 @@ class feature_expansion():
         return True
     def iterative_feature_expander():
         return True
-class clusterizer():
-    def __init__():
-        return True
-    def _transformer():
-        return True
-    def _filter():
-        return True
-    def _reducer():
-        return True
-    def _cluster():
-        return True
 
-
-    def cluster_separation():
-        return True 
 class classifier():
     def __init__():
         return True
