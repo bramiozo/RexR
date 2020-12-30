@@ -34,6 +34,8 @@ import logging
 
 TO-DO's :
 
+class test_selector
+
 class binomial_feature_evaluator
 
 class multinomial_feature_evaluator
@@ -64,6 +66,9 @@ Specifically:
 
 
 def get_statdist_dataframe_binomial(X,Y, features):
+    '''
+    Assumes numerical independent variables with a binomial target
+    '''
     assert features is not None, 'You are required to provide the feature list,\n\r\t\t otherwise the dataframe cannot be indexed'
     assert len(features)== X.shape[1], 'The number of feature names given is not equal to the number of columns'
     assert len(Y) == X.shape[0], 'The number of rows in the matrix X is not the equal to the length of the target vector Y'
@@ -427,6 +432,37 @@ def chi2_score(x1, x2, qranges, bins):
     freq1[i+1] = np.where(x1 >= qranges[i+1])[0].shape[0]
     freq2[i+1] = np.where(x2 >= qranges[i+1])[0].shape[0]
     return chisquare(freq1, freq2)[0]
+
+def welch_scores(X,y):
+    if "DataFrame" in str(type(X)):
+        X = X.values
+    scores = np.zeros((X.shape[1],2))
+    for jdx in range(0, scores.shape[0]):
+        xa = X[:, jdx]
+        x1 = xa[y == 0]
+        x2 = xa[y == 1]
+        scores[jdx, :] = welch_score(x1, x2)
+    return scores
+
+@jit
+def welch_score(x1, x2):
+    return sc.stats.ttest_ind(x1, x2, equal_var=False)
+
+# TODO: add variance tests, Brown-Forsythe, Levene, Bartlett, Fligner-Killeen
+
+# TODO: add Silverman's bandwidth test, excess mass test
+
+
+def bimodality_coefficient(x, sample_based=True):
+    '''
+    Sarle's bimodality coefficient
+    '''
+    skewness = _skewness(x)
+    kurtosis = _kurtosis(x)
+    if sample_based==False:
+        return (skewness**2+1)/kurtosis
+    else:
+        return (skewness**2+1)/(kurtosis+3*(n-1)**2/(n-1)/(n-2))
 
 @jit
 def _cdf(x, bin_size=5):
@@ -1367,7 +1403,7 @@ def _rjb(x, C1=6, C2=64):
 
 @jit
 def fisher_criterion(v1, v2):
-    N = m1.shape[0]
+    N = v1.shape[0]
     m1, m2 = np.mean(v1), np.mean(v2)
     s1, s2 = np.var(v1), np.var(v2)
     return np.abs(m1-m2)/(s1+s2)
@@ -1381,6 +1417,7 @@ def _multimodality(x, method='hartigan'):
     # multi-modality can be extracted from the number of inflection points on a q-q plot 
     if method=='hartigan':
         return len(UniDip(x).run())
+    # TODO: add Silverman's test, excess mass test
     
 def _qq(x, cdist=stats.norm, minkowski=2, plot=None):
     # surface area,max_slope,min_slope
