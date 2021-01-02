@@ -48,6 +48,15 @@ class feature_expansion
     bulk_feature_expander
     iterative_feature_expander
 
+class stat_test
+    test_inference
+    paired
+    unpaired
+    ordinal
+    cardinal
+    proportional
+    continous
+
 separate functions:
 recursive_feature_splitter
 information_gain
@@ -452,6 +461,7 @@ def welch_score(x1, x2):
 
 # TODO: add Silverman's bandwidth test, excess mass test
 
+# TODO: add Wilcoxon signed-rank, paired T-test
 
 def bimodality_coefficient(x, sample_based=True):
     '''
