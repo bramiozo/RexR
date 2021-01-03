@@ -9,7 +9,7 @@ setuptools.setup(
     name='omic_helpers',
     license="GNU GPLv3",
     description='OMIC helpers, for your multi faceted nightmares',
-    version='0.0.8',
+    version='0.0.9',
     long_description=README,
     packages=setuptools.find_packages(),
     python_requires=">=3.7",

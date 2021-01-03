@@ -28,6 +28,7 @@ from sklearn.decomposition import PCA, FastICA as ICA, FactorAnalysis as FA, Min
 from sklearn.decomposition import MiniBatchDictionaryLearning as DictLearn, NMF
 from sklearn.feature_selection import mutual_info_classif as Minfo, f_classif as Fval, chi2
 
+from sklearn.preprocessing import QuantileTransformer, StandardScaler, MinMaxScaler
 import logging
 
 '''
@@ -821,6 +822,41 @@ def monotonic_alignment(X, y, return_df=False):
 
 
 """
+t-test applied to array
+"""
+def ttest_scores_paired(X,y, return_df=False, correction='bonferroni'):
+    """
+    Paired t-test, assumes that the samples have the same variance, H0: the variance is the same
+    first perform quantile transformation or standardization
+    """
+
+    if "DataFrame" in str(type(X)):
+        inds = X.columns
+        X = X.values
+        try:
+            y = y.values
+        except:
+            pass
+    else:
+        inds = np.arange(0, X.shape[1])
+    cols = ['ttest_score', 'ttest_pval']
+
+    scores = np.zeros((X.shape[1], 2))
+    for jdx in range(0, X.shape[1]):
+        sorted_ind = np.argsort(X[:, jdx])
+        x_sorted = X[sorted_ind, jdx]
+        y_sorted = y[sorted_ind]
+        scores[jdx, :] = sc.stats.ttest_rel(x_sorted, y_sorted, nan_policy='omit', equal_var=False)
+    if correction=='bonferroni':
+        dim = X.shape[1]
+        scores[:, 1] =  scores[:, 1]*dim
+    if return_df:
+        return pd.DataFrame(data=scores, index=inds, columns=cols)
+    else:
+        return scores
+
+
+"""
 Pearson applied to array
 """
 def _psqueeze(x, eps=1e-1):
@@ -934,7 +970,6 @@ def ks_scores(X,y):
                                X[y==1, jdx])        
 
     return scores
-
 
 
 """
@@ -1342,6 +1377,9 @@ def _kurtosis(x, logscale=False, sample=False, bias=True):
     else:
         return stats.kurtosis(x, bias=bias, nan_policy='omit')
 
+def
+
+
 @jit
 def _stanmom(x, mom=3, logscale=False, mutype=0):
     # mom : 3 is skewness, 4 is kurtosis
@@ -1373,7 +1411,6 @@ def fisher_criterion(v1, v2):
     return np.abs(m1-m2)/(s1+s2)
 
 
-    
 from unidip import UniDip  
 import unidip.dip as dip
 def _multimodality(x, method='hartigan'):
@@ -1501,8 +1538,9 @@ def boolean_sim(x1, x2, fun=None, w=None):
 
 def stat_test_arr(x, test='AD', rescale=False):
     '''
+    Normality test
      wrapper to enable application of scipy statistical tests in groupby calls
-     test : 'AD', 'KS', 'SW', 'KS'
+     test : 'AD' (Anderson Darling), 'SW' (Shapiro Wilk), 'JB' (Jarque Bera), 'KS' (1-sides KS), 'normal' (K-squared)
     '''
     #x = np.array(x)        
     if test == 'AD':
@@ -1514,6 +1552,8 @@ def stat_test_arr(x, test='AD', rescale=False):
     elif test == 'JB':
         fun = sc.stats.jarque_bera
         corr = 1e5
+    elif test == 'normal':
+        fun = sc.stats.normaltest
     elif test == 'KS':
         fun = sc.stats.kstest
         corr = 5
@@ -1525,12 +1565,18 @@ def stat_test_arr(x, test='AD', rescale=False):
                 res[0,j] = fun(x.iloc[:,j])[0]
             else:
                 res[0,j] = np.tanh(fun(x.iloc[:,j])[0]*corr)
-    else:
+    elif test in ['KS']:
         for j in range(0,x.shape[1]):
             if rescale==False:
                 res[0,j] = fun(x.iloc[:,j], 'norm')[0]
             else:
                 res[0,j] = np.tanh(fun(x.iloc[:,j], 'norm')[0]*corr)
+    elif test in ['normal']:
+        for j in range(0,x.shape[1]):
+            if rescale==False:
+                res[0,j] = fun(x.iloc[:,j], nan_policy='omit')[0]
+            else:
+                res[0,j] = np.tanh(fun(x.iloc[:,j], nan_policy='omit')[0]*corr)
     return pd.DataFrame(data=res, columns=x.columns)
 
     
@@ -2050,6 +2096,12 @@ def mic_scores(X, Y=None, alpha=0.6, c=16, est='mic_e', return_df=False):
 
 
 
+#######################################################################################################################
+# Inverse dimension reduction
+#######################################################################################################################
+
+
+
 
 #######################################################################################################################
 # Odds ratio
@@ -2157,8 +2209,8 @@ class ReduceVIF(BaseEstimator, TransformerMixin):
 #######################################################################################################################
 #######################################################################################################################
 from gensim.models import Word2Vec
-
-def graph_embedder(X, y=None, how='Corr2Vec'):
+from sklearn.manifold import LocallyLinearEmbedding as LLE, Isomap as ISO, SpectralEmbedding as SPECTRAL
+def static_embedder(X, y=None, how='LLE', emb_dimension=3):
     # TODO: FINISH!
     '''
     :param X: data matrix, without target variables
@@ -2168,17 +2220,69 @@ def graph_embedder(X, y=None, how='Corr2Vec'):
 
     source: https://github.com/palash1992/GEM
     '''
-
-    emb_dimension = 3
     assert np.isnan(X).sum()>0, "Sorry, X should be squeeky clean!"
 
-    Xg = np.corrcoef(X,X)
-    if how == 'Word2Vec':
-        model = Word2Vec(Xg, size=emb_dimension, window=10, min_count=0, sg=1, hs=1, workers=8)
+    if how == 'LLE':
+        model = LLE(n_components=emb_dimension)
+    elif how == 'UMAP':
+        model = UMAP(n_components=emb_dimension)
+    elif how == 'ISOMAP':
+        model = ISO(n_components=emb_dimension, n_neighbors=5)
+    elif how == 'MLLE':
+        model = LLE(n_components=emb_dimension, method='modified')
+    elif how == 'SPECTRAL':
+        model = SPECTRAL(n_components=emb_dimension, affinity='nearest_neighbors')
     else:
         raise(ValueError, "Sorry we only support Word2Vec for now..stay tuned!")
-    return x_embedded
+    model.fit(X)
+    return model
 
+# TODO: finish
+def sequence_embedder(X, y, tindex, sindex, how='Word2Vec', emb_dimension=3):
+    '''
+    :param X: time series data
+    :param y: target variable, can be None
+    :param tindex: time index
+    :param how: Word2Vec, Corr2Vec, Time2Vec, FastText, GloVe, custom (sklearn-style)
+    :param emb_dimension: embedding dimension
+    :return: model that produce embedding given input data
+
+    # Word2Vec, FastText, GloVe -> use gensim? with customized input processor?
+    # GRU, LSTM, WaveNet
+
+    docs->[sentences->[]]
+
+    With numerical timeseries data we do not have characters but numbers; to frame
+    the numerical data in the context of sequence-encoding we need to create buckets
+    and subsequently we need to transform the sequences in a list of lists.
+
+    On the other hand, it would be extremely useful to have a library of fit/predict neural networks.
+    '''
+
+    if how.lower() in ['word2vec', 'fasttext', 'glove']:
+        # we need to create appropriate sequences: list of lists,
+        #
+        return True
+    elif how.lower() == 'Time2Vec':
+        return True
+    elif how.lower() == 'Corr2Vec':
+        return True
+    return model
+
+def graph_embedder(X, method='Node2Vec', n_dimensions=10, **kwargs):
+    '''
+    SpectralEmbedding, DeepWalk, Node2Vec, LINE, SDNE, Graph2Vec, Sub2Vec, AttentionWalk, metapath2vec, ARGA, GAE
+    :param X: similarity matrix
+    :return: Xreduced[X.shape[0], n_dims]
+    '''
+    if method.lower() in ['deepwalk', 'node2vec', 'line', 'sdne', 'graph2vec',
+                          'sub2vec', 'attentionwalk', 'metapath2vec', 'arga', 'gae','sageconv']:
+        embedder = neural_nets.graph_embedder(method=method, epochs=10, batch_size=, n_components=n_dimensions)
+    else:
+        embedder = sklearn.manifold.SpectralEmbedding(n_components=n_dimensions)
+
+
+    return True
 #######################################################################################################################
 #######################################################################################################################
 
