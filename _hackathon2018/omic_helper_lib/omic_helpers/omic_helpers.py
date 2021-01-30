@@ -462,8 +462,6 @@ def welch_score(x1, x2):
 
 # TODO: add Silverman's bandwidth test, excess mass test
 
-# TODO: add Wilcoxon signed-rank, paired T-test
-
 def bimodality_coefficient(x, sample_based=True):
     '''
     Sarle's bimodality coefficient
@@ -870,9 +868,9 @@ def monotonic_alignment(X, y, return_df=False):
 """
 t-test applied to array
 """
-def ttest_scores_paired(X,y, return_df=False, correction='bonferroni'):
+def ttest_scores_paired(X,y, return_df=False, correction='bonferroni', ):
     """
-    Paired t-test, assumes that the samples have the same variance, H0: the variance is the same
+    Paired t-test, assumes that the samples have the same variance
     first perform quantile transformation or standardization
     """
 
@@ -887,14 +885,54 @@ def ttest_scores_paired(X,y, return_df=False, correction='bonferroni'):
         inds = np.arange(0, X.shape[1])
     cols = ['ttest_score', 'ttest_pval']
 
-    scores = np.zeros((X.shape[1], 2))
-    for jdx in range(0, X.shape[1]):
-        sorted_ind = np.argsort(X[:, jdx])
-        x_sorted = X[sorted_ind, jdx]
-        y_sorted = y[sorted_ind]
-        scores[jdx, :] = sc.stats.ttest_rel(x_sorted, y_sorted, nan_policy='omit', equal_var=False)
+    Xn = sklearn.preprocessing.QuantileTransformer(output_distribution='normal').fit_transform(X)
+    yn = sklearn.preprocessing.QuantileTransformer(output_distribution='normal').fit_transform(y)
+
+    scores = np.zeros((Xn.shape[1], 2))
+    for jdx in range(0, Xn.shape[1]):
+        sorted_ind = np.argsort(Xn[:, jdx])
+        x_sorted = Xn[sorted_ind, jdx]
+        y_sorted = yn[sorted_ind]
+        scores[jdx, :] = sc.stats.ttest_rel(x_sorted, y_sorted, nan_policy='omit')
     if correction=='bonferroni':
-        dim = X.shape[1]
+        dim = Xn.shape[1]
+        scores[:, 1] =  scores[:, 1]*dim
+    if return_df:
+        return pd.DataFrame(data=scores, index=inds, columns=cols)
+    else:
+        return scores
+
+"""
+Wilcoxon signed rank test?
+"""
+def wsr_scores_paired(X,y, return_df=False, correction='bonferroni'):
+    """
+    Wilcoxon signed rank test, assumes that the samples have the same variance
+    first perform quantile transformation or standardization
+    """
+
+    if "DataFrame" in str(type(X)):
+        inds = X.columns
+        X = X.values
+        try:
+            y = y.values
+        except:
+            pass
+    else:
+        inds = np.arange(0, X.shape[1])
+    cols = ['wsr_score', 'wsr_pval']
+
+    Xn = sklearn.preprocessing.QuantileTransformer(output_distribution='normal').fit_transform(X)
+    yn = sklearn.preprocessing.QuantileTransformer(output_distribution='normal').fit_transform(y)
+
+    scores = np.zeros((Xn.shape[1], 2))
+    for jdx in range(0, Xn.shape[1]):
+        sorted_ind = np.argsort(Xn[:, jdx])
+        x_sorted = Xn[sorted_ind, jdx]
+        y_sorted = yn[sorted_ind]
+        scores[jdx, :] = sc.stats.wilcoxon(x_sorted, y_sorted)
+    if correction=='bonferroni':
+        dim = Xn.shape[1]
         scores[:, 1] =  scores[:, 1]*dim
     if return_df:
         return pd.DataFrame(data=scores, index=inds, columns=cols)

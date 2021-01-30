@@ -1,3 +1,73 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{10}
+
+\bibitem{Dedeurwaerder2014}
+Emilie Calonne, Francois Fuks, Gianluca Bontempi, Martin Bizet, Matthieu
+  Defrance, and Sarah Dedeurwaerder.
+\newblock A comprehensive overview of infinium humanmethylation450 data
+  processing.
+\newblock {\em Briefings in Bioinformatics}, 15(6):929--941, 08 2013.
+
+\bibitem{Chen2011}
+Badner J et~al. Chen~C, Grennan~K.
+\newblock Removing batch effects in analysis of expression microarray data: an
+  evaluation of six batch adjustment methods.
+\newblock {\em PLoS One}, 6(2), 2011.
+
+\bibitem{Du2010}
+P.~Du, X.~Zhang, C-C. Huang, N.~Jafari, W.A. Kibbe, L.~Hou, and S.M. Lin.
+\newblock Comparison of beta-value and m-value methods for quantifying
+  methylation levels by microarray analysis.
+\newblock {\em BMC Bioinformatics}, 11(587), 2010.
+
+\bibitem{Hicks2014}
+Stephanie~C. Hicks and Rafael~A. Irizarry.
+\newblock When to use quantile normalization?
+\newblock {\em bioRxiv}, 2014.
+
+\bibitem{Johnson2007}
+W.~Evan Johnson, Cheng Li, and Ariel Rabinovic.
+\newblock Adjusting batch effects in microarray expression data using empirical
+  bayes methods.
+\newblock {\em Biostatistics}, 8(1):118--127, 2007.
+
+\bibitem{Leek2010}
+J.T. Leek, R.B. Scharf, H.C. Braco, and et~al.
+\newblock Tackling the widespread and critical impact of batch effects in
+  high-throughput data.
+\newblock {\em Nat Rev Genet}, 11:733--739, 2011.
+
+\bibitem{Nygaard2015}
+V.~Nygaard, E.A. R{\o}dland, and E.~Hovig.
+\newblock Methods that remove batch effects while retaining group differences
+  may lead to exaggerated confidence in downstream analyses.
+\newblock {\em Biostatistics}, 17(1), 2015.
+
+\bibitem{Sun2011}
+Z.~Sun, H.S. Chai, Y.~Wu, and et~al.
+\newblock Batch effect correction for genome-wide methylation data with
+  illumina infinium platform.
+\newblock {\em BMC Med Genomics}, 4(84), 2011.
+
+\bibitem{Vinuela2018}
+Ana Vi\~{n}uela, Andrew~A Brown, Alfonso Buil, Pei-Chien Tsai, Matthew~N
+  Davies, Jordana~T Bell, Emmanouil~T Dermitzakis, Timothy~D Spector, and
+  Kerrin~S Small.
+\newblock Age-dependent changes in mean and variance of gene expression across
+  tissues in a twin cohort.
+\newblock {\em Human Molecular Genetics}, 27(4):732--741, 12 2017.
+
+\bibitem{Wang2015}
+Ting Wang, Weihua Guan, Jerome Lin, Nadia Boutaoui, Glorisa Canino, Jianhua
+  Luo, Juan~Carlos Celedon, and Wei Chen.
+\newblock A systematic study of normalization methods for infinium 450k
+  methylation data using whole-genome bisulfite sequencing data.
+\newblock {\em Epigenetics}, 10(7):662?669, 2015.
+\newblock PMID: 26036609.
+
+\bibitem{Wu2010}
+J.~Wu, Z.~Dai, Z.~Gao, and G.~Yuan.
+\newblock Linearity preserving nine-point schemes for diffusion equation on
+  distorted quadrilateral meshes.
+\newblock {\em J. Comput. Phys.}, 9(229):3382--3401, 2010.
 
 \end{thebibliography}
