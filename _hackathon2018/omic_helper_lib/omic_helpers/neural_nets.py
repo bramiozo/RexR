@@ -1,7 +1,7 @@
 '''
 Use simple pytorch-based API?:
 * skorch
-* pytorch lightning
+* pytorch lightning, lightning flash
 * fastai
 * ignite
 
@@ -11,6 +11,7 @@ Use simple pytorch-based API?:
 [] 1D CNN
 [] 2D CNN
 [] WaveNet
+[] TabNet
 [] TCN
 [] Graph2Vec, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/graph_embedding/graph2vec.html
 [] Role2Vec, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/node_embedding/structural/role2vec.html
@@ -27,9 +28,8 @@ Use simple pytorch-based API?:
 [] Node2Vec, pytorch geometric
 [] GAE, pytorch geometric
 [] SageConv, pytorch geometric
+[] PyTorch BigGraph, https://medium.com/dataseries/facebooks-pygraph-is-an-open-source-framework-for-capturing-knowledge-in-large-graphs-b52c0fb902e8
 '''
-
-
 
 
 

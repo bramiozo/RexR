@@ -2557,27 +2557,53 @@ from sklearn.base import BaseEstimator, TransformerMixin
 class clusterizer(BaseEstimator, TransformerMixin):
     # https://towardsdatascience.com/custom-transformers-and-ml-data-pipelines-with-python-20ea2a7adb65
 
-    def __init__(self, optimisation="silhouette", reducer="PCA", max_iter=50):
+    def __init__(self, optimisation="silhouette", reducer=umap.UMAP, clustering=sklearn.cluster.KMeans, max_iter=50):
+        '''
+        optimisation: 
+            unsupervised:
+                Silhouette, Adjusted Rand Index, Calinski-Harabasz Index, Davies-Bouldin Index
+            supervised:
+                max-min entropy, normalised Mutual Information, V-measure score
+            semi-supervised -> Mutual Information + Silhouette
+        '''
+
         self.optimisation = optimisation
         self.max_iter = max_iter
         self.reducer = reducer
+        self.clustering = clustering
+        self.max_iter = max_iter
 
     def _cluster(self):
         return True
 
     def _optimizer(self):
+        '''
+            Extract cluster separation scores and re-run fit, until 
+        '''
+
         return True
 
     def fit(self, X, y=None):
-        return True
+        self.clustering.fit(X,y)
 
     def transform(self, X, y=None):
+        '''
+            Assigns data points to clusters
+        '''
+        return True
+    
+    def fit_transform(self, X, y=None):
+        self.fit(X, y)
+        return self.transform(X)
+
+    def plot(self):
         return True
 
 
 
 '''
 class feature_expansion():
+    # featuretools, gplearn and custom
     def __init__():
         return True
     def bulk_feature_expander():
