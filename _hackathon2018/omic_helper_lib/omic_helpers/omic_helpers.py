@@ -7,6 +7,8 @@ import scipy.stats as stats
 import seaborn as sns
 from matplotlib import pyplot as plt
 from tqdm import tqdm
+import umap
+from sklearn import cluster
 
 import os
 import sys
@@ -64,6 +66,7 @@ information_gain
 association_rule_miner
 distance correlation/covariance
 maximal correlation
+phi_k correlation
 Bayes factor
 Random Matrix Theoretical signal
 ..
@@ -1461,9 +1464,6 @@ def _kurtosis(x, logscale=False, sample=False, bias=True):
     else:
         return stats.kurtosis(x, bias=bias, nan_policy='omit')
 
-def
-
-
 @jit
 def _stanmom(x, mom=3, logscale=False, mutype=0):
     # mom : 3 is skewness, 4 is kurtosis
@@ -2088,6 +2088,34 @@ def distcorr(Xin, Yin, per_column=True, return_df=False, columns=[]):
     else:
         return _distcorr(Xin, Yin)
 
+######################################################################################################################
+# Global correlation coefficient: g = np.sqrt(1-np.inverse(V_kk*np.inverse(Cov)_kk))
+######################################################################################################################
+def global_corr(X,c=None, sparse=False):
+    cov, invcov = _cov(x, inverse=True)   
+    if c=None:
+        gunit = np.zeros(X.shape[1])
+        gunit[c] = np.sqrt(1-1/(invcov[c,c])/cov[[c,c]])
+    else
+        gunit = np.zeros((1,))
+        gunit[0] = np.sqrt(1-1/(invcov[c,c])/cov[[c,c]])
+    return gunit 
+
+######################################################################################################################
+# PhiK 
+# create empirical bi-variate distribution of two features and determine Chi2 relative to expected Chi2 if it were
+# a bi-variate normal distribution. This is part of the https://github.com/KaveIO/PhiK package
+######################################################################################################################
+def phiK(X, c1=None, c2=None):
+    if c1 is None:
+        # all versus all..
+    elif c2 is not None:
+        # c1 versus c2
+    else:
+        # c1 versus all
+    
+    ds_empirical, _, _ = np.histogram2d(v1,v2, bins=_bins, density=True)
+    
 
 #######################################################################################################################
 # Maximal Correlation Analysis (MAC)
@@ -2362,11 +2390,9 @@ def graph_embedder(X, method='Node2Vec', n_dimensions=10, **kwargs):
     '''
     if method.lower() in ['deepwalk', 'node2vec', 'line', 'sdne', 'graph2vec',
                           'sub2vec', 'attentionwalk', 'metapath2vec', 'arga', 'gae','sageconv']:
-        embedder = neural_nets.graph_embedder(method=method, epochs=10, batch_size=, n_components=n_dimensions)
+        embedder = neural_nets.graph_embedder(method=method, epochs=10, batch_size=32, n_components=n_dimensions)
     else:
         embedder = sklearn.manifold.SpectralEmbedding(n_components=n_dimensions)
-
-
     return True
 #######################################################################################################################
 #######################################################################################################################
@@ -2557,7 +2583,8 @@ from sklearn.base import BaseEstimator, TransformerMixin
 class clusterizer(BaseEstimator, TransformerMixin):
     # https://towardsdatascience.com/custom-transformers-and-ml-data-pipelines-with-python-20ea2a7adb65
 
-    def __init__(self, optimisation="silhouette", reducer=umap.UMAP, clustering=sklearn.cluster.KMeans, max_iter=50):
+    
+    def __init__(self, optimisation="silhouette", reducer=umap.UMAP, clustering=cluster.KMeans, max_iter=50):
         '''
         optimisation: 
             unsupervised:
