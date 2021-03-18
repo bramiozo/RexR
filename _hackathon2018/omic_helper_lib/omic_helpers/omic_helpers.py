@@ -37,6 +37,11 @@ import logging
 
 TO-DO's :
 
+class embedding_explainer
+    use permutation to gauge feature influence;
+        (X,y=None) -> (Xred, reducer)
+        (X+dx, reducer) -> (Xred+dxr)
+
 class test_selector
 
 class binomial_feature_evaluator
@@ -1423,12 +1428,7 @@ def _cov(x, lib='numpy', method='empirical', inverse=False):
     else:
         return cov, None
 
-@jit
-def _Mahalanobis(v1, v2, inv_cov):
-    return sc.spatial.distance.mahalanobis(v1, v2, inv_cov)
 
-def Mahalanobis(X):
-    cov, icov = _cov(X)
 
 @jit
 def _skewness(x, logscale=False, bound=False, scale=1000, sample=False, bias=True):
@@ -2093,13 +2093,13 @@ def distcorr(Xin, Yin, per_column=True, return_df=False, columns=[]):
 ######################################################################################################################
 def global_corr(X,c=None, sparse=False):
     cov, invcov = _cov(x, inverse=True)   
-    if c=None:
+    if c is None:
         gunit = np.zeros(X.shape[1])
         gunit[c] = np.sqrt(1-1/(invcov[c,c])/cov[[c,c]])
-    else
+    else:
         gunit = np.zeros((1,))
         gunit[0] = np.sqrt(1-1/(invcov[c,c])/cov[[c,c]])
-    return gunit 
+    return gunit
 
 ######################################################################################################################
 # PhiK 
@@ -2107,15 +2107,80 @@ def global_corr(X,c=None, sparse=False):
 # a bi-variate normal distribution. This is part of the https://github.com/KaveIO/PhiK package
 ######################################################################################################################
 def phiK(X, c1=None, c2=None):
+    '''
+        TODO: FINISH
+    '''
     if c1 is None:
         # all versus all..
+        pass
     elif c2 is not None:
         # c1 versus c2
+        ds_empirical, _, _ = np.histogram2d(c1,c2, bins=_bins, density=True)
+        emean = np.array([np.mean(c1), np.mean(c2)])
+        ecov = np.cov(c1,c2)
+        ds_theoretical = np.random.multivariate_normal(emean, ecov, size=len(c1))
+        ds_theoretical_binned = np.histogram2d(ds_theoretical[:,0],
+                                               ds_theoretical[:,1],bins=_bins, density=True)
+
+        # perform Chi2 
+
     else:
         # c1 versus all
+        pass   
+    return True 
     
-    ds_empirical, _, _ = np.histogram2d(v1,v2, bins=_bins, density=True)
-    
+
+######################################################################################################################
+# Heller–Heller–Gorfine
+#
+######################################################################################################################
+
+
+
+
+######################################################################################################################
+# Hilbert-Schmidt Independence Criterion
+#
+######################################################################################################################
+
+
+
+
+
+######################################################################################################################
+# "Power Predictive Score"
+# Basically; how well does A predict B using a non-linear predictor.
+######################################################################################################################
+
+
+
+#######################################################################################################################
+# Mahalanobis distance;  cov, invcov = _cov(x, inverse=True)  -> _Mahalanobis(v1, v2, inv_cov)
+#######################################################################################################################
+
+@jit
+def _Mahalanobis(v1, v2, inv_cov):
+    return sc.spatial.distance.mahalanobis(v1, v2, inv_cov)
+
+def Mahalanobis(X, v1=None, v2=None, featurewise=True):
+    '''
+        X: numpy array, rows contains samples, columns contains features
+        v1: column index 
+        v2: column index
+    '''
+    if featurewise:
+        X = np.transpose(X) 
+    _, icov = _cov(X, inverse=True)
+    if v1 is None:
+        # all v. all
+        return sc.spatial.pdist(X, metric='mahalanobis', VI=icov)
+    elif v2 is None:
+        # v1 v. the X features
+        return sc.spatial.cdist(X,X[v2,:], metric='mahalanobis', VI=icov)
+    else:
+        # v1 v. v2
+        return _Mahalanobis(X[v1,:], X[v2,:], icov)
+
 
 #######################################################################################################################
 # Maximal Correlation Analysis (MAC)
@@ -2204,9 +2269,8 @@ def mic_scores(X, Y=None, alpha=0.6, c=16, est='mic_e', return_df=False):
 
 
 #######################################################################################################################
-# Random Matrix Theory
+# Random Matrix Theory, Marcenko-Pastur
 #######################################################################################################################
-
 
 
 #######################################################################################################################
