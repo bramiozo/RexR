@@ -23,12 +23,16 @@ from sklearn.covariance import GraphicalLassoCV
 from sklearn.covariance import LedoitWolf
 from sklearn.covariance import EmpiricalCovariance
 
-from scipy.stats import ks_2samp as ks, wasserstein_distance as wass, spearmanr, energy_distance, pearsonr
+from scipy.stats import ks_2samp as ks, wasserstein_distance as wass, spearmanr
+from scipy.stats import energy_distance, pearsonr, kendalltau, theilslopes, weightedtau
 from scipy.stats import chisquare, epps_singleton_2samp as epps
+
+import dcor
 
 from sklearn.decomposition import PCA, FastICA as ICA, FactorAnalysis as FA, MiniBatchSparsePCA as SparsePCA
 from sklearn.decomposition import MiniBatchDictionaryLearning as DictLearn, NMF
 from sklearn.feature_selection import mutual_info_classif as Minfo, f_classif as Fval, chi2
+from sklearn.metrics import mutual_info_score
 
 from sklearn.preprocessing import QuantileTransformer, StandardScaler, MinMaxScaler
 import logging
@@ -1180,13 +1184,17 @@ def ec_scores2(X,y, num_bins=25, ent_type='kl'):
     return scores
 
 def _kl_divergence(x1p, x2p):
-    return np.nansum(sc.special.kl_div(x1p, x2p))
+    return np.nansum(sc.special.rel_entr(x1p, x2p))
 
 def _js_divergence(x1p, x2p):
     return sc.spatial.distance.jensenshannon(x1p, x2p)
 
 def _cross_entropy(x1p,x2p):
-    return sc.stats.entropy(x1p, x2p)
+    return sc.stats.entropy(x1p) + sc.stats.entropy(x1p, x2p)
+
+def _joint_entropy(x1p,x2p, bins=10):
+    jdist = np.histogram2d(x1p, x2p, bins=bins)
+    return np.nansum(sc.stats.entropy(jdist))
 
 ################################################################################
 
@@ -2023,6 +2031,7 @@ class association_ruler():
 
 from scipy.spatial.distance import pdist, squareform
 from numba import jit, float32
+from joblib import Parallel, delayed
 
 def _distcorr(X,Y):
     X = np.atleast_1d(X)
@@ -2054,6 +2063,9 @@ def distcorr(Xin, Yin, per_column=True, return_df=False, columns=[]):
     >>> b = np.array([1,2,9,4,4])
     >>> distcorr(a, b)
     0.762676242417
+
+    TODO: add bootstrap option for p-value estimation : https://gist.github.com/raphaelvallat/386da9eff858b8bd2e647bc1be4c7566
+    TODO: if not performant; use https://dcor.readthedocs.io/en/latest/performance.html#paralllel-computation-of-distance-covariance
     """
     if per_column:
         if return_df:
@@ -2078,6 +2090,7 @@ def distcorr(Xin, Yin, per_column=True, return_df=False, columns=[]):
         for i in range(0, Xin.shape[1]):
             for j in range(0, Yin.shape[1]):
                 dcor[i, j] = _distcorr(Xin[:,i], Yin[:,j])
+
         if Yin.shape[1]==1:
             dcor = dcor.reshape((-1,1))
 
@@ -2102,33 +2115,115 @@ def global_corr(X,c=None, sparse=False):
     return gunit
 
 ######################################################################################################################
-# PhiK 
+# Cramer Phi 
 # create empirical bi-variate distribution of two features and determine Chi2 relative to expected Chi2 if it were
 # a bi-variate normal distribution. This is part of the https://github.com/KaveIO/PhiK package
 ######################################################################################################################
-def phiK(X, c1=None, c2=None):
-    '''
-        TODO: FINISH
-    '''
-    if c1 is None:
-        # all versus all..
-        pass
-    elif c2 is not None:
-        # c1 versus c2
-        ds_empirical, _, _ = np.histogram2d(c1,c2, bins=_bins, density=True)
-        emean = np.array([np.mean(c1), np.mean(c2)])
-        ecov = np.cov(c1,c2)
-        ds_theoretical = np.random.multivariate_normal(emean, ecov, size=len(c1))
-        ds_theoretical_binned = np.histogram2d(ds_theoretical[:,0],
-                                               ds_theoretical[:,1],bins=_bins, density=True)
+def cramer_phi(v1,v2, nbins=5, nruns=100):
+    N=len(v1)
 
-        # perform Chi2 
+    ecov = np.cov(v1, v2)
+    emp_m = np.array([np.median(v1), np.median(v2)])
 
+    x2_list = []
+    p2_list = []
+    for k in range(nruns):
+        bivar=np.random.multivariate_normal(emp_m, ecov, size=N)
+        bivar_freq = 10000*np.histogram2d(bivar[:,0], bivar[:,1], bins=nbins, density=False)[0]+1
+        emp_freq = 10000*np.histogram2d(v1, v2, bins=nbins, density=False)[0]+1
+
+        bivar_freq = bivar_freq
+        emp_freq = emp_freq
+
+        x2 = np.nanmedian(chi2_contingency(bivar_freq, emp_freq)[0])
+        p2 = np.nanmean(chi2_contingency(bivar_freq, emp_freq)[1])
+
+        x2_list.append(np.sqrt(x2/np.sum(emp_freq)/nbins))
+        p2_list.append(p2)
+    return np.mean(x2_list), np.mean(p2_list)
+
+
+######################################################################################################################
+# Differential entropy
+######################################################################################################################
+
+def _numBins(nObs, corr=None):
+    # source Machine learning for asset manager by Marcos M. Lopez de Prado 
+    if corr is None:
+        z = np.power(8+324*nObs+12*np.sqrt(36*nObs+729*nObs**2), 1//3)
+        b = round(z//6 +2//(3*z)+1//3)
     else:
-        # c1 versus all
-        pass   
-    return True 
-    
+        b = round(np.power(2, -0.5)*np.sqrt(1+np.sqrt(1+24*nObs//(1-corr**2))))
+    return int(b)
+
+def differential_entropy(v1,v2, bins=None, norm=False):
+    # source Machine learning for asset manager by Marcos M. Lopez de Prado 
+    if isinstance(bins, int):
+        bXY = bins    
+    else:
+        bXY = _numBins(v1.shape[0], corr=np.corrcoef(v1, v2)[0,1])
+    cXY = np.histogram2d(x,y, bXY)[0]
+    iXY = mutual_info_score(None, None, contingency=cXY)
+    hX = sc.stats.entropy(np.histogram(v1, bins)[0])
+    hY = sc.stats.entropy(np.histogram(v2, bins)[0])
+    vXY = hX+hY-2*iXY
+    if norm:
+        hXY = hX+hY-iXY
+        vXY /= hXY
+    return vXY
+
+######################################################################################################################
+# Mutual Information
+######################################################################################################################
+
+def mutual_information(v1,v2, bins=None, norm=False):
+    # source Machine learning for asset manager by Marcos M. Lopez de Prado 
+    if isinstance(bins, int):
+        bXY = bins    
+    else:
+        bXY = _numBins(v1.shape[0], corr=np.corrcoef(v1, v2)[0,1])
+    cXY = np.histogram2d(v1, v2, bXY)[0]
+    iXY = mutual_info_score(None, None, contingency=cXY)
+    if norm:
+        hX = sc.stats.entropy(np.histogram(x, bXY)[0])
+        hY = sc.stats.entropy(np.histogram(y, bXY)[0])
+        iXY /= min(hX, hY)
+    return iXY
+
+######################################################################################################################
+# Mean Absolute Piecewise Similarity
+# non-overlapping 2D patches with some similarity metric
+######################################################################################################################
+
+
+
+######################################################################################################################
+# Statistical pairwise difference
+# Kullback-Leibler, Cross-entropy, Jensen-Shannon, Pearson, Spearman, Kendal-tau
+# paired t-test, Wilcoxon signed-rank
+######################################################################################################################
+
+# Spearman: spearmanr(v1,v2) 
+# Pearson: pearsonr(v1,v2)
+# Kendall-tau: kendalltau(v1,v2)
+# weighted Kendall-Tau: weightedtau(v1,v2)
+
+def statistical_distance(v1,v2):
+    peardist,pearpval = pearsonr(v1,v2)
+    speardist,spearpval = spearmanr(v1,v2)
+    kendalldist,kendallpval = kendalltau(v1,v2)
+    wtaudist,wtaupval = weightedtau(v1,v2)
+    dcor_cor = dcor.distance_correlation_sqrt(v1, v2, exponent=0.5,  method='AVL')
+    dcor_pval = dcor.distance_correlation_t_test(v1,v2)
+    dcoru_cor = dcor.u_distance_correlation_sqrt(v1, v2, exponent=0.5,  method='AVL')
+    #wilcoxstat, wilcoxpval = sc.stats.wilcoxon(v1,v2)
+    #tteststat, ttestpval = sc.stats.ttest_rel(v1,v2)
+
+    dists = [peardist, speardist, kendalldist, wtaudist, dcor_cor, dcoru_cor, dcoru_cor]
+    pvals = [pearpval, spearpval, kendallpval, wtaupval, dcor_pval, None, None]
+
+    return dists,pvals
+
 
 ######################################################################################################################
 # Heller–Heller–Gorfine
@@ -2277,7 +2372,7 @@ def mic_scores(X, Y=None, alpha=0.6, c=16, est='mic_e', return_df=False):
 # Inverse dimension reduction
 #######################################################################################################################
 
-
+# probabilistic PCA, FA, MDE
 
 
 #######################################################################################################################
@@ -2690,7 +2785,108 @@ class clusterizer(BaseEstimator, TransformerMixin):
     def plot(self):
         return True
 
+##################################################################################################
+## Shared Nearest Neighbors, SOURCE: https://github.com/albert-espin/snn-clustering/tree/master/ #
+##################################################################################################
 
+class SNN(BaseEstimator, ClusterMixin):
+    """Class for performing the Shared Nearest Neighbor (SNN) clustering algorithm.
+    Parameters
+    ----------
+    neighbor_num : int
+        K number of neighbors to consider for shared nearest neighbor similarity
+    min_shared_neighbor_proportion : float [0, 1]
+        Proportion of the K nearest neighbors that need to share two data points to be considered part of the same cluster
+    Note: Naming conventions for attributes are based on the analogous ones of DBSCAN
+    """
+
+    def snn(X, neighbor_num, min_shared_neighbor_num):
+        """Perform Shared Nearest Neighbor (SNN) clustering algorithm clustering.
+        Parameters
+        ----------
+        X : array or sparse (CSR) matrix of shape (n_samples, n_features), or array of shape (n_samples, n_samples)
+        A feature array
+        neighbor_num : int
+        K number of neighbors to consider for shared nearest neighbor similarity
+        min_shared_neighbor_num : int
+        Number of nearest neighbors that need to share two data points to be considered part of the same cluster
+        """
+
+        # for each data point, find their set of K nearest neighbors
+        knn_graph = kneighbors_graph(X, n_neighbors=neighbor_num, include_self=False)
+        neighbors = np.array([set(knn_graph[i].nonzero()[1]) for i in range(len(X))])
+
+        # the distance matrix is computed as the complementary of the proportion of shared neighbors between each pair of data points
+        snn_distance_matrix = np.asarray([[get_snn_distance(neighbors[i], neighbors[j]) for j in range(len(neighbors))] for i in range(len(neighbors))])
+
+        # perform DBSCAN with the shared-neighbor distance criteria for density estimation
+        dbscan = DBSCAN(min_samples=min_shared_neighbor_num, metric="precomputed")
+        dbscan = dbscan.fit(snn_distance_matrix)
+        return dbscan.core_sample_indices_, dbscan.labels_
+
+
+    def get_snn_similarity(x0, x1):
+        """Calculate the shared-neighbor similarity of two sets of nearest neighbors, normalized by the maximum number of shared neighbors"""
+
+        return len(x0.intersection(x1)) / len(x0)
+
+
+    def get_snn_distance(x0, x1):
+        """Calculate the shared-neighbor distance of two sets of nearest neighbors, normalized by the maximum number of shared neighbors"""
+
+        return 1 - get_snn_similarity(x0, x1)
+
+    def __init__(self, neighbor_num=20, min_shared_neighbor_proportion=0.55):
+
+        """Constructor"""
+
+        self.neighbor_num = neighbor_num
+        self.min_shared_neighbor_num = round(neighbor_num * min_shared_neighbor_proportion)
+
+    def fit(self, X):
+
+        """Perform SNN clustering from features or distance matrix.
+        Parameters
+        ----------
+        X : array or sparse (CSR) matrix of shape (n_samples, n_features), or array of shape (n_samples, n_samples)
+            A feature array
+        """
+
+        clusters = snn(X, neighbor_num=self.neighbor_num, min_shared_neighbor_num=self.min_shared_neighbor_num)
+        self.core_sample_indices_, self.labels_ = clusters
+        if len(self.core_sample_indices_):
+            # fix for scipy sparse indexing issue
+            self.components_ = X[self.core_sample_indices_].copy()
+        else:
+            # no core samples
+            self.components_ = np.empty((0, X.shape[1]))
+        return self
+
+    def fit_predict(self, X, y=None, sample_weight=None):
+        """Performs clustering on X and returns cluster labels.
+        Parameters
+        ----------
+        X : array or sparse (CSR) matrix of shape (n_samples, n_features), or \
+                array of shape (n_samples, n_samples)
+            A feature array, or array of distances between samples if
+            ``metric='precomputed'``.
+        sample_weight : array, shape (n_samples,), optional
+            Weight of each sample, such that a sample with a weight of at least
+            ``min_samples`` is by itself a core sample; a sample with negative
+            weight may inhibit its eps-neighbor from being core.
+            Note that weights are absolute, and default to 1.
+        y : Ignored
+        Returns
+        -------
+        y : ndarray, shape (n_samples,)
+            cluster labels
+        """
+        self.fit(X)
+        return self.labels_
+
+
+
+###################################################################################
 
 '''
 class feature_expansion():
