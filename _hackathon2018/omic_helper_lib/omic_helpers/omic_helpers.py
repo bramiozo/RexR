@@ -2105,38 +2105,59 @@ def distcorr(Xin, Yin, per_column=True, return_df=False, columns=[]):
 # Global correlation coefficient: g = np.sqrt(1-np.inverse(V_kk*np.inverse(Cov)_kk))
 ######################################################################################################################
 def global_corr(X,c=None, sparse=False):
-    cov, invcov = _cov(x, inverse=True)   
-    if c is None:
-        gunit = np.zeros(X.shape[1])
-        gunit[c] = np.sqrt(1-1/(invcov[c,c])/cov[[c,c]])
-    else:
+    cov, invcov = _cov(X, inverse=True)   
+    if c is not None:
+        # only consider column c
         gunit = np.zeros((1,))
         gunit[0] = np.sqrt(1-1/(invcov[c,c])/cov[[c,c]])
+    else:
+        # get global correlation for all columns
+        gunit = np.zeros((X.shape[1],))
+        for c in range(X.shape[1]):
+            gunit[c] = np.sqrt(1-1/(invcov[c,c])/cov[[c,c]])
     return gunit
 
 ######################################################################################################################
-# Cramer Phi 
+# Goodman-Kruskall's Gamma
+######################################################################################################################
+
+
+######################################################################################################################
+# Cramer Phi/V
 # create empirical bi-variate distribution of two features and determine Chi2 relative to expected Chi2 if it were
 # a bi-variate normal distribution. This is part of the https://github.com/KaveIO/PhiK package
+# https://stackoverflow.com/questions/20892799/using-pandas-calculate-cram%C3%A9rs-coefficient-matrix
+# https://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V
 ######################################################################################################################
-def cramer_phi(v1,v2, nbins=5, nruns=100):
+def cramer_phi(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, **kwargs):
+    # fitness_test : chi2_contingency, power_divergence, fisher_exact
+    # lambda_:0 for llr, lambda_:1 for chi2, lambda_:-1 for mllr
     N=len(v1)
-
+    pref = 1000
     ecov = np.cov(v1, v2)
     emp_m = np.array([np.median(v1), np.median(v2)])
 
     x2_list = []
     p2_list = []
     for k in range(nruns):
-        bivar=np.random.multivariate_normal(emp_m, ecov, size=N)
-        bivar_freq = 10000*np.histogram2d(bivar[:,0], bivar[:,1], bins=nbins, density=False)[0]+1
-        emp_freq = 10000*np.histogram2d(v1, v2, bins=nbins, density=False)[0]+1
+        #bivar=np.random.multivariate_normal(emp_m, ecov, size=N)
+        #bivar_freq = pref*np.histogram2d(bivar[:,0], bivar[:,1], bins=nbins, density=False)[0]+1
+
+        emp_freq = pref*np.histogram2d(v1, v2, bins=nbins, density=False)[0]+1
+        bivar_freq = np.zeros((nbins, nbins))
+        for i in range(nbins):
+            for j in range(nbins):
+                bivar_freq[i,j]= 1//N*(np.sum(emp_freq[i,:])*np.sum(emp_freq[:,j]))
 
         bivar_freq = bivar_freq
         emp_freq = emp_freq
 
-        x2 = np.nanmedian(chi2_contingency(bivar_freq, emp_freq)[0])
-        p2 = np.nanmean(chi2_contingency(bivar_freq, emp_freq)[1])
+        x2 = np.nanmean(fitness_test(bivar_freq, emp_freq, **kwargs)[0])
+        p2 = np.nanmean(fitness_test(bivar_freq, emp_freq, **kwargs)[1])
+
+        # chi2ped = nbins**2
+        # chi2max = N*nbins*pref
+        # x2 = chi2ped + x2*(chi2max-chi2ped)
 
         x2_list.append(np.sqrt(x2/np.sum(emp_freq)/nbins))
         p2_list.append(p2)
@@ -2190,11 +2211,29 @@ def mutual_information(v1,v2, bins=None, norm=False):
         iXY /= min(hX, hY)
     return iXY
 
+
 ######################################################################################################################
 # Mean Absolute Piecewise Similarity
 # non-overlapping 2D patches with some similarity metric
 ######################################################################################################################
+def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=100):
+    '''
+    Local
+         - (Normalise)
+         - Make 2D patches: max(10%_samples, min_samples),
+         - per patch determine correlation score
+         - return mean statistic and mean nlog of p-value
+    '''
 
+    assert np.max([min_percentage*len(v1), min_samples]) < len(v1), f'Lower min_samples to {min_percentage*len(v1)}'
+
+    # make patches
+
+    # cycle through patches
+
+    # get stats
+
+    return maps_score, p_value
 
 
 ######################################################################################################################
@@ -2227,7 +2266,7 @@ def statistical_distance(v1,v2):
 
 ######################################################################################################################
 # Heller–Heller–Gorfine
-#
+# https://academic.oup.com/biomet/article/100/2/503/202568?login=true
 ######################################################################################################################
 
 
@@ -2235,16 +2274,14 @@ def statistical_distance(v1,v2):
 
 ######################################################################################################################
 # Hilbert-Schmidt Independence Criterion
-#
+# https://arxiv.org/abs/1910.00270
 ######################################################################################################################
-
-
 
 
 
 ######################################################################################################################
 # "Power Predictive Score"
-# Basically; how well does A predict B using a non-linear predictor.
+# Basically; how well does A predict B using a non-linear predictor, based on cross-validated scores
 ######################################################################################################################
 
 
