@@ -9,6 +9,7 @@ from matplotlib import pyplot as plt
 from tqdm import tqdm
 import umap
 from sklearn import cluster
+from sklearn.base import BaseEstimator, TransformerMixin, ClusterMixin
 
 import os
 import sys
@@ -26,6 +27,7 @@ from sklearn.covariance import EmpiricalCovariance
 from scipy.stats import ks_2samp as ks, wasserstein_distance as wass, spearmanr
 from scipy.stats import energy_distance, pearsonr, kendalltau, theilslopes, weightedtau
 from scipy.stats import chisquare, epps_singleton_2samp as epps
+from scipy.stats import power_divergence as pdiv
 
 import dcor
 
@@ -94,33 +96,48 @@ def get_statdist_dataframe_binomial(X,Y, features):
     assert features is not None, 'You are required to provide the feature list,\n\r\t\t otherwise the dataframe cannot be indexed'
     assert len(features)== X.shape[1], 'The number of feature names given is not equal to the number of columns'
     assert len(Y) == X.shape[0], 'The number of rows in the matrix X is not the equal to the length of the target vector Y'
-    assert X.isna().sum().sum()==0, 'There are NaN\'s present in this dataset, please remove them' 
+
+    if 'numpy' in str(type(X)):
+        assert np.sum(np.isnan(X))==0, 'There are NaN\'s present in this dataset, please remove them' 
+    elif 'pandas' in str(type(X)):
+        assert X.isna().sum().sum()==0, 'There are NaN\'s present in this dataset, please remove them' 
+        X = X.values
+    else:
+        raise TypeError("input X must be either a numpy array or a dataframe")
 
     if features is None:
         features = ['feat_' + i for i in range(0, X.shape[1])]
 
     num_features = len(features)
+    num_samples = X.shape[0]
     nanvector = np.empty((num_features,))
     nanvector[:] = np.nan
+
 
     stat_dist = dict()
     logging.info("Processing diffentropy, variance scores, spca/pca/fa/ica/nmf/dl importances...")
     logging.info("diff entropy..")
-    stat_dist['diffentropy'] = diff_entropy_scores(X, eps=1e-6, bins=30)
+    stat_dist['diffentropy'] = diff_entropy_scores(X, eps=1e-6, bins=7)
     logging.info("variance..")
     stat_dist['variance'] = variance_scores(X)
     logging.info("pca_imp..")
-    stat_dist['pca_imp'] = get_reducer_weights(X, PCA(n_components=num_features), cols=None, ncomp=num_features, weighted='expl_variance')
+    stat_dist['pca_imp'] = get_reducer_weights(X, PCA(n_components=np.min([num_features, num_samples])), 
+                                                cols=None, ncomp=np.min([num_features, num_samples]), weighted='expl_variance')
     logging.info("spca_imp..")
-    stat_dist['spca_imp'] = get_reducer_weights(X, SparsePCA(n_components=num_features, batch_size=5, method='lars'), cols=None, ncomp=num_features, weighted='linear')
+    stat_dist['spca_imp'] = get_reducer_weights(X, SparsePCA(n_components=np.min([num_features, num_samples]), batch_size=3, method='lars'), 
+                                                cols=None, ncomp=np.min([num_features, num_samples]), weighted='linear')
     logging.info("fa_imp..")
-    stat_dist['fa_imp'] = get_reducer_weights(X, FA(n_components=num_features), cols=None, ncomp=num_features, weighted='noise_variance')
+    stat_dist['fa_imp'] = get_reducer_weights(X, FA(n_components=np.min([num_features, num_samples])), 
+                                                cols=None, ncomp=np.min([num_features, num_samples]), weighted='noise_variance')
     logging.info("ica_imp..")
-    stat_dist['ica_imp'] = get_reducer_weights(X, ICA(n_components=num_features), cols=None, ncomp=num_features, weighted=None)
+    stat_dist['ica_imp'] = get_reducer_weights(X, ICA(n_components=np.min([num_features, num_samples])), 
+                                                cols=None, ncomp=np.min([num_features, num_samples]), weighted=None)
     logging.info("nmf_imp..")
-    stat_dist['nmf_imp'] = get_reducer_weights(X, NMF(n_components=num_features), cols=None, ncomp=num_features, weighted='linear')
+    stat_dist['nmf_imp'] = get_reducer_weights(X-np.min(X), NMF(n_components=np.min([num_features, num_samples])), 
+                                                cols=None, ncomp=np.min([num_features, num_samples]), weighted='linear')
     logging.info("dl_imp..")
-    stat_dist['dl_imp'] = get_reducer_weights(X, DictLearn(n_components=num_features), cols=None, ncomp=num_features, weighted=None)
+    stat_dist['dl_imp'] = get_reducer_weights(X, DictLearn(n_components=np.min([num_features, num_samples])), 
+                                                cols=None, ncomp=np.min([num_features, num_samples]), weighted=None)
 
     print("Processing minf/fscore/wass1/wass2...")
     logging.info("minf..")
@@ -130,11 +147,11 @@ def get_statdist_dataframe_binomial(X,Y, features):
 
     logging.info("Wass1..")
     fswass1 = fs_ws1()
-    stat_dist['Wass1'] = fswass1.fit(X.values, Y).scores_
+    stat_dist['Wass1'] = fswass1.fit(X, Y).scores_
 
     fswass2 = fs_ws2()
     logging.info("Wass2..")
-    stat_dist['Wass2'] = fswass2.fit(X.values, Y).scores_
+    stat_dist['Wass2'] = fswass2.fit(X, Y).scores_
 
     print("Processing spearman and ks...")
     logging.info("spearman..")
@@ -147,9 +164,9 @@ def get_statdist_dataframe_binomial(X,Y, features):
         logging.info("seqentropy..")
         stat_dist['seqentropy'] = seq_entropy_scores(X, Y)
         logging.info("qseqentropy_prod..")
-        stat_dist['qseqentropy_prod'] = qseq_entropy_scores(X, Y, q_type='prod', bins=10)
+        stat_dist['qseqentropy_prod'] = qseq_entropy_scores(X, Y, q_type='prod', bins=7)
         logging.info("qseqentropy_sum..")
-        stat_dist['qseqentropy_sum'] = qseq_entropy_scores(X, Y, q_type='sum', bins=10)
+        stat_dist['qseqentropy_sum'] = qseq_entropy_scores(X, Y, q_type='sum', bins=7)
         logging.info("seqentropyX..")
         stat_dist['seqentropyX'] = seq_entropyX_scores(X, Y)
     except Exception as e:
@@ -220,11 +237,11 @@ def get_statdist_dataframe_binomial(X,Y, features):
     print("Processing cross entropies over class-seperated features...")
     try:
         logging.info("KL..")
-        stat_dist['KL'] = ec_scores2(X, Y, num_bins=11, ent_type='kl')
+        stat_dist['KL'] = ec_scores2(X, Y, num_bins=5, ent_type='kl')
         logging.info("Shan..")
-        stat_dist['Shan'] = ec_scores2(X, Y, num_bins=11, ent_type='shannon')
+        stat_dist['Shan'] = ec_scores2(X, Y, num_bins=5, ent_type='shannon')
         logging.info("Cross..")
-        stat_dist['Cross'] = ec_scores2(X, Y, num_bins=11, ent_type='cross')
+        stat_dist['Cross'] = ec_scores2(X, Y, num_bins=5, ent_type='cross')
     except Exception as e:
         print("Cross entropies failed: {}".format(e))
         stat_dist['KL'] = nanvector
@@ -234,11 +251,11 @@ def get_statdist_dataframe_binomial(X,Y, features):
     print("Processing cross entropies over random selects of feature-sorted and non-feature-sorted target vectors")
     try:
         logging.info("KL_sort..")
-        stat_dist['KL_sort'] = ecs_scores(X, Y, num_bins=21, ent_type='kl')
+        stat_dist['KL_sort'] = ecs_scores(X, Y, num_bins=7, ent_type='kl')
         logging.info("Shan_sort..")
-        stat_dist['Shan_sort'] = ecs_scores(X, Y, num_bins=21, ent_type='shannon')
+        stat_dist['Shan_sort'] = ecs_scores(X, Y, num_bins=7, ent_type='shannon')
         logging.info("Cross_sort..")
-        stat_dist['Cross_sort'] = ecs_scores(X, Y, num_bins=21, ent_type='cross')
+        stat_dist['Cross_sort'] = ecs_scores(X, Y, num_bins=7, ent_type='cross')
     except Exception as e:
         print("Cross entropies failed: {}".format(e))
         stat_dist['KL_sort'] = nanvector
@@ -249,13 +266,24 @@ def get_statdist_dataframe_binomial(X,Y, features):
     try:
         fsepps = fs_epps(pvalue=0.01)
         logging.info("Chi2..")
-        stat_dist['Chi2'] = chi2_scores(X.values, Y, bins=7)
+        stat_dist['Chi2'] = chi2_scores(X, Y, bins=7)
         logging.info("epps..")
-        stat_dist['epps'] = fsepps.fit(X.values, Y).scores_
+        stat_dist['epps'] = fsepps.fit(X, Y).scores_
     except Exception as e:
         print("Cross Chi2/Epps failed: {}".format(e))
         stat_dist['Chi2'] = nanvector
         stat_dist['epps'] = nanvector
+
+    try:
+        wass1_seqentr = stat_dist['seqentropy']*stat_dist['Wass1']
+        wass1_qseq_prod = stat_dist['qseqentropy_prod']*stat_dist['Wass1']
+        wass1_qseq_sum = stat_dist['qseqentropy_sum']*stat_dist['Wass1']
+        wass1_seqentropy = stat_dist['seqentropyX']*stat_dist['Wass1']
+    except:
+        wass1_seqentr = nanvector
+        wass1_qseq_prod = nanvector
+        wass1_qseq_sum = nanvector
+        wass1_seqentropy = nanvector
 
 
     # Combine in dataframe
@@ -279,10 +307,10 @@ def get_statdist_dataframe_binomial(X,Y, features):
                                                 stat_dist['KL_sort'],
                                                 stat_dist['Shan_sort'],
                                                 stat_dist['Cross_sort'],
-                                                stat_dist['seqentropy']*stat_dist['Wass1'],
-                                                stat_dist['qseqentropy_prod']*stat_dist['Wass1'],
-                                                stat_dist['qseqentropy_sum']*stat_dist['Wass1'],
-                                                stat_dist['seqentropyX']*stat_dist['Wass1'],
+                                                wass1_seqentr,
+                                                wass1_qseq_prod,
+                                                wass1_qseq_sum,
+                                                wass1_seqentropy,
                                                 stat_dist['cdf_1'],
                                                 stat_dist['cdf_2'],
                                                 stat_dist['cdf_3'],
@@ -2221,6 +2249,7 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=10
     Local
          - (Normalise)
          - Make 2D patches: max(10%_samples, min_samples),
+         - Rescale (or just center) per patch
          - per patch determine correlation score
          - return mean statistic and mean nlog of p-value
     '''
@@ -2422,9 +2451,6 @@ def mic_scores(X, Y=None, alpha=0.6, c=16, est='mic_e', return_df=False):
 #######################################################################################################################
 # Likelihood ratio test
 #######################################################################################################################
-
-from scipy.stats import power_divergence as pdiv
-
 
 def powerdiv_scores(X,y, bins=10, pdivtype='llr'):
     if pdivtype=='llr':
