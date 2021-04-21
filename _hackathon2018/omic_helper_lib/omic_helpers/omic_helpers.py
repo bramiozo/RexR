@@ -266,9 +266,9 @@ def get_statdist_dataframe_binomial(X,Y, features):
     try:
         fsepps = fs_epps(pvalue=0.01)
         logging.info("Chi2..")
-        stat_dist['Chi2'] = chi2_scores(X, Y, bins=7)
+        stat_dist['Chi2'] = chi2_scores(X, Y, bins=5)
         logging.info("epps..")
-        stat_dist['epps'] = fsepps.fit(X, Y).scores_
+        stat_dist['epps'] = np.array([fsepps.fit(X, Y).scores_, fsepps.fit(X, Y).pvalues_])
     except Exception as e:
         print("Cross Chi2/Epps failed: {}".format(e))
         stat_dist['Chi2'] = nanvector
@@ -337,7 +337,7 @@ def get_statdist_dataframe_binomial(X,Y, features):
                                         'seqentropy_wass1', 'qseqentropy_prod_wass1', 'qseqentropy_sum_wass1', 'seqentropyX_wass1',
                                         'CDF1', 'CDF2', 'CDF3', 'CDF4', 'CDF5', 'CDF6',
                                         'q5delta', 'q25delta', 'q75delta', 'var_dist', 'q5_acc', 'q75_acc', 'prob_exc',
-                                        'prob_exc_wass1', 'Chi2', 'Epps'],
+                                        'prob_exc_wass1', 'Chi2', 'EppsScore', 'EppsPval'],
                                index=features)
     return stat_dist_df    
 
@@ -633,7 +633,7 @@ def _cdf_distanceB(x1, x2, bin_size=5, minkowski=1, dist_type='mink_rao'):
         return sc.spatial.distance.russellrao(l1bump, l2bump)
 
 
-def _cdf_distanceG(x1, x2, bin_size=25, dist_type='emd'):
+def _cdf_distanceG(x1, x2, bin_size=5, dist_type='emd'):
     # also see PhD-thesis Gabriel Martos Venturini, Statistical distance and probability metrics for multivariate data..etc., June 2015 Uni. Carlos III de Madrid
     # https://core.ac.uk/download/pdf/30276753.pdf
     '''
@@ -2241,7 +2241,7 @@ def mutual_information(v1,v2, bins=None, norm=False):
 
 
 ######################################################################################################################
-# Mean Absolute Piecewise Similarity
+# Mean Absolute Piecewise Similarity (novel)
 # non-overlapping 2D patches with some similarity metric
 ######################################################################################################################
 def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=100):
@@ -2249,7 +2249,7 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=10
     Local
          - (Normalise)
          - Make 2D patches: max(10%_samples, min_samples),
-         - Rescale (or just center) per patch
+         - Recenter per patch
          - per patch determine correlation score
          - return mean statistic and mean nlog of p-value
     '''
@@ -2263,6 +2263,12 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=10
     # get stats
 
     return maps_score, p_value
+
+######################################################################################################################
+# Trajectory-based 
+# 
+######################################################################################################################
+
 
 
 ######################################################################################################################
