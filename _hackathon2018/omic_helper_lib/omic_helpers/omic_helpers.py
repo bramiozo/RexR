@@ -29,6 +29,8 @@ from scipy.stats import energy_distance, pearsonr, kendalltau, theilslopes, weig
 from scipy.stats import chisquare, epps_singleton_2samp as epps
 from scipy.stats import power_divergence as pdiv
 
+from scipy.optimize import brentq
+
 import dcor
 
 from sklearn.decomposition import PCA, FastICA as ICA, FactorAnalysis as FA, MiniBatchSparsePCA as SparsePCA
@@ -2151,45 +2153,84 @@ def global_corr(X,c=None, sparse=False):
 
 
 ######################################################################################################################
-# Cramer Phi/V
+# Cramer K-ish
 # create empirical bi-variate distribution of two features and determine Chi2 relative to expected Chi2 if it were
 # a bi-variate normal distribution. This is part of the https://github.com/KaveIO/PhiK package
 # https://stackoverflow.com/questions/20892799/using-pandas-calculate-cram%C3%A9rs-coefficient-matrix
 # https://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V
 ######################################################################################################################
-def cramer_phi(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, **kwargs):
+def cramer_kish(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, c=0, **kwargs):
     # fitness_test : chi2_contingency, power_divergence, fisher_exact
     # lambda_:0 for llr, lambda_:1 for chi2, lambda_:-1 for mllr
     N=len(v1)
-    pref = 1000
+    pref = 1
     ecov = np.cov(v1, v2)
-    emp_m = np.array([np.median(v1), np.median(v2)])
+    emp_m = np.array([np.median(v1), np.median(v2)], axis=1)
 
     x2_list = []
     p2_list = []
     for k in range(nruns):
-        #bivar=np.random.multivariate_normal(emp_m, ecov, size=N)
-        #bivar_freq = pref*np.histogram2d(bivar[:,0], bivar[:,1], bins=nbins, density=False)[0]+1
+        bivar=np.random.multivariate_normal(emp_m, ecov, size=N)
+        bivar_freq = pref*np.histogram2d(bivar[:,0], bivar[:,1], bins=nbins, density=False)[0]
 
-        emp_freq = pref*np.histogram2d(v1, v2, bins=nbins, density=False)[0]+1
-        bivar_freq = np.zeros((nbins, nbins))
-        for i in range(nbins):
-            for j in range(nbins):
-                bivar_freq[i,j]= 1//N*(np.sum(emp_freq[i,:])*np.sum(emp_freq[:,j]))
+        emp_freq, sx, sy = pref*np.histogram2d(v1, v2, bins=nbins, density=False)
+        #for i in range(nbins):
+        #    for j in range(nbins):
+        #        bivar_freq[i,j]= 1//N*(np.sum(emp_freq[i,:])*np.sum(emp_freq[:,j]))
 
         bivar_freq = bivar_freq
         emp_freq = emp_freq
 
-        x2 = np.nanmean(fitness_test(bivar_freq, emp_freq, **kwargs)[0])
-        p2 = np.nanmean(fitness_test(bivar_freq, emp_freq, **kwargs)[1])
+        nsdof = (nbins-1)**2 - np.sum(bivar_freq==0) 
+        x2ped = nsdof + c*np.sqrt(2.* nsdof)
+        x2max = N*(nbins-1)
+        
+        x2, p2, _, _ = chi2_contingency(emp_freq, lambda_='log-likelihood')
+
+        if x2<x2ped:
+            return 0, p2
+        elif x2>=x2max:
+            return 1, 0
+        else:
+            return brentq(chi2_from_phik, 0, 1, args=(N, chi2, corr0, scale, sx, sy, x2ped), xtol=1e-5)
+
+        #x2 = fitness_test(bivar_freq, emp_freq, **kwargs)[0]
+        #p2 = fitness_test(bivar_freq, emp_freq, **kwargs)[1]
 
         # chi2ped = nbins**2
         # chi2max = N*nbins*pref
         # x2 = chi2ped + x2*(chi2max-chi2ped)
 
-        x2_list.append(np.sqrt(x2/np.sum(emp_freq)/nbins))
-        p2_list.append(p2)
-    return np.mean(x2_list), np.mean(p2_list)
+    return 
+
+def cramer_phi(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, **kwargs):
+    # fitness_test : chi2_contingency, power_divergence, fisher_exact
+    # lambda_:0 for llr, lambda_:1 for chi2, lambda_:-1 for mllr
+    N=len(v1)
+    pref = 1
+
+    emp_freq = pref*np.histogram2d(v1, v2, bins=nbins, density=False)[0]
+    x2s = np.zeros((nbins, nbins))
+    for i in range(nbins):
+        for j in range(nbins):
+            x2s[i,j] = np.square(emp_freq[i,j] -  1//N*(np.sum(emp_freq[i,:])*np.sum(emp_freq[:,j])))
+            x2s[i,j]/= 1//N*(np.sum(emp_freq[i,:])*np.sum(emp_freq[:,j]))
+
+    x2 = np.sum(x2s[i,j])
+
+    # get p-val
+    coincnt = 0
+    for nrun in range(nruns):
+        emp_freq = pref*np.histogram2d(v1[np.random.randint(low=0, high=N, size=N)], 
+                                       v2[np.random.randint(low=0, high=N, size=N)], bins=nbins, density=False)[0]
+        x2s = np.zeros((nbins, nbins))
+        for i in range(nbins):
+            for j in range(nbins):
+                x2s[i,j] = np.square(emp_freq[i,j] -  1//N*(np.sum(emp_freq[i,:])*np.sum(emp_freq[:,j])))
+                x2s[i,j]/= 1//N*(np.sum(emp_freq[i,:])*np.sum(emp_freq[:,j]))
+        coincnt += (x2<=np.sum(x2s[i,j]))
+    pval = coincnt/nruns
+    return x2, pval
 
 
 ######################################################################################################################
@@ -2220,6 +2261,7 @@ def differential_entropy(v1,v2, bins=None, norm=False):
         hXY = hX+hY-iXY
         vXY /= hXY
     return vXY
+
 
 ######################################################################################################################
 # Mutual Information
@@ -2255,8 +2297,9 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=10
     '''
 
     assert np.max([min_percentage*len(v1), min_samples]) < len(v1), f'Lower min_samples to {min_percentage*len(v1)}'
-
     # make patches
+    bins
+
 
     # cycle through patches
 
@@ -2264,9 +2307,12 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=10
 
     return maps_score, p_value
 
+
 ######################################################################################################################
-# Trajectory-based 
-# 
+# Continuous Rule Combination
+# - Sum of angles = 0
+# - rotational invariance
+# - unimodality
 ######################################################################################################################
 
 
@@ -2301,7 +2347,7 @@ def statistical_distance(v1,v2):
 
 ######################################################################################################################
 # Heller–Heller–Gorfine
-# https://academic.oup.com/biomet/article/100/2/503/202568?login=true
+# https://academic.oup.com/biomet/article/100/2/503/202568
 ######################################################################################################################
 
 
