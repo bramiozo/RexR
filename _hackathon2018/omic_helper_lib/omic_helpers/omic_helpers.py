@@ -2163,6 +2163,105 @@ def global_corr(X,c=None, sparse=False):
 # https://stackoverflow.com/questions/20892799/using-pandas-calculate-cram%C3%A9rs-coefficient-matrix
 # https://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V
 ######################################################################################################################
+
+from scipy.stats import mvn
+
+def _mvn_un(rho: float, lower: tuple, upper: tuple) -> float:
+    '''Perform integral of bivariate normal gauss with correlation
+    Integral is performed using scipy's mvn library.
+    :param float rho: tilt parameter
+    :param tuple lower: tuple of lower corner of integral area
+    :param tuple upper: tuple of upper corner of integral area
+    :returns float: integral value
+    '''
+    mu = np.array([0., 0.])
+    S = np.array([[1., rho], [rho, 1.]])
+    p, i = mvn.mvnun(lower, upper, mu, S)
+    return p
+
+def _mvn_array(rho: float, sx: np.ndarray, sy: np.ndarray) -> list:
+    '''Array of integrals over bivariate normal gauss with correlation
+    Integrals are performed using scipy's mvn library.
+    
+    :param float rho: tilt parameter
+    :param np.ndarray sx: bin edges array of x-axis
+    :param np.ndarray sy: bin edges array of y-axis
+    :returns list: list of integral values
+    '''
+    # ranges = [([sx[i], sy[j]], [sx[i+1], sy[j+1]]) for i in range(len(sx) - 1) for j in range(len(sy) - 1)]
+    # corr = [mvn.mvnun(lower, upper, mu, S)[0] for lower, upper in ranges]
+    # return corr
+
+    # mean and covariance
+    mu = np.array([0., 0.])
+    S = np.array([[1., rho], [rho, 1.]])
+
+    # callling mvn.mvnun is expansive, so we only calculate half of the matrix, then symmetrize
+    # add half block, which is symmetric in x
+    odd_odd = False
+    ranges = [([sx[i], sy[j]], [sx[i+1], sy[j+1]]) for i in range((len(sx)-1)//2) for j in range(len(sy) - 1)]
+    # add odd middle row, which is symmetric in y
+    if (len(sx)-1) % 2 == 1:
+        i = (len(sx)-1)//2
+        ranges += [([sx[i], sy[j]], [sx[i+1], sy[j+1]]) for j in range((len(sy)-1)//2)]
+        # add center point, add this only once
+        if (len(sy)-1) % 2 == 1:
+            j = (len(sy)-1)//2
+            ranges.append(([sx[i], sy[j]], [sx[i+1], sy[j+1]]))
+            odd_odd = True
+
+    corr = np.array([_calc_mvnun(lower, upper, mu, S) for lower, upper in ranges])
+    # add second half, exclude center
+    corr = np.concatenate([corr, corr if not odd_odd else corr[:-1]])
+    return corr
+
+def _calc_mvnun(lower, upper, mu, S):
+    return mvn.mvnun(lower, upper, mu, S)[0]
+
+def _chi2_from_phik(rho: float, n: int, subtract_from_chi2:float=0,
+                   corr0:list=None, scale:float=None, sx:np.ndarray=None, sy:np.ndarray=None,
+                   pedestal:float=0, nx:int=-1, ny:int=-1) -> float:
+    '''Calculate chi2-value of bivariate gauss having correlation value rho
+    
+    Calculate no-noise chi2 value of bivar gauss with correlation rho,
+    with respect to bivariate gauss without any correlation.
+    
+    :param float rho: tilt parameter
+    :param int n: number of records
+    :param float subtract_from_chi2: value subtracted from chi2 calculation. default is 0.
+    :param list corr0: mvn_array result for rho=0. Default is None.
+    :param float scale: scale is multiplied with the chi2 if set.
+    :param np.ndarray sx: bin edges array of x-axis. default is None.
+    :param np.ndarray sy: bin edges array of y-axis. default is None.
+    :param float pedestal: pedestal is added to the chi2 if set.
+    :param int nx: number of uniform bins on x-axis. alternative to sx.
+    :param int ny: number of uniform bins on y-axis. alternative to sy.
+    :returns float: chi2 value    
+    '''
+
+    if corr0 is None:
+        corr0 = _mvn_array(0, sx, sy)
+    if scale is None:
+        # scale ensures that for rho=1, chi2 is the maximum possible value
+        corr1 = _mvn_array(1, sx, sy)
+        delta_corr2 = (corr1 - corr0) ** 2
+        # protect against division by zero
+        ratio = np.divide(delta_corr2, corr0, out=np.zeros_like(delta_corr2), where=corr0!=0)
+        chi2_one = n * np.sum(ratio)
+        # chi2_one = n * sum([((c1-c0)*(c1-c0)) / c0 for c0, c1 in zip(corr0, corr1)])
+        chi2_max = n * min(nx-1, ny-1)
+        scale = (chi2_max - pedestal) / chi2_one
+
+    corrr = _mvn_array(rho, sx, sy)
+    delta_corr2 = (corrr - corr0) ** 2
+    # protect against division by zero
+    ratio = np.divide(delta_corr2, corr0, out=np.zeros_like(delta_corr2), where=corr0!=0)
+    chi2_rho = n * np.sum(ratio)
+    # chi2_rho = (n * sum([((cr-c0)*(cr-c0)) / c0 for c0, cr in zip(corr0, corrr)]))
+
+    chi2 = pedestal + chi2_rho * scale
+    return chi2 - subtract_from_chi2
+
 def cramer_kish(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, c=0, **kwargs):
     # fitness_test : chi2_contingency, power_divergence, fisher_exact
     # lambda_:0 for llr, lambda_:1 for chi2, lambda_:-1 for mllr
@@ -2173,47 +2272,46 @@ def cramer_kish(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, c=0, **kwargs):
 
     x2_list = []
     p2_list = []
-    for k in range(nruns):
-        bivar=np.random.multivariate_normal(emp_m, ecov, size=N)
-        bivar_freq = pref*np.histogram2d(bivar[:,0], bivar[:,1], bins=nbins, density=False)[0]
+    #for k in range(nruns):
+    bivar=np.random.multivariate_normal(emp_m, ecov, size=N)
+    bivar_freq = pref*np.histogram2d(bivar[:,0], bivar[:,1], bins=nbins, density=False)[0]
 
-        emp_freq, sx, sy = pref*np.histogram2d(v1, v2, bins=nbins, density=False)
-        #for i in range(nbins):
-        #    for j in range(nbins):
-        #        bivar_freq[i,j]= 1//N*(np.sum(emp_freq[i,:])*np.sum(emp_freq[:,j]))
+    emp_freq, sx, sy = pref*np.histogram2d(v1, v2, bins=nbins, density=False)
+    #for i in range(nbins):
+    #    for j in range(nbins):
+    #        bivar_freq[i,j]= 1//N*(np.sum(emp_freq[i,:])*np.sum(emp_freq[:,j]))
 
-        bivar_freq = bivar_freq
-        emp_freq = emp_freq
+    bivar_freq = bivar_freq
+    emp_freq = emp_freq
 
-        nsdof = (nbins-1)**2 - np.sum(bivar_freq==0) 
-        x2ped = nsdof + c*np.sqrt(2.* nsdof)
-        x2max = N*(nbins-1)
-        
-        x2, p2, _, _ = chi2_contingency(emp_freq, lambda_='log-likelihood')
+    nsdof = (nbins-1)**2 - np.sum(bivar_freq==0) 
+    x2ped = nsdof + c*np.sqrt(2.* nsdof)
+    x2max = N*(nbins-1)
+    
+    x2, p2, _, _ = chi2_contingency(emp_freq, lambda_='log-likelihood')
 
-        scale = 
-        corr0 =
+    if x2<x2ped:
+        return 0, p2
+    elif x2>=x2max:
+        return 1, 0
+    else:
+        corr0 = _mvn_array(0, sx, sy)
+        corr1 = _mvn_array(1, sx, sy)
+        delta_corr2 = (corr1 - corr0) ** 2
+        ratio = np.divide(delta_corr2, corr0, out=np.zeros_like(delta_corr2), where=corr0!=0)
+        x2_one = N * np.sum(ratio)
+        scale = (x2max - x2ped) / x2_one
+        return brentq(_chi2_from_phik, 0, 1, args=(N, chi2, corr0, scale, sx, sy, x2ped), xtol=1e-5), p2
 
-        if x2<x2ped:
-            return 0, p2
-        elif x2>=x2max:
-            return 1, 0
-        else:
-            return brentq(_chi2_from_phik, 0, 1, args=(N, chi2, corr0, scale, sx, sy, x2ped), xtol=1e-5)
+    #x2 = fitness_test(bivar_freq, emp_freq, **kwargs)[0]
+    #p2 = fitness_test(bivar_freq, emp_freq, **kwargs)[1]
 
-        #x2 = fitness_test(bivar_freq, emp_freq, **kwargs)[0]
-        #p2 = fitness_test(bivar_freq, emp_freq, **kwargs)[1]
-
-        # chi2ped = nbins**2
-        # chi2max = N*nbins*pref
-        # x2 = chi2ped + x2*(chi2max-chi2ped)
+    # chi2ped = nbins**2
+    # chi2max = N*nbins*pref
+    # x2 = chi2ped + x2*(chi2max-chi2ped)
 
     return 
 
-def _chi2_from_phik(rho, n, chi2, corr0, scale, sx, sy, x2ped):
-
-
-    return True
 
 def cramer_phi(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, **kwargs):
     # fitness_test : chi2_contingency, power_divergence, fisher_exact
@@ -2298,7 +2396,7 @@ def mutual_information(v1,v2, bins=None, norm=False):
 # Mean Absolute Piecewise Similarity (novel)
 # non-overlapping 2D patches with some similarity metric
 ######################################################################################################################
-def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=100):
+def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.25, n_iters=100):
     '''
     Local
          - (Normalise)
@@ -2310,9 +2408,15 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=10
 
     assert np.max([min_percentage*len(v1), min_samples]) < len(v1), f'Lower min_samples to {min_percentage*len(v1)}'
     # make patches
-    bins
-
-
+    sx, sy = np.quantile(v1, q=np.arange(0,1,min_percentage)), np.quantile(v2, q=np.arange(0,1,min_percentage))
+    sx = np.insert(sx,0,np.min(v1)); sx = np.insert(sx,-1,np.max(v1))
+    sy = np.insert(sy,0,np.min(v2)); sy = np.insert(sy,-1,np.max(v2))
+    patch_list = []
+    for i in range(len(sx)-1):
+        v1indcs = np.argwhere((v1>sx[i]) & (v1<sx[i+1])[0]
+        for j in range(len(sy)-1):
+            v2indcs = np.argwhere((v2>sx[i]) & (v2<sx[i+1])[0]
+            patch_list.append((v1[v1indcs], v2[v2indcs]))
     # cycle through patches
 
     # get stats
@@ -2332,7 +2436,8 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=10
 ######################################################################################################################
 # Split Correlation Estimate (SCorE). (novel)
 # (supervised) Score is 1 - (number of splits needed for perfect separation) divided by minority class count
-# (unsupervised) Score is 1 -  (number of splits needed for perfection separation of binarised v2 using v1) divided by minority class count
+# (unsupervised) Score is 1 -  (number of splits needed for perfection separation of binarised v2 using v1) 
+# divided by minority class count
 ######################################################################################################################
 
 def SCorE(v1,v2):
