@@ -1786,20 +1786,24 @@ class univariate_feature_splitter():
     '''
     Finds a list of feature-ranges with entropy < threshold and of a minimum length
     '''
-    def __init__(self, max_depth=2, min_bin_size=10):
+    def __init__(self, max_depth=2, min_bin_size=10, max_entropy=None):
         self.max_depth = max_depth
         self.min_bin_size = min_bin_size
+        self.max_entropy = max_entropy
 
     def fit(self, x, y):
-        # find split in x with maximum information gain
+        # find max pair length with entropy lower than entropy if randomly distributed
+        if self.max_entropy is None:
+            self.max_entropy = sc.stats.entropy(np.bincount(y))
 
         self.splits, self.entropy
         return True
 
     def predict(self, x):
-        return y_pred
+        return 
 
     def _score(self):
+        # 1-num_splits/N
         return True
 
 #######################################################################################################################
@@ -2187,12 +2191,15 @@ def cramer_kish(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, c=0, **kwargs):
         
         x2, p2, _, _ = chi2_contingency(emp_freq, lambda_='log-likelihood')
 
+        scale = 
+        corr0 =
+
         if x2<x2ped:
             return 0, p2
         elif x2>=x2max:
             return 1, 0
         else:
-            return brentq(chi2_from_phik, 0, 1, args=(N, chi2, corr0, scale, sx, sy, x2ped), xtol=1e-5)
+            return brentq(_chi2_from_phik, 0, 1, args=(N, chi2, corr0, scale, sx, sy, x2ped), xtol=1e-5)
 
         #x2 = fitness_test(bivar_freq, emp_freq, **kwargs)[0]
         #p2 = fitness_test(bivar_freq, emp_freq, **kwargs)[1]
@@ -2202,6 +2209,11 @@ def cramer_kish(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, c=0, **kwargs):
         # x2 = chi2ped + x2*(chi2max-chi2ped)
 
     return 
+
+def _chi2_from_phik(rho, n, chi2, corr0, scale, sx, sy, x2ped):
+
+
+    return True
 
 def cramer_phi(v1,v2, nbins=5, nruns=100, fitness_test=pdiv, **kwargs):
     # fitness_test : chi2_contingency, power_divergence, fisher_exact
@@ -2311,11 +2323,21 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.1, n_iters=10
 ######################################################################################################################
 # Continuous Rule Combination
 # - Sum of angles = 0
-# - rotational invariance
+# - rotational invariance of variance
 # - unimodality
 ######################################################################################################################
 
 
+
+######################################################################################################################
+# Split Correlation Estimate (SCorE). (novel)
+# (supervised) Score is 1 - (number of splits needed for perfect separation) divided by minority class count
+# (unsupervised) Score is 1 -  (number of splits needed for perfection separation of binarised v2 using v1) divided by minority class count
+######################################################################################################################
+
+def SCorE(v1,v2):
+    
+    return True
 
 ######################################################################################################################
 # Statistical pairwise difference
