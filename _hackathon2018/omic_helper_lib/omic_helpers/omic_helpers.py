@@ -2413,9 +2413,9 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.25, n_iters=1
     sy = np.insert(sy,0,np.min(v2)); sy = np.insert(sy,-1,np.max(v2))
     patch_list = []
     for i in range(len(sx)-1):
-        v1indcs = np.argwhere((v1>sx[i]) & (v1<sx[i+1])[0]
+        v1indcs = np.argwhere((v1>sx[i]) & (v1<sx[i+1]))[0]
         for j in range(len(sy)-1):
-            v2indcs = np.argwhere((v2>sx[i]) & (v2<sx[i+1])[0]
+            v2indcs = np.argwhere((v2>sx[i]) & (v2<sx[i+1]))[0]
             patch_list.append((v1[v1indcs], v2[v2indcs]))
     # cycle through patches
 
