@@ -2426,6 +2426,7 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.25, n_iters=1
 
 ######################################################################################################################
 # Continuous Rule Combination
+# The goal is to identify non-bi-normal distributions
 # - Sum of angles = 0
 # - rotational invariance of variance
 # - unimodality
@@ -2491,7 +2492,23 @@ def statistical_distance(v1,v2):
 # "Power Predictive Score"
 # Basically; how well does A predict B using a non-linear predictor, based on cross-validated scores
 ######################################################################################################################
+'''
+ f(A) -> B, N-fold CV, average F1/MCC on OOF
+'''
+from sklearn.model_selection import RepeatedKFold, RepeatedStratifiedKFold
+from sklearn.svm import SVR
+def PPS(x,y, num_folds: int=10, num_iter: int=10):
+    ''' Predictive power score, assumes RMSE as metric, assumes regressor, or binomial
+    '''
+    Kfolder = RepeatedKFold(n_splits=10, n_repeats=10)
+    MCCs = []
+    F1s = []
+    mod = SVR()
+    for train,test in Kfolder.split(x,y):
+        mod.fit(x[train], y[train])
+        y_pred = mod.predict(x[test])
 
+    return np.mean(MCCs)*np.mean(F1s)
 
 
 #######################################################################################################################
