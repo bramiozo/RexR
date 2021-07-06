@@ -2432,6 +2432,10 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.25, n_iters=1
 # - unimodality
 ######################################################################################################################
 
+def CoRuCo(v1, v2):
+    
+
+    return True
 
 
 ######################################################################################################################
@@ -2441,7 +2445,7 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.25, n_iters=1
 # divided by minority class count
 ######################################################################################################################
 
-def SCorE(v1,v2):
+def SCorE(v1, v2):
     
     return True
 
@@ -2496,17 +2500,24 @@ def statistical_distance(v1,v2):
  f(A) -> B, N-fold CV, average F1/MCC on OOF
 '''
 from sklearn.model_selection import RepeatedKFold, RepeatedStratifiedKFold
-from sklearn.svm import SVR
-def PPS(x,y, num_folds: int=10, num_iter: int=10):
+from sklearn.svm import SVR, SVC
+from sklearn.metrics import f1_score, matthews_corrcoef
+def PPS(x,y, num_folds: int=10, num_iter: int=10, clf_type: str='regressor'):
     ''' Predictive power score, assumes RMSE as metric, assumes regressor, or binomial
     '''
-    Kfolder = RepeatedKFold(n_splits=10, n_repeats=10)
+    Kfolder = RepeatedKFold(n_splits=num_folds, n_repeats=num_iter)
     MCCs = []
     F1s = []
-    mod = SVR()
+    if clf_type == 'regressor':
+        mod = SVR()
+    else:
+        mod = SVC()
+
     for train,test in Kfolder.split(x,y):
         mod.fit(x[train], y[train])
         y_pred = mod.predict(x[test])
+        MCCs.append(f1_score(y[test], y_pred))
+        F1s.append(matthews_corrcoef(y[test], y_pred))
 
     return np.mean(MCCs)*np.mean(F1s)
 
@@ -2638,7 +2649,7 @@ def mic_scores(X, Y=None, alpha=0.6, c=16, est='mic_e', return_df=False):
 
 
 #######################################################################################################################
-# Odds ratio
+# Groupwise ratio
 #######################################################################################################################
 
 
