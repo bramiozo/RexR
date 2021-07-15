@@ -2521,6 +2521,17 @@ def PPS(x,y, num_folds: int=10, num_iter: int=10, clf_type: str='regressor'):
 
     return np.mean(MCCs)*np.mean(F1s)
 
+#######################################################################################################################
+# Bhattacharyya distance;  Db = -ln(sum(sqrt(p(x)*q(x))))
+#######################################################################################################################
+
+@jit
+def _Bhattacharyya(v1,v2):
+    # get ranges r0 to rM
+    # get counts per distributions for each range, c_v1(ri), c_v2(ri) for i = 0..M
+    np.histogram(np.hstack((v1,v2)))
+
+
 
 #######################################################################################################################
 # Mahalanobis distance;  cov, invcov = _cov(x, inverse=True)  -> _Mahalanobis(v1, v2, inv_cov)
