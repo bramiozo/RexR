@@ -2430,6 +2430,7 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.25, n_iters=1
 # - Sum of angles = 0
 # - rotational invariance of variance
 # - unimodality
+# first, perform quantile normalisation
 ######################################################################################################################
 
 def CoRuCo(v1, v2):
@@ -2526,10 +2527,27 @@ def PPS(x,y, num_folds: int=10, num_iter: int=10, clf_type: str='regressor'):
 #######################################################################################################################
 
 @jit
-def _Bhattacharyya(v1,v2):
+def _get_bin_counts(v1,v2,brgns):
+    v1l, v2l = np.zeros(len(brgns)), np.zeros(len(brgns))
+    c1, c2 = len(v1), len(v2)
+    for i,r in enumerate(brgns):
+        v1l[i] = sum(v1l>=r[0] & v1l<=r[1])
+        v2l[i] = sum(v2l>=r[0] & v2l<=r[1])
+    return v1l/c1, v2l/c2
+
+@jit
+def _Bhattacharyya(v1,v2, nbins=10):
     # get ranges r0 to rM
     # get counts per distributions for each range, c_v1(ri), c_v2(ri) for i = 0..M
-    np.histogram(np.hstack((v1,v2)))
+    _, brgns = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
+    v1bins, v2bins = _get_bin_counts(v1,v2,brgns)
+    return -np.log(np.sum(np.sqrt(v1bins*v2bins)))
+
+def 
+
+#######################################################################################################################
+# Hellinger distance;  H =sqrt(sum(sqrt(p(x)*q(x))-1)
+#######################################################################################################################
 
 
 
