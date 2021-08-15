@@ -2393,6 +2393,55 @@ def mutual_information(v1,v2, bins=None, norm=False):
 
 
 ######################################################################################################################
+# Statistical pairwise difference
+# Kullback-Leibler, Cross-entropy, Jensen-Shannon, Pearson, Spearman, Kendal-tau
+# paired t-test, Wilcoxon signed-rank
+######################################################################################################################
+
+# Spearman: spearmanr(v1,v2) 
+# Pearson: pearsonr(v1,v2)
+# Kendall-tau: kendalltau(v1,v2)
+# weighted Kendall-Tau: weightedtau(v1,v2)
+
+def statistical_distance(v1,v2):
+    peardist,pearpval = pearsonr(v1,v2)
+    speardist,spearpval = spearmanr(v1,v2)
+    kendalldist,kendallpval = kendalltau(v1,v2)
+    wtaudist,wtaupval = weightedtau(v1,v2)
+    dcor_cor = dcor.distance_correlation_sqrt(v1, v2, exponent=0.5,  method='AVL')
+    dcor_pval = dcor.distance_correlation_t_test(v1,v2)
+    dcoru_cor = dcor.u_distance_correlation_sqrt(v1, v2, exponent=0.5,  method='AVL')
+    #wilcoxstat, wilcoxpval = sc.stats.wilcoxon(v1,v2)
+    #tteststat, ttestpval = sc.stats.ttest_rel(v1,v2)
+
+    dists = [peardist, speardist, kendalldist, wtaudist, dcor_cor, dcoru_cor, dcoru_cor]
+    pvals = [pearpval, spearpval, kendallpval, wtaupval, dcor_pval, None, None]
+
+    return dists,pvals
+
+
+
+######################################################################################################################
+# Heller–Heller–Gorfine
+# https://academic.oup.com/biomet/article/100/2/503/202568
+######################################################################################################################
+
+
+
+
+######################################################################################################################
+# Hilbert-Schmidt Independence Criterion
+# https://arxiv.org/abs/1910.00270
+######################################################################################################################
+
+
+
+#######################################################################################################################
+# Hellinger distance;  H =sqrt(sum(sqrt(p(x)*q(x))-1)
+#######################################################################################################################
+
+
+######################################################################################################################
 # Mean Absolute Piecewise Similarity (novel)
 # non-overlapping 2D patches with some similarity metric
 ######################################################################################################################
@@ -2451,49 +2500,6 @@ def SCorE(v1, v2):
     return True
 
 ######################################################################################################################
-# Statistical pairwise difference
-# Kullback-Leibler, Cross-entropy, Jensen-Shannon, Pearson, Spearman, Kendal-tau
-# paired t-test, Wilcoxon signed-rank
-######################################################################################################################
-
-# Spearman: spearmanr(v1,v2) 
-# Pearson: pearsonr(v1,v2)
-# Kendall-tau: kendalltau(v1,v2)
-# weighted Kendall-Tau: weightedtau(v1,v2)
-
-def statistical_distance(v1,v2):
-    peardist,pearpval = pearsonr(v1,v2)
-    speardist,spearpval = spearmanr(v1,v2)
-    kendalldist,kendallpval = kendalltau(v1,v2)
-    wtaudist,wtaupval = weightedtau(v1,v2)
-    dcor_cor = dcor.distance_correlation_sqrt(v1, v2, exponent=0.5,  method='AVL')
-    dcor_pval = dcor.distance_correlation_t_test(v1,v2)
-    dcoru_cor = dcor.u_distance_correlation_sqrt(v1, v2, exponent=0.5,  method='AVL')
-    #wilcoxstat, wilcoxpval = sc.stats.wilcoxon(v1,v2)
-    #tteststat, ttestpval = sc.stats.ttest_rel(v1,v2)
-
-    dists = [peardist, speardist, kendalldist, wtaudist, dcor_cor, dcoru_cor, dcoru_cor]
-    pvals = [pearpval, spearpval, kendallpval, wtaupval, dcor_pval, None, None]
-
-    return dists,pvals
-
-
-######################################################################################################################
-# Heller–Heller–Gorfine
-# https://academic.oup.com/biomet/article/100/2/503/202568
-######################################################################################################################
-
-
-
-
-######################################################################################################################
-# Hilbert-Schmidt Independence Criterion
-# https://arxiv.org/abs/1910.00270
-######################################################################################################################
-
-
-
-######################################################################################################################
 # "Power Predictive Score"
 # Basically; how well does A predict B using a non-linear predictor, based on cross-validated scores
 ######################################################################################################################
@@ -2527,7 +2533,7 @@ def PPS(x,y, num_folds: int=10, num_iter: int=10, clf_type: str='regressor'):
 #######################################################################################################################
 
 @jit
-def _get_bin_counts(v1,v2,brgns):
+def _get_rel_bin_counts(v1,v2,brgns):
     v1l, v2l = np.zeros(len(brgns)), np.zeros(len(brgns))
     c1, c2 = len(v1), len(v2)
     for i,r in enumerate(brgns):
@@ -2540,16 +2546,92 @@ def _Bhattacharyya(v1,v2, nbins=10):
     # get ranges r0 to rM
     # get counts per distributions for each range, c_v1(ri), c_v2(ri) for i = 0..M
     _, brgns = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
-    v1bins, v2bins = _get_bin_counts(v1,v2,brgns)
+    v1bins, v2bins = _get_rel_bin_counts(v1,v2,brgns)
     return -np.log(np.sum(np.sqrt(v1bins*v2bins)))
 
-def 
+def Bhattacharyya_distance(X, sparse=False, nbins=10, sparse_threshold_ht=0.9, sparse_threshold_lt=0.1):
+    '''
+        Assumes column * column
+    '''
+    assert len(X.shape)==2, ' X should be a 2D-dimensional array'
+    ncols = X.shape[1]
+
+    if sparse==False:
+        dists = np.zeros((ncols, ncols))
+        for c1 in range(ncols):
+            v1 = X[:, c1]
+            for c2 in range(c1+1, ncols):
+                v2 = X[:, c2]
+                dists[c1,c2] = _Bhattacharyya(v1, v2, nbins=nbins)
+        dists = np.triu(dists) + np.tril(dists.T,1)
+    else:
+        data = []
+        rows = []
+        cols = []
+        for c1 in range(ncols):
+            v1 = X[:, c1]
+            for c2 in range(c1+1, ncols):
+                v2 = X[:, c2]
+                distance=_Bhattacharyya(v1, v2, nbins=nbins)
+                if (distance>sparse_threshold_ht) | (distance<sparse_threshold_lt):
+                    data.append(distance)
+                    rows.append(c1)
+                    cols.append(c2) 
+        dists = sc.sparse.csc_matrix((data, (rows, cols)), shape=(ncols, ncols), dtype=np.float32)
+    return dists
+
 
 #######################################################################################################################
-# Hellinger distance;  H =sqrt(sum(sqrt(p(x)*q(x))-1)
+# Chi2-distance
 #######################################################################################################################
 
+@jit
+def _get_bin_counts(v1,v2,brgns):
+    v1l, v2l = np.zeros(len(brgns)), np.zeros(len(brgns))
+    c1, c2 = len(v1), len(v2)
+    for i,r in enumerate(brgns):
+        v1l[i] = sum(v1l>=r[0] & v1l<=r[1])
+        v2l[i] = sum(v2l>=r[0] & v2l<=r[1])
+    return v1l/c1, v2l/c2
 
+@jit
+def _Chi2Distance(v1,v2, nbins=10):
+    # get ranges r0 to rM
+    # get counts per distributions for each range, c_v1(ri), c_v2(ri) for i = 0..M
+    _, brgns = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
+    v1bins, v2bins = _get_bin_counts(v1,v2,brgns)
+    return np.sum(np.square(v1bins-v2bins)/(v1bins+v2bins))
+
+def Chi2Distance(X, sparse=False, nbins=10, sparse_threshold_ht=0.9, sparse_threshold_lt=0.1):
+    '''
+        Assumes column * column
+    '''
+    assert len(X.shape)==2, ' X should be a 2D-dimensional array'
+    ncols = X.shape[1]
+
+    if sparse==False:
+        dists = np.zeros((ncols, ncols))
+        for c1 in range(ncols):
+            v1 = X[:, c1]
+            for c2 in range(c1+1, ncols):
+                v2 = X[:, c2]
+                dists[c1,c2] = _Chi2Distance(v1, v2, nbins=nbins)
+        dists = np.triu(dists) + np.tril(dists.T,1)
+    else:
+        data = []
+        rows = []
+        cols = []
+        for c1 in range(ncols):
+            v1 = X[:, c1]
+            for c2 in range(c1+1, ncols):
+                v2 = X[:, c2]
+                distance=_Chi2Distance(v1, v2, nbins=nbins)
+                if (distance>sparse_threshold_ht) | (distance<sparse_threshold_lt):
+                    data.append(distance)
+                    rows.append(c1)
+                    cols.append(c2) 
+        dists = sc.sparse.csc_matrix((data, (rows, cols)), shape=(ncols, ncols), dtype=np.float32)
+    return dists
 
 #######################################################################################################################
 # Mahalanobis distance;  cov, invcov = _cov(x, inverse=True)  -> _Mahalanobis(v1, v2, inv_cov)
