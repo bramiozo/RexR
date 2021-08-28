@@ -2445,7 +2445,7 @@ def statistical_distance(v1,v2):
 # Mean Absolute Piecewise Similarity (novel)
 # non-overlapping 2D patches with some similarity metric
 ######################################################################################################################
-def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.25, n_iters=100):
+def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.25, n_iters=100, convolve=False):
     '''
     Local
          - (Normalise)
@@ -2453,6 +2453,7 @@ def MAPS(v1,v2, scorer=pearsonr, min_samples=100, min_percentage=0.25, n_iters=1
          - Recenter per patch
          - per patch determine correlation score
          - return mean statistic and mean nlog of p-value
+         - with/without convolution
     '''
 
     assert np.max([min_percentage*len(v1), min_samples]) < len(v1), f'Lower min_samples to {min_percentage*len(v1)}'
@@ -2508,46 +2509,54 @@ def SCorE(v1, v2):
 '''
 from sklearn.model_selection import RepeatedKFold, RepeatedStratifiedKFold
 from sklearn.svm import SVR, SVC
+from sklearn.linear_model import HuberRegressor, LogisticRegression, Lasso
 from sklearn.metrics import f1_score, matthews_corrcoef
-def PPS(x,y, num_folds: int=10, num_iter: int=10, clf_type: str='regressor'):
+def PPS(x,y, num_folds: int=10, num_iter: int=10, clf_type: str='regressor', robust: bool=True):
     ''' Predictive power score, assumes RMSE as metric, assumes regressor, or binomial
     '''
     Kfolder = RepeatedKFold(n_splits=num_folds, n_repeats=num_iter)
     MCCs = []
     F1s = []
+    CORRS = []
     if clf_type == 'regressor':
-        mod = SVR()
+        if robust:
+            mod = HuberRegressor()
+        else:
+            mod = SVR()
     else:
-        mod = SVC()
+        if robust:
+            mod = LogisticRegression(penalty='l1', solver='liblinear')
+        else:
+            mod = SVC()
 
-    for train,test in Kfolder.split(x,y):
-        mod.fit(x[train], y[train])
-        y_pred = mod.predict(x[test])
-        MCCs.append(f1_score(y[test], y_pred))
-        F1s.append(matthews_corrcoef(y[test], y_pred))
+    if len(x.shape)==1:
+        x = x.reshape((-1,1))
 
-    return np.mean(MCCs)*np.mean(F1s)
+    if clf_type == 'regressor':
+        for train,test in Kfolder.split(x,y):
+            mod.fit(x[train], y[train])
+            y_pred = mod.predict(x[test])
+            CORRS.append(spearmanr(y[test], y_pred)[0])
+            return np.nanmean(CORRS)
+    else:
+        for train,test in Kfolder.split(x,y):
+            mod.fit(x[train], y[train])
+            y_pred = mod.predict(x[test])
+            MCCs.append(f1_score(y[test], y_pred))
+            F1s.append(matthews_corrcoef(y[test], y_pred))
 
 #######################################################################################################################
 # Bhattacharyya distance;  Db = -ln(sum(sqrt(p(x)*q(x))))
 #######################################################################################################################
 
-@jit
-def _get_rel_bin_counts(v1,v2,brgns):
-    v1l, v2l = np.zeros(len(brgns)), np.zeros(len(brgns))
-    c1, c2 = len(v1), len(v2)
-    for i,r in enumerate(brgns):
-        v1l[i] = sum(v1l>=r[0] & v1l<=r[1])
-        v2l[i] = sum(v2l>=r[0] & v2l<=r[1])
-    return v1l/c1, v2l/c2
-
-@jit
 def _Bhattacharyya(v1,v2, nbins=10):
     # get ranges r0 to rM
     # get counts per distributions for each range, c_v1(ri), c_v2(ri) for i = 0..M
-    _, brgns = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
-    v1bins, v2bins = _get_rel_bin_counts(v1,v2,brgns)
-    return -np.log(np.sum(np.sqrt(v1bins*v2bins)))
+    _, edges = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
+    brgns = list(zip(edges[:-1], edges[1:]))
+    v1bins, v2bins = _get_bin_counts(v1,v2, brgns)
+    keep = np.argwhere(np.abs(v1bins+v2bins)>0)
+    return -np.log(np.sum(np.sqrt(v1bins[keep]*v2bins[keep])))
 
 def Bhattacharyya_distance(X, sparse=False, nbins=10, sparse_threshold_ht=0.9, sparse_threshold_lt=0.1):
     '''
@@ -2585,22 +2594,23 @@ def Bhattacharyya_distance(X, sparse=False, nbins=10, sparse_threshold_ht=0.9, s
 # Chi2-distance
 #######################################################################################################################
 
-@jit
 def _get_bin_counts(v1,v2,brgns):
-    v1l, v2l = np.zeros(len(brgns)), np.zeros(len(brgns))
+    v1l, v2l = np.zeros(len(brgns)), np.zeros(len(brgns), dtype=np.int32)
     c1, c2 = len(v1), len(v2)
     for i,r in enumerate(brgns):
-        v1l[i] = sum(v1l>=r[0] & v1l<=r[1])
-        v2l[i] = sum(v2l>=r[0] & v2l<=r[1])
+        v1l[i] = sum((v1>=r[0]) & (v1<=r[1]))
+        v2l[i] = sum((v2>=r[0]) & (v2<=r[1]))
     return v1l/c1, v2l/c2
 
-@jit
-def _Chi2Distance(v1,v2, nbins=10):
+def _Chi2Distance(v1,v2, nbins=10, eps=1e-3):
     # get ranges r0 to rM
     # get counts per distributions for each range, c_v1(ri), c_v2(ri) for i = 0..M
-    _, brgns = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
-    v1bins, v2bins = _get_bin_counts(v1,v2,brgns)
-    return np.sum(np.square(v1bins-v2bins)/(v1bins+v2bins))
+    _, edges = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
+    brgns = list(zip(edges[:-1], edges[1:]))
+    v1bins, v2bins = _get_bin_counts(v1,v2, brgns)
+    keep = np.argwhere(np.abs(v1bins+v2bins)>0)
+    ch2d = np.sum((np.square(v1bins[keep]-v2bins[keep]))/(v1bins[keep]+v2bins[keep]))
+    return ch2d
 
 def Chi2Distance(X, sparse=False, nbins=10, sparse_threshold_ht=0.9, sparse_threshold_lt=0.1):
     '''
@@ -2609,13 +2619,15 @@ def Chi2Distance(X, sparse=False, nbins=10, sparse_threshold_ht=0.9, sparse_thre
     assert len(X.shape)==2, ' X should be a 2D-dimensional array'
     ncols = X.shape[1]
 
+    print(f'X-shape:{X.shape}')
+
     if sparse==False:
         dists = np.zeros((ncols, ncols))
         for c1 in range(ncols):
             v1 = X[:, c1]
             for c2 in range(c1+1, ncols):
                 v2 = X[:, c2]
-                dists[c1,c2] = _Chi2Distance(v1, v2, nbins=nbins)
+                dists[c1,c2] = _Chi2Distance(v1, v2, nbins=nbins)                
         dists = np.triu(dists) + np.tril(dists.T,1)
     else:
         data = []
@@ -2659,6 +2671,8 @@ def Mahalanobis(X, v1=None, v2=None, featurewise=True):
     else:
         # v1 v. v2
         return _Mahalanobis(X[v1,:], X[v2,:], icov)
+
+
 
 
 #######################################################################################################################
