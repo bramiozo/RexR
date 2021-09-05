@@ -1,13 +1,6 @@
-# https://karateclub.readthedocs.io/en/latest/_modules/karateclub/community_detection/non_overlapping/label_propagation.html
-# https://karateclub.readthedocs.io/en/latest/_modules/karateclub/community_detection/overlapping/bigclam.html
-# Affinity Propagation
-# Markov Clustering
-# https://towardsdatascience.com/how-to-do-deep-learning-on-graphs-with-graph-convolutional-networks-62acf5b143d0
-# https://github.com/benedekrozemberczki/karateclub
-
-
 from scipy.optimize import linear_sum_assignment
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import pickle
@@ -17,7 +10,36 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 import cvxpy as cp
 from scipy.sparse.csgraph import laplacian
+import scipy as sc
 from sklearn.neighbors import NearestNeighbors
+import math
+
+from tqdm import tqdm
+
+'''
+[x] Sammon
+[x] MaximumVarianceUnfolding
+[x] LandmarkMDS
+
+[] Node2Vec, pytorch geometric
+[] Graph2Vec, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/graph_embedding/graph2vec.html
+[] Role2Vec, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/node_embedding/structural/role2vec.html
+[] DeepWalk, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/node_embedding/neighbourhood/deepwalk.html
+[] BoostNE, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/node_embedding/neighbourhood/boostne.html
+[] Diff2Vec, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/node_embedding/neighbourhood/diff2vec.html
+[] LINE, https://github.com/DMPierre/LINE, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/graph_embedding/gl2vec.html
+[] SDNE
+[] Sub2Vec
+[] AttentionWalk, https://github.com/benedekrozemberczki/AttentionWalk/tree/master/src
+
+
+[] MCML : https://github.com/pachterlab/MCML
+[] metapath2vec, pytorch geometric
+[] ARGA, pytorch geometric
+[] GAE, pytorch geometric
+[] SageConv, pytorch geometric
+[] PyTorch BigGraph, https://medium.com/dataseries/facebooks-pygraph-is-an-open-source-framework-for-capturing-knowledge-in-large-graphs-b52c0fb902e8
+'''
 
 class DisconnectError(Exception):
     """
@@ -65,6 +87,7 @@ class Sammon(BaseEstimator, TransformerMixin):
         # X: column-wise samples
         iteration_start = 0
         scores = []
+        delta_score = 1
         if self.init_type == "random":
             X_low_dim = np.random.rand(self.embedding_dimensionality, self.n_samples)  # --> rand in [0,1)
         elif self.init_type == "PCA":
@@ -103,13 +126,24 @@ class Sammon(BaseEstimator, TransformerMixin):
                     temp_ += (d - d_initial)**2 / d_initial
                 objective_function_distance_part += (1 / normalization_factor) * temp_
             objective_function = 0.5 * objective_function_distance_part
-            scores.append(objective_function)          
-            delta_score = 100*(scores[-2]-scores[-1])/scores[-2] 
-            print("iteration " + str(iteration_index) + ": objective cost = " + str(objective_function), ": decrease = "+str(delta_score))
+
             if (objective_function<self.min_score):
                 return X_low_dim
+            elif (delta_score)<0.5 & (delta_score>0):
+                idecay_rate = 1/self.decay_rate
+                print(f"Relative delta score dropped below 0.5%, \
+                        increasing learning rate to {str(idecay_rate)}")
+                self.learning_rate = self.learning_rate*(idecay_rate)
             elif (delta_score<0):
-                self.learning_rate = self.learning_rate*self.decay_rate
+                return X_low_dim
+                #self.learning_rate = self.learning_rate*self.decay_rate
+
+            scores.append(objective_function) 
+            if len(scores)>1:                         
+                delta_score = 100*(scores[-2]-scores[-1])/scores[-2] 
+                print("iteration " + str(iteration_index) + ": objective cost\
+                                = " + str(objective_function), ": decrease = "+str(delta_score))
+
         return X_low_dim
 
     def find_KNN_distance_matrix(self, X, n_neighbors):
@@ -181,11 +215,12 @@ class Sammon(BaseEstimator, TransformerMixin):
             f.write(np.array2string(variable, separator=', '))
             
 
-class MaximumVarianceUnfolding:
+class MaximumVarianceUnfolding(BaseEstimator, TransformerMixin):
     # source: https://github.com/calebralphs/maximum-variance-unfolding
 
     def __init__(self, equation="berkley", solver=cp.SCS, solver_tol=1e-2,
-                 eig_tol=1.0e-10, solver_iters=2500, warm_start=False, seed=None):
+                 eig_tol=1.0e-10, solver_iters=2500, dropout_rate=.2, 
+                 n_neighbors=7, n_components=2, warm_start=False, seed=None):
         """
         :param equation: A string either "berkley" or "wikipedia" to represent
                          two different equations for the same problem.
@@ -206,8 +241,11 @@ class MaximumVarianceUnfolding:
         self.warm_start = warm_start
         self.seed = seed
         self.neighborhood_graph = None
+        self.dropout_rate = dropout_rate
+        self.n_neighbors = n_neighbors
+        self.n_components = n_components
 
-    def fit(self, data, k, dropout_rate=.2):
+    def fit(self, data, y=None):
         """
         The method to fit an MVU model to the data.
         :param data: The data to which the model will be fitted.
@@ -222,7 +260,9 @@ class MaximumVarianceUnfolding:
         np.random.seed(self.seed)
 
         # Calculate the nearest neighbors of each data point and build a graph
-        N = NearestNeighbors(n_neighbors=k).fit(data).kneighbors_graph(data).todense()
+        N = NearestNeighbors(n_neighbors=self.n_neighbors).fit(data)\
+                                                          .kneighbors_graph(data)\
+                                                          .todense()
         N = np.array(N)
 
         # Randomly drop certain connections.
@@ -230,7 +270,7 @@ class MaximumVarianceUnfolding:
         #  cuts that disconnect the graph will be caught.
         for i in range(n):
             for j in range(n):
-                if N[i, j] == 1 and np.random.random() < dropout_rate:
+                if N[i, j] == 1 and np.random.random() < self.dropout_rate:
                     N[i, j] = 0.
 
         # Save the neighborhood graph to be accessed latter
@@ -295,7 +335,7 @@ class MaximumVarianceUnfolding:
 
         return Q.value
 
-    def fit_transform(self, data, dim, k, dropout_rate=.2):
+    def fit_transform(self, data, y=None):
         """
         The method to fit and transform an MVU model to the data.
         :param data: The data to which the model will be fitted.
@@ -305,7 +345,7 @@ class MaximumVarianceUnfolding:
         :return: embedded_data: The embedded form of the data.
         """
 
-        embedded_gramian = self.fit(data, k, dropout_rate)
+        embedded_gramian = self.fit(data)
 
         # Retrieve Q
         embedded_gramian = embedded_gramian
@@ -319,7 +359,7 @@ class MaximumVarianceUnfolding:
         # Assuming the eigenvalues and eigenvectors aren't sorted,
         #    sort them and get the top "dim" ones
         sorted_indices = eigenvalues.argsort()[::-1]
-        top_eigenvalue_indices = sorted_indices[:dim]
+        top_eigenvalue_indices = sorted_indices[:self.n_components]
 
         # Take the top eigenvalues and eigenvectors
         top_eigenvalues = eigenvalues[top_eigenvalue_indices]
@@ -332,11 +372,12 @@ class MaximumVarianceUnfolding:
         return embedded_data
 
 
-class LandmarkMaximumVarianceUnfolding:
+class LandmarkMaximumVarianceUnfolding(BaseEstimator, TransformerMixin):
     # source: https://github.com/calebralphs/maximum-variance-unfolding
 
-    def __init__(self, equation="berkley", landmarks=50, solver=cp.SCS, solver_tol=1e-2,
-                 eig_tol=1.0e-10, solver_iters=2500, warm_start=False, seed=None):
+    def __init__(self, equation="berkley", n_landmarks=50, solver=cp.SCS, solver_tol=1e-2,
+                 eig_tol=1.0e-10, solver_iters=2500, n_neighbors=7, n_components=2,
+                 warm_start=False, seed=None):
         """
         :param equation: A string either "berkley" or "wikipedia" to represent
                          two different equations for the same problem.
@@ -351,7 +392,7 @@ class LandmarkMaximumVarianceUnfolding:
         :param seed: The numpy seed for random numbers.
         """
         self.equation = equation
-        self.landmarks = landmarks
+        self.n_landmarks = n_landmarks
         self.solver = solver
         self.solver_tol = solver_tol
         self.eig_tol = eig_tol
@@ -359,8 +400,10 @@ class LandmarkMaximumVarianceUnfolding:
         self.warm_start = warm_start
         self.seed = seed
         self.neighborhood_graph = None
+        self.n_neighbors = n_neighbors
+        self.n_components = n_components
 
-    def fit(self, data, k):
+    def fit(self, data, y=None):
         """
         The method to fit an MVU model to the data.
         :param data: The data to which the model will be fitted.
@@ -374,14 +417,16 @@ class LandmarkMaximumVarianceUnfolding:
         np.random.seed(self.seed)
 
         # Calculate the nearest neighbors of each data point and build a graph
-        N = NearestNeighbors(n_neighbors=k).fit(data).kneighbors_graph(data).todense()
+        N = NearestNeighbors(n_neighbors=self.n_neighbors).fit(data)\
+                                                    .kneighbors_graph(data)\
+                                                    .todense()
         N = np.array(N)
 
         # Sort the neighbor graph to find the points with the most connections
         num_connections = N.sum(axis=0).argsort()[::-1]
 
         # Separate the most popular points
-        top_landmarks_idxs = num_connections[:self.landmarks]
+        top_landmarks_idxs = num_connections[:self.n_landmarks]
         top_landmarks = data[top_landmarks_idxs, :]
 
         # Compute the nearest neighbors for all of the landmarks so they are all connected
@@ -393,7 +438,9 @@ class LandmarkMaximumVarianceUnfolding:
         new_data = np.delete(data, top_landmarks_idxs, axis=0)
 
         # Construct a neighborhood graph where each point finds its closest landmark
-        l = NearestNeighbors(n_neighbors=3).fit(top_landmarks).kneighbors_graph(new_data).todense()
+        l = NearestNeighbors(n_neighbors=3).fit(top_landmarks)\
+                                            .kneighbors_graph(new_data)\
+                                            .todense()
         l = np.array(l)
         print("shape l", l.shape)
 
@@ -401,14 +448,14 @@ class LandmarkMaximumVarianceUnfolding:
         N = np.zeros((n, n))
 
         # Add all of the intra-landmark connections to the neighborhood graph
-        for i in range(self.landmarks):
-            for j in range(self.landmarks):
+        for i in range(self.n_landmarks):
+            for j in range(self.n_landmarks):
                 if L[i, j] == 1.:
                     N[top_landmarks_idxs[i], top_landmarks_idxs[j]] = 1.
 
         # Add all of the inter-landmark connections to the neighborhood graph
-        for i in range(n - self.landmarks):
-            for j in range(self.landmarks):
+        for i in range(n - self.n_landmarks):
+            for j in range(self.n_landmarks):
                 if l[i, j] == 1.:
                     N[new_data_idxs[i], top_landmarks_idxs[j]] = 1.
 
@@ -472,9 +519,10 @@ class LandmarkMaximumVarianceUnfolding:
                       max_iters=self.solver_iters,
                       warm_start=self.warm_start)
 
-        return Q.value
+        self.embedded_gramian = Q.value
+        return self
 
-    def fit_transform(self, data, dim, k):
+    def fit_transform(self, data, y=None):
         """
         The method to fit and transform an MVU model to the data.
         :param data: The data to which the model will be fitted.
@@ -483,20 +531,18 @@ class LandmarkMaximumVarianceUnfolding:
         :return: embedded_data: The embedded form of the data.
         """
 
-        embedded_gramian = self.fit(data, k)
-        # Retrieve Q
-        embedded_gramian = embedded_gramian
-
+        self.fit(data)
         # Decompose gramian to recover the projection
-        eigenvalues, eigenvectors = np.linalg.eig(embedded_gramian)
+        eigenvalues, eigenvectors = np.linalg.eig(self.embedded_gramian)
 
         # Set the eigenvalues that are within +/- eig_tol to 0
-        eigenvalues[np.logical_and(-self.eig_tol < eigenvalues, eigenvalues < self.eig_tol)] = 0.
+        eigenvalues[np.logical_and(-self.eig_tol
+                     < eigenvalues, eigenvalues < self.eig_tol)] = 0.
 
         # Assuming the eigenvalues and eigenvectors aren't sorted,
         #    sort them and get the top "dim" ones
         sorted_indices = eigenvalues.argsort()[::-1]
-        top_eigenvalue_indices = sorted_indices[:dim]
+        top_eigenvalue_indices = sorted_indices[:self.n_components]
 
         # Take the top eigenvalues and eigenvectors
         top_eigenvalues = eigenvalues[top_eigenvalue_indices]
@@ -507,3 +553,59 @@ class LandmarkMaximumVarianceUnfolding:
         embedded_data = lbda.dot(top_eigenvectors.T).T
 
         return embedded_data
+
+
+class LandmarkMultiDimensionalScaling(BaseEstimator, TransformerMixin):
+    #  source: https://github.com/danilomotta/LMDS
+
+    def __init__(self,  n_components=2, n_landmarks=100):
+        self.n_components = n_components
+        self.n_landmarks = n_landmarks
+
+    def fit(self, X, y=0):
+        self.landmarks = np.random.randint(0, X.shape[0], self.n_landmarks)
+        self.D = sc.spatial.distance.cdist(X[self.landmarks,:], X, 'euclidean')        
+
+        self.Dl = self.D[:,self.landmarks]
+        n = len(self.Dl)
+
+        # Centering matrix
+        H = - np.ones((n, n))/n
+        np.fill_diagonal(H,1-1/n)
+        # YY^T
+        H = -H.dot(self.Dl**2).dot(H)/2
+
+        # Diagonalize
+        evals, evecs = np.linalg.eigh(H)
+
+        # Sort by eigenvalue in descending order
+        idx   = np.argsort(evals)[::-1]
+        self.evals = evals[idx]
+        self.evecs = evecs[:,idx]       
+        return self
+
+    def fit_transform(self, X, y=0):
+        self.fit(X)  
+        # Compute the coordinates using positive-eigenvalued components only
+        w, = np.where(self.evals > 0)
+        if self.n_components:
+            arr = self.evals
+            w = arr.argsort()[-self.n_components:][::-1]
+            if np.any(self.evals[w]<0):
+                print('Error: Not enough positive eigenvalues for the selected dim.')
+                return []
+        if w.size==0:
+            print('Error: matrix is negative definite.')
+            return []
+
+        V = self.evecs[:,w]
+        L = V.dot(np.diag(np.sqrt(self.evals[w]))).T
+        N = self.D.shape[1]
+        Lh = V.dot(np.diag(1./np.sqrt(self.evals[w]))).T
+        Dm = self.D - np.tile(np.mean(self.Dl,axis=1),(N, 1)).T
+        #dim = w.size
+        Xn = -Lh.dot(Dm)/2.
+        Xn -= np.tile(np.mean(Xn,axis=1),(N, 1)).T
+
+        _, evecs = sc.linalg.eigh(Xn.dot(Xn.T))
+        return (evecs[:,::-1].T.dot(Xn)).T
