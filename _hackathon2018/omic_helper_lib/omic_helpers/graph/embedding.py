@@ -17,6 +17,10 @@ import math
 from tqdm import tqdm
 
 '''
+https://github.com/dmlc/dgl
+PyTorch Geometric
+Networkx/Karateclub
+
 [x] Sammon
 [x] MaximumVarianceUnfolding
 [x] LandmarkMDS
