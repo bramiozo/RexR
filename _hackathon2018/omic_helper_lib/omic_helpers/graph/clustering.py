@@ -30,6 +30,7 @@ from tqdm import tqdm
 # [] Sparse Affinity Propagation
 # [] Markov Clustering
 # [] Louvain clustering
+# [] Stochastic Block Model
 
 class DisconnectError(Exception):
     """
