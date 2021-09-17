@@ -571,17 +571,15 @@ class univariate_feature_splitter():
 
 ######################################################################################################################
 # Statistical unpaired distance
-# Kullback-Leibler, Cross-entropy, Jensen-Shannon, Pearson, Spearman, Kendal-tau
-# paired t-test, Wilcoxon signed-rank
-######################################################################################################################
 # mannwhitneyu
 # student t-test
 # Welch t-test
 # kolmogorov-smirnov
 # epps
 # Cramer-VonMises
-# KL-divergence
 # Wasserstein n^th
+######################################################################################################################
+
 
 """
      Information change: 
