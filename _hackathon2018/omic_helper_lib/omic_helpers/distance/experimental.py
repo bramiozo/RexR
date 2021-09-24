@@ -94,10 +94,11 @@ def PPS(x,y, num_folds: int=10, num_iter: int=10, clf_type: str='regressor', rob
             mod.fit(x[train], y[train])
             y_pred = mod.predict(x[test])
             CORRS.append(spearmanr(y[test], y_pred)[0])
-            return np.nanmean(CORRS)
+        return np.nanmean(CORRS), None
     else:
         for train,test in Kfolder.split(x,y):
             mod.fit(x[train], y[train])
             y_pred = mod.predict(x[test])
             MCCs.append(f1_score(y[test], y_pred))
             F1s.append(matthews_corrcoef(y[test], y_pred))
+        return np.nanmean(MCCs), np.nanmean(F1s)
