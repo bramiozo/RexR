@@ -52,9 +52,18 @@ def CoRuCo(v1, v2):
 # (unsupervised) Score is 1 -  (number of splits needed for perfection separation of binarised v2 using v1) 
 # divided by minority class count
 ######################################################################################################################
-
-def SCorE(v1, v2):
+@numba
+def SCorE(v1, v2, bins_fit=(2,100), bins=100):
+    # binarise 
+    qs = np.arange(0,1,bins)    
+    qbins2 = np.quantile(v2, qs)      
+    bins2 = np.digitize(v2, qbins2)
     
+    for b in range(bins_fit):
+        qs = np.arange(0,1,bins)    
+        qbins2 = np.quantile(v2, qs)      
+        bins2 = np.digitize(v2, qbins2)       
+        
     return True
 
 ######################################################################################################################
