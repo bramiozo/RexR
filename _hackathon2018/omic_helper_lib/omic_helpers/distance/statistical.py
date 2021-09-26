@@ -1,6 +1,8 @@
 import numpy as np
 import itertools
 from numba import jit, njit
+import torch
+import scipy as sc
 
 ######################################################################################################################
 # Global correlation coefficient: g = np.sqrt(1-np.inverse(V_kk*np.inverse(Cov)_kk))
@@ -314,10 +316,41 @@ def mutual_information(v1,v2, bins=None, norm=False):
 ######################################################################################################################
 
 
+def pairwise_distances(x):
+    #x should be two dimensional
+    instances_norm = torch.sum(x**2,-1).reshape((-1,1))
+    return -2*torch.mm(x,x.t()) + instances_norm + instances_norm.t()
+
+def GaussianKernelMatrix(x, sigma=1):
+    pairwise_distances_ = pairwise_distances(x)
+    return torch.exp(-pairwise_distances_ /sigma)
+
+def HilbertSchmidt(x, y, s_x=1, s_y=1):
+    m,_ = x.shape #batch size
+    K = GaussianKernelMatrix(x,s_x)
+    L = GaussianKernelMatrix(y,s_y)
+    H = torch.eye(m) - 1.0/m * torch.ones((m,m))
+    H = H.double()
+    HSIC = torch.trace(torch.mm(L,torch.mm(H,torch.mm(K,H))))/((m-1)**2)
+    return HSIC
 
 #######################################################################################################################
-# Hellinger distance;  H =sqrt(sum(sqrt(p(x)*q(x))-1)
+# Hellinger distance; 
+# H =sqrt(sum(sqrt(p(x)*q(x))-1)
+# H = 1/sqrt(2)*||sqrt(p)-sqrt(q)||
+# H = sqrt(1 - _Bhattacharyya(P,Q))
 #######################################################################################################################
+
+@jit
+def _Hellinger(v1, v2, num_bins=20):
+    totnum = v1.shape[0]
+    _, edges = np.histogram(np.hstack((v1,v2)).flatten(), bins=num_bins)
+    d1 = np.digitize(v1, edges)
+    d2 = np.digitize(v2, edges)
+    v1probs = np.bincount(d1)//totnum
+    v2probs = np.bincount(d2)//totnum
+    
+    
 
 
 #######################################################################################################################
@@ -523,39 +556,6 @@ def powerdiv_score(x1, x2, qranges, bins, _lambda):
     return pdiv(freq1, freq2, lambda_ = _lambda)[0]
 
 
-#######################################################################################################################
-#recursive feature splitter
-#######################################################################################################################
-
-def _entropy(x):
-    return True
-
-def _information_gain(x, xs):
-    return True
-
-class univariate_feature_splitter():
-    '''
-    Finds a list of feature-ranges with entropy < threshold and of a minimum length
-    '''
-    def __init__(self, max_depth=2, min_bin_size=10, max_entropy=None):
-        self.max_depth = max_depth
-        self.min_bin_size = min_bin_size
-        self.max_entropy = max_entropy
-
-    def fit(self, x, y):
-        # find max pair length with entropy lower than entropy if randomly distributed
-        if self.max_entropy is None:
-            self.max_entropy = sc.stats.entropy(np.bincount(y))
-
-        self.splits, self.entropy
-        return True
-
-    def predict(self, x):
-        return 
-
-    def _score(self):
-        # 1-num_splits/N
-        return True
     
 ######################################################################################################################
 # Statistical pairwise difference
