@@ -1,8 +1,23 @@
+from __future__ import division
 import numpy as np
 import itertools
 from numba import jit, njit
+from numpy.core.fromnumeric import var
 import torch
 import scipy as sc
+from scipy.stats import ks_2samp as ks, wasserstein_distance as wass, spearmanr
+from scipy.stats import energy_distance, pearsonr, kendalltau, theilslopes, weightedtau
+from scipy.stats import chisquare, epps_singleton_2samp as epps
+from scipy.stats import power_divergence as pdiv
+
+from sklearn.metrics import mutual_info_score
+from sklearn.metrics import pairwise_distances
+from sklearn.metrics.pairwise import pairwise_kernels
+
+import numpy as np
+from scipy.stats import gamma
+from scipy.stats import multiscale_graphcorr
+
 
 ######################################################################################################################
 # Global correlation coefficient: g = np.sqrt(1-np.inverse(V_kk*np.inverse(Cov)_kk))
@@ -27,12 +42,14 @@ def global_corr(X,c=None, sparse=False):
 ######################################################################################################################
 
 @jit
-def _get_pairs(v1,v2):
-    K = int(len(v1)**2/2-len(v1))
+def _get_pairs(v1, v2):
+    K = int(len(v1)**2-len(v1)/2)
+    k = 0
     pairs = np.zeros((K,4))
-    for i in range(len(V1)):
-        for j in range(i, range(len(V1))):
-            pairs[k, :] = np.hstack([v1[i,:], v2[j,:]])
+    for i in range(len(v1)):
+        for j in range(i+1, len(v1)):
+            pairs[k, :] = np.hstack([v1[i], v2[i], v1[j], v2[j]])
+            k += 1
     return pairs
 
 def _get_concordant_pairs(v1, v2):
@@ -45,12 +62,9 @@ def _get_discordant_pairs(v1, v2):
     return sum((np.sign(_pairs[:,0]-_pairs[:,2]) != 
                     np.sign(_pairs[:,1]-_pairs[:,3])).astype(np.int32))
     
-def _get_tied_pairs(v1, v2):
-    return pairs    
-
-def goodman_kruskal_gamma(v1,v2):
-    assert isinstance(v1, np.array), 'v1 is not a numpy array'
-    assert isinstance(v2, np.array), 'v2 is not a numpy array'
+def goodman_kruskal_gamma(v1, v2):
+    assert type(v1) == np.ndarray, 'v1 is not a numpy array'
+    assert type(v2) == np.ndarray, 'v2 is not a numpy array'
     assert v1.shape == v2.shape, 'Shapes of v1, v2 should be the same'
     assert len(v1.shape)>=1, 'v1 is not an Nd array'
     assert len(v2.shape)>=1, 'v2 is not an Nd array'
@@ -59,9 +73,9 @@ def goodman_kruskal_gamma(v1,v2):
     # Nc = # of concordant pairs
     # Nd = # of discordant pairs
     # pairs are concordant, discordant or tied
-    K = int(len(v1)**2/2-len(v1))
-    Nc = _get_concordant_pairs(v1,v2)
-    Nd = K - Nc    
+    K = int(len(v1)**2//2-len(v1))
+    Nc = _get_concordant_pairs(v1, v2)
+    Nd = _get_discordant_pairs(v1, v2)   
     return (Nc-Nd)/(Nc+Nd)
 
 
@@ -132,20 +146,20 @@ def _chi2_from_phik(rho: float, n: int, subtract_from_chi2:float=0,
                    pedestal:float=0, nx:int=-1, ny:int=-1) -> float:
     '''Calculate chi2-value of bivariate gauss having correlation value rho
     
-    Calculate no-noise chi2 value of bivar gauss with correlation rho,
-    with respect to bivariate gauss without any correlation.
-    
-    :param float rho: tilt parameter
-    :param int n: number of records
-    :param float subtract_from_chi2: value subtracted from chi2 calculation. default is 0.
-    :param list corr0: mvn_array result for rho=0. Default is None.
-    :param float scale: scale is multiplied with the chi2 if set.
-    :param np.ndarray sx: bin edges array of x-axis. default is None.
-    :param np.ndarray sy: bin edges array of y-axis. default is None.
-    :param float pedestal: pedestal is added to the chi2 if set.
-    :param int nx: number of uniform bins on x-axis. alternative to sx.
-    :param int ny: number of uniform bins on y-axis. alternative to sy.
-    :returns float: chi2 value    
+        Calculate no-noise chi2 value of bivar gauss with correlation rho,
+        with respect to bivariate gauss without any correlation.
+        
+        :param float rho: tilt parameter
+        :param int n: number of records
+        :param float subtract_from_chi2: value subtracted from chi2 calculation. default is 0.
+        :param list corr0: mvn_array result for rho=0. Default is None.
+        :param float scale: scale is multiplied with the chi2 if set.
+        :param np.ndarray sx: bin edges array of x-axis. default is None.
+        :param np.ndarray sy: bin edges array of y-axis. default is None.
+        :param float pedestal: pedestal is added to the chi2 if set.
+        :param int nx: number of uniform bins on x-axis. alternative to sx.
+        :param int ny: number of uniform bins on y-axis. alternative to sy.
+        :returns float: chi2 value
     '''
 
     if corr0 is None:
@@ -266,13 +280,13 @@ def _numBins(nObs, corr=None):
         b = round(np.power(2, -0.5)*np.sqrt(1+np.sqrt(1+24*nObs//(1-corr**2))))
     return int(b)
 
-def differential_entropy(v1,v2, bins=None, norm=False):
+def differential_entropy(v1, v2, bins=None, norm=False):
     # source Machine learning for asset manager by Marcos M. Lopez de Prado 
     if isinstance(bins, int):
         bXY = bins    
     else:
         bXY = _numBins(v1.shape[0], corr=np.corrcoef(v1, v2)[0,1])
-    cXY = np.histogram2d(x,y, bXY)[0]
+    cXY = np.histogram2d(v1, v2, bXY)[0]
     iXY = mutual_info_score(None, None, contingency=cXY)
     hX = sc.stats.entropy(np.histogram(v1, bins)[0])
     hY = sc.stats.entropy(np.histogram(v2, bins)[0])
@@ -305,34 +319,380 @@ def mutual_information(v1,v2, bins=None, norm=False):
 ######################################################################################################################
 # Heller–Heller–Gorfine
 # https://academic.oup.com/biomet/article/100/2/503/202568
+# https://master--mgc.netlify.app/_modules/mgcpy/independence_tests/hhg.html#HHG
 ######################################################################################################################
 
+@jit(nopython=True, cache=True)
+def _pearson_stat(distx, disty):  # pragma: no cover
+    """Calculate the Pearson chi square stats"""
 
+    n = distx.shape[0]
+    S = np.zeros((n, n))
+
+    # iterate over all samples in the distance matrix
+    for i in range(n):
+        for j in range(n):
+            if i != j:
+                a = distx[i, :] <= distx[i, j]
+                b = disty[i, :] <= disty[i, j]
+
+                t11 = np.sum(a * b) - 2
+                t12 = np.sum(a * (1 - b))
+                t21 = np.sum((1 - a) * b)
+                t22 = np.sum((1 - a) * (1 - b))
+
+                denom = (t11 + t12) * (t21 + t22) * (t11 + t21) * (t12 + t22)
+                if denom > 0:
+                    S[i, j] = ((n - 2) * (t12 * t21 - t11 * t22) ** 2) / denom
+    return S
+
+
+def HHG(X1,X2, metric="euclidean", njobs=4):
+    distx = pairwise_distances(X1, metric=metric, n_jobs=4)
+    disty = pairwise_distances(X2, metric=metric, n_jobs=4)
+
+    S = _pearson_stat(distx, disty)
+    mask = np.ones(S.shape, dtype=bool)
+    np.fill_diagonal(mask, 0)
+    stat = np.sum(S[mask])
+    return stat 
 
 
 ######################################################################################################################
 # Hilbert-Schmidt Independence Criterion
 # https://arxiv.org/abs/1910.00270
+# Does the joint-probability Pxy factorize as PxPy?
+# https://github.com/amber0309/HSIC/blob/master/HSIC.py
+# https://github.com/neurodata/hyppo/
 ######################################################################################################################
 
 
-def pairwise_distances(x):
-    #x should be two dimensional
-    instances_norm = torch.sum(x**2,-1).reshape((-1,1))
-    return -2*torch.mm(x,x.t()) + instances_norm + instances_norm.t()
+def rbf_dot(pattern1, pattern2, deg):
+    size1 = pattern1.shape
+    size2 = pattern2.shape
 
-def GaussianKernelMatrix(x, sigma=1):
-    pairwise_distances_ = pairwise_distances(x)
-    return torch.exp(-pairwise_distances_ /sigma)
+    G = np.sum(pattern1*pattern1, 1).reshape(size1[0],1)
+    H = np.sum(pattern2*pattern2, 1).reshape(size2[0],1)
 
-def HilbertSchmidt(x, y, s_x=1, s_y=1):
-    m,_ = x.shape #batch size
-    K = GaussianKernelMatrix(x,s_x)
-    L = GaussianKernelMatrix(y,s_y)
-    H = torch.eye(m) - 1.0/m * torch.ones((m,m))
-    H = H.double()
-    HSIC = torch.trace(torch.mm(L,torch.mm(H,torch.mm(K,H))))/((m-1)**2)
-    return HSIC
+    Q = np.tile(G, (1, size2[0]))
+    R = np.tile(H.T, (size1[0], 1))
+
+    H = Q + R - 2* np.dot(pattern1, pattern2.T)
+
+    H = np.exp(-H/2/(deg**2))
+
+    return H
+
+def HSIC2(X, Y, alph = 0.1):
+    """
+    X, Y are numpy vectors with row - sample, col - dim
+    alph is the significance level
+    auto choose median to be the kernel width
+    """
+    n = X.shape[0]
+
+    # ----- width of X -----
+    Xmed = X
+
+    G = np.sum(Xmed*Xmed, 1).reshape(n,1)
+    Q = np.tile(G, (1, n) )
+    R = np.tile(G.T, (n, 1) )
+
+    dists = Q + R - 2* np.dot(Xmed, Xmed.T)
+    dists = dists - np.tril(dists)
+    dists = dists.reshape(n**2, 1)
+
+    width_x = np.sqrt( 0.5 * np.median(dists[dists>0]) )
+    # ----- -----
+
+    # ----- width of X -----
+    Ymed = Y
+
+    G = np.sum(Ymed*Ymed, 1).reshape(n,1)
+    Q = np.tile(G, (1, n) )
+    R = np.tile(G.T, (n, 1) )
+
+    dists = Q + R - 2* np.dot(Ymed, Ymed.T)
+    dists = dists - np.tril(dists)
+    dists = dists.reshape(n**2, 1)
+
+    width_y = np.sqrt( 0.5 * np.median(dists[dists>0]) )
+    # ----- -----
+
+    bone = np.ones((n, 1), dtype = float)
+    H = np.identity(n) - np.ones((n,n), dtype = float) / n
+
+    K = rbf_dot(X, X, width_x)
+    L = rbf_dot(Y, Y, width_y)
+
+    Kc = np.dot(np.dot(H, K), H)
+    Lc = np.dot(np.dot(H, L), H)
+
+    testStat = np.sum(Kc.T * Lc) / n
+
+    varHSIC = (Kc * Lc / 6)**2
+
+    varHSIC = ( np.sum(varHSIC) - np.trace(varHSIC) ) / n / (n-1)
+
+    varHSIC = varHSIC * 72 * (n-4) * (n-5) / n / (n-1) / (n-2) / (n-3)
+
+    K = K - np.diag(np.diag(K))
+    L = L - np.diag(np.diag(L))
+
+    muX = np.dot(np.dot(bone.T, K), bone) / n / (n-1)
+    muY = np.dot(np.dot(bone.T, L), bone) / n / (n-1)
+
+    mHSIC = (1 + muX * muY - muX - muY) / n
+
+    al = mHSIC**2 / varHSIC
+    bet = varHSIC*n / mHSIC
+
+    thresh = gamma.ppf(1-alph, al, scale=bet)[0][0]
+
+    return (testStat, thresh)
+
+
+def compute_kern(x, y, metric="gaussian", workers=1, **kwargs):
+    """
+    Kernel similarity matrices for the inputs.
+    Parameters
+    ----------
+    x,y : ndarray
+        Input data matrices. ``x`` and ``y`` must have the same number of
+        samples. That is, the shapes must be ``(n, p)`` and ``(n, q)`` where
+        `n` is the number of samples and `p` and `q` are the number of
+        dimensions. Alternatively, ``x`` and ``y`` can be kernel similarity matrices,
+        where the shapes must both be ``(n, n)``.
+    metric : str, callable, or None, default: "gaussian"
+        A function that computes the kernel similarity among the samples within each
+        data matrix.
+        Valid strings for ``metric`` are, as defined in
+        :func:`sklearn.metrics.pairwise.pairwise_kernels`,
+            [``"additive_chi2"``, ``"chi2"``, ``"linear"``, ``"poly"``,
+            ``"polynomial"``, ``"rbf"``,
+            ``"laplacian"``, ``"sigmoid"``, ``"cosine"``]
+        Note ``"rbf"`` and ``"gaussian"`` are the same metric.
+        Set to ``None`` or ``"precomputed"`` if ``x`` and ``y`` are already similarity
+        matrices. To call a custom function, either create the similarity matrix
+        before-hand or create a function of the form :func:`metric(x, **kwargs)`
+        where ``x`` is the data matrix for which pairwise kernel similarity matrices are
+        calculated and kwargs are extra arguements to send to your custom function.
+    workers : int, default: 1
+        The number of cores to parallelize the p-value computation over.
+        Supply ``-1`` to use all cores available to the Process.
+    **kwargs
+        Arbitrary keyword arguments provided to
+        :func:`sklearn.metrics.pairwise.pairwise_kernels`
+        or a custom kernel function.
+    Returns
+    -------
+    simx, simy : ndarray
+        Similarity matrices based on the metric provided by the user.
+    """
+    if not metric:
+        metric = "precomputed"
+    if metric in ["gaussian", "rbf"]:
+        if "gamma" not in kwargs:
+            l2 = pairwise_distances(x, metric="l2", n_jobs=workers)
+            n = l2.shape[0]
+            # compute median of off diagonal elements
+            med = np.median(
+                np.lib.stride_tricks.as_strided(
+                    l2, (n - 1, n + 1), (l2.itemsize * (n + 1), l2.itemsize)
+                )[:, 1:]
+            )
+            # prevents division by zero when used on label vectors
+            med = med if med else 1
+            kwargs["gamma"] = 1.0 / (2 * (med ** 2))
+        metric = "rbf"
+    simx = pairwise_kernels(x, metric=metric, n_jobs=workers, **kwargs)
+    simy = pairwise_kernels(y, metric=metric, n_jobs=workers, **kwargs)
+    return simx, simy
+
+@jit(nopython=True, cache=True)
+def _center_distmat(distx, bias):  # pragma: no cover
+    """Centers the distance matrices"""
+    n = distx.shape[0]
+    if bias:
+        # use sum instead of mean because of numba restrictions
+        exp_distx = (
+            np.repeat(distx.sum(axis=0) / n, n).reshape(-1, n).T
+            + np.repeat(distx.sum(axis=1) / n, n).reshape(-1, n)
+            - (distx.sum() / (n * n))
+        )
+    else:
+        exp_distx = (
+            np.repeat((distx.sum(axis=0) / (n - 2)), n).reshape(-1, n).T
+            + np.repeat((distx.sum(axis=1) / (n - 2)), n).reshape(-1, n)
+            - distx.sum() / ((n - 1) * (n - 2))
+        )
+    cent_distx = distx - exp_distx
+    if not bias:
+        np.fill_diagonal(cent_distx, 0)
+    return cent_distx
+
+@jit(nopython=True, cache=True)
+def _cpu_cumsum(data):  # pragma: no cover
+    """Create cumulative sum since numba doesn't sum over axes."""
+    cumsum = data.copy()
+    for i in range(1, data.shape[0]):
+        cumsum[i, :] = data[i, :] + cumsum[i - 1, :]
+    return cumsum
+
+
+@jit(nopython=True, cache=True)
+def _fast_1d_dcov(x, y, bias=False):  # pragma: no cover
+    """
+    Calculate the Dcorr test statistic. Note that though Dcov is calculated
+    and stored in covar, but not called due to a slower implementation.
+    See: https://www.sciencedirect.com/science/article/abs/pii/S0167947319300313
+    """
+    n = x.shape[0]
+
+    # sort inputs
+    x_orig = x.ravel()
+    x = np.sort(x_orig)
+    y = y[np.argsort(x_orig)]
+    x = x.reshape(-1, 1)  # for numba
+
+    # cumulative sum
+    si = _cpu_cumsum(x)
+    ax = (np.arange(-(n - 2), n + 1, 2) * x.ravel()).reshape(-1, 1) + (si[-1] - 2 * si)
+
+    v = np.hstack((x, y, x * y))
+    nw = v.shape[1]
+
+    idx = np.vstack((np.arange(n), np.zeros(n))).astype(np.int64).T
+    iv1 = np.zeros((n, 1))
+    iv2 = np.zeros((n, 1))
+    iv3 = np.zeros((n, 1))
+    iv4 = np.zeros((n, 1))
+
+    i = 1
+    r = 0
+    s = 1
+    while i < n:
+        gap = 2 * i
+        k = 0
+        idx_r = idx[:, r]
+        csumv = np.vstack((np.zeros((1, nw)), _cpu_cumsum(v[idx_r, :])))
+
+        for j in range(1, n + 1, gap):
+            st1 = j - 1
+            e1 = min(st1 + i - 1, n - 1)
+            st2 = j + i - 1
+            e2 = min(st2 + i - 1, n - 1)
+
+            while (st1 <= e1) and (st2 <= e2):
+                idx1 = idx_r[st1]
+                idx2 = idx_r[st2]
+
+                if y[idx1] >= y[idx2]:
+                    idx[k, s] = idx1
+                    st1 += 1
+                else:
+                    idx[k, s] = idx2
+                    st2 += 1
+                    iv1[idx2] += e1 - st1 + 1
+                    iv2[idx2] += csumv[e1 + 1, 0] - csumv[st1, 0]
+                    iv3[idx2] += csumv[e1 + 1, 1] - csumv[st1, 1]
+                    iv4[idx2] += csumv[e1 + 1, 2] - csumv[st1, 2]
+                k += 1
+
+            if st1 <= e1:
+                kf = k + e1 - st1 + 1
+                idx[k:kf, s] = idx_r[st1 : e1 + 1]
+                k = kf
+            elif st2 <= e2:
+                kf = k + e2 - st2 + 1
+                idx[k:kf, s] = idx_r[st2 : e2 + 1]
+                k = kf
+
+        i = gap
+        r = 1 - r
+        s = 1 - s
+
+    covterm = np.sum(n * (x - np.mean(x)).T @ (y - np.mean(y)))
+    c1 = np.sum(iv1.T @ v[:, 2].copy())
+    c2 = np.sum(iv4)
+    c3 = np.sum(iv2.T @ y)
+    c4 = np.sum(iv3.T @ x)
+    d = 4 * ((c1 + c2) - (c3 + c4)) - 2 * covterm
+
+    y_sorted = y[idx[n::-1, r], :]
+    si = _cpu_cumsum(y_sorted)
+    by = np.zeros((n, 1))
+    by[idx[::-1, r]] = (np.arange(-(n - 2), n + 1, 2) * y_sorted.ravel()).reshape(
+        -1, 1
+    ) + (si[-1] - 2 * si)
+
+    if bias:
+        denom = [n ** 2, n ** 3, n ** 4]
+    else:
+        denom = [n * (n - 3), n * (n - 3) * (n - 2), n * (n - 3) * (n - 2) * (n - 1)]
+
+    stat = np.sum(
+        (d / denom[0])
+        + (np.sum(ax) * np.sum(by) / denom[2])
+        - (2 * (ax.T @ by) / denom[1])
+    )
+
+    return stat
+
+@jit(nopython=True, cache=True)
+def _dcov(distx, disty, bias=False, only_dcov=True):  # pragma: no cover
+    """Calculate the Dcov test statistic"""
+    if only_dcov:
+        # center distance matrices
+        distx = _center_distmat(distx, bias)
+        disty = _center_distmat(disty, bias)
+
+    stat = np.sum(distx * disty)
+
+    if only_dcov:
+        N = distx.shape[0]
+        if bias:
+            stat = 1 / (N ** 2) * stat
+        else:
+            stat = 1 / (N * (N - 3)) * stat
+
+    return stat
+
+@jit(nopython=True, cache=True)
+def _dcorr(distx, disty, bias=False, is_fast=False):  # pragma: no cover
+    """
+    Calculate the Dcorr test statistic.
+    """
+    if is_fast:
+        # calculate covariances and variances
+        covar = _fast_1d_dcov(distx, disty, bias=bias)
+        varx = _fast_1d_dcov(distx, distx, bias=bias)
+        vary = _fast_1d_dcov(disty, disty, bias=bias)
+    else:
+        # center distance matrices
+        distx = _center_distmat(distx, bias)
+        disty = _center_distmat(disty, bias)
+
+        # calculate covariances and variances
+        covar = _dcov(distx, disty, bias=bias, only_dcov=False)
+        varx = _dcov(distx, distx, bias=bias, only_dcov=False)
+        vary = _dcov(disty, disty, bias=bias, only_dcov=False)
+
+    # stat is 0 with negative variances (would make denominator undefined)
+    if varx <= 0 or vary <= 0:
+        stat = 0
+
+    # calculate generalized test statistic
+    else:
+        stat = covar / np.real(np.sqrt(varx * vary))
+
+    return stat
+
+def HSIC(X, Y):
+    kernx, kerny = compute_kern(X, Y, metric="gaussian")
+    distx = 1 - kernx / np.max(kernx)
+    disty = 1 - kerny / np.max(kerny)
+    return _dcorr(distx, disty, bias=True, is_fast=True)
 
 #######################################################################################################################
 # Hellinger distance; 
@@ -342,22 +702,24 @@ def HilbertSchmidt(x, y, s_x=1, s_y=1):
 #######################################################################################################################
 
 @jit
-def _Hellinger(v1, v2, num_bins=20):
-    totnum = v1.shape[0]
-    _, edges = np.histogram(np.hstack((v1,v2)).flatten(), bins=num_bins)
-    d1 = np.digitize(v1, edges)
-    d2 = np.digitize(v2, edges)
-    v1probs = np.bincount(d1)//totnum
-    v2probs = np.bincount(d2)//totnum
-    
-    
+def _Hellinger(v1, v2, nbins=20, how='bhatta'):
+    if how=='bhatta':
+        return np.sqrt(1-_Bhattacharyya(v1, v2, nbins=nbins))
+    else:
+        #totnum = v1.shape[0]
+        _, edges = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
+        d1 = np.histogram(v1, bins=edges, density=True)[0]
+        d2 = np.histogram(v2, bins=edges, density=True)[0]
+        #v1probs = np.bincount(d1)//totnum
+        #v2probs = np.bincount(d2)//totnum
+        return np.sqrt(1-np.sum(d1*d2))
 
 
 #######################################################################################################################
 # Bhattacharyya distance;  Db = -ln(sum(sqrt(p(x)*q(x))))
 #######################################################################################################################
 
-def _Bhattacharyya(v1,v2, nbins=10):
+def _Bhattacharyya(v1,v2, nbins=20):
     # get ranges r0 to rM
     # get counts per distributions for each range, c_v1(ri), c_v2(ri) for i = 0..M
     _, edges = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
@@ -366,7 +728,11 @@ def _Bhattacharyya(v1,v2, nbins=10):
     keep = np.argwhere(np.abs(v1bins+v2bins)>0)
     return -np.log(np.sum(np.sqrt(v1bins[keep]*v2bins[keep])))
 
-def Bhattacharyya_distance(X, sparse=False, nbins=10, sparse_threshold_ht=0.9, sparse_threshold_lt=0.1):
+def Bhattacharyya_distance(X, 
+                           sparse=False,
+                           nbins=10, 
+                           sparse_threshold_ht=0.9, 
+                           sparse_threshold_lt=0.1):
     '''
         Assumes column * column
     '''
@@ -397,6 +763,21 @@ def Bhattacharyya_distance(X, sparse=False, nbins=10, sparse_threshold_ht=0.9, s
         dists = sc.sparse.csc_matrix((data, (rows, cols)), shape=(ncols, ncols), dtype=np.float32)
     return dists
 
+
+
+#######################################################################################################################
+# Total variation distance
+# largest possible difference between the probabilities that the two pdf can assign to
+# the same event
+#######################################################################################################################
+
+def _TVD(v1,v2, nbins=20):
+    # get ranges r0 to rM
+    # get counts per distributions for each range, c_v1(ri), c_v2(ri) for i = 0..M
+    _, edges = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
+    brgns = list(zip(edges[:-1], edges[1:]))
+    v1bins, v2bins = _get_bin_counts(v1,v2, brgns)
+    return np.max(np.abs(v1bins-v2bins))
 
 #######################################################################################################################
 # Chi2-distance
@@ -457,8 +838,49 @@ def Chi2Distance(X, sparse=False, nbins=10, sparse_threshold_ht=0.9, sparse_thre
 # Mahalanobis distance;  cov, invcov = _cov(x, inverse=True)  -> _Mahalanobis(v1, v2, inv_cov)
 #######################################################################################################################
 
+def _cov(x, lib='numpy', method='empirical', inverse=False):
+    # lib: numpy, scipy, sklearn
+    # normalised: True/false  np.corrcoef if true
+    # method: exact/shrunk/sparse/empirical
+    
+    assert method in ['shrunk', 'sparse', 'empirical']
+    assert lib in ['numpy', 'scipy', 'sklearn']
+    
+    if method=='empirical':    
+        if (lib=='numpy') | (normalised):
+            if normalised:
+                cov = np.corrcoef(x)
+            else:
+                cov = np.cov(x)
+            if inverse:
+                invcov = np.linalg.inv(cov)
+        elif lib=='scipy':
+            cov = sc.stats.cov(x)
+            if inverse:
+                invcov = np.linalg.inv(cov)
+        elif lib=='sklearn':
+            cm = EmpiricalCovariance().fit(x)
+            cov = cm.covariance_
+            if inverse:
+                invcov = cm.precision_
+    else:
+        if method=='shrunk':
+            # return LedoitWolf().fit(x).covariance_
+            cm = EmpiricalCovariance().fit(x)
+            cov = cm.covariance_
+            invcov = cm.precision_
+        elif method=='sparse':
+            cm = GraphicalLassoCV().fit(x) 
+            cov = cm.covariance_
+            invcov = cm.precision_
+    
+    if inverse:
+        return cov, invcov
+    else:
+        return cov, None
+
 @jit
-def _Mahalanobis(v1, v2, inv_cov):
+def _Mahalanobis(v1, v2, inv_cov=None):
     return sc.spatial.distance.mahalanobis(v1, v2, inv_cov)
 
 def Mahalanobis(X, v1=None, v2=None, featurewise=True):
@@ -621,3 +1043,27 @@ def _information_change(v1, v2, ent_type = 'kl', bin_type='fixed', num_bins=10):
         vbins = np.histogram(np.hstack([v1,v2]), density=True, bins=num_bins)
         log2v = np.log2(vbins[0])
         return 0.5*(np.abs(np.sum(v1bins[0]*(log2v1-log2v))) + np.abs(np.sum(v2bins[0]*(log2v2-log2v))))/(np.abs(ent1)+np.abs(ent2))
+
+
+#######################################################################################################################
+# RV-coefficient
+# trace(sum(xy)*sum(yx))/trace(sum2xx)/trace(sum2yy)
+#######################################################################################################################
+@jit
+def RV_coefficient(X1,X2):
+    covar = np.dot(X1.T, X2)
+    varX = np.dot(X1.T, X1)
+    varY = np.dot(X2.T, X2)
+    covar2 = np.trace(np.dot(covar, covar.T))
+    varX2 = np.trace(np.dot(varX, varX))
+    varY2 = np.trace(np.dot(varY, varY))
+    rv_coeff = np.divide(covar2, np.sqrt(varX2*varY2))   
+    return rv_coeff
+
+#######################################################################################################################
+# Congruence coefficient
+#######################################################################################################################
+
+@jit
+def congruence_coefficient(v1,v2):
+    return np.sum(v1*v2)/np.sqrt(np.sum(np.square(v1))*np.sum(np.square(v2)))

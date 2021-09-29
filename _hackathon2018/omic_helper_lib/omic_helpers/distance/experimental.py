@@ -1,4 +1,14 @@
 import numpy as np
+from sklearn.model_selection import RepeatedKFold, RepeatedStratifiedKFold
+from sklearn.svm import SVR, SVC
+from sklearn.linear_model import HuberRegressor, LogisticRegression, Lasso
+from sklearn.metrics import f1_score, matthews_corrcoef
+
+from scipy.stats import ks_2samp as ks, wasserstein_distance as wass, spearmanr
+from scipy.stats import energy_distance, pearsonr, kendalltau, theilslopes, weightedtau
+from scipy.stats import chisquare, epps_singleton_2samp as epps
+from scipy.stats import power_divergence as pdiv
+
 
 ######################################################################################################################
 # Mean Absolute Piecewise Similarity (novel)
@@ -74,11 +84,12 @@ def SCorE(v1, v2, bins_fit=(2,100), bins=100):
 '''
  f(A) -> B, N-fold CV, average F1/MCC on OOF
 '''
-from sklearn.model_selection import RepeatedKFold, RepeatedStratifiedKFold
-from sklearn.svm import SVR, SVC
-from sklearn.linear_model import HuberRegressor, LogisticRegression, Lasso
-from sklearn.metrics import f1_score, matthews_corrcoef
-def PPS(x,y, num_folds: int=10, num_iter: int=10, clf_type: str='regressor', robust: bool=True):
+
+def PPS(x,y, 
+        num_folds: int=10, 
+        num_iter: int=10, 
+        clf_type: str='regressor', 
+        robust: bool=False):
     ''' Predictive power score, assumes RMSE as metric, assumes regressor, or binomial
     '''
     Kfolder = RepeatedKFold(n_splits=num_folds, n_repeats=num_iter)

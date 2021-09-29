@@ -28,16 +28,12 @@ import torch.optim as optim
 from torch.utils.data.sampler import SubsetRandomSampler
 
 from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
+#from torchvision import datasets, transforms
 
-class dense_1D(BaseEstimator, TransformerMixin, nn.Module):
-    def __init__(self):
-        return True
-
-    def fit(self, X, y=0):
-
-
-    def fit_transform(self, X, y=0):
+# class dense_1D(BaseEstimator, TransformerMixin, nn.Module):
+#     def __init__(self):
+#         return True
+#     def fit(self, X, y=0):
+#     def fit_transform(self, X, y=0):
         
 
-    
