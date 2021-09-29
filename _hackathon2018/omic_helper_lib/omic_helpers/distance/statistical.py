@@ -723,10 +723,12 @@ def _Bhattacharyya(v1,v2, nbins=20):
     # get ranges r0 to rM
     # get counts per distributions for each range, c_v1(ri), c_v2(ri) for i = 0..M
     _, edges = np.histogram(np.hstack((v1,v2)).flatten(), bins=nbins)
-    brgns = list(zip(edges[:-1], edges[1:]))
-    v1bins, v2bins = _get_bin_counts(v1,v2, brgns)
-    keep = np.argwhere(np.abs(v1bins+v2bins)>0)
-    return -np.log(np.sum(np.sqrt(v1bins[keep]*v2bins[keep])))
+    d1 = np.histogram(v1, bins=edges, density=True)[0]
+    d2 = np.histogram(v2, bins=edges, density=True)[0]
+    #brgns = list(zip(edges[:-1], edges[1:]))
+    #v1bins, v2bins = _get_bin_counts(v1,v2, brgns)
+    #keep = np.argwhere(np.abs(v1bins+v2bins)>0)
+    return -np.log(np.sum(np.sqrt(d1*d2)))
 
 def Bhattacharyya_distance(X, 
                            sparse=False,
@@ -769,6 +771,7 @@ def Bhattacharyya_distance(X,
 # Total variation distance
 # largest possible difference between the probabilities that the two pdf can assign to
 # the same event
+# NOT CORRECT AT THE MOMENT
 #######################################################################################################################
 
 def _TVD(v1,v2, nbins=20):
@@ -781,6 +784,7 @@ def _TVD(v1,v2, nbins=20):
 
 #######################################################################################################################
 # Chi2-distance
+# NOT CORRECT AT THE MOMENT
 #######################################################################################################################
 
 def _get_bin_counts(v1,v2,brgns):
