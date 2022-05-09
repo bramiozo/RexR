@@ -25,6 +25,9 @@ Networkx/Karateclub
 [x] MaximumVarianceUnfolding
 [x] LandmarkMDS
 
+[] GAT; https://arxiv.org/abs/1710.10903
+[] GIN; https://arxiv.org/abs/1810.00826v3
+[] GCN; https://tkipf.github.io/graph-convolutional-networks/
 [] Node2Vec, pytorch geometric
 [] Graph2Vec, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/graph_embedding/graph2vec.html
 [] Role2Vec, https://karateclub.readthedocs.io/en/latest/_modules/karateclub/node_embedding/structural/role2vec.html
